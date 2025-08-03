@@ -3,6 +3,7 @@ import { MenuData, MenuItem } from "@/data/menu-seeds";
 import { useState } from "react";
 import PrimaryBtn from "../shared/button/primary-btn";
 import RenderSubMenu from "./sub-menu";
+import AuthNav from "../auth/AuthNav";
 
 interface mobileNavProps { }
 export default function MobileNav({ }: mobileNavProps) {
@@ -61,6 +62,11 @@ export default function MobileNav({ }: mobileNavProps) {
               </ul>
             </nav>
             <div className="action-bar">
+              {/* Mobile Auth Navigation */}
+              <div className="mobile-auth-nav mb-4">
+                <AuthNav />
+              </div>
+              
               <a href="mailto:Manager@mobilearmour.com.au">
                 <i className="las la-envelope"></i>Manager@mobilearmour.com.au
               </a>
