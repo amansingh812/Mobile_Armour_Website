@@ -48,19 +48,17 @@ export default function HeaderRight({ }: HeaderRightProps) {
   return (
     <>
       <div className={`header-right relative ${isModalOpen ? 'modal-active' : ''}`}>
+        <button
+          ref={buttonRef}
+          onClick={() => setIsModalOpen(!isModalOpen)}
+          className="theme-btn  d-none d-lg-inline-block mr-4"
+        >
+          Get a Quote
+        </button>
         {/* Auth Navigation */}
         <div className="auth-nav-container d-none d-lg-inline-block mr-4">
           <AuthNav />
         </div>
-        
-        <button
-          ref={buttonRef}
-          onClick={() => setIsModalOpen(!isModalOpen)}
-          className="theme-btn d-none d-lg-inline-block"
-        >
-          Get a Quote
-        </button>
-
         {isModalOpen && (
           <div
             ref={modalRef}

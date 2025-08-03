@@ -105,7 +105,6 @@ export default function RegisterPage() {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 className="form-input register-input"
-
                                 required
                             />
                         </div>
