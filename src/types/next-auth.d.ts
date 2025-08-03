@@ -10,17 +10,19 @@ declare module "next-auth" {
         usrname?: string
         email?: string | null;
         image?: string | null;
+        phone?: string | null;
     }
     interface Session {
-        user:  {
+        user: {
             _id?: string
             isVerified?: boolean
             isAcceptingMessages?: boolean
             usrname?: string
             email?: string | null;
             image?: string | null;
+            phone?: string | null;
         } & DefaultSession['user']
-    }       
+    }
 }
 
 export default authOptions

@@ -1,5 +1,10 @@
 {
   "pages": {
+    "/api/auth/[...nextauth]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/auth/[...nextauth]/route.js"
+    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -16,20 +21,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/account/layout.js"
     ],
-    "/account/register/page": [
+    "/account/profile/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/account/register/page.js"
+      "static/chunks/app/account/profile/page.js"
     ],
-    "/api/auth/[...nextauth]/route": [
+    "/account/edit-profile/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/auth/[...nextauth]/route.js"
+      "static/chunks/app/account/edit-profile/page.js"
     ],
-    "/account/login/page": [
+    "/api/user/update-profile/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/account/login/page.js"
+      "static/chunks/app/api/user/update-profile/route.js"
     ],
     "/page": [
       "static/chunks/webpack.js",
@@ -37,20 +42,30 @@
       "static/css/app/page.css",
       "static/chunks/app/page.js"
     ],
-    "/api/auth/register/route": [
+    "/account/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/auth/register/route.js"
+      "static/chunks/app/account/login/page.js"
     ],
-    "/account/profile/page": [
+    "/account/change-password/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/account/profile/page.js"
+      "static/chunks/app/account/change-password/page.js"
     ],
-    "/_not-found/page": [
+    "/api/user/change-password/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/api/user/change-password/route.js"
+    ],
+    "/account/register/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/account/register/page.js"
+    ],
+    "/contact/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/contact/page.js"
     ]
   }
 }
