@@ -10,6 +10,7 @@ import "./globals.css";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import ScrollToTop from "@/components/scroll-top/scroll-top";
+import AuthProvider from "@/components/providers/AuthProvider";
 
 const dm_sans = DM_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -28,10 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dm_sans.className}`}>
-        <Header />
-        {children}
-        <ScrollToTop />
-        <Footer />
+        <AuthProvider>
+          <Header />
+          {children}
+          <ScrollToTop />
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

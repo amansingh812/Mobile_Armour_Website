@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import SearchPopup from "./search-popup";
 import Form from "./form-quote";
 import MobileQuoteButton from "../quote-button/mobile-quote-button";
+import AuthNav from "../auth/AuthNav";
 
 interface HeaderRightProps { }
 export default function HeaderRight({ }: HeaderRightProps) {
@@ -47,6 +48,11 @@ export default function HeaderRight({ }: HeaderRightProps) {
   return (
     <>
       <div className={`header-right relative ${isModalOpen ? 'modal-active' : ''}`}>
+        {/* Auth Navigation */}
+        <div className="auth-nav-container d-none d-lg-inline-block mr-4">
+          <AuthNav />
+        </div>
+        
         <button
           ref={buttonRef}
           onClick={() => setIsModalOpen(!isModalOpen)}
