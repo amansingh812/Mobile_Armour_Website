@@ -1,0 +1,308 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCart } from '@/hooks/useCart';
+import { Customer } from '@/types/product';
+import './Checkout.css';
+
+const CheckoutPage = () => {
+  const { state, clearCart } = useCart();
+  const router = useRouter();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const [customer, setCustomer] = useState<Customer>({
+    fullName: '',
+    email: '',
+    phone: '',
+    address: {
+      street: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+    },
+  });
+
+  const [paymentMethod, setPaymentMethod] = useState('cod');
+
+  const handleInputChange = (field: string, value: string) => {
+    if (field.startsWith('address.')) {
+      const addressField = field.split('.')[1];
+      setCustomer(prev => ({
+        ...prev,
+        address: {
+          ...prev.address,
+          [addressField]: value,
+        },
+      }));
+    } else {
+      setCustomer(prev => ({
+        ...prev,
+        [field]: value,
+      }));
+    }
+  };
+
+  const validateForm = () => {
+    const required = [
+      customer.fullName,
+      customer.email,
+      customer.phone,
+      customer.address.street,
+      customer.address.city,
+      customer.address.state,
+      customer.address.zipCode,
+      customer.address.country,
+    ];
+
+    return required.every(field => field.trim() !== '');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    if (state.items.length === 0) {
+      alert('Your cart is empty.');
+      return;
+    }
+
+    setIsProcessing(true);
+
+    // Simulate order processing
+    setTimeout(() => {
+      const orderId = 'ORD-' + Date.now().toString().slice(-8);
+      
+      // Store order data in localStorage for the confirmation page
+      const orderData = {
+        id: orderId,
+        customer,
+        items: state.items,
+        total: state.total,
+        paymentMethod,
+        status: 'confirmed',
+        createdAt: new Date().toISOString(),
+      };
+      
+      localStorage.setItem('lastOrder', JSON.stringify(orderData));
+      clearCart();
+      router.push('/order-confirmation');
+    }, 2000);
+  };
+
+  if (state.items.length === 0) {
+    return (
+      <div className="checkout-page">
+        <div className="container">
+          <div className="empty-checkout">
+            <h1>Your cart is empty</h1>
+            <p>Add some items to your cart before proceeding to checkout.</p>
+            <button onClick={() => router.push('/products')} className="continue-shopping-btn">
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="checkout-page">
+      <div className="container">
+        <div className="checkout-header">
+          <h1>Checkout</h1>
+          <button onClick={() => router.back()} className="back-btn">
+            ← Back to Cart
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="checkout-form">
+          <div className="checkout-content">
+            <div className="checkout-details">
+              <div className="section">
+                <h2>Contact Information</h2>
+                <div className="form-grid">
+                  <div className="form-group">
+                    <label htmlFor="fullName">Full Name *</label>
+                    <input
+                      type="text"
+                      id="fullName"
+                      value={customer.fullName}
+                      onChange={(e) => handleInputChange('fullName', e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">Email Address *</label>
+                    <input
+                      type="email"
+                      id="email"
+                      value={customer.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="phone">Phone Number *</label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      value={customer.phone}
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="section">
+                <h2>Shipping Address</h2>
+                <div className="form-grid">
+                  <div className="form-group full-width">
+                    <label htmlFor="street">Street Address *</label>
+                    <input
+                      type="text"
+                      id="street"
+                      value={customer.address.street}
+                      onChange={(e) => handleInputChange('address.street', e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="city">City *</label>
+                    <input
+                      type="text"
+                      id="city"
+                      value={customer.address.city}
+                      onChange={(e) => handleInputChange('address.city', e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="state">State/Province *</label>
+                    <input
+                      type="text"
+                      id="state"
+                      value={customer.address.state}
+                      onChange={(e) => handleInputChange('address.state', e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="zipCode">ZIP/Postal Code *</label>
+                    <input
+                      type="text"
+                      id="zipCode"
+                      value={customer.address.zipCode}
+                      onChange={(e) => handleInputChange('address.zipCode', e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="country">Country *</label>
+                    <input
+                      type="text"
+                      id="country"
+                      value={customer.address.country}
+                      onChange={(e) => handleInputChange('address.country', e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="section">
+                <h2>Payment Method</h2>
+                <div className="payment-options">
+                  <label className="payment-option">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="cod"
+                      checked={paymentMethod === 'cod'}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    />
+                    <span className="payment-label">
+                      <strong>Cash on Delivery</strong>
+                      <small>Pay when you receive your order</small>
+                    </span>
+                  </label>
+                  <label className="payment-option">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="bank"
+                      checked={paymentMethod === 'bank'}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    />
+                    <span className="payment-label">
+                      <strong>Bank Transfer</strong>
+                      <small>Transfer payment to our bank account</small>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="order-summary">
+              <div className="summary-card">
+                <h2>Order Summary</h2>
+                
+                <div className="order-items">
+                  {state.items.map((item) => (
+                    <div key={item.product.id} className="order-item">
+                      <img 
+                        src={item.product.image} 
+                        alt={item.product.name}
+                        className="order-item-image"
+                      />
+                      <div className="order-item-details">
+                        <h4>{item.product.name}</h4>
+                        <p>Qty: {item.quantity}</p>
+                        <p className="item-price">${(item.product.price * item.quantity).toFixed(2)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="summary-totals">
+                  <div className="summary-row">
+                    <span>Subtotal:</span>
+                    <span>${state.total.toFixed(2)}</span>
+                  </div>
+                  <div className="summary-row">
+                    <span>Shipping:</span>
+                    <span>Free</span>
+                  </div>
+                  <div className="summary-row">
+                    <span>Tax:</span>
+                    <span>$0.00</span>
+                  </div>
+                  <div className="summary-row total-row">
+                    <span>Total:</span>
+                    <span>${state.total.toFixed(2)}</span>
+                  </div>
+                </div>
+
+                <button 
+                  type="submit" 
+                  className="place-order-btn"
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? 'Processing...' : 'Place Order'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default CheckoutPage;

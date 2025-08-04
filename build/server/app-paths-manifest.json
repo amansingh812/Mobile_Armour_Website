@@ -1,11 +1,10 @@
 {
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js",
+  "/services/page": "app/services/page.js",
+  "/faq/page": "app/faq/page.js",
   "/contact/page": "app/contact/page.js",
-  "/account/profile/page": "app/account/profile/page.js",
-  "/account/edit-profile/page": "app/account/edit-profile/page.js",
-  "/account/login/page": "app/account/login/page.js",
-  "/account/change-password/page": "app/account/change-password/page.js",
-  "/account/register/page": "app/account/register/page.js"
+  "/products/[id]/page": "app/products/[id]/page.js"
 }
