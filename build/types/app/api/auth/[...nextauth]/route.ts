@@ -1,4 +1,4 @@
-// File: /Users/ltfs-mobileapp.ltfs.com/Desktop/Mobile_armour_main/Mobile_Armour_Website/src/app/api/auth/[...nextauth]/route.ts
+// File: /Users/ayushsha/Desktop/aman_website /Mobile_Armour_Website/src/app/api/auth/[...nextauth]/route.ts
 import * as entry from '../../../../../../src/app/api/auth/[...nextauth]/route.js'
 import type { NextRequest } from 'next/server.js'
 

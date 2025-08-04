@@ -11,7 +11,7 @@ import Service1 from "@/components/sections/service/service1";
 import React from "react";
 import ProjectMasonryPage from "../project-masonry/page";
 import ProjectGridPage from "../project-grid/page";
-
+import ProductsPage from "../products/page";
 
 function Home1({ }) {
   return (
@@ -20,10 +20,12 @@ function Home1({ }) {
       {/* <Counter1 /> */}
       <About1 type="type-2" />
       <Service1 />
-      <Project1 />
+      {/* <Project1 /> */}
+      <ProductsPage />
       <Promo1 />
-      <ProjectGridPage />
-      <ProjectMasonryPage />
+     
+      {/* <ProjectGridPage />
+      <ProjectMasonryPage /> */}
     </div>
   );
 }

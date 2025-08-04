@@ -1,4 +1,4 @@
-// File: /Users/ltfs-mobileapp.ltfs.com/Desktop/Mobile_armour_main/Mobile_Armour_Website/src/app/home1/page.tsx
+// File: /Users/ayushsha/Desktop/aman_website /Mobile_Armour_Website/src/app/home1/page.tsx
 import * as entry from '../../../../src/app/home1/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
