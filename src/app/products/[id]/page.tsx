@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { products } from '@/data/products';
+
 import { useCart } from '@/hooks/useCart';
 import './ProductDetail.css';
+import { products } from '@/data/products';
 
 const ProductDetailPage = () => {
   const params = useParams();
@@ -12,7 +13,6 @@ const ProductDetailPage = () => {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
-
   const product = products.find(p => p.id === params.id);
 
   if (!product) {

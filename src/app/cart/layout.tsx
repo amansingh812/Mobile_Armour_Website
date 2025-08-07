@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { CartProvider } from '@/hooks/useCart';
-import Navigation from '@/components/Navigation';
+import Navigation from '@/components/shared/product/Navigation';
 
 export default function CartLayout({
   children,
