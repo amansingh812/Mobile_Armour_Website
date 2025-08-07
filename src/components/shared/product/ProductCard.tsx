@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import useSWR from 'swr';
 // import './ProductCard.css';
 import { Product } from '@/types/product';
 
@@ -32,4 +33,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   );
 };
 
-export default ProductCard;
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+const ProductList: React.FC = () => {
+  const { data: products, error } = useSWR('/api/products', fetcher);
+
+  if (error) return <div>Failed to load products</div>;
+  if (!products) return <div>Loading...</div>;
+
+  return (
+    <div className="product-list">
+      {products.map((product: any) => (
+        <ProductCard key={product._id} product={product} />
+      ))}
+    </div>
+  );
+};
+
+export default ProductList;
