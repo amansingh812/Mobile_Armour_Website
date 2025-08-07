@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Product } from '../types/product';
-import './ProductCard.css';
+// import './ProductCard.css';
+import { Product } from '@/types/product';
 
 interface ProductCardProps {
   product: Product;
@@ -21,7 +21,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </div>
       
       <div className="product-info">
-        <h3 className="product-name">{product.name}</h3>
+        <h3 className="product-names">{product.name}</h3>
         <p className="product-price">${product.price.toFixed(2)}</p>
         
         <Link href={`/products/${product.id}`} className="view-details-btn">

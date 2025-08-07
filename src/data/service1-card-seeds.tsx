@@ -49,7 +49,7 @@ export const Service1CardData: IService1CardData[] = [
     src: "/img/service/1-51.png",
     alt: "img",
     title: "Charging Repair",
-    desc: "Faulty charging port or slow charging? We replace ports, batteries, and cables to restore full power—fast and hassle-free every time.",
+    desc: "Faulty charging port or slow charging? We replace ports, batteries, and cables to restore full power—fast and hassle-free.",
     href: "/service-details",
     linkText: "Read More",
     linkIcon: <i className="las la-arrow-right"></i>,

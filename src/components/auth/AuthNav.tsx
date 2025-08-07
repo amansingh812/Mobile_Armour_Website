@@ -44,12 +44,12 @@ export default function AuthNav() {
                         <span>{session.user?.name || session.user?.email?.split('@')[0] || "Account"}</span>
                     </Link>
 
-                    <button
+                    {/* <button
                         onClick={() => signOut({ callbackUrl: "/" })}
                         className="header-auth-button header-auth-danger"
                     >
                         Sign Out
-                    </button>
+                    </button> */}
                 </div>
             ) : (
                 // Logged out state
@@ -61,12 +61,12 @@ export default function AuthNav() {
                         Login
                     </Link>
 
-                    <Link
+                    {/* <Link
                         href="/account/register"
                         className={`header-auth-button header-auth-primary ${pathname === "/account/register" ? "font-bold" : ""}`}
                     >
                         Register
-                    </Link>
+                    </Link> */}
                 </div>
             )}
         </div>

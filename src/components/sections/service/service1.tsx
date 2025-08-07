@@ -5,11 +5,11 @@ import React from "react";
 
 function Service1({ }) {
   return (
-    <div className="service-section section-padding pb-20">
+    <div className="service-section section-padding">
       <div className="container">
-        <div className="row align-items-center">
+        <div className="row align-items-center service-title">
           <div className="col-xl-8 col-lg-8 ">
-            <SectionTitle
+            < SectionTitle
               title="We are doing all types of Mobile services"
               subTitle="Services"
             />

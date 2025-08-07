@@ -2,8 +2,8 @@
 
 import React from 'react';
 import ProductCard from './ProductCard';   
-import { products } from '../data/products';
 import './ProductGrid.css';
+import { products } from '@/data/products';
 
 const ProductGrid: React.FC = () => {
   return (
