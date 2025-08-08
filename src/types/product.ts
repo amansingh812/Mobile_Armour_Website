@@ -1,11 +1,14 @@
 export interface Product {
-  id: string;
+  _id: string;
   name: string;
-  price: number;
-  image: string;
   description: string;
   category: string;
-  inStock: boolean;
+  imageUrl: string;
+  price: number;
+  oldPrice?: number;
+  newPrice?: number;
+  stock?: number;
+  features?: string[];
 }
 
 export interface CartItem {
@@ -33,5 +36,5 @@ export interface Order {
   total: number;
   paymentMethod: string;
   status: string;
-  createdAt: Date;
+  createdAt: string;
 }

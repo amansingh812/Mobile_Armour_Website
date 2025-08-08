@@ -2,30 +2,49 @@
 
 import React from 'react';
 import Link from 'next/link';
-import useSWR from 'swr';
-// import './ProductCard.css';
-import { Product } from '@/types/product';
+// MongoDB product shape
+export type DBProduct = {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  oldPrice?: number;
+  newPrice?: number;
+  imageUrl: string;
+  category: string;
+  stock?: number;
+  features?: string[];
+};
 
 interface ProductCardProps {
-  product: Product;
+  product: DBProduct;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const showPrice = product.newPrice && product.newPrice > 0 ? product.newPrice : product.price;
   return (
     <div className="product-card">
       <div className="product-image-container">
-        <img 
-          src={product.image} 
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={product.imageUrl}
           alt={product.name}
           className="product-image"
         />
       </div>
-      
+
       <div className="product-info">
         <h3 className="product-names">{product.name}</h3>
-        <p className="product-price">${product.price.toFixed(2)}</p>
-        
-        <Link href={`/products/${product.id}`} className="view-details-btn">
+        <p className="product-price">
+          ₹{showPrice}
+          {product.oldPrice && product.oldPrice > 0 && product.newPrice && product.newPrice > 0 && (
+            <span style={{ marginLeft: 8, textDecoration: 'line-through', color: '#6b7280', fontWeight: 400 }}>
+              ₹{product.oldPrice}
+            </span>
+          )}
+        </p>
+
+        <Link href={`/products/${product._id}`} className="view-details-btn">
           View Details
         </Link>
       </div>
@@ -33,21 +52,5 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   );
 };
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+export default ProductCard;
 
-const ProductList: React.FC = () => {
-  const { data: products, error } = useSWR('/api/products', fetcher);
-
-  if (error) return <div>Failed to load products</div>;
-  if (!products) return <div>Loading...</div>;
-
-  return (
-    <div className="product-list">
-      {products.map((product: any) => (
-        <ProductCard key={product._id} product={product} />
-      ))}
-    </div>
-  );
-};
-
-export default ProductList;

@@ -55,10 +55,10 @@ const CartPage = () => {
             </div>
 
             {state.items.map((item) => (
-              <div key={item.product.id} className="cart-item-row">
+              <div key={item.product._id} className="cart-item-row">
                 <div className="product-info">
                   <img 
-                    src={item.product.image} 
+                    src={item.product.imageUrl} 
                     alt={item.product.name}
                     className="product-thumbnail"
                   />
@@ -69,13 +69,13 @@ const CartPage = () => {
                 </div>
 
                 <div className="price-cell">
-                  ${item.product.price.toFixed(2)}
+                  ₹{(item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price).toFixed(2)}
                 </div>
 
                 <div className="quantity-cell">
                   <div className="quantity-controls">
                     <button 
-                      onClick={() => handleQuantityChange(item.product.id, item.quantity - 1)}
+                      onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)}
                       className="quantity-btn"
                     >
                       -
@@ -83,12 +83,12 @@ const CartPage = () => {
                     <input 
                       type="number" 
                       value={item.quantity}
-                      onChange={(e) => handleQuantityChange(item.product.id, parseInt(e.target.value) || 1)}
+                      onChange={(e) => handleQuantityChange(item.product._id, parseInt(e.target.value) || 1)}
                       min="1"
                       className="quantity-input"
                     />
                     <button 
-                      onClick={() => handleQuantityChange(item.product.id, item.quantity + 1)}
+                      onClick={() => handleQuantityChange(item.product._id, item.quantity + 1)}
                       className="quantity-btn"
                     >
                       +
@@ -97,12 +97,12 @@ const CartPage = () => {
                 </div>
 
                 <div className="total-cell">
-                  ${(item.product.price * item.quantity).toFixed(2)}
+                  ₹{(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}
                 </div>
 
                 <div className="action-cell">
                   <button 
-                    onClick={() => removeItem(item.product.id)}
+                    onClick={() => removeItem(item.product._id)}
                     className="remove-btn"
                   >
                     Remove
@@ -118,7 +118,7 @@ const CartPage = () => {
               
               <div className="summary-row">
                 <span>Items ({state.items.reduce((count, item) => count + item.quantity, 0)}):</span>
-                <span>${state.total.toFixed(2)}</span>
+                <span>₹{state.total.toFixed(2)}</span>
               </div>
               
               <div className="summary-row">
@@ -128,7 +128,7 @@ const CartPage = () => {
               
               <div className="summary-row total-row">
                 <span>Total:</span>
-                <span>${state.total.toFixed(2)}</span>
+                <span>₹{state.total.toFixed(2)}</span>
               </div>
 
               <Link href="/checkout" className="checkout-btn">

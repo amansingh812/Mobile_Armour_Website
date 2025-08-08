@@ -2,10 +2,9 @@
 
 import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-
+import useSWR from 'swr';
 import { useCart } from '@/hooks/useCart';
 import './ProductDetail.css';
-import { products } from '@/data/products';
 
 const ProductDetailPage = () => {
   const params = useParams();
@@ -13,18 +12,35 @@ const ProductDetailPage = () => {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
-  const product = products.find(p => p.id === params.id);
+  const id = Array.isArray(params?.id) ? params.id[0] : (params?.id as string);
 
-  if (!product) {
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const { data: product, error } = useSWR(id ? `/api/products/${id}` : null, fetcher);
+
+  if (error) {
     return (
       <div className="product-not-found">
-        <h2>Product Not Found</h2>
+        <h2>Failed to load product</h2>
         <button onClick={() => router.push('/products')} className="back-btn">
           Back to Products
         </button>
       </div>
     );
   }
+
+  if (!product) {
+    return (
+      <div className="product-not-found">
+        <h2>Loading...</h2>
+        <button onClick={() => router.push('/products')} className="back-btn">
+          Back to Products
+        </button>
+      </div>
+    );
+  }
+
+  const showPrice: number = product?.newPrice && product.newPrice > 0 ? product.newPrice : product.price;
+  const inStock: boolean = typeof product.stock === 'number' ? product.stock > 0 : true;
 
   const handleAddToCart = () => {
     addItem(product, quantity);
@@ -48,7 +64,7 @@ const ProductDetailPage = () => {
         <div className="product-detail-content">
           <div className="product-image-section">
             <img 
-              src={product.image} 
+              src={product.imageUrl} 
               alt={product.name}
               className="product-detail-image"
             />
@@ -57,10 +73,17 @@ const ProductDetailPage = () => {
           <div className="product-info-section">
             <h1 className="product-title">{product.name}</h1>
             <p className="product-category">{product.category}</p>
-            <div className="product-price-large">${product.price.toFixed(2)}</div>
+            <div className="product-price-large">
+              ₹{showPrice}
+              {product.oldPrice && product.newPrice && (
+                <span style={{ marginLeft: 8, textDecoration: 'line-through', color: '#6b7280', fontWeight: 400 }}>
+                  ₹{product.oldPrice}
+                </span>
+              )}
+            </div>
             
             <div className="stock-status">
-              {product.inStock ? (
+              {inStock ? (
                 <span className="in-stock">✓ In Stock</span>
               ) : (
                 <span className="out-of-stock">✗ Out of Stock</span>
@@ -72,7 +95,7 @@ const ProductDetailPage = () => {
               <p>{product.description}</p>
             </div>
 
-            {product.inStock && (
+            {inStock && (
               <div className="purchase-section">
                 <div className="quantity-selector">
                   <label htmlFor="quantity">Quantity:</label>
@@ -104,7 +127,7 @@ const ProductDetailPage = () => {
                   onClick={handleAddToCart}
                   className="add-to-cart-btn"
                 >
-                  Add to Cart - ${(product.price * quantity).toFixed(2)}
+                  Add to Cart - ₹{(showPrice * quantity).toFixed(2)}
                 </button>
 
                 {showSuccess && (
@@ -112,6 +135,16 @@ const ProductDetailPage = () => {
                     ✓ Added to cart successfully!
                   </div>
                 )}
+              </div>
+            )}
+            {!!(product.features?.length) && (
+              <div style={{ marginTop: 16 }}>
+                <h3>Features</h3>
+                <ul>
+                  {product.features.slice(0, 10).map((f: string, idx: number) => (
+                    <li key={idx}>• {f}</li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>

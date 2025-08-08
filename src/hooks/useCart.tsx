@@ -26,27 +26,28 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
+  const priceOf = (p: Product) => (p.newPrice && p.newPrice > 0 ? p.newPrice : p.price);
   switch (action.type) {
     case 'ADD_ITEM': {
       const existingItemIndex = state.items.findIndex(
-        item => item.product.id === action.payload.product.id
+        item => item.product._id === action.payload.product._id
       );
 
       if (existingItemIndex >= 0) {
         const updatedItems = [...state.items];
         updatedItems[existingItemIndex].quantity += action.payload.quantity;
-        const total = updatedItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        const total = updatedItems.reduce((sum, item) => sum + priceOf(item.product) * item.quantity, 0);
         return { items: updatedItems, total };
       } else {
         const newItems = [...state.items, { product: action.payload.product, quantity: action.payload.quantity }];
-        const total = newItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        const total = newItems.reduce((sum, item) => sum + priceOf(item.product) * item.quantity, 0);
         return { items: newItems, total };
       }
     }
 
     case 'REMOVE_ITEM': {
-      const filteredItems = state.items.filter(item => item.product.id !== action.payload);
-      const total = filteredItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+      const filteredItems = state.items.filter(item => item.product._id !== action.payload);
+      const total = filteredItems.reduce((sum, item) => sum + priceOf(item.product) * item.quantity, 0);
       return { items: filteredItems, total };
     }
 
@@ -56,11 +57,11 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       }
 
       const updatedItems = state.items.map(item =>
-        item.product.id === action.payload.productId
+        item.product._id === action.payload.productId
           ? { ...item, quantity: action.payload.quantity }
           : item
       );
-      const total = updatedItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+      const total = updatedItems.reduce((sum, item) => sum + priceOf(item.product) * item.quantity, 0);
       return { items: updatedItems, total };
     }
 
