@@ -42,27 +42,27 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             <>
               <div className="cart-items">
                 {state.items.map((item) => (
-                  <div key={item.product.id} className="cart-item">
+                  <div key={item.product._id} className="cart-item">
                     <img 
-                      src={item.product.image} 
+                      src={item.product.imageUrl} 
                       alt={item.product.name}
                       className="cart-item-image"
                     />
                     <div className="cart-item-details">
                       <h4>{item.product.name}</h4>
-                      <p className="cart-item-price">${item.product.price.toFixed(2)}</p>
+                      <p className="cart-item-price">₹{(item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price).toFixed(2)}</p>
                       
                       <div className="cart-item-controls">
                         <div className="quantity-controls">
                           <button 
-                            onClick={() => handleQuantityChange(item.product.id, item.quantity - 1)}
+                            onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)}
                             className="quantity-btn"
                           >
                             -
                           </button>
                           <span className="quantity-display">{item.quantity}</span>
                           <button 
-                            onClick={() => handleQuantityChange(item.product.id, item.quantity + 1)}
+                            onClick={() => handleQuantityChange(item.product._id, item.quantity + 1)}
                             className="quantity-btn"
                           >
                             +
@@ -70,7 +70,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                         </div>
                         
                         <button 
-                          onClick={() => removeItem(item.product.id)}
+                          onClick={() => removeItem(item.product._id)}
                           className="remove-btn"
                         >
                           Remove
@@ -78,7 +78,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div className="item-total">
-                        Total: ${(item.product.price * item.quantity).toFixed(2)}
+                        Total: ₹{(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -87,7 +87,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
               <div className="cart-footer">
                 <div className="cart-total">
-                  <strong>Subtotal: ${state.total.toFixed(2)}</strong>
+                  <strong>Subtotal: ₹{state.total.toFixed(2)}</strong>
                 </div>
                 
                 <div className="cart-actions">

@@ -30,8 +30,9 @@ const OrderConfirmationPage = () => {
     );
   }
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
+  const formatDate = (date: Date | string) => {
+    const d = typeof date === 'string' ? new Date(date) : date;
+    return d.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -113,9 +114,9 @@ const OrderConfirmationPage = () => {
                 <h3>Order Summary</h3>
                 <div className="order-items">
                   {order.items.map((item) => (
-                    <div key={item.product.id} className="order-item">
+                    <div key={item.product._id} className="order-item">
                       <img 
-                        src={item.product.image} 
+                        src={item.product.imageUrl} 
                         alt={item.product.name}
                         className="item-image"
                       />
@@ -123,8 +124,8 @@ const OrderConfirmationPage = () => {
                         <h4>{item.product.name}</h4>
                         <p className="item-category">{item.product.category}</p>
                         <div className="item-pricing">
-                          <span className="item-price">${item.product.price.toFixed(2)} × {item.quantity}</span>
-                          <span className="item-total">${(item.product.price * item.quantity).toFixed(2)}</span>
+                          <span className="item-price">₹{(item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price).toFixed(2)} × {item.quantity}</span>
+                          <span className="item-total">₹{(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}</span>
                         </div>
                       </div>
                     </div>
@@ -134,7 +135,7 @@ const OrderConfirmationPage = () => {
                 <div className="order-totals">
                   <div className="total-row">
                     <span>Subtotal:</span>
-                    <span>${order.total.toFixed(2)}</span>
+                    <span>₹{order.total.toFixed(2)}</span>
                   </div>
                   <div className="total-row">
                     <span>Shipping:</span>
@@ -142,11 +143,11 @@ const OrderConfirmationPage = () => {
                   </div>
                   <div className="total-row">
                     <span>Tax:</span>
-                    <span>$0.00</span>
+                    <span>₹0.00</span>
                   </div>
                   <div className="total-row final-total">
                     <span>Total:</span>
-                    <span>${order.total.toFixed(2)}</span>
+                    <span>₹{order.total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
