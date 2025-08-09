@@ -3,9 +3,9 @@ import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import mongoose from 'mongoose';
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     await dbConnect();
-    const { id } = params;
+    const { id } = await params;
 
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
         return NextResponse.json({ error: 'Invalid product id' }, { status: 400 });
