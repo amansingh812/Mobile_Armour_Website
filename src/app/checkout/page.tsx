@@ -74,13 +74,31 @@ const CheckoutPage = () => {
 
     setIsProcessing(true);
 
-    // Simulate order processing
-    setTimeout(() => {
-      const orderId = 'ORD-' + Date.now().toString().slice(-8);
-      
-      // Store order data in localStorage for the confirmation page
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customer,
+          items: state.items.map((ci) => ({
+            productId: ci.product._id,
+            quantity: ci.quantity,
+            price: (ci.product.newPrice && ci.product.newPrice > 0 ? ci.product.newPrice : ci.product.price),
+          })),
+          total: state.total,
+          paymentMethod,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Failed to create order');
+      }
+
+      const data = await res.json();
+
       const orderData = {
-        id: orderId,
+        id: data.id,
         customer,
         items: state.items,
         total: state.total,
@@ -88,11 +106,15 @@ const CheckoutPage = () => {
         status: 'confirmed',
         createdAt: new Date().toISOString(),
       };
-      
+
       localStorage.setItem('lastOrder', JSON.stringify(orderData));
       clearCart();
       router.push('/order-confirmation');
-    }, 2000);
+    } catch (error: any) {
+      alert(error.message || 'Something went wrong while placing your order.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (state.items.length === 0) {

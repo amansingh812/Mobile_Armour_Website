@@ -11,12 +11,14 @@ import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import ScrollToTop from "@/components/scroll-top/scroll-top";
 import AuthProvider from "@/components/providers/AuthProvider";
+import { CartProvider } from "@/hooks/useCart";
 
 const dm_sans = DM_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
   variable: "--default-font",
 });
+
 export const metadata: Metadata = {
   title: "Mobile Armour",
   description: "Created by Aman",
@@ -30,10 +32,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${dm_sans.className}`}>
         <AuthProvider>
-          <Header />
-          {children}
-          <ScrollToTop />
-          <Footer />
+          <CartProvider>
+            <Header />
+            {children}
+            <ScrollToTop />
+            <Footer />
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

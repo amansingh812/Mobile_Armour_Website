@@ -21,7 +21,9 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const showPrice = product.newPrice && product.newPrice > 0 ? product.newPrice : product.price;
+  const current = typeof product.newPrice === 'number' && product.newPrice > 0 ? product.newPrice : product.price;
+  const old = typeof product.oldPrice === 'number' ? product.oldPrice : undefined;
+  const hasDiscount = typeof old === 'number' && old > 0 && old > current;
   return (
     <div className="product-card">
       <div className="product-image-container">
@@ -31,19 +33,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           alt={product.name}
           className="product-image"
         />
+        {hasDiscount && <span className="sale-badge">Sale</span>}
       </div>
 
       <div className="product-info">
-        <h3 className="product-names">{product.name}</h3>
-        <p className="product-price">
-          ₹{showPrice}
-          {product.oldPrice && product.oldPrice > 0 && product.newPrice && product.newPrice > 0 && (
-            <span style={{ marginLeft: 8, textDecoration: 'line-through', color: '#6b7280', fontWeight: 400 }}>
-              ₹{product.oldPrice}
-            </span>
+        <h3 className="product-name" title={product.name}>{product.name}</h3>
+        <div className="product-price">
+          <span className="current-price">₹{current}</span>
+          {hasDiscount && (
+            <span className="old-price">₹{old}</span>
           )}
-        </p>
-
+        </div>
         <Link href={`/products/${product._id}`} className="view-details-btn">
           View Details
         </Link>

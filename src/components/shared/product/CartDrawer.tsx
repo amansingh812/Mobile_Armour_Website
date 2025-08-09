@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/useCart';
 import './CartDrawer.css';
 
@@ -11,6 +12,7 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
+  const router = useRouter();
   const { state, updateQuantity, removeItem } = useCart();
 
   const handleQuantityChange = (productId: string, newQuantity: number) => {
@@ -43,40 +45,40 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
               <div className="cart-items">
                 {state.items.map((item) => (
                   <div key={item.product._id} className="cart-item">
-                    <img 
-                      src={item.product.imageUrl} 
+                    <img
+                      src={item.product.imageUrl}
                       alt={item.product.name}
                       className="cart-item-image"
                     />
                     <div className="cart-item-details">
                       <h4>{item.product.name}</h4>
                       <p className="cart-item-price">₹{(item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price).toFixed(2)}</p>
-                      
+
                       <div className="cart-item-controls">
                         <div className="quantity-controls">
-                          <button 
+                          <button
                             onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)}
                             className="quantity-btn"
                           >
                             -
                           </button>
                           <span className="quantity-display">{item.quantity}</span>
-                          <button 
+                          <button
                             onClick={() => handleQuantityChange(item.product._id, item.quantity + 1)}
                             className="quantity-btn"
                           >
                             +
                           </button>
                         </div>
-                        
-                        <button 
+
+                        <button
                           onClick={() => removeItem(item.product._id)}
                           className="remove-btn"
                         >
                           Remove
                         </button>
                       </div>
-                      
+
                       <div className="item-total">
                         Total: ₹{(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}
                       </div>
@@ -89,14 +91,28 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 <div className="cart-total">
                   <strong>Subtotal: ₹{state.total.toFixed(2)}</strong>
                 </div>
-                
+
                 <div className="cart-actions">
-                  <Link href="/cart" className="view-cart-btn" onClick={onClose}>
+                  <button
+                    type="button"
+                    className="view-cart-btn"
+                    onClick={() => {
+                      onClose();
+                      router.push('/cart');
+                    }}
+                  >
                     View Full Cart
-                  </Link>
-                  <Link href="/checkout" className="checkout-btn" onClick={onClose}>
+                  </button>
+                  <button
+                    type="button"
+                    className="checkout-btn"
+                    onClick={() => {
+                      onClose();
+                      router.push('/checkout');
+                    }}
+                  >
                     Proceed to Checkout
-                  </Link>
+                  </button>
                 </div>
               </div>
             </>

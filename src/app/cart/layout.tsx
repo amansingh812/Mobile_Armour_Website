@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { CartProvider } from '@/hooks/useCart';
 import Navigation from '@/components/shared/product/Navigation';
 
 export default function CartLayout({
@@ -10,9 +9,9 @@ export default function CartLayout({
   children: React.ReactNode;
 }) {
   return (
-    <CartProvider>
+    <>
       <Navigation />
       {children}
-    </CartProvider>
+    </>
   );
 }
