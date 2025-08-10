@@ -1,12 +1,12 @@
-import type { NextConfig } from "next";
+// next.config.mjs
 
-const nextConfig: NextConfig = {
-  distDir: "build",
-  // output: 'export',
-  trailingSlash: true,
-  images: {
-    unoptimized: true,
-  },
-};
+import autoCert from "anchor-pki/auto-cert/integrations/next";
 
-export default nextConfig;
+
+const withAutoCert = autoCert({
+  enabledEnv: "development",
+});
+
+const nextConfig = {};
+
+export default withAutoCert(nextConfig);

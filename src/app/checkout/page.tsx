@@ -1,10 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/useCart';
 import { Customer } from '@/types/product';
 import './Checkout.css';
+import { Elements, PaymentElement, useStripe, useElements, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
+import { loadStripe, PaymentRequest } from '@stripe/stripe-js';
+
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
 const CheckoutPage = () => {
   const { state, clearCart } = useCart();
@@ -25,6 +30,258 @@ const CheckoutPage = () => {
   });
 
   const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [initializingPayment, setInitializingPayment] = useState(false);
+
+  useEffect(() => {
+    // Initialize PaymentIntent when user selects the Stripe Payment Element option
+    const init = async () => {
+      if (paymentMethod !== 'apple') {
+        setClientSecret(null);
+        return;
+      }
+      try {
+        setInitializingPayment(true);
+        const res = await fetch('/api/payments/create-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: Math.round(state.total * 100), currency: 'inr' }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.clientSecret) {
+          throw new Error(data.error || 'Failed to create payment intent');
+        }
+        setClientSecret(data.clientSecret);
+      } catch (e) {
+        console.error(e);
+        alert('Could not initialize payment. Please try again.');
+      } finally {
+        setInitializingPayment(false);
+      }
+    };
+    init();
+  }, [paymentMethod, state.total]);
+
+  function PaymentForm() {
+    const stripe = useStripe();
+    const elements = useElements();
+    const [submitting, setSubmitting] = useState(false);
+    const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(null);
+    const [canUsePaymentRequest, setCanUsePaymentRequest] = useState(false);
+
+    // IMPORTANT: currency must match your PaymentIntent currency set on the server.
+    // You are displaying INR (₹); ensure your /api/payments/create-intent uses `currency: 'inr'`.
+    const CURRENCY = 'inr';
+
+    useEffect(() => {
+      let mounted = true;
+      const initPR = async () => {
+        if (!stripe || !clientSecret) return;
+        const pr = stripe.paymentRequest({
+          country: 'IN',
+          currency: CURRENCY,
+          total: {
+            label: 'Order Total',
+            amount: Math.round(state.total * 100), // smallest currency unit
+          },
+          requestPayerName: true,
+          requestPayerEmail: true,
+          requestPayerPhone: true,
+        });
+
+        const result = await pr.canMakePayment();
+        if (mounted && result) {
+          setPaymentRequest(pr);
+          setCanUsePaymentRequest(true);
+
+          pr.on('paymentmethod', async (ev) => {
+            try {
+              // Confirm the PaymentIntent with the payment method from Google Pay / Apple Pay
+              const { error, paymentIntent } = await stripe.confirmPayment({
+                clientSecret,
+                confirmParams: {
+                  payment_method: ev.paymentMethod.id,
+                },
+                redirect: 'if_required',
+              });
+
+              if (error) {
+                ev.complete('fail');
+                throw new Error(error.message || 'Payment failed');
+              }
+
+              if (!paymentIntent) {
+                ev.complete('fail');
+                throw new Error('Payment not completed');
+              }
+
+              const okStatuses = ['succeeded', 'processing', 'requires_capture'] as const;
+              if (!okStatuses.includes(paymentIntent.status as any)) {
+                ev.complete('fail');
+                throw new Error(`Payment status: ${paymentIntent.status}`);
+              }
+
+              ev.complete('success');
+
+              // Proceed to create order after successful payment
+              const res = await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  customer,
+                  items: state.items.map((ci) => ({
+                    productId: ci.product._id,
+                    quantity: ci.quantity,
+                    price: (ci.product.newPrice && ci.product.newPrice > 0 ? ci.product.newPrice : ci.product.price),
+                  })),
+                  totalAmount: state.total,
+                  payment: {
+                    method: 'wallet',
+                    status: paymentIntent.status,
+                    intentId: paymentIntent.id,
+                  },
+                }),
+              });
+
+              if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                throw new Error((data as any).error || 'Failed to create order');
+              }
+
+              clearCart();
+              router.push('/order-success');
+            } catch (err: any) {
+              console.error(err);
+              alert(err.message || 'Payment failed. Please try again.');
+            }
+          });
+        }
+      };
+      initPR();
+      return () => {
+        mounted = false;
+      };
+    }, [stripe, clientSecret, state.total]);
+
+    const onSubmitPayment = async (e?: React.FormEvent | React.MouseEvent) => {
+      if (e) e.preventDefault?.();
+      if (!stripe || !elements) return;
+      // Basic client-side checks before attempting payment
+      if (state.items.length === 0) {
+        alert('Your cart is empty.');
+        return;
+      }
+      const allGood = validateForm();
+      if (!allGood) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      setSubmitting(true);
+      try {
+        const billingName = (customer.fullName && customer.fullName.trim())
+          || (((customer as any)?.firstName && (customer as any)?.lastName)
+                ? `${(customer as any).firstName} ${(customer as any).lastName}`.trim()
+                : ((customer as any)?.name as string | undefined));
+
+        const { error, paymentIntent } = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            payment_method_data: {
+              billing_details: {
+                name: billingName,
+                email: customer.email,
+                phone: customer.phone,
+              },
+            },
+          },
+          redirect: 'if_required',
+        });
+
+        if (error) {
+          throw new Error(error.message || 'Payment failed');
+        }
+        if (!paymentIntent) {
+          throw new Error('Payment not completed');
+        }
+        const okStatuses = ['succeeded', 'processing', 'requires_capture'] as const;
+        if (!okStatuses.includes(paymentIntent.status as any)) {
+          throw new Error(`Payment status: ${paymentIntent.status}`);
+        }
+
+        // Create order after successful payment
+        const res = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            customer,
+            items: state.items.map((ci) => ({
+              productId: ci.product._id,
+              quantity: ci.quantity,
+              price: (ci.product.newPrice && ci.product.newPrice > 0 ? ci.product.newPrice : ci.product.price),
+            })),
+            total: state.total,
+            paymentMethod: 'card_wallet',
+            paymentIntentId: paymentIntent.id,
+          }),
+        });
+        if (!res.ok) throw new Error('Failed to create order');
+        const data = await res.json();
+        const orderData = {
+          id: data.id,
+          customer,
+          items: state.items,
+          total: state.total,
+          paymentMethod: 'card_wallet',
+          status: 'confirmed',
+          createdAt: new Date().toISOString(),
+        };
+        localStorage.setItem('lastOrder', JSON.stringify(orderData));
+        // Do NOT clear the cart here — it can trigger a redirect away from checkout before we push.
+        // The cart will be cleared on the order confirmation page after loading the order.
+        router.push('/order-confirmation');
+      } catch (err: any) {
+        alert(err.message || 'Payment failed');
+      } finally {
+        setSubmitting(false);
+      }
+    };
+
+    return (
+      <div>
+        {/* Google Pay / Apple Pay (Payment Request Button) when supported */}
+        {canUsePaymentRequest && paymentRequest ? (
+          <div style={{ marginBottom: '12px' }}>
+            <PaymentRequestButtonElement
+              options={{
+                paymentRequest,
+                style: {
+                  paymentRequestButton: {
+                    type: 'default',
+                    theme: 'dark',
+                    height: '44px',
+                  },
+                },
+              }}
+            />
+            <div style={{ textAlign: 'center', margin: '8px 0', color: '#666', fontSize: 12 }}>
+              Or pay with card
+            </div>
+          </div>
+        ) : null}
+        <div style={{ marginTop: '12px', marginBottom: '12px' }}>
+          <PaymentElement options={{ layout: 'tabs' }} />
+        </div>
+        <button
+          type="button"
+          onClick={onSubmitPayment}
+          className="place-order-btn"
+          disabled={submitting || !stripe || !elements || !clientSecret}
+        >
+          {submitting ? 'Processing...' : 'Pay & Place Order'}
+        </button>
+      </div>
+    );
+  }
 
   const handleInputChange = (field: string, value: string) => {
     if (field.startsWith('address.')) {
@@ -61,7 +318,7 @@ const CheckoutPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       alert('Please fill in all required fields.');
       return;
@@ -254,17 +511,18 @@ const CheckoutPage = () => {
                       <small>Pay when you receive your order</small>
                     </span>
                   </label>
+
                   <label className="payment-option">
                     <input
                       type="radio"
                       name="payment"
-                      value="bank"
-                      checked={paymentMethod === 'bank'}
+                      value="apple"
+                      checked={paymentMethod === 'apple'}
                       onChange={(e) => setPaymentMethod(e.target.value)}
                     />
                     <span className="payment-label">
-                      <strong>Bank Transfer</strong>
-                      <small>Transfer payment to our bank account</small>
+                      <strong>Card / Wallets (Apple Pay)</strong>
+                      <small>Pay by card or Apple Pay when available</small>
                     </span>
                   </label>
                 </div>
@@ -274,12 +532,12 @@ const CheckoutPage = () => {
             <div className="order-summary">
               <div className="summary-card">
                 <h2>Order Summary</h2>
-                
+
                 <div className="order-items">
                   {state.items.map((item) => (
                     <div key={item.product._id} className="order-item">
-                      <img 
-                        src={item.product.imageUrl} 
+                      <img
+                        src={item.product.imageUrl}
                         alt={item.product.name}
                         className="order-item-image"
                       />
@@ -311,18 +569,26 @@ const CheckoutPage = () => {
                   </div>
                 </div>
 
-                <button 
-                  type="submit" 
-                  className="place-order-btn"
-                  disabled={isProcessing}
-                >
-                  {isProcessing ? 'Processing...' : 'Place Order'}
-                </button>
+
+                <div style={{ marginTop: '1rem' }}>
+                  {initializingPayment && !clientSecret && (
+                    <div>Preparing payment...</div>
+                  )}
+                  {
+                    clientSecret && (
+                      <Elements stripe={stripePromise!} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
+                        <PaymentForm />
+                      </Elements>
+                    )
+                  }
+                </div>
+
               </div>
             </div>
           </div>
         </form>
       </div>
+
     </div>
   );
 };

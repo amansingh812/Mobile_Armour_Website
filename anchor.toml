@@ -1,0 +1,10 @@
+[lcl-host]
+realm-apid = 'localhost'
+
+[org]
+apid = 'amansingh812'
+
+[service]
+apid = 'mobile_armour_website'
+category = 'javascript'
+cert-style = 'acme'

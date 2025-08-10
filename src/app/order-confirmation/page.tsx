@@ -1,24 +1,33 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Order } from '@/types/product';
 import './OrderConfirmation.css';
+import { useCart } from '@/hooks/useCart';
 
 const OrderConfirmationPage = () => {
   const [order, setOrder] = useState<Order | null>(null);
   const router = useRouter();
+  const { clearCart } = useCart();
+  const clearedRef = useRef(false);
 
   useEffect(() => {
     const orderData = localStorage.getItem('lastOrder');
     if (orderData) {
-      setOrder(JSON.parse(orderData));
+      const parsed = JSON.parse(orderData);
+      setOrder(parsed);
+      // Clear cart once when we have a valid order
+      if (!clearedRef.current) {
+        clearCart();
+        clearedRef.current = true;
+      }
     } else {
       // If no order data, redirect to products
       router.push('/products');
     }
-  }, [router]);
+  }, [router, clearCart]);
 
   if (!order) {
     return (
@@ -99,10 +108,10 @@ const OrderConfirmationPage = () => {
                       {order.customer.address.country}
                     </span>
                   </div>
-                  <div className="info-item">
+                  {/* <div className="info-item">
                     <label>Payment Method:</label>
                     <span>{getPaymentMethodLabel(order.paymentMethod)}</span>
-                  </div>
+                  </div> */}
                   <div className="info-item">
                     <label>Order Status:</label>
                     <span className="status-badge">{order.status}</span>
@@ -115,8 +124,8 @@ const OrderConfirmationPage = () => {
                 <div className="order-items">
                   {order.items.map((item) => (
                     <div key={item.product._id} className="order-item">
-                      <img 
-                        src={item.product.imageUrl} 
+                      <img
+                        src={item.product.imageUrl}
                         alt={item.product.name}
                         className="item-image"
                       />
@@ -185,8 +194,8 @@ const OrderConfirmationPage = () => {
             <Link href="/products" className="continue-shopping-btn">
               Continue Shopping
             </Link>
-            <button 
-              onClick={() => window.print()} 
+            <button
+              onClick={() => window.print()}
               className="print-order-btn"
             >
               Print Order
