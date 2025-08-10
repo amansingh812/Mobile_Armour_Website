@@ -16,7 +16,7 @@ function Home1({ }) {
 
       <About1 type="type-2" />
       <Service1 />
-
+      <AdminProductsPage />
 
 
       <ProductsPage />
