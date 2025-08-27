@@ -15,12 +15,12 @@ const Navigation: React.FC = () => {
       <nav className="main-navigation">
         <div className="nav-container">
           <Link href="/" className="nav-logo">
-            E-Shop
+            
           </Link>
           
           <div className="nav-links">
             <Link href="/products" className="nav-link">
-              Products
+             
             </Link>
             <button 
               className="cart-button"

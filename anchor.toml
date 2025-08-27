@@ -1,5 +1,5 @@
 [lcl-host]
-realm-apid = 'localhost'
+realm-apid = 'localhost.local'
 
 [org]
 apid = 'amansingh812'

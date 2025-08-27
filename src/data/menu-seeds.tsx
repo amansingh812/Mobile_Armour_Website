@@ -35,6 +35,13 @@ export const MenuData: MenuItem[] = [
     //   { title: "Service Details", link: "/service-details" },
     // ],
   },
+  {
+    title: "Products",
+    link: "/products",
+    subMenu: [
+      { title: "All Products", link: "/products" },
+    ],
+  },
   // {
   //   title: "Projects",
   //   link: "#",

@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import dbConnect from "@/lib/db";
 import bcrypt from 'bcrypt';
 import User from "@/models/User";
+import crypto from 'crypto';
 
 // Configure NextAuth options
 export const authOptions: NextAuthOptions = {
@@ -20,9 +21,9 @@ export const authOptions: NextAuthOptions = {
                 if (!credentials?.email || !credentials?.password) {
                     throw new Error("Email and password are required");
                 }
-                
+                                               
                 await dbConnect();
-                
+
                 try {
                     // Find the user by email
                     const user = await User.findOne({ email: credentials.email.toLowerCase() });
@@ -83,6 +84,37 @@ export const authOptions: NextAuthOptions = {
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     callbacks: {
+        async signIn({ user, account, profile }) {
+            // Handle Google OAuth sign-in: upsert user in MongoDB
+            if (account?.provider === 'google') {
+                await dbConnect();
+                const email = user.email?.toLowerCase();
+                if (!email) return false;
+
+                let existing = await User.findOne({ email });
+                if (!existing) {
+                    // Create a new user with a random password (not used for login)
+                    const randomPassword = crypto.randomBytes(16).toString('hex');
+                    const created = await User.create({
+                        name: user.name || (profile as any)?.name || email.split('@')[0],
+                        email,
+                        password: randomPassword,
+                        isVerified: true,
+                    });
+                    // Attach id so our jwt/session callbacks can propagate it
+                    (user as any)._id = created._id.toString();
+                } else {
+                    // Optionally update basic profile fields
+                    const nextName = user.name || existing.name;
+                    if (nextName !== existing.name) {
+                        existing.name = nextName;
+                        await existing.save();
+                    }
+                    (user as any)._id = existing._id.toString();
+                }
+            }
+            return true;
+        },
         async jwt({ token, user }) {
             if (user) {
                 token._id = user._id?.toString();
@@ -106,10 +138,6 @@ export const authOptions: NextAuthOptions = {
     },
     secret: process.env.NEXTAUTH_SECRET,
 };
-
-
-
-
 
 // Export the NextAuth handler
 const handler = NextAuth(authOptions);

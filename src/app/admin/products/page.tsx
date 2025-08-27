@@ -36,6 +36,7 @@ export default function AdminProductsPage() {
     const [success, setSuccess] = useState<string | null>(null);
     const [products, setProducts] = useState<Product[]>([]);
     const [refreshKey, setRefreshKey] = useState(0);
+    const [editingId, setEditingId] = useState<string | null>(null);
 
     // Derive features array from text (comma or newline separated)
     const parsedFeatures = useMemo(() => {
@@ -88,24 +89,52 @@ export default function AdminProductsPage() {
                 // Keep compatibility: default main price to newPrice if provided
                 price: form.newPrice && form.newPrice > 0 ? form.newPrice : form.price,
             };
-            const res = await fetch("/api/products", {
-                method: "POST",
+            
+            const isEditing = editingId !== null;
+            const method = isEditing ? "PUT" : "POST";
+            const url = "/api/products";
+            
+            if (isEditing) {
+                payload._id = editingId;
+            }
+            
+            const res = await fetch(url, {
+                method,
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
+            
             if (!res.ok) {
                 const err = await res.json().catch(() => ({}));
-                throw new Error(err?.error || "Failed to create product");
+                throw new Error(err?.error || `Failed to ${isEditing ? 'update' : 'create'} product`);
             }
-            setSuccess("Product created successfully");
-            setForm(initialForm);
-            setFeaturesText("");
+            
+            setSuccess(`Product ${isEditing ? 'updated' : 'created'} successfully`);
+            handleReset();
             setRefreshKey((k) => k + 1);
         } catch (e: any) {
             setError(e.message ?? "Something went wrong");
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleEdit = (product: Product) => {
+        setForm(product);
+        setFeaturesText(product.features?.join('\n') || '');
+        setEditingId(product._id || null);
+        setError(null);
+        setSuccess(null);
+        // Scroll to form
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleReset = () => {
+        setForm(initialForm);
+        setFeaturesText("");
+        setEditingId(null);
+        setError(null);
+        setSuccess(null);
     };
 
     return (
@@ -308,16 +337,11 @@ export default function AdminProductsPage() {
                             cursor: loading ? "not-allowed" : "pointer",
                         }}
                     >
-                        {loading ? "Saving..." : "Add Product"}
+                        {loading ? "Saving..." : (editingId ? "Update Product" : "Add Product")}
                     </button>
                     <button
                         type="button"
-                        onClick={() => {
-                            setForm(initialForm);
-                            setFeaturesText("");
-                            setError(null);
-                            setSuccess(null);
-                        }}
+                        onClick={handleReset}
                         style={{
                             background: "#fff",
                             color: "#111827",
@@ -327,7 +351,7 @@ export default function AdminProductsPage() {
                             cursor: "pointer",
                         }}
                     >
-                        Reset
+                        {editingId ? "Cancel Edit" : "Reset"}
                     </button>
                 </div>
             </form>
@@ -392,6 +416,23 @@ export default function AdminProductsPage() {
                                             {p.features.length > 3 && <li>…</li>}
                                         </ul>
                                     ) : null}
+                                    <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
+                                        <button
+                                            onClick={() => handleEdit(p)}
+                                            style={{
+                                                background: "#3b82f6",
+                                                color: "#fff",
+                                                padding: "6px 12px",
+                                                borderRadius: 6,
+                                                border: "none",
+                                                cursor: "pointer",
+                                                fontSize: 12,
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            Edit
+                                        </button>
+                                    </div>
                                 </div>
                             </article>
                         ))}
