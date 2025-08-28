@@ -8,6 +8,7 @@ import Service1 from "@/components/sections/service/service1";
 import React from "react";
 import ProductsPage from "../products/page";
 import AdminProductsPage from "../admin/products/page";
+import ProjectSliderPage from "../project-slider/page";
 
 function Home1({ }) {
   return (
@@ -17,9 +18,11 @@ function Home1({ }) {
       <About1 type="type-2" />
       <Service1 />
       {/* <AdminProductsPage /> */}
+      
 
+      <ProductsPage /> 
+      <ProjectSliderPage />
 
-      <ProductsPage />
       <Promo1 />
 
     </div>

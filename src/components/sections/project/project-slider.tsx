@@ -19,7 +19,7 @@ function ProjectSlider({}) {
             <Swiper
               modules={[Pagination, Navigation, Autoplay]}
               spaceBetween={20}
-              slidesPerView={1}
+              slidesPerView={3}
               speed={1000}
               navigation={{
                 prevEl: ".project-slider-2-prev",
@@ -29,15 +29,15 @@ function ProjectSlider({}) {
               autoplay={{ delay: 3000, disableOnInteraction: false }}
               breakpoints={{
                 640: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 20,
                 },
                 768: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 20,
                 },
                 1024: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 40,
                 },
               }}
