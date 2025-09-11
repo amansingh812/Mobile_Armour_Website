@@ -16,12 +16,13 @@ function Home1({ }) {
       <Hero1 />
 
       <About1 type="type-2" />
+      <ProjectSliderPage />
       <Service1 />
       {/* <AdminProductsPage /> */}
-      
 
-      <ProductsPage /> 
-      <ProjectSliderPage />
+
+      {/* <ProductsPage />  */}
+
 
       <Promo1 />
 

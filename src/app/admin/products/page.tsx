@@ -89,26 +89,26 @@ export default function AdminProductsPage() {
                 // Keep compatibility: default main price to newPrice if provided
                 price: form.newPrice && form.newPrice > 0 ? form.newPrice : form.price,
             };
-            
+
             const isEditing = editingId !== null;
             const method = isEditing ? "PUT" : "POST";
             const url = "/api/products";
-            
+
             if (isEditing) {
                 payload._id = editingId;
             }
-            
+
             const res = await fetch(url, {
                 method,
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
-            
+
             if (!res.ok) {
                 const err = await res.json().catch(() => ({}));
                 throw new Error(err?.error || `Failed to ${isEditing ? 'update' : 'create'} product`);
             }
-            
+
             setSuccess(`Product ${isEditing ? 'updated' : 'created'} successfully`);
             handleReset();
             setRefreshKey((k) => k + 1);

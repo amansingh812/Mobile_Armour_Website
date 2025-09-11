@@ -1,8 +1,9 @@
-// In your next.config.js
-module.exports = {
-  // other config...
-  experimental: {
-    // If you have anchor-pki config, try disabling it
-    // or add localhost to excluded domains
-  }
-}
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ["res.cloudinary.com"], // ✅ allow Cloudinary
+  },
+};
+
+module.exports = nextConfig;

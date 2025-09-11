@@ -10,12 +10,13 @@ function PsCard({ psCardData }: PsCardProps) {
       <a href={psCardData.href} className="single-project-wrapper">
         <div className="project-img">
           <Image
-            src={psCardData.src} alt={psCardData.alt}
-            width={588}
-            height={500}
+            src={psCardData.url}
+            alt={psCardData.alt}
+            width={250}
+            height={250}
             style={{
-              width: "100%",
-              height: "auto",
+              width: "250px",
+              height: "250px",
             }}
           />
         </div>
