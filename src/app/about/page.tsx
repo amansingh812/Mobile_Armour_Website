@@ -13,8 +13,6 @@ function AboutPage({ }) {
     <div>
       <Breadcrumb title="About Us" />
       <About1 />
-      {/* <Client /> */}
-      {/* <Video2 /> */}
       <Service3 />
       <Promo1
         subTitle="Quality Work"
@@ -22,7 +20,6 @@ function AboutPage({ }) {
         sectionClass="section-padding"
       />
       <Cta title="Got a Device that Needs Fixing?" />
-      {/* <Team1 /> */}
     </div>
   );
 }

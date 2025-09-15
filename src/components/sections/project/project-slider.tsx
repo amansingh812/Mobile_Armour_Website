@@ -10,9 +10,9 @@ import "swiper/css/navigation";
 
 //Autoplay
 
-function ProjectSlider({}) {
+function ProjectSlider({ }) {
   return (
-    <div id="project-standard" className="project-section section-padding">
+    <div id="project-standard" className="project-section section-padding section-padding-Slider">
       <div className="container">
         <div className="row">
           <div className="project-slider-2">
@@ -48,7 +48,7 @@ function ProjectSlider({}) {
                     <PsCard psCardData={item} />
                   </SwiperSlide>
                 ))}
-            </Swiper>
+          </Swiper>
             <div className="project-slider-2-nav">
               <div className="project-slider-2-prev ">
                 <i className="las la-arrow-left"></i>
