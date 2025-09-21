@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type Product = {
     _id?: string;
@@ -29,6 +31,8 @@ const initialForm: Product = {
 };
 
 export default function AdminProductsPage() {
+    const router = useRouter();
+    const { data: session, status } = useSession();
     const [form, setForm] = useState<Product>(initialForm);
     const [featuresText, setFeaturesText] = useState("");
     const [loading, setLoading] = useState(false);
@@ -37,6 +41,35 @@ export default function AdminProductsPage() {
     const [products, setProducts] = useState<Product[]>([]);
     const [refreshKey, setRefreshKey] = useState(0);
     const [editingId, setEditingId] = useState<string | null>(null);
+
+    // Check if user is admin and redirect if not
+    useEffect(() => {
+        if (status === "loading") return; // Still loading
+
+        if (!session?.user) {
+            router.push("/account/login");
+            return;
+        }
+
+        if (session.user.email !== 'dromperfectly125@gmail.com') {
+            router.push("/");
+            return;
+        }
+    }, [session, status, router]);
+
+    // Don't render anything until auth is checked
+    if (status === "loading") {
+        return (
+            <div style={{ padding: "24px", maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
+    // Don't render if not admin
+    if (!session?.user || session.user.email !== 'dromperfectly125@gmail.com') {
+        return null;
+    }
 
     // Derive features array from text (comma or newline separated)
     const parsedFeatures = useMemo(() => {
@@ -397,15 +430,15 @@ export default function AdminProductsPage() {
                                     <div style={{ marginTop: 6, fontWeight: 600 }}>
                                         {p.newPrice && p.newPrice > 0 ? (
                                             <>
-                                                <span>₹{p.newPrice}</span>
+                                                <span>${p.newPrice}</span>
                                                 {p.oldPrice && p.oldPrice > 0 && (
                                                     <span style={{ color: "#6b7280", marginLeft: 8, textDecoration: "line-through", fontWeight: 400 }}>
-                                                        ₹{p.oldPrice}
+                                                        ${p.oldPrice}
                                                     </span>
                                                 )}
                                             </>
                                         ) : (
-                                            <span>₹{p.price}</span>
+                                            <span>${p.price}</span>
                                         )}
                                     </div>
                                     {p.features?.length ? (

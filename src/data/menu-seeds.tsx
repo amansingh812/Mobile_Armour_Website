@@ -72,5 +72,13 @@ export const MenuData: MenuItem[] = [
     //    { title: "Blog Details", link: "/blog-details" },
     // ],
   },
+  {
+    title: "Admin",
+    link: "/admin/products",
+    // subMenu: [
+    //    { title: "Blogs", link: "/blog" },
+    //    { title: "Blog Details", link: "/blog-details" },
+    // ],
+  },
   { title: "Contact", link: "/contact" },
 ];

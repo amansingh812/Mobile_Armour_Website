@@ -52,7 +52,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     />
                     <div className="cart-item-details">
                       <h4>{item.product.name}</h4>
-                      <p className="cart-item-price">₹{(item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price).toFixed(2)}</p>
+                      <p className="cart-item-price">${(item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price).toFixed(2)}</p>
 
                       <div className="cart-item-controls">
                         <div className="quantity-controls">
@@ -80,7 +80,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                       </div>
 
                       <div className="item-total">
-                        Total: ₹{(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}
+                        Total: ${(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -89,7 +89,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
               <div className="cart-footer">
                 <div className="cart-total">
-                  <strong>Subtotal: ₹{state.total.toFixed(2)}</strong>
+                  <strong>Subtotal: ${state.total.toFixed(2)}</strong>
                 </div>
 
                 <div className="cart-actions">

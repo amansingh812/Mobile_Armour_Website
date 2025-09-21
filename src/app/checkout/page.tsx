@@ -45,7 +45,7 @@ const CheckoutPage = () => {
         const res = await fetch('/api/payments/create-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: Math.round(state.total * 100), currency: 'inr' }),
+          body: JSON.stringify({ amount: Math.round(state.total * 100), currency: 'aud' }),
         });
         const data = await res.json();
         if (!res.ok || !data.clientSecret) {
@@ -70,15 +70,15 @@ const CheckoutPage = () => {
     const [canUsePaymentRequest, setCanUsePaymentRequest] = useState(false);
 
     // IMPORTANT: currency must match your PaymentIntent currency set on the server.
-    // You are displaying INR (₹); ensure your /api/payments/create-intent uses `currency: 'inr'`.
-    const CURRENCY = 'inr';
+    // You are displaying AUD ($); ensure your /api/payments/create-intent uses `currency: 'aud'`.
+    const CURRENCY = 'aud';
 
     useEffect(() => {
       let mounted = true;
       const initPR = async () => {
         if (!stripe || !clientSecret) return;
         const pr = stripe.paymentRequest({
-          country: 'IN',
+          country: 'AU',
           currency: CURRENCY,
           total: {
             label: 'Order Total',
@@ -544,7 +544,7 @@ const CheckoutPage = () => {
                       <div className="order-item-details">
                         <h4>{item.product.name}</h4>
                         <p>Qty: {item.quantity}</p>
-                        <p className="item-price">₹{(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}</p>
+                        <p className="item-price">${(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}</p>
                       </div>
                     </div>
                   ))}
@@ -553,7 +553,7 @@ const CheckoutPage = () => {
                 <div className="summary-totals">
                   <div className="summary-row">
                     <span>Subtotal:</span>
-                    <span>₹{state.total.toFixed(2)}</span>
+                    <span>${state.total.toFixed(2)}</span>
                   </div>
                   <div className="summary-row">
                     <span>Shipping:</span>
@@ -561,11 +561,11 @@ const CheckoutPage = () => {
                   </div>
                   <div className="summary-row">
                     <span>Tax:</span>
-                    <span>₹0.00</span>
+                    <span>$0.00</span>
                   </div>
                   <div className="summary-row total-row">
                     <span>Total:</span>
-                    <span>₹{state.total.toFixed(2)}</span>
+                    <span>${state.total.toFixed(2)}</span>
                   </div>
                 </div>
 

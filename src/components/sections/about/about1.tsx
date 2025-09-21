@@ -11,6 +11,7 @@ function About1({ type }: About1Props) {
     <div
       className={`about-section section-padding   ${type === "type-1" ? "gray-bg" : ""
         }`}
+      style={{ backgroundColor: "#ffffff" }}
     >
       <div className="container">
         <div className="row align-items-center">

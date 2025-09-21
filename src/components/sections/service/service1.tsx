@@ -5,7 +5,7 @@ import React from "react";
 
 function Service1({ }) {
   return (
-    <div className="service-section section-padding">
+    <div className="service-section section-padding" style={{ backgroundColor: "#ffffff" }}>
       <div className="container">
         <div className="row align-items-center service-title">
           <div className="col-xl-8 col-lg-8 ">
