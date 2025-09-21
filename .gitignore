@@ -1,5 +1,6 @@
 # Node modules
 node_modules/
+Build/
 
 # Build output
 .next/
@@ -16,6 +17,7 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+sample.env.local
 
 # OS files
 .DS_Store

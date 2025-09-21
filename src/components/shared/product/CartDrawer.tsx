@@ -1,0 +1,126 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCart } from '@/hooks/useCart';
+import './CartDrawer.css';
+
+interface CartDrawerProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
+  const router = useRouter();
+  const { state, updateQuantity, removeItem } = useCart();
+
+  const handleQuantityChange = (productId: string, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      removeItem(productId);
+    } else {
+      updateQuantity(productId, newQuantity);
+    }
+  };
+
+  return (
+    <>
+      {isOpen && <div className="cart-overlay" onClick={onClose} />}
+      <div className={`cart-drawer ${isOpen ? 'open' : ''}`}>
+        <div className="cart-header">
+          <h2>Shopping Cart</h2>
+          <button className="close-btn" onClick={onClose}>×</button>
+        </div>
+
+        <div className="cart-content">
+          {state.items.length === 0 ? (
+            <div className="empty-cart">
+              <p>Your cart is empty</p>
+              <button onClick={onClose} className="continue-shopping-btn">
+                Continue Shopping
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="cart-items">
+                {state.items.map((item) => (
+                  <div key={item.product._id} className="cart-item">
+                    <img
+                      src={item.product.imageUrl}
+                      alt={item.product.name}
+                      className="cart-item-image"
+                    />
+                    <div className="cart-item-details">
+                      <h4>{item.product.name}</h4>
+                      <p className="cart-item-price">₹{(item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price).toFixed(2)}</p>
+
+                      <div className="cart-item-controls">
+                        <div className="quantity-controls">
+                          <button
+                            onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)}
+                            className="quantity-btn"
+                          >
+                            -
+                          </button>
+                          <span className="quantity-display">{item.quantity}</span>
+                          <button
+                            onClick={() => handleQuantityChange(item.product._id, item.quantity + 1)}
+                            className="quantity-btn"
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        <button
+                          onClick={() => removeItem(item.product._id)}
+                          className="remove-btn"
+                        >
+                          Remove
+                        </button>
+                      </div>
+
+                      <div className="item-total">
+                        Total: ₹{(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="cart-footer">
+                <div className="cart-total">
+                  <strong>Subtotal: ₹{state.total.toFixed(2)}</strong>
+                </div>
+
+                <div className="cart-actions">
+                  <button
+                    type="button"
+                    className="view-cart-btn"
+                    onClick={() => {
+                      onClose();
+                      router.push('/cart');
+                    }}
+                  >
+                    View Full Cart
+                  </button>
+                  <button
+                    type="button"
+                    className="checkout-btn"
+                    onClick={() => {
+                      onClose();
+                      router.push('/checkout');
+                    }}
+                  >
+                    Proceed to Checkout
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default CartDrawer;

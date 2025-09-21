@@ -1,12 +1,9 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  distDir: "build",
-  output: 'export',
-  trailingSlash: true,
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    unoptimized: true, 
+    domains: ["res.cloudinary.com"], // ✅ allow Cloudinary
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

@@ -10,16 +10,16 @@ import "swiper/css/navigation";
 
 //Autoplay
 
-function ProjectSlider({}) {
+function ProjectSlider({ }) {
   return (
-    <div id="project-standard" className="project-section section-padding">
+    <div id="project-standard" className="project-section section-padding section-padding-Slider">
       <div className="container">
         <div className="row">
           <div className="project-slider-2">
             <Swiper
               modules={[Pagination, Navigation, Autoplay]}
               spaceBetween={20}
-              slidesPerView={1}
+              slidesPerView={3}
               speed={1000}
               navigation={{
                 prevEl: ".project-slider-2-prev",
@@ -29,15 +29,15 @@ function ProjectSlider({}) {
               autoplay={{ delay: 3000, disableOnInteraction: false }}
               breakpoints={{
                 640: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 20,
                 },
                 768: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 20,
                 },
                 1024: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 40,
                 },
               }}
@@ -48,7 +48,7 @@ function ProjectSlider({}) {
                     <PsCard psCardData={item} />
                   </SwiperSlide>
                 ))}
-            </Swiper>
+          </Swiper>
             <div className="project-slider-2-nav">
               <div className="project-slider-2-prev ">
                 <i className="las la-arrow-left"></i>
