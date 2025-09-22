@@ -10,7 +10,7 @@ import Hero1Slide from "./hero1-slide";
 
 function Hero1() {
   return (
-    <div id="home-1">
+    <div id="home-1" style={{ backgroundColor: "#ffffff" }}>
       <Swiper
         className="homepage-slides "
         modules={[Navigation, Autoplay, EffectFade]}

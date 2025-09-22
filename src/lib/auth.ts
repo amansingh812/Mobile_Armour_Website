@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth-options";
 import { redirect } from "next/navigation";
 
 // Types for authentication
@@ -8,6 +8,7 @@ export interface User {
     name?: string | null;
     email?: string | null;
     image?: string | null;
+    isAdmin?: boolean;
 }
 
 export interface Session {
@@ -54,20 +55,37 @@ export function isAuthenticated(session: Session | null): boolean {
 }
 
 /**
- * Format the user's display name
+ * Check if the user is an admin (only for Niraj3438@gmail.com)
  */
-export function formatUserName(user: User | undefined): string {
-    if (!user) return "Guest";
+export async function isAdmin(): Promise<boolean> {
+    const user = await getCurrentUser();
+    return user?.email === 'Niraj3438@gmail.com';
+}
 
-    if (user.name) return user.name;
+/**
+ * Require admin access - redirects to login if not admin
+ */
+export async function requireAdmin() {
+    const user = await getCurrentUser();
 
-    if (user.email) {
-        // Extract name from email (e.g., john.doe@example.com -> John Doe)
-        const emailName = user.email.split("@")[0];
-        return emailName
-            .split(/[._-]/)
-            .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-            .join(" ");
+    if (!user) {
+        redirect("/account/login");
     }
-    return "User";
+
+    if (user.email !== 'Niraj3438@gmail.com') {
+        redirect("/");
+    }
+
+    return user;
+}
+
+/**
+ * Get admin status for the current user
+ */
+export async function getAdminStatus() {
+    const user = await getCurrentUser();
+    return {
+        isAdmin: user?.email === 'Niraj3438@gmail.com',
+        user: user
+    };
 }

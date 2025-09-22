@@ -24,14 +24,7 @@ export const Hero1Data: IHero1[] = [
     buttonText: "Learn More",
     src: "/img/slider/slider-47.png",
   },
-  // {
-  //   subtitle: `Smart Solutions`,
-  //   title: `Fast, Affordable & Trusted Phone Repairs Near You!`,
-  //   description: ` Phone acting up? Cracked screen, weak battery, or just plain stubborn? Smart Solutions has your back! Fast, easy fixes—screens, batteries, bugs, even water mess-ups—all done same day with a solid warranty.`,
-  //   link: `/about`,
-  //   buttonText: "Learn More",
-  //   src: "/img/slider/slider-45.jpeg",
-  // },
+
 
 ];
 

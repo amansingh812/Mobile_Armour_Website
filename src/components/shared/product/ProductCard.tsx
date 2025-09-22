@@ -39,9 +39,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="product-info">
         <h3 className="product-name" title={product.name}>{product.name}</h3>
         <div className="product-price">
-          <span className="current-price">₹{current}</span>
+          <span className="current-price">${current}</span>
           {hasDiscount && (
-            <span className="old-price">₹{old}</span>
+            <span className="old-price">${old}</span>
           )}
         </div>
         <Link href={`/products/${product._id}`} className="view-details-btn">

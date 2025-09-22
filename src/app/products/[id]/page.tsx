@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 import { useCart } from '@/hooks/useCart';
 import './ProductDetail.css';
@@ -9,6 +10,8 @@ import './ProductDetail.css';
 const ProductDetailPage = () => {
   const params = useParams();
   const router = useRouter();
+  const pathname = usePathname();
+  const { data: session } = useSession();
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -43,6 +46,12 @@ const ProductDetailPage = () => {
   const inStock: boolean = typeof product.stock === 'number' ? product.stock > 0 : true;
 
   const handleAddToCart = () => {
+    // Require login before adding to cart
+    if (!session?.user) {
+      const callbackUrl = encodeURIComponent(pathname || '/products');
+      router.push(`/account/login?callbackUrl=${callbackUrl}`);
+      return;
+    }
     addItem(product, quantity);
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 2000);
@@ -74,10 +83,10 @@ const ProductDetailPage = () => {
             <h1 className="product-title">{product.name}</h1>
             <p className="product-category">{product.category}</p>
             <div className="product-price-large">
-              ₹{showPrice}
+              ${showPrice}
               {product.oldPrice && product.newPrice && (
                 <span style={{ marginLeft: 8, textDecoration: 'line-through', color: '#6b7280', fontWeight: 400 }}>
-                  ₹{product.oldPrice}
+                  ${product.oldPrice}
                 </span>
               )}
             </div>
@@ -126,9 +135,17 @@ const ProductDetailPage = () => {
                 <button 
                   onClick={handleAddToCart}
                   className="add-to-cart-btn"
+                  title={!session?.user ? 'Login required to add items' : undefined}
+                  aria-label={!session?.user ? 'Login required to add items' : 'Add to Cart'}
                 >
-                  Add to Cart - ₹{(showPrice * quantity).toFixed(2)}
+                  {!session?.user ? 'Login required to add items' : `Add to Cart - ${(showPrice * quantity).toFixed(2)}`}
                 </button>
+
+                {!session?.user && (
+                  <div style={{ marginTop: 8, color: '#6b7280', fontSize: 12 }}>
+                    You must be logged in to add products to your cart.
+                  </div>
+                )}
 
                 {showSuccess && (
                   <div className="success-message">

@@ -4,12 +4,14 @@ import { useState } from "react";
 import PrimaryBtn from "../shared/button/primary-btn";
 import RenderSubMenu from "./sub-menu";
 import AuthNav from "../auth/AuthNav";
+import { useSession } from "next-auth/react";
 
 interface mobileNavProps { }
 export default function MobileNav({ }: mobileNavProps) {
   const [subMenu, setSubMenu] = useState<number | null>(null);
-
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.email === 'dromperfectly125@gmail.com';
 
   return (
     <>
@@ -33,32 +35,38 @@ export default function MobileNav({ }: mobileNavProps) {
             </button>
             <nav className="sidebar-nav">
               <ul className="metismenu" id="mobile-menu">
-                {MenuData.map((item, index) => (
-                  <li
-                    key={index}
-                    className={subMenu === index ? "active" : ""}
-                    onClick={(e: any) => {
-                      if (item.subMenu) {
-                        setSubMenu(subMenu !== index ? index : null);
-                      }
-                    }}
-                  >
-                    <a
-                      onClick={(e) => {
+                {MenuData.map((item, index) => {
+                  // Skip admin menu if user is not admin
+                  if (item.title === 'Admin' && !isAdmin) {
+                    return null;
+                  }
+                  return (
+                    <li
+                      key={index}
+                      className={subMenu === index ? "active" : ""}
+                      onClick={(e: any) => {
                         if (item.subMenu) {
-                          e.preventDefault();
+                          setSubMenu(subMenu !== index ? index : null);
                         }
                       }}
-                      className={item.subMenu ? "has-arrow" : ""}
-                      href={item.link}
                     >
-                      {item.title}
-                    </a>
-                    {subMenu === index && item.subMenu && (
-                      <RenderSubMenu isDesktop={false} subMenu={item.subMenu} />
-                    )}
-                  </li>
-                ))}
+                      <a
+                        onClick={(e) => {
+                          if (item.subMenu) {
+                            e.preventDefault();
+                          }
+                        }}
+                        className={item.subMenu ? "has-arrow" : ""}
+                        href={item.link}
+                      >
+                        {item.title}
+                      </a>
+                      {subMenu === index && item.subMenu && (
+                        <RenderSubMenu isDesktop={false} subMenu={item.subMenu} />
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
             <div className="action-bar">

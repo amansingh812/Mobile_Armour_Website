@@ -69,7 +69,7 @@ const CartPage = () => {
                 </div>
 
                 <div className="price-cell">
-                  ₹{(item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price).toFixed(2)}
+                  ${(item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price).toFixed(2)}
                 </div>
 
                 <div className="quantity-cell">
@@ -97,7 +97,7 @@ const CartPage = () => {
                 </div>
 
                 <div className="total-cell">
-                  ₹{(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}
+                  ${(((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity)).toFixed(2)}
                 </div>
 
                 <div className="action-cell">
@@ -118,7 +118,7 @@ const CartPage = () => {
               
               <div className="summary-row">
                 <span>Items ({state.items.reduce((count, item) => count + item.quantity, 0)}):</span>
-                <span>₹{state.total.toFixed(2)}</span>
+                <span>${state.total.toFixed(2)}</span>
               </div>
               
               <div className="summary-row">
@@ -128,7 +128,7 @@ const CartPage = () => {
               
               <div className="summary-row total-row">
                 <span>Total:</span>
-                <span>₹{state.total.toFixed(2)}</span>
+                <span>${state.total.toFixed(2)}</span>
               </div>
 
               <Link href="/checkout" className="checkout-btn">

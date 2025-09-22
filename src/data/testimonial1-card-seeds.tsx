@@ -1,65 +1,40 @@
+import React from "react";
+
 export interface ITestimonial1CardData {
+  icon: React.ReactNode;
+  comment: string;
   src: string;
   alt: string;
-  comment: string;
   name: string;
   designation: string;
-  icon: React.ReactNode;
 }
 
 export const Testimonial1CardData: ITestimonial1CardData[] = [
   {
-    icon: <i className="las la-quote-left"></i>,
+    icon: <i className="la la-quote-left"></i>,
     comment:
-      '"The magic formula that successful businesses have discovered is to treat customer"',
-    src: "/img/testimonial/1.jpg",
-    alt: "img",
-    name: "Albert Krish",
-    designation: "Social Activist",
+      "Mobile Armour has transformed how we manage device security. The onboarding was seamless and support is outstanding.",
+    src: "/img/team-img.jpg",
+    alt: "client-1",
+    name: "Aarav Mehta",
+    designation: "IT Lead, FinTech Co.",
   },
   {
-    icon: <i className="las la-quote-left"></i>,
+    icon: <i className="la la-quote-left"></i>,
     comment:
-      '"The magic formula that successful businesses have discovered is to treat customer"',
-    src: "/img/testimonial/2.jpg",
-    alt: "img",
-    name: "Bill Lorris",
-    designation: "Business Man",
+      "We love the simplicity and power. Policy updates roll out instantly across our fleet.",
+    src: "/img/logo-22.png",
+    alt: "client-2",
+    name: "Sana Kapoor",
+    designation: "Operations Manager",
   },
   {
-    icon: <i className="las la-quote-left"></i>,
+    icon: <i className="la la-quote-left"></i>,
     comment:
-      '"The magic formula that successful businesses have discovered is to treat customer"',
-    src: "/img/testimonial/3.jpg",
-    alt: "img",
-    name: "Josh Batlar",
-    designation: "Factory Foreman",
-  },
-  {
-    icon: <i className="las la-quote-left"></i>,
-    comment:
-      '"The magic formula that successful businesses have discovered is to treat customer"',
-    src: "/img/testimonial/4.jpg",
-    alt: "img",
-    name: "Joe Root",
-    designation: "Supervisor",
-  },
-  {
-    icon: <i className="las la-quote-left"></i>,
-    comment:
-      '"The magic formula that successful businesses have discovered is to treat customer"',
-    src: "/img/testimonial/1.jpg",
-    alt: "img",
-    name: "Albert Krish",
-    designation: "Social Activist",
-  },
-  {
-    icon: <i className="las la-quote-left"></i>,
-    comment:
-      '"The magic formula that successful businesses have discovered is to treat customer"',
-    src: "/img/testimonial/2.jpg",
-    alt: "img",
-    name: "Bill Lorris",
-    designation: "Business Man",
+      "Reliable, intuitive, and secure. Exactly what our remote teams needed.",
+    src: "/img/logo.png",
+    alt: "client-3",
+    name: "Rohit Verma",
+    designation: "Founder, Startup Labs",
   },
 ];

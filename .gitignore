@@ -30,3 +30,4 @@ sample.env.local
 # Misc
 coverage/
 *.log
+.vercel
