@@ -402,10 +402,11 @@ a {
 .logo-namefotter {
   margin-left: 10px;
   color: white;
-  font-size: 2rem;
-
-  /* Adjust size as needed */
-  font-weight: bold;
+  font-size: 2.2rem;
+  font-family: "Audiowide", "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  position: relative;
 }
 
 .logo-name-header {
@@ -6553,8 +6554,20 @@ button.mfp-arrow {
   }
 }
 
+.footer-area ul,
+.footer-area ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.footer-area li {
+  margin: 0;
+  padding: 0;
+}
+
 .company-email a {
-  color: #f6f6f6;
+  color: #9ba2ad;
   font-size: 17px;
   font-weight: 400;
   margin-top: 10px;
@@ -6565,7 +6578,13 @@ button.mfp-arrow {
 }
 
 .phone-number p {
-  font-size: 20px;
+  color: #9ba2ad;
+  font-size: 17px;
+  font-weight: 400;
+  margin-top: 10px;
+}
+
+.phone-number p:hover {
   color: #fff;
 }
 

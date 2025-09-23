@@ -27,25 +27,25 @@ function Footer({ }) {
                 </p>
               </div>
               <div className="col-lg-2 col-md-6">
-                <h5>Office</h5>
-                <p>
-                  opening soon<br />
-                </p>
-                <div className="company-email">
-                  <Link href="mailto:Manager@mobilearmour.com.au" target="_blank" rel="noopener noreferrer">Manager@mobilearmour.com.au</Link>
-                </div>
-                <div className="phone-number">
-                  <p>0405-326-205</p>
-                </div>
+                <h5>Contact Info</h5>
+                <ul>
+                  <li>
+                    <p>
+                      Kiosk 4 Warringal Shopping Centre 56 Burgundy Street Heidelberg, Victoria<br />
+                    </p>
+                    <Link href="mailto:Manager@mobilearmour.com.au" target="_blank" rel="noopener noreferrer">Manager@mobilearmour.com.au</Link>
+                    <p>0405-326-205</p>
+                  </li>
+                </ul>
               </div>
-              <div className="col-lg-2 offset-lg-1 col-md-6 com-sm-12">
+              <div className="col-lg-2 offset-lg-1 col-md-6 col-sm-12">
                 <h5>Links</h5>
                 <ul>
                   <li>
-
                     <Link href="/services" target="_blank" rel="noopener noreferrer">Services</Link>
-                    <Link href="/project-grid" target="_blank" rel="noopener noreferrer">Projects</Link>
-                    <Link href="/faq" target="_blank" rel="noopener noreferrer"> FAQ</Link>
+                    <Link href="/products" target="_blank" rel="noopener noreferrer">Products</Link>
+                    <Link href="/about" target="_blank" rel="noopener noreferrer">About</Link>
+                    <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact</Link>
                   </li>
                 </ul>
               </div>
