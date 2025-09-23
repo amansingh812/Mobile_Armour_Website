@@ -14,7 +14,6 @@ function ProjectSliderPage({ }) {
         </div>
       </header>
       <ProjectSlider />
-
     </div>
   );
 
