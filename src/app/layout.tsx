@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, Audiowide } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/line-awesome.min.css";
 import "./assets/css/fontAwesomePro.css";
@@ -19,6 +19,12 @@ const dm_sans = DM_Sans({
   variable: "--default-font",
 });
 
+const audiowide = Audiowide({
+  weight: ["400"],
+  subsets: ["latin"],
+  variable: "--audiowide-font",
+});
+
 export const metadata: Metadata = {
   title: "Mobile Armour",
   description: "Created by Aman",
@@ -30,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dm_sans.className}`}>
+      <body className={`${dm_sans.className} ${audiowide.variable}`}>
         <AuthProvider>
           <CartProvider>
             <Header />

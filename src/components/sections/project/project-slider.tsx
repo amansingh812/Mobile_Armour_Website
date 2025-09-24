@@ -28,8 +28,12 @@ function ProjectSlider({ }) {
               loop={true}
               autoplay={{ delay: 3000, disableOnInteraction: false }}
               breakpoints={{
+                320: {
+                  slidesPerView: 1,
+                  spaceBetween: 30,
+                },
                 640: {
-                  slidesPerView: 3,
+                  slidesPerView: 2,
                   spaceBetween: 20,
                 },
                 768: {
