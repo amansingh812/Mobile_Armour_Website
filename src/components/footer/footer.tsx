@@ -19,7 +19,7 @@ function Footer({ }) {
                       height={75}
                       alt="factorix-logo"
                     />
-                    <span className="logo-namefotter">Mobile Armour</span>
+                    <span className="logo-namefotter">Mobile <span style={{ color: '#FF5600' }}>Armour</span></span>
                   </div>
                 </Link>
                 <p>

@@ -954,9 +954,9 @@ input.form-control {
   }
 }
 
-.container {
+/* .container {
   max-width: 1200px;
-}
+} */
 
 .btn:focus,
 .btn:active {

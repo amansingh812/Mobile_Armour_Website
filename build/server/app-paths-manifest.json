@@ -1,9 +1,0 @@
-{
-  "/api/orders/route": "app/api/orders/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/page": "app/page.js",
-  "/order-confirmation/page": "app/order-confirmation/page.js",
-  "/products/page": "app/products/page.js",
-  "/checkout/page": "app/checkout/page.js",
-  "/products/[id]/page": "app/products/[id]/page.js"
-}
