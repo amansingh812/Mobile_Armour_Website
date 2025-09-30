@@ -143,36 +143,62 @@
 
 .payment-options {
   display: flex;
-  flex-direction: column;
   gap: 1rem;
 }
 
 .payment-option {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  cursor: pointer;
+  padding: 1.25rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
   transition: all 0.3s ease;
 }
 
-.payment-option:hover {
-  border-color: #667eea;
+.payment-option.selected {
+  border-color: #4f46e5;
   background: #f8f9ff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
 }
 
+.payment-option .payment-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.payment-option strong {
+  color: #1e293b;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.payment-option small {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.payment-option .payment-icons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.payment-option .payment-icons i {
+  font-size: 1.75rem;
+  color: #4f46e5;
+  opacity: 0.9;
+}
+
+/* Hide the radio input since we only have one payment method now */
 .payment-option input[type="radio"] {
-  width: 20px;
-  height: 20px;
-  accent-color: #667eea;
+  display: none;
 }
 
 .payment-label {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
 }
 
 .payment-label strong {

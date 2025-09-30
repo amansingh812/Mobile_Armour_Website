@@ -29,17 +29,13 @@ const CheckoutPage = () => {
     },
   });
 
-  const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [paymentMethod, setPaymentMethod] = useState('apple'); // Default to Stripe payment
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [initializingPayment, setInitializingPayment] = useState(false);
 
   useEffect(() => {
-    // Initialize PaymentIntent when user selects the Stripe Payment Element option
+    // Initialize PaymentIntent for Stripe payment
     const init = async () => {
-      if (paymentMethod !== 'apple') {
-        setClientSecret(null);
-        return;
-      }
       try {
         setInitializingPayment(true);
         const res = await fetch('/api/payments/create-intent', {
@@ -60,7 +56,7 @@ const CheckoutPage = () => {
       }
     };
     init();
-  }, [paymentMethod, state.total]);
+  }, [state.total]);
 
   function PaymentForm() {
     const stripe = useStripe();
@@ -498,33 +494,17 @@ const CheckoutPage = () => {
               <div className="section">
                 <h2>Payment Method</h2>
                 <div className="payment-options">
-                  <label className="payment-option">
-                    <input
-                      type="radio"
-                      name="payment"
-                      value="cod"
-                      checked={paymentMethod === 'cod'}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                    />
+                  <div className="payment-option selected">
                     <span className="payment-label">
-                      <strong>Cash on Delivery</strong>
-                      <small>Pay when you receive your order</small>
+                      <strong>Secure Card Payment</strong>
+                      <small>Pay by card, Apple Pay, or Google Pay</small>
                     </span>
-                  </label>
-
-                  <label className="payment-option">
-                    <input
-                      type="radio"
-                      name="payment"
-                      value="apple"
-                      checked={paymentMethod === 'apple'}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                    />
-                    <span className="payment-label">
-                      <strong>Card / Wallets (Apple Pay)</strong>
-                      <small>Pay by card or Apple Pay when available</small>
-                    </span>
-                  </label>
+                    <div className="payment-icons">
+                      <i className="las la-credit-card"></i>
+                      <i className="lab la-apple-pay"></i>
+                      <i className="lab la-google-pay"></i>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
