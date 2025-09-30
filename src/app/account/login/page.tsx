@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -471,9 +472,7 @@ export default function LoginPage() {
 
                         <div className="otp-modal-body">
                             <div className="otp-icon">
-                                <svg className="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
+                                <Image src="/img/otp_logo.png" alt="Mobile Armour" width={64} height={64} />
                             </div>
 
                             <p className="otp-description">
@@ -569,9 +568,7 @@ export default function LoginPage() {
                             {forgotPasswordStep === "email" && (
                                 <>
                                     <div className="otp-icon">
-                                        <svg className="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3a1 1 0 011-1h2.586l6.414-6.414A6 6 0 0121 9z" />
-                                        </svg>
+                                        <Image src="/img/otp_logo.png" alt="Mobile Armour" width={64} height={64} />
                                     </div>
 
                                     <p className="otp-description">
@@ -617,9 +614,7 @@ export default function LoginPage() {
                             {forgotPasswordStep === "otp" && (
                                 <>
                                     <div className="otp-icon">
-                                        <svg className="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                        </svg>
+                                        <Image src="/img/otp_logo.png" alt="Mobile Armour" width={64} height={64} />
                                     </div>
 
                                     <p className="otp-description">

@@ -40,18 +40,32 @@ export const authOptions: NextAuthOptions = {
 
           // If user not verified, send OTP and block login
           if (!user.isVerified) {
-            const otp = Math.floor(100000 + Math.random() * 900000).toString();
-            const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
-            user.otpCodeHash = otpHash;
-            user.otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
-            user.otpAttempts = 0;
-            user.lastOtpSentAt = new Date();
-            await user.save();
-            try {
-              await sendOtpEmail(user.email, otp);
-            } catch (e) {
-              console.error("Failed to send OTP email in authorize:", e);
+            // Guard against duplicate sends (e.g., dev double-invocation)
+            const now = new Date();
+            const canResend = !user.lastOtpSentAt || (now.getTime() - new Date(user.lastOtpSentAt).getTime() >= 60 * 1000);
+
+            if (canResend) {
+              const otp = Math.floor(100000 + Math.random() * 900000).toString();
+              const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+              user.otpCodeHash = otpHash;
+              user.otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+              user.otpAttempts = 0;
+              user.lastOtpSentAt = now;
+              await user.save();
+              try {
+                await sendOtpEmail(user.email, otp);
+              } catch (e) {
+                console.error("Failed to send OTP email in authorize:", e);
+              }
+            } else {
+              // Do not send again; reuse existing OTP window
+              // Ensure expiry is still valid; if not, allow resend on next attempt
+              if (!user.otpExpiresAt || now > new Date(user.otpExpiresAt)) {
+                user.otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+                await user.save();
+              }
             }
+
             // Throw an error string that the frontend can detect
             throw new Error("EMAIL_NOT_VERIFIED");
           }
