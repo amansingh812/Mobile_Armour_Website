@@ -8167,7 +8167,6 @@ button.mfp-arrow {
   color: #374151;
   border: 1px solid #D1D5DB;
 }
-
 .profile-button-secondary:hover {
   background-color: #E5E7EB;
 }
@@ -8180,4 +8179,316 @@ button.mfp-arrow {
 
 .profile-button-danger:hover {
   background-color: #DC2626;
+}
+
+/* ===== OTP Verification Modal Styles ===== */
+.otp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.otp-modal {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-width: 28rem;
+  width: 100%;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.otp-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.otp-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.otp-modal-close {
+  background: none;
+  border: none;
+  color: #6B7280;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.otp-modal-close:hover {
+  background-color: #F3F4F6;
+  color: #111827;
+}
+
+.otp-modal-body {
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.otp-icon {
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.otp-description {
+  text-align: center;
+  color: #6B7280;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.otp-description strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+.otp-error {
+  background-color: #FEE2E2;
+  border: 1px solid #FCA5A5;
+  color: #DC2626;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  text-align: center;
+  width: 100%;
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.otp-inputs {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 22rem;
+}
+
+.otp-input {
+  width: 3rem;
+  height: 3.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: 2px solid #D1D5DB;
+  border-radius: 0.5rem;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #F9FAFB;
+  color: #111827;
+}
+
+.otp-input:focus {
+  border-color: #0EA5E9;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+  transform: scale(1.05);
+}
+
+.otp-input:not(:placeholder-shown) {
+  border-color: #0EA5E9;
+  background-color: white;
+}
+
+.otp-verify-button {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(14, 165, 233, 0.2);
+}
+
+.otp-verify-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(14, 165, 233, 0.3);
+}
+
+.otp-verify-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.otp-resend {
+  text-align: center;
+  width: 100%;
+}
+
+.otp-timer {
+  color: #6B7280;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.otp-resend-button {
+  background: none;
+  border: none;
+  color: #0EA5E9;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.otp-resend-button:hover:not(:disabled) {
+  background-color: rgba(14, 165, 233, 0.1);
+  transform: translateY(-1px);
+}
+
+.otp-resend-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive Adjustments for OTP Modal */
+@media (max-width: 640px) {
+  .otp-modal {
+    margin: 1rem;
+  }
+
+  .otp-inputs {
+    gap: 0.375rem;
+  }
+
+  .otp-input {
+    width: 2.5rem;
+    height: 3rem;
+    font-size: 1.25rem;
+  }
+
+  .otp-modal-title {
+    font-size: 1.25rem;
+  }
+
+  .otp-description {
+    font-size: 0.875rem;
+  }
+}
+
+/* ===== Forgot Password Styles ===== */
+.forgot-password-link {
+  text-align: right;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.forgot-password-button {
+  background: none;
+  border: none;
+  color: #0EA5E9;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  transition: all 0.2s ease;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.forgot-password-button:hover {
+  color: #0284C7;
+  text-decoration: none;
+}
+
+.forgot-password-modal {
+  max-width: 32rem;
+}
+
+.forgot-password-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.forgot-password-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid #D1D5DB;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #F9FAFB;
+  color: #111827;
+}
+
+.forgot-password-input:focus {
+  border-color: #0EA5E9;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.forgot-password-input::placeholder {
+  color: #9CA3AF;
+}
+
+/* Responsive Adjustments for Forgot Password */
+@media (max-width: 640px) {
+  .forgot-password-modal {
+    margin: 1rem;
+  }
+
+  .forgot-password-link {
+    text-align: center;
+  }
 }
