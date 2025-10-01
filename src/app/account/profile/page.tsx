@@ -25,20 +25,21 @@ export default function ProfilePage() {
                     <div className="profile-card mx-auto">
                         <h1 className="profile-title">Your Profile</h1>
 
-                        <div className="flex flex-col items-center justify-center gap-6 mb-8">
-                            <div className="profile-avatar">
+                        <div className="flex flex-col items-center justify-center gap-6 mb-8">                        
+                            <div className="profile-avatar mx-auto text-center">
                                 {session?.user?.image ? (
-                                    <img
-                                        src={session.user.image}
-                                        alt={session.user.name || "Profile"}
-                                        className="w-full h-full object-cover"
-                                    />
-                                ) : (
-                                    <span className="profile-avatar-text">
-                                        {getInitial()}
-                                    </span>
-                                )}
-                            </div>
+                            <img
+                            src={session.user.image}
+                            alt={session.user.name || "Profile"}
+                            className="w-full h-full object-cover mx-auto block"
+                            />
+                        ) : (
+                            <span className="profile-avatar-text inline-flex items-center justify-center mx-auto">
+                            {getInitial()}
+                            </span>
+                        )}
+                        </div>
+
 
                             <div className="text-center">
                                 <h2 className="text-2xl font-semibold text-gray-800">
