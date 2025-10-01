@@ -434,6 +434,8 @@ a {
     font-size: 1.25rem;
     margin-left: 5px;
     letter-spacing: 1px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 }
 
