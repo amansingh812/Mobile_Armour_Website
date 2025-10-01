@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -15,6 +16,26 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [loginError, setLoginError] = useState("");
+    
+    // OTP Modal States
+    const [showOtpModal, setShowOtpModal] = useState(false);
+    const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+    const [otpError, setOtpError] = useState("");
+    const [isVerifying, setIsVerifying] = useState(false);
+    const [isResending, setIsResending] = useState(false);
+    const [resendTimer, setResendTimer] = useState(0);
+
+    // Forgot Password Modal States
+    const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+    const [forgotPasswordStep, setForgotPasswordStep] = useState<"email" | "otp" | "password">("email");
+    const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
+    const [forgotPasswordOtp, setForgotPasswordOtp] = useState(["", "", "", "", "", ""]);
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [forgotPasswordError, setForgotPasswordError] = useState("");
+    const [isSendingReset, setIsSendingReset] = useState(false);
+    const [isResettingPassword, setIsResettingPassword] = useState(false);
+    const [forgotPasswordTimer, setForgotPasswordTimer] = useState(0);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,14 +50,278 @@ export default function LoginPage() {
             });
 
             if (result?.error) {
-                setLoginError("Invalid email or password");
-                setIsLoading(false);
+                // Check if it's an email verification error
+                if (result.error === "EMAIL_NOT_VERIFIED") {
+                    setShowOtpModal(true);
+                    startResendTimer();
+                    setIsLoading(false);
+                } else {
+                    setLoginError("Invalid email or password");
+                    setIsLoading(false);
+                }
             } else {
                 router.push(callbackUrl);
             }
         } catch (error) {
             setLoginError("An error occurred. Please try again.");
             setIsLoading(false);
+        }
+    };
+
+    const startResendTimer = () => {
+        setResendTimer(60);
+        const interval = setInterval(() => {
+            setResendTimer((prev) => {
+                if (prev <= 1) {
+                    clearInterval(interval);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+    };
+
+    const handleOtpChange = (index: number, value: string) => {
+        if (value.length > 1) return;
+        if (!/^\d*$/.test(value)) return;
+
+        const newOtp = [...otp];
+        newOtp[index] = value;
+        setOtp(newOtp);
+
+        // Auto-focus next input
+        if (value && index < 5) {
+            const nextInput = document.getElementById(`otp-${index + 1}`);
+            nextInput?.focus();
+        }
+    };
+
+    const handleOtpKeyDown = (index: number, e: React.KeyboardEvent) => {
+        if (e.key === "Backspace" && !otp[index] && index > 0) {
+            const prevInput = document.getElementById(`otp-${index - 1}`);
+            prevInput?.focus();
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        const otpCode = otp.join("");
+        if (otpCode.length !== 6) {
+            setOtpError("Please enter all 6 digits");
+            return;
+        }
+
+        setIsVerifying(true);
+        setOtpError("");
+
+        try {
+            const response = await fetch("/api/auth/verify-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, otp: otpCode }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Now sign in again after verification
+                const result = await signIn("credentials", {
+                    redirect: false,
+                    email,
+                    password,
+                });
+
+                if (!result?.error) {
+                    router.push(callbackUrl);
+                } else {
+                    setOtpError("Verification successful! Please login again.");
+                    setShowOtpModal(false);
+                }
+            } else {
+                setOtpError(data.message || "Invalid OTP");
+            }
+        } catch (error) {
+            setOtpError("An error occurred. Please try again.");
+        } finally {
+            setIsVerifying(false);
+        }
+    };
+
+    const handleResendOtp = async () => {
+        if (resendTimer > 0) return;
+
+        setIsResending(true);
+        setOtpError("");
+
+        try {
+            const response = await fetch("/api/auth/resend-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setOtp(["", "", "", "", "", ""]);
+                startResendTimer();
+            } else {
+                setOtpError(data.message || "Failed to resend OTP");
+            }
+        } catch (error) {
+            setOtpError("An error occurred. Please try again.");
+        } finally {
+            setIsResending(false);
+        }
+    };
+
+    // Forgot Password Functions
+    const startForgotPasswordTimer = () => {
+        setForgotPasswordTimer(60);
+        const interval = setInterval(() => {
+            setForgotPasswordTimer((prev) => {
+                if (prev <= 1) {
+                    clearInterval(interval);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+    };
+
+    const handleForgotPasswordEmailSubmit = async () => {
+        if (!forgotPasswordEmail) {
+            setForgotPasswordError("Please enter your email address");
+            return;
+        }
+
+        setIsSendingReset(true);
+        setForgotPasswordError("");
+
+        try {
+            const response = await fetch("/api/auth/forgot-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: forgotPasswordEmail }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setForgotPasswordStep("otp");
+                startForgotPasswordTimer();
+            } else {
+                setForgotPasswordError(data.message || "Failed to send reset code");
+            }
+        } catch (error) {
+            setForgotPasswordError("An error occurred. Please try again.");
+        } finally {
+            setIsSendingReset(false);
+        }
+    };
+
+    const handleForgotPasswordOtpChange = (index: number, value: string) => {
+        if (value.length > 1) return;
+        if (!/^\d*$/.test(value)) return;
+
+        const newOtp = [...forgotPasswordOtp];
+        newOtp[index] = value;
+        setForgotPasswordOtp(newOtp);
+
+        // Auto-focus next input
+        if (value && index < 5) {
+            const nextInput = document.getElementById(`forgot-otp-${index + 1}`);
+            nextInput?.focus();
+        }
+    };
+
+    const handleForgotPasswordOtpKeyDown = (index: number, e: React.KeyboardEvent) => {
+        if (e.key === "Backspace" && !forgotPasswordOtp[index] && index > 0) {
+            const prevInput = document.getElementById(`forgot-otp-${index - 1}`);
+            prevInput?.focus();
+        }
+    };
+
+    const handlePasswordReset = async () => {
+        const otpCode = forgotPasswordOtp.join("");
+        if (otpCode.length !== 6) {
+            setForgotPasswordError("Please enter all 6 digits");
+            return;
+        }
+
+        if (newPassword.length < 6) {
+            setForgotPasswordError("Password must be at least 6 characters long");
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            setForgotPasswordError("Passwords do not match");
+            return;
+        }
+
+        setIsResettingPassword(true);
+        setForgotPasswordError("");
+
+        try {
+            const response = await fetch("/api/auth/reset-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    email: forgotPasswordEmail, 
+                    otp: otpCode, 
+                    newPassword 
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Reset all states and close modal
+                setShowForgotPasswordModal(false);
+                setForgotPasswordStep("email");
+                setForgotPasswordEmail("");
+                setForgotPasswordOtp(["", "", "", "", "", ""]);
+                setNewPassword("");
+                setConfirmPassword("");
+                setForgotPasswordError("");
+                
+                // Show success message
+                setLoginError("");
+                alert("Password reset successfully! You can now login with your new password.");
+            } else {
+                setForgotPasswordError(data.message || "Failed to reset password");
+            }
+        } catch (error) {
+            setForgotPasswordError("An error occurred. Please try again.");
+        } finally {
+            setIsResettingPassword(false);
+        }
+    };
+
+    const handleResendForgotPasswordOtp = async () => {
+        if (forgotPasswordTimer > 0) return;
+
+        setIsSendingReset(true);
+        setForgotPasswordError("");
+
+        try {
+            const response = await fetch("/api/auth/forgot-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: forgotPasswordEmail }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setForgotPasswordOtp(["", "", "", "", "", ""]);
+                startForgotPasswordTimer();
+            } else {
+                setForgotPasswordError(data.message || "Failed to resend code");
+            }
+        } catch (error) {
+            setForgotPasswordError("An error occurred. Please try again.");
+        } finally {
+            setIsSendingReset(false);
         }
     };
 
@@ -107,6 +392,19 @@ export default function LoginPage() {
                         </div>
                     </div>
 
+                    <div className="forgot-password-link">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setForgotPasswordEmail(email);
+                                setShowForgotPasswordModal(true);
+                            }}
+                            className="forgot-password-button"
+                        >
+                            Forgot your password?
+                        </button>
+                    </div>
+
                     <div>
                         <button
                             type="submit"
@@ -155,6 +453,282 @@ export default function LoginPage() {
                     </button>
                 </div>
             </div>
+
+            {/* OTP Verification Modal */}
+            {showOtpModal && (
+                <div className="otp-modal-overlay" onClick={() => setShowOtpModal(false)}>
+                    <div className="otp-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="otp-modal-header">
+                            <h2 className="otp-modal-title">Verify Your Email</h2>
+                            <button 
+                                className="otp-modal-close"
+                                onClick={() => setShowOtpModal(false)}
+                            >
+                                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div className="otp-modal-body">
+                            <div className="otp-icon">
+                                <Image src="/img/otp_logo.png" alt="Mobile Armour" width={64} height={64} />
+                            </div>
+
+                            <p className="otp-description">
+                                We've sent a 6-digit verification code to<br />
+                                <strong>{email}</strong>
+                            </p>
+
+                            {otpError && (
+                                <div className="otp-error">
+                                    {otpError}
+                                </div>
+                            )}
+
+                            <div className="otp-inputs">
+                                {otp.map((digit, index) => (
+                                    <input
+                                        key={index}
+                                        id={`otp-${index}`}
+                                        type="text"
+                                        inputMode="numeric"
+                                        maxLength={1}
+                                        value={digit}
+                                        onChange={(e) => handleOtpChange(index, e.target.value)}
+                                        onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                                        className="otp-input"
+                                        autoFocus={index === 0}
+                                    />
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={handleVerifyOtp}
+                                disabled={isVerifying || otp.join("").length !== 6}
+                                className="otp-verify-button"
+                            >
+                                {isVerifying ? (
+                                    <span className="flex items-center justify-center">
+                                        <svg className="spinner h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Verifying...
+                                    </span>
+                                ) : "Verify Email"}
+                            </button>
+
+                            <div className="otp-resend">
+                                {resendTimer > 0 ? (
+                                    <p className="otp-timer">
+                                        Resend code in {resendTimer}s
+                                    </p>
+                                ) : (
+                                    <button
+                                        onClick={handleResendOtp}
+                                        disabled={isResending}
+                                        className="otp-resend-button"
+                                    >
+                                        {isResending ? "Sending..." : "Resend Code"}
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Forgot Password Modal */}
+            {showForgotPasswordModal && (
+                <div className="otp-modal-overlay" onClick={() => setShowForgotPasswordModal(false)}>
+                    <div className="otp-modal forgot-password-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="otp-modal-header">
+                            <h2 className="otp-modal-title">
+                                {forgotPasswordStep === "email" && "Reset Password"}
+                                {forgotPasswordStep === "otp" && "Enter Reset Code"}
+                                {forgotPasswordStep === "password" && "Set New Password"}
+                            </h2>
+                            <button 
+                                className="otp-modal-close"
+                                onClick={() => {
+                                    setShowForgotPasswordModal(false);
+                                    setForgotPasswordStep("email");
+                                    setForgotPasswordError("");
+                                }}
+                            >
+                                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div className="otp-modal-body">
+                            {/* Step 1: Email Input */}
+                            {forgotPasswordStep === "email" && (
+                                <>
+                                    <div className="otp-icon">
+                                        <Image src="/img/otp_logo.png" alt="Mobile Armour" width={64} height={64} />
+                                    </div>
+
+                                    <p className="otp-description">
+                                        Enter your email address and we'll send you a code to reset your password.
+                                    </p>
+
+                                    {forgotPasswordError && (
+                                        <div className="otp-error">
+                                            {forgotPasswordError}
+                                        </div>
+                                    )}
+
+                                    <div className="forgot-password-input-group">
+                                        <input
+                                            type="email"
+                                            value={forgotPasswordEmail}
+                                            onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                                            placeholder="Enter your email address"
+                                            className="forgot-password-input"
+                                            autoFocus
+                                        />
+                                    </div>
+
+                                    <button
+                                        onClick={handleForgotPasswordEmailSubmit}
+                                        disabled={isSendingReset || !forgotPasswordEmail}
+                                        className="otp-verify-button"
+                                    >
+                                        {isSendingReset ? (
+                                            <span className="flex items-center justify-center">
+                                                <svg className="spinner h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Sending Code...
+                                            </span>
+                                        ) : "Send Reset Code"}
+                                    </button>
+                                </>
+                            )}
+
+                            {/* Step 2: OTP Input */}
+                            {forgotPasswordStep === "otp" && (
+                                <>
+                                    <div className="otp-icon">
+                                        <Image src="/img/otp_logo.png" alt="Mobile Armour" width={64} height={64} />
+                                    </div>
+
+                                    <p className="otp-description">
+                                        We've sent a 6-digit reset code to<br />
+                                        <strong>{forgotPasswordEmail}</strong>
+                                    </p>
+
+                                    {forgotPasswordError && (
+                                        <div className="otp-error">
+                                            {forgotPasswordError}
+                                        </div>
+                                    )}
+
+                                    <div className="otp-inputs">
+                                        {forgotPasswordOtp.map((digit, index) => (
+                                            <input
+                                                key={index}
+                                                id={`forgot-otp-${index}`}
+                                                type="text"
+                                                inputMode="numeric"
+                                                maxLength={1}
+                                                value={digit}
+                                                onChange={(e) => handleForgotPasswordOtpChange(index, e.target.value)}
+                                                onKeyDown={(e) => handleForgotPasswordOtpKeyDown(index, e)}
+                                                className="otp-input"
+                                                autoFocus={index === 0}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        onClick={() => setForgotPasswordStep("password")}
+                                        disabled={forgotPasswordOtp.join("").length !== 6}
+                                        className="otp-verify-button"
+                                    >
+                                        Continue
+                                    </button>
+
+                                    <div className="otp-resend">
+                                        {forgotPasswordTimer > 0 ? (
+                                            <p className="otp-timer">
+                                                Resend code in {forgotPasswordTimer}s
+                                            </p>
+                                        ) : (
+                                            <button
+                                                onClick={handleResendForgotPasswordOtp}
+                                                disabled={isSendingReset}
+                                                className="otp-resend-button"
+                                            >
+                                                {isSendingReset ? "Sending..." : "Resend Code"}
+                                            </button>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Step 3: New Password Input */}
+                            {forgotPasswordStep === "password" && (
+                                <>
+                                    <div className="otp-icon">
+                                        <svg className="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3a1 1 0 011-1h2.586l6.414-6.414A6 6 0 0121 9z" />
+                                        </svg>
+                                    </div>
+
+                                    <p className="otp-description">
+                                        Enter your new password below
+                                    </p>
+
+                                    {forgotPasswordError && (
+                                        <div className="otp-error">
+                                            {forgotPasswordError}
+                                        </div>
+                                    )}
+
+                                    <div className="forgot-password-input-group">
+                                        <input
+                                            type="password"
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            placeholder="New password (min. 6 characters)"
+                                            className="forgot-password-input"
+                                            autoFocus
+                                        />
+                                        <input
+                                            type="password"
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            placeholder="Confirm new password"
+                                            className="forgot-password-input"
+                                        />
+                                    </div>
+
+                                    <button
+                                        onClick={handlePasswordReset}
+                                        disabled={isResettingPassword || !newPassword || !confirmPassword}
+                                        className="otp-verify-button"
+                                    >
+                                        {isResettingPassword ? (
+                                            <span className="flex items-center justify-center">
+                                                <svg className="spinner h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Resetting Password...
+                                            </span>
+                                        ) : "Reset Password"}
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

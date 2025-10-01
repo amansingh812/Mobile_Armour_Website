@@ -6,6 +6,10 @@ export interface IUser extends Document {
     email: string;
     password: string;
     isVerified: boolean;
+    otpCodeHash?: string | null;
+    otpExpiresAt?: Date | null;
+    otpAttempts?: number;
+    lastOtpSentAt?: Date | null;
     phone?: string;
     createdAt: Date;
     updatedAt: Date;
@@ -17,7 +21,12 @@ const UserSchema: Schema = new Schema(
         name: { type: String, required: true, trim: true },
         email: { type: String, required: true, unique: true, trim: true, lowercase: true },
         password: { type: String, required: true },
-        isVerified: { type: Boolean, default: true }, // For simplicity; in production, default to false and implement email verification
+        isVerified: { type: Boolean, default: false },
+        // OTP verification fields
+        otpCodeHash: { type: String, default: null },
+        otpExpiresAt: { type: Date, default: null },
+        otpAttempts: { type: Number, default: 0 },
+        lastOtpSentAt: { type: Date, default: null },
         phone: { type: String },
     },
     { timestamps: true }

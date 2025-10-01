@@ -4,6 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import dbConnect from "@/lib/db";
 import User from "@/models/User";
 import crypto from "crypto";
+import { sendOtpEmail } from "@/lib/mailer";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -37,6 +38,38 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
+          // If user not verified, send OTP and block login
+          if (!user.isVerified) {
+            // Guard against duplicate sends (e.g., dev double-invocation)
+            const now = new Date();
+            const canResend = !user.lastOtpSentAt || (now.getTime() - new Date(user.lastOtpSentAt).getTime() >= 60 * 1000);
+
+            if (canResend) {
+              const otp = Math.floor(100000 + Math.random() * 900000).toString();
+              const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+              user.otpCodeHash = otpHash;
+              user.otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+              user.otpAttempts = 0;
+              user.lastOtpSentAt = now;
+              await user.save();
+              try {
+                await sendOtpEmail(user.email, otp);
+              } catch (e) {
+                console.error("Failed to send OTP email in authorize:", e);
+              }
+            } else {
+              // Do not send again; reuse existing OTP window
+              // Ensure expiry is still valid; if not, allow resend on next attempt
+              if (!user.otpExpiresAt || now > new Date(user.otpExpiresAt)) {
+                user.otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+                await user.save();
+              }
+            }
+
+            // Throw an error string that the frontend can detect
+            throw new Error("EMAIL_NOT_VERIFIED");
+          }
+
           return {
             id: user._id.toString(),
             _id: user._id.toString(),
@@ -44,8 +77,12 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             isVerified: user.isVerified,
           };
-        } catch (error) {
+        } catch (error: any) {
           console.error("Authentication error:", error);
+          // Re-throw EMAIL_NOT_VERIFIED error so it reaches the client
+          if (error?.message === "EMAIL_NOT_VERIFIED") {
+            throw error;
+          }
           return null;
         }
       },
