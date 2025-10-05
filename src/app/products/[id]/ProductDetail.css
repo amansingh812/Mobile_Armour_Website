@@ -166,7 +166,7 @@
 .add-to-cart-btn {
   width: 100%;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(180deg, #E64A19 0%, #FF5600 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -177,7 +177,7 @@
 }
 
 .add-to-cart-btn:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  background: linear-gradient(180deg, #FF5600 0%, #E64A19 100%);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
