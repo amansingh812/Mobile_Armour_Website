@@ -23,7 +23,7 @@ function Footer({ }) {
                   </div>
                 </Link>
                 <p>
-                  We provide the best repair and reliable  Services<br />
+                We provide the best repairs and reliable service.<br />
                 </p>
               </div>
               <div className="col-lg-2 col-md-6">
