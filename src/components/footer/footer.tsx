@@ -31,7 +31,7 @@ function Footer({ }) {
                 <ul>
                   <li>
                     <p>
-                      Kiosk 4 Warringal Shopping Centre 56 Burgundy Street Heidelberg, Victoria<br />
+                      Kiosk 4 Warringal Shopping Centre 56 Burgundy Street Heidelberg, VIC 3084<br />
                     </p>
                     <Link href="mailto:Manager@mobilearmour.com.au" target="_blank" rel="noopener noreferrer">Manager@mobilearmour.com.au</Link>
                     <p>0405-326-205</p>

@@ -8,7 +8,7 @@ export const ContactInfoCardData: IContactInfoCardData[] = [
   {
     src: "/img/contact/1.png",
     alt: "img",
-    text: "Kiosk 4 Warringal Shopping Centre 56 Burgundy Street Heidelberg, Victoria",
+    text: "Kiosk 4 Warringal Shopping Centre 56 Burgundy Street Heidelberg, VIC 3084",
   },
   {
     src: "/img/contact/2.png",

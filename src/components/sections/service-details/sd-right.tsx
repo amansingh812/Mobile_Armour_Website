@@ -35,7 +35,7 @@ function SdRight({ }) {
           <li>
             {" "}
             <i className="las la-map-marker"></i>
-            Kiosk 4 Warringal Shopping Centre 56 Burgundy Street Heidelberg, Victoria
+            Kiosk 4 Warringal Shopping Centre 56 Burgundy Street Heidelberg, VIC 3084
             {/* Germany — <br />
             785 15h Street, Office 478 <br />
             Berlin, De 81566 */}
