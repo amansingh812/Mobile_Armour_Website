@@ -23,7 +23,7 @@ function Footer({ }) {
                   </div>
                 </Link>
                 <p>
-                We provide the best repairs and reliable service.<br />
+                Mobile Armour - Home of Certified Technicians and Quality Accessories. Expert repairs and the best gear for your device.<br />
                 </p>
               </div>
               <div className="col-lg-2 col-md-6">
