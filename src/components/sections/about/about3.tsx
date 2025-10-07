@@ -68,11 +68,15 @@ function About3({
           <div className="col-xl-6 col-lg-6 text-lg-end order-1 order-lg-2 ">
             <div className="about-bg-wrapper">
               <Image
-                src="/img/about/about-3-11.jpg"
+                src="https://res.cloudinary.com/drygcfes5/image/upload/v1759825506/IMG_2399_yzox8d.jpg"
                 width={450}
                 height={543}
-                alt="alt"
-
+                alt="Smartphone repair service"
+                style={{
+                  
+                  borderRadius: '2px',
+                  boxSizing: 'border-box'
+                }}
               />
               {/* <div className="small-img">
                 <Image
