@@ -75,8 +75,8 @@ export const PSliderCardData: IPsCardData[] = [
   {
     url: "https://res.cloudinary.com/drygcfes5/image/upload/v1757779584/ProCase_bwiupn.jpg",
     alt: "img",
-    title: "Power Bank",
-    subTitle: "Iphone 17 Pro Max",
+    title: "Iphone 17 Pro Max",
+    subTitle: "Raptic Military 600D",
     href: "/products",
   },
   {

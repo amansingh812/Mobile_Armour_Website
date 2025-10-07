@@ -33,7 +33,7 @@ function About1({ type }: About1Props) {
               <div className="image-two ">
                 <div className="circular-image-container">
                   <Image
-                    src="/img/about/about_.png"
+                    src="https://res.cloudinary.com/drygcfes5/image/upload/ar_1:1,b_rgb:262c35,bo_0px_solid_rgb:ffffff,c_fill,g_auto,r_max,w_1000/v1759825506/IMG_2399_yzox8d.jpg"
                     width={317}
                     height={348}
                     alt="about image"
