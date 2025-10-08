@@ -12,6 +12,7 @@ import Footer from "@/components/footer/footer";
 import ScrollToTop from "@/components/scroll-top/scroll-top";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { CartProvider } from "@/hooks/useCart";
+import ChatBot from "@/components/chatbot/ChatBot";
 
 const dm_sans = DM_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -50,8 +51,9 @@ export default function RootLayout({
           <CartProvider>
             <Header />
             {children}
-            <ScrollToTop />
+            {/* <ScrollToTop /> */}
             <Footer />
+            <ChatBot />
           </CartProvider>
         </AuthProvider>
       </body>
