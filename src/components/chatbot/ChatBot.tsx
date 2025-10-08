@@ -10,6 +10,16 @@ interface Message {
   timestamp: Date;
 }
 
+interface LeadData {
+  name: string;
+  phone: string;
+  email: string;
+  brand: string;
+  model: string;
+  issue: string;
+  collected: boolean;
+}
+
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -23,6 +33,16 @@ const ChatBot: React.FC = () => {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isTeaserVisible, setIsTeaserVisible] = useState(false);
+  const [leadData, setLeadData] = useState<LeadData>({
+    name: '',
+    phone: '',
+    email: '',
+    brand: '',
+    model: '',
+    issue: '',
+    collected: false
+  });
+  const [lastSentSig, setLastSentSig] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -52,7 +72,7 @@ const ChatBot: React.FC = () => {
   const openChat = () => {
     setIsOpen(true);
     setIsTeaserVisible(false);
-    try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch {}
+    // try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch {}
   };
 
   const toggleChat = () => {
@@ -60,24 +80,278 @@ const ChatBot: React.FC = () => {
     setIsOpen(next);
     if (next) {
       setIsTeaserVisible(false);
-      try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch {}
+    //   try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch {}
     }
   };
 
-  // Convert URLs in plain text to clickable links
+  // Convert Markdown links [text](url), plain URLs, and bare phone numbers to clickable anchors
   const linkify = (text: string) => {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const parts = text.split(urlRegex);
-    return parts.map((part, idx) => {
-      if (urlRegex.test(part)) {
-        return (
-          <a key={idx} href={part} target="_blank" rel="noopener noreferrer">
-            {part}
-          </a>
-        );
+    const elements: React.ReactNode[] = [];
+    const mdLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+    let lastIndex = 0;
+
+    // First, handle Markdown links
+    let mdMatch: RegExpExecArray | null;
+    while ((mdMatch = mdLinkRegex.exec(text)) !== null) {
+      const [full, label, url] = mdMatch;
+      const start = mdMatch.index;
+      const end = start + full.length;
+
+      if (start > lastIndex) {
+        elements.push(text.slice(lastIndex, start));
       }
-      return <span key={idx}>{part}</span>;
-    });
+
+      elements.push(
+        <a key={`md-${start}`} href={url} target="_blank" rel="noopener noreferrer">
+          {label}
+        </a>
+      );
+
+      lastIndex = end;
+    }
+
+    // Remaining text after last markdown link
+    const remaining = text.slice(lastIndex);
+
+    // Then, handle plain URLs inside the remaining text
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    let urlLastIndex = 0;
+    let urlMatch: RegExpExecArray | null;
+    while ((urlMatch = urlRegex.exec(remaining)) !== null) {
+      const [url] = urlMatch;
+      const start = urlMatch.index;
+      const end = start + url.length;
+      if (start > urlLastIndex) {
+        elements.push(remaining.slice(urlLastIndex, start));
+      }
+      elements.push(
+        <a key={`url-${lastIndex + start}`} href={url} target="_blank" rel="noopener noreferrer">
+          {url}
+        </a>
+      );
+      urlLastIndex = end;
+    }
+    // Remaining after URL parsing — detect bare phone numbers (9-15 digits, optional + prefix)
+    const rest = remaining.slice(urlLastIndex);
+    const phoneRegex = /(\+?\d{9,15})/g;
+    let phoneLastIndex = 0;
+    let phoneMatch: RegExpExecArray | null;
+    while ((phoneMatch = phoneRegex.exec(rest)) !== null) {
+      const [raw] = phoneMatch;
+      const start = phoneMatch.index;
+      const end = start + raw.length;
+      if (start > phoneLastIndex) {
+        elements.push(rest.slice(phoneLastIndex, start));
+      }
+      const digitsOnly = raw.replace(/[^\d+]/g, '');
+      const waUrl = `https://wa.me/${digitsOnly.replace(/^\+/, '')}`;
+      elements.push(
+        <a key={`wa-${lastIndex + urlLastIndex + start}`} href={waUrl} target="_blank" rel="noopener noreferrer">
+          {raw}
+        </a>
+      );
+      phoneLastIndex = end;
+    }
+    if (phoneLastIndex < rest.length) {
+      elements.push(rest.slice(phoneLastIndex));
+    }
+
+    return elements;
+  };
+
+
+  // Extract lead information from conversation and return the updated object
+  const extractLeadInfo = (userMessage: string, botResponse: string) => {
+    // More flexible name patterns
+    const nameRegex = /(?:my name is|i'm|i am|call me|name|i'm)\s+([a-zA-Z\s]+)/i;
+    // Simple name extraction - if it's a single word response after asking for name
+    const simpleNameRegex = /^([a-zA-Z]{2,20})$/;
+    
+    const phoneRegex = /(\+?[\d\s\-\(\)]{8,15})/;
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+    
+    // Enhanced brand/model detection including iPad
+    const knownBrands = ['apple','iphone','ipad','samsung','galaxy','xiaomi','mi','redmi','oneplus','google','pixel','oppo','vivo','motorola','realme','nokia','sony','huawei'];
+    
+    let newLeadData = { ...leadData };
+    let updated = false;
+    let identityChanged = false;
+
+    // Extract name - enhanced patterns for combined responses
+    if (!newLeadData.name) {
+      const botAskedForName = botResponse.toLowerCase().includes('name') || 
+                             messages.some(m => m.sender === 'bot' && m.text.toLowerCase().includes('name'));
+      
+      let nameMatch = userMessage.match(nameRegex);
+      
+      // If bot asked for name and user gave simple response, try simple pattern
+      if (!nameMatch && botAskedForName) {
+        nameMatch = userMessage.match(simpleNameRegex);
+      }
+      
+      // Try to extract name from combined response like "aman sing@gmail.com 9900523423"
+      if (!nameMatch) {
+        const combinedMatch = userMessage.match(/^([a-zA-Z\s]+)\s+[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+        if (combinedMatch) {
+          nameMatch = [combinedMatch[0], combinedMatch[1]];
+        }
+      }
+      
+      if (nameMatch) {
+        let foundName = nameMatch[1].trim();
+
+        // Clean up the name if it includes extra details
+        const stopWords = [' and ', ' email', ' phone', ' is my', ' my '];
+        for (const word of stopWords) {
+          const index = foundName.toLowerCase().indexOf(word);
+          if (index !== -1) {
+            foundName = foundName.substring(0, index).trim();
+          }
+        }
+
+        if (leadData.collected && leadData.name && leadData.name.toLowerCase() !== foundName.toLowerCase()) {
+          identityChanged = true;
+        }
+        newLeadData.name = foundName;
+        updated = true;
+      }
+    }
+
+    // Extract phone - more flexible
+    if (!newLeadData.phone) {
+      // Look for phone numbers in various formats
+      const phoneMatch = userMessage.match(phoneRegex) || 
+                        userMessage.match(/(\d{10})/); // Simple 10-digit number
+      if (phoneMatch) {
+        const foundPhone = phoneMatch[1].replace(/[\s\-\(\)]/g, '');
+        if (leadData.collected && leadData.phone && leadData.phone !== foundPhone) {
+          identityChanged = true;
+        }
+        newLeadData.phone = foundPhone;
+        updated = true;
+      }
+    }
+
+    // Extract email - enhanced to get full email from combined responses
+    if (!newLeadData.email) {
+      // First try to get full email including name part
+      const fullEmailMatch = userMessage.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
+      if (fullEmailMatch) {
+        newLeadData.email = fullEmailMatch[0];
+        updated = true;
+      }
+    }
+
+    // Extract brand/model - enhanced detection
+    if (!newLeadData.brand || !newLeadData.model) {
+      const lower = userMessage.toLowerCase();
+      const words = lower.split(/[^a-z0-9+]+/i);
+      
+      // Brand detection
+      const brandFound = words.find(w => knownBrands.includes(w));
+      if (brandFound && !newLeadData.brand) {
+        newLeadData.brand = brandFound === 'ipad' ? 'Apple iPad' : brandFound;
+        updated = true;
+      }
+      
+      // Model detection - enhanced for iPad and other devices
+      if (!newLeadData.model) {
+        // iPad models
+        if (lower.includes('ipad')) {
+          const ipadMatch = userMessage.match(/ipad\s*(air|pro|mini|\d+)?/i);
+          if (ipadMatch) {
+            newLeadData.model = ipadMatch[0].trim();
+            if (!newLeadData.brand) newLeadData.brand = 'Apple iPad';
+            updated = true;
+          }
+        }
+        // iPhone models
+        else if (lower.includes('iphone')) {
+          const iphoneMatch = userMessage.match(/iphone\s*(\d+\s*(pro|plus|mini)?)/i);
+          if (iphoneMatch) {
+            newLeadData.model = iphoneMatch[0].trim();
+            if (!newLeadData.brand) newLeadData.brand = 'Apple';
+            updated = true;
+          }
+        }
+        // General model patterns
+        else {
+          const modelMatch = userMessage.match(/(\b(\w+\s)?(\d{1,3}[a-z]?|[a-z]{1,3}\d{1,3}|pro\s?max|ultra|air|mini)\b)/i);
+          if (modelMatch) {
+            newLeadData.model = modelMatch[0].trim();
+            updated = true;
+          }
+        }
+      }
+    }
+
+    // Extract issue - more comprehensive
+    if (!newLeadData.issue && userMessage.length > 5) {
+      const issueKeywords = ['repair', 'fix', 'broken', 'problem', 'issue', 'screen', 'battery', 'charging', 'crack', 'cracked', 'damage', 'not working', 'assistance'];
+      if (issueKeywords.some(keyword => userMessage.toLowerCase().includes(keyword))) {
+        newLeadData.issue = userMessage;
+        updated = true;
+      }
+    }
+
+    // If identity (name/phone) changed after a previous submission, reset lead to start a new record
+    if (identityChanged) {
+      newLeadData = {
+        name: newLeadData.name || '',
+        phone: newLeadData.phone || '',
+        email: '',
+        brand: '',
+        model: '',
+        issue: '',
+        collected: false,
+      };
+    }
+
+    if (updated || identityChanged) {
+      setLeadData(newLeadData);
+      console.log('Lead data updated:', newLeadData);
+      // Check if we have enough info to send to Google Sheets - more flexible conditions
+      const sig = `${newLeadData.name}|${newLeadData.phone}|${newLeadData.email}|${newLeadData.brand}|${newLeadData.model}|${newLeadData.issue}`;
+      const hasMinimumData = (newLeadData.phone || newLeadData.email) && (newLeadData.name || newLeadData.issue);
+      if (hasMinimumData && sig !== lastSentSig) {
+        console.log('Auto-sending lead to sheets (flexible conditions):', newLeadData);
+        sendLeadToGoogleSheets(newLeadData);
+      }
+    }
+    return newLeadData;
+  };
+
+
+  // Send lead data to Google Sheets
+  const sendLeadToGoogleSheets = async (lead: LeadData) => {
+    try {
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'ENQUIRY',
+          data: {
+            name: lead.name,
+            phone: lead.phone,
+            email: lead.email,
+            brand: lead.brand,
+            model: lead.model,
+            message: lead.issue
+          }
+        }),
+      });
+
+      if (response.ok) {
+        const sig = `${lead.name}|${lead.phone}|${lead.email}|${lead.brand}|${lead.model}|${lead.issue}`;
+        setLeadData(prev => ({ ...prev, collected: true }));
+        setLastSentSig(sig);
+        console.log('Lead data sent to Google Sheets successfully');
+      }
+    } catch (error) {
+      console.error('Failed to send lead data:', error);
+    }
   };
 
   const sendMessage = async () => {
@@ -91,8 +365,10 @@ const ChatBot: React.FC = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = inputMessage;
     setInputMessage('');
     setIsLoading(true);
+
 
     try {
       // Prepare conversation history for context
@@ -107,7 +383,7 @@ const ChatBot: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: inputMessage,
+          message: currentInput,
           conversationHistory
         }),
       });
@@ -115,6 +391,10 @@ const ChatBot: React.FC = () => {
       const data = await response.json();
 
       if (data.success) {
+        // Extract lead info first and possibly auto-send
+        const updatedLead = extractLeadInfo(currentInput, data.reply);
+
+
         const botMessage: Message = {
           id: (Date.now() + 1).toString(),
           text: data.reply,
@@ -129,7 +409,7 @@ const ChatBot: React.FC = () => {
       console.error('Error sending message:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'Sorry, I\'m having trouble connecting right now. Please try again or contact us directly on WhatsApp: https://wa.me/919900604665',
+        text: 'Sorry, I\'m having trouble connecting right now. Please try again or contact us directly on WhatsApp: https://wa.me/61466372225',
         sender: 'bot',
         timestamp: new Date()
       };
@@ -147,7 +427,10 @@ const ChatBot: React.FC = () => {
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // Use consistent 24-hour format to avoid server/client hydration mismatch
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
   };
 
   return (
