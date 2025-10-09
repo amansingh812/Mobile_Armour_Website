@@ -48,7 +48,6 @@ const Categories: React.FC = () => {
               <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
-
           {/* Categories Container */}
           <div 
             className="categories-carousel"
@@ -68,11 +67,11 @@ const Categories: React.FC = () => {
                     height={150}
                     className="category-image"
                     priority={index < 3} // Prioritize first 3 images
-                    onError={(e) => {
-                      // Fallback to a placeholder if image fails to load
-                      const target = e.target as HTMLImageElement;
-                      target.src = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" fill="%23f1f5f9"><rect width="200" height="150" fill="%23e2e8f0"/><text x="100" y="75" text-anchor="middle" dy="0.3em" font-family="Arial" font-size="14" fill="%2364748b">${category.name}</text></svg>`;
-                    }}
+                    // onError={(e) => {
+                    //   // Fallback to a placeholder if image fails to load
+                    //   const target = e.target as HTMLImageElement;
+                    //   target.src = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" fill="%23f1f5f9"><rect width="200" height="150" fill="%23e2e8f0"/><text x="100" y="75" text-anchor="middle" dy="0.3em" font-family="Arial" font-size="14" fill="%2364748b">${category.name}</text></svg>`;
+                    // }}
                   />
                   <div className="category-overlay">
                     <span className="category-cta">Shop Now</span>

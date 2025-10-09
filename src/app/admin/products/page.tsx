@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { categories } from "@/data/categories";
 
 type Product = {
     _id?: string;
@@ -95,7 +96,7 @@ export default function AdminProductsPage() {
     }, [refreshKey]);
 
     const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         const { name, value } = e.target;
         if (
@@ -104,10 +105,26 @@ export default function AdminProductsPage() {
             name === "oldPrice" ||
             name === "newPrice"
         ) {
-            setForm((prev) => ({ ...prev, [name]: Number(value) }));
+            setForm((prev) => ({ ...prev, [name]: value === "" ? Number.NaN : Number(value) }));
         } else {
             setForm((prev) => ({ ...prev, [name]: value } as Product));
         }
+    };
+
+    // Clear the field if it's 0 when focused
+    const clearIfZero = (name: keyof Pick<Product, 'price' | 'oldPrice' | 'newPrice'>) => () => {
+        setForm((prev) => {
+            const current = (prev as any)[name] ?? 0;
+            return { ...prev, [name]: current === 0 ? Number.NaN : current } as Product;
+        });
+    };
+
+    // If left empty (NaN), restore to 0 on blur
+    const restoreIfEmpty = (name: keyof Pick<Product, 'price' | 'oldPrice' | 'newPrice'>) => () => {
+        setForm((prev) => {
+            const current = (prev as any)[name];
+            return { ...prev, [name]: Number.isNaN(current) ? 0 : current } as Product;
+        });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -256,10 +273,12 @@ export default function AdminProductsPage() {
                     <input
                         type="number"
                         name="price"
-                        value={form.price}
+                        value={Number.isNaN(form.price) ? "" : form.price}
                         min={0}
                         step={0.01}
                         onChange={handleChange}
+                        onFocus={clearIfZero('price')}
+                        onBlur={restoreIfEmpty('price')}
                         required
                         placeholder="0.00"
                         style={inputStyle}
@@ -290,10 +309,12 @@ export default function AdminProductsPage() {
                     <input
                         type="number"
                         name="oldPrice"
-                        value={form.oldPrice ?? 0}
+                        value={Number.isNaN(form.oldPrice as number) ? "" : (form.oldPrice ?? 0)}
                         min={0}
                         step={0.01}
                         onChange={handleChange}
+                        onFocus={clearIfZero('oldPrice')}
+                        onBlur={restoreIfEmpty('oldPrice')}
                         placeholder="0.00"
                         style={inputStyle}
                     />
@@ -306,29 +327,35 @@ export default function AdminProductsPage() {
                     <input
                         type="number"
                         name="newPrice"
-                        value={form.newPrice ?? 0}
+                        value={Number.isNaN(form.newPrice as number) ? "" : (form.newPrice ?? 0)}
                         min={0}
                         step={0.01}
                         onChange={handleChange}
+                        onFocus={clearIfZero('newPrice')}
+                        onBlur={restoreIfEmpty('newPrice')}
                         placeholder="0.00"
                         style={inputStyle}
                     />
                 </div>
-
                 <div>
                     <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
                         Category
                     </label>
-                    <input
+                    <select
                         name="category"
                         value={form.category}
                         onChange={handleChange}
                         required
-                        placeholder="e.g. Phone Cases"
                         style={inputStyle}
-                    />
+                    >
+                        <option value="">Select a category</option>
+                        {categories.map((category) => (
+                            <option key={category.name} value={category.name}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
-
                 <div>
                     <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
                         Image URL

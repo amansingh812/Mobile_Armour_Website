@@ -490,26 +490,8 @@ a {
 
 .dark-btn:hover {
   background: #FF5600;
-  color: #fff;
   border-color: #FF5600;
-}
-
-/*Form Style CSS */
-input,
-textarea,
-select {
-  width: 100%;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  padding: 13px 20px;
-  font-size: 14px;
-  letter-spacing: 1px;
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
-
-textarea {
-  height: 200px;
+  color: #fff;
 }
 
 input[type="submit"],
@@ -7771,6 +7753,10 @@ button.mfp-arrow {
   border-radius: 0.5rem;
   font-size: 1rem;
   transition: all 0.2s ease;
+}
+
+.teaser-main-text{
+  font-size: larger;
 }
 
 .form-input:focus {

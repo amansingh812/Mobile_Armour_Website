@@ -72,7 +72,7 @@ const ChatBot: React.FC = () => {
   const openChat = () => {
     setIsOpen(true);
     setIsTeaserVisible(false);
-    // try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch {}
+     try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch {}
   };
 
   const toggleChat = () => {
@@ -80,7 +80,7 @@ const ChatBot: React.FC = () => {
     setIsOpen(next);
     if (next) {
       setIsTeaserVisible(false);
-    //   try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch {}
+      try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch {}
     }
   };
 
@@ -449,8 +449,23 @@ const ChatBot: React.FC = () => {
       </div>
 
       {/* Teaser bubble */}
-      <div className={`chat-teaser ${isTeaserVisible && !isOpen ? 'show' : ''}`} onClick={openChat}>
-        <span>Hi! How can I help?</span>
+      <div
+        className={`chat-teaser ${isTeaserVisible && !isOpen ? 'show' : ''}`}
+        onClick={openChat}
+      >
+        <div className="teaser-content">
+          {/* Avatar/Icon - Mbot icon */}
+          <div className="mbot-icon-placeholder">
+            <img src="/img/bot.png" alt="Mbot" />
+          </div>
+
+          <div className="teaser-text-area">
+            <div className="teaser-main-text">
+              <span role="img" aria-label="waving hand">👋</span>
+              &nbsp;Need Any help ?
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Chat Window */}
@@ -458,7 +473,7 @@ const ChatBot: React.FC = () => {
         <div className="chat-header">
           <div className="chat-header-info">
             <div className="chat-avatar">
-              <span>MA</span>
+              <img src="/img/bot.png" alt="Mbot" />
             </div>
             <div>
               <h4>Mobile Armour Assistant</h4>
@@ -496,7 +511,7 @@ const ChatBot: React.FC = () => {
         </div>
 
         <div className="chat-input">
-          <div className="input-container">
+          <div className="chat-input-container">
             <textarea
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
