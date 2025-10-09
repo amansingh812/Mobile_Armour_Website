@@ -5,6 +5,7 @@ import Hero1 from "@/components/sections/hero/hero1";
 import Project1 from "@/components/sections/project/project1";
 import Promo1 from "@/components/sections/promo/promo1";
 import Service1 from "@/components/sections/service/service1";
+import Categories from "@/components/sections/categories/Categories";
 import React from "react";
 import ProductsPage from "../products/page";
 import AdminProductsPage from "../admin/products/page";
@@ -15,8 +16,10 @@ function Home1({ }) {
     <div>
       <Hero1 />
       <About1 type="type-2" />
-      <ProjectSliderPage />
+      <Categories />
+      {/* <ProjectSliderPage /> */}
       <Service1 />
+
       {/* <AdminProductsPage /> */}
       {/* <ProductsPage />  */}
       <Promo1 />

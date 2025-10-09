@@ -26,7 +26,6 @@ function About1({ type }: About1Props) {
                   style={{
                     width: "100%",
                     height: "auto",
-
                   }}
                 />
               </div>
