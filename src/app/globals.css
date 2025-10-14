@@ -3590,6 +3590,7 @@ only screen and (min-width: 768px) and (max-width: 991px) {
   top: 0;
   left: 0;
   width: 70%;
+  border: 2px solid #FF5600;
 }
 
 @media (max-width: 767px) {

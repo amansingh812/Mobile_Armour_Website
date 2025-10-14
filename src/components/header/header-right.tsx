@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import SearchPopup from "./search-popup";
 import Form from "./form-quote";
-import MobileQuoteButton from "../quote-button/mobile-quote-button";
 import AuthNav from "../auth/AuthNav";
 
 interface HeaderRightProps { }
@@ -48,13 +47,13 @@ export default function HeaderRight({ }: HeaderRightProps) {
   return (
     <>
       <div className={`header-right relative ${isModalOpen ? 'modal-active' : ''}`}>
-        <button
+        {/* <button
           ref={buttonRef}
           onClick={() => setIsModalOpen(!isModalOpen)}
           className="theme-btn  d-none d-lg-inline-block mr-4"
         >
           Get a Quote
-        </button>
+        </button> */}
         {/* Auth Navigation */}
         <div className="auth-nav-container d-none d-lg-inline-block mr-4">
           <AuthNav />
@@ -69,8 +68,8 @@ export default function HeaderRight({ }: HeaderRightProps) {
         )}
       </div>
 
-      {/* Mobile Quote Button */}
-      <MobileQuoteButton onOpenQuoteForm={handleOpenQuoteForm} />
+ 
+      {/* <MobileQuoteButton onOpenQuoteForm={handleOpenQuoteForm} /> */}
     </>
   );
 }

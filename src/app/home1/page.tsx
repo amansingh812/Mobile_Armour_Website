@@ -8,15 +8,17 @@ import Service1 from "@/components/sections/service/service1";
 import Categories from "@/components/sections/categories/Categories";
 import React from "react";
 import ProductsPage from "../products/page";
-import AdminProductsPage from "../admin/products/page";
-import ProjectSliderPage from "../project-slider/page";
+
+import Hero3 from "@/components/sections/hero/hero3";
+import Hero2 from "@/components/sections/hero/hero2";
 
 function Home1({ }) {
   return (
     <div>
-      <Hero1 />
-      <About1 type="type-2" />
+      <Hero2 />
       <Categories />
+      <About1 type="type-2" />
+      {/* <Categories /> */}
       {/* <ProjectSliderPage /> */}
       <Service1 />
 
