@@ -15,22 +15,27 @@ function Header() {
   const pathname = usePathname();
 
   const headerContent = useMemo(() => {
-    switch (pathname) {
-      case "/home2":
-        return (
-          <>
-            {/* <MemoizedHeaderTop /> */}
-            <MemoizedHeader2 />
-          </>
-        );
-      default:
-        // Use Header1 for all pages including home and other pages
-        return (
-          <>
-            <MemoizedHeaderTop />
-            <MemoizedHeader1 />
-          </>
-        );
+    if (pathname === "/") {
+      return (
+        <>
+          <MemoizedHeaderTop />
+          <MemoizedHeader1 />
+        </>
+      );
+    } else if (pathname === "/home2") {
+      return (
+        <>
+          {/* <MemoizedHeaderTop /> */}
+          <MemoizedHeader2 />
+        </>
+      );
+    } else {
+      // Use Header1 for other pages
+      return (
+        <>
+          <MemoizedHeader1 />
+        </>
+      );
     }
   }, [pathname]);
 

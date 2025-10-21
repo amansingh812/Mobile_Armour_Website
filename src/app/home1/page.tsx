@@ -5,6 +5,7 @@ import Blog1 from "@/components/sections/blog/blog1";
 import Promo1 from "@/components/sections/promo/promo1";
 import Service1 from "@/components/sections/service/service1";
 import Categories from "@/components/sections/categories/Categories";
+import PopularProducts from "@/components/sections/popular-products/PopularProducts";
 import React from "react";
 
 
@@ -18,10 +19,9 @@ function Home1({ }) {
     <div>
       <Hero1   />
       <Categories />
-      {/* <About1 type="type-2" /> */}
       <Hero2 />
       <Hero4 />
-      
+      <PopularProducts />
       <Service1 />
       <Promo1 />
     </div>
