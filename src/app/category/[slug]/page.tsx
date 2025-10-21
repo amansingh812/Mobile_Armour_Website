@@ -2,13 +2,13 @@ import { notFound } from 'next/navigation';
 import { categories } from '@/data/categories';
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  const { slug } = params;
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { slug } = await params;
   
   // Find the category based on the slug
   const category = categories.find(cat => 
