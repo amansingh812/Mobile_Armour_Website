@@ -1359,6 +1359,11 @@ input[type="search"]::-webkit-search-results-decoration {
   padding-bottom: 85px;
 }
 
+.promo-section {
+  
+  padding: 85px;
+}
+
 .pt-90 {
   padding-top: 90px;
 }
@@ -3354,20 +3359,20 @@ only screen and (min-width: 768px) and (max-width: 991px) {
       13. Hero Area  02
 ================================= */
 .hero-area.hero-two {
-  height: 800px;
+  height: 600px;
   position: relative;
   z-index: 1;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .hero-area.hero-two {
-    height: 700px;
+    height: 5cqi;
   }
 }
 
 @media (max-width: 767px) {
   .hero-area.hero-two {
-    height: 650px;
+    height: 450px;
   }
 }
 
@@ -8939,5 +8944,6 @@ button.mfp-arrow {
 }
 
 .hero2-rounded {
-  border-radius: 1.5rem; /* rounded-3xl */
+  border-radius: 20px; /* rounded-3xl */
+  overflow: hidden;
 }
