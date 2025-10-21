@@ -31,12 +31,10 @@ const Categories: React.FC = () => {
     <section className="categories-section">
       <div className="container">
         <div className="categories-header">
-          <h2 className="categories-title">Category</h2>
-          <p className="categories-subtitle">
-            Accessories for your <br></br> mobile device
-          </p>
-        </div>
+        <h2 className="categories-title">Explore Categories</h2>
+        <p className="categories-subtitle">Smart picks for every device.</p>
 
+        </div>
         <div className="categories-carousel-wrapper">
           {/* Left Arrow */}
           <button 

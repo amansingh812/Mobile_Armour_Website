@@ -10,6 +10,7 @@ import React from "react";
 
 
 import Hero1 from "@/components/sections/hero/hero1";
+import Hero2 from "@/components/sections/hero/hero2";
 
 function Home1({ }) {
   return (
@@ -17,6 +18,7 @@ function Home1({ }) {
       <Hero1   />
       <Categories />
       <About1 type="type-2" />
+      <Hero2 />
       <Service1 />
       <Promo1 />
     </div>

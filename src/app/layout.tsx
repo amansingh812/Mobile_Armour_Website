@@ -9,10 +9,10 @@ import "./assets/css/flaticon.css";
 import "./globals.css";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
-import ScrollToTop from "@/components/scroll-top/scroll-top";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { CartProvider } from "@/hooks/useCart";
 import ChatBot from "@/components/chatbot/ChatBot";
+import Script from "next/script";
 
 const dm_sans = DM_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -38,20 +38,30 @@ export const viewport = {
   userScalable: 'no',
 } as const;
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const GOOGLE_TAG_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
   return (
     <html lang="en">
+      {/* Google Analytics (gtag.js - GA4) */}
+      <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`}
+      />
+      <Script id="google-analytics-init" strategy="afterInteractive">{`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${GOOGLE_TAG_ID}');
+      `}</Script>
       <body className={`${dm_sans.className} ${audiowide.variable}`}>
         <AuthProvider>
           <CartProvider>
             <Header />
             {children}
-            {/* <ScrollToTop /> */}
             <Footer />
             <ChatBot />
           </CartProvider>

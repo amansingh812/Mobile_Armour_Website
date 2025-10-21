@@ -4,7 +4,7 @@ import React from "react";
 
 function ContactInfo({}) {
   return (
-    <div className="contact-info-wrapper section-padding pb-90">
+    <div className="contact-info-wrapper pb-90">
       <div className="container">
         <div className="row">
           {ContactInfoCardData &&

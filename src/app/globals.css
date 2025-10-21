@@ -1364,6 +1364,8 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .pb-90 {
+  background-color: #ffffff;
+  padding-top: 90px;
   padding-bottom: 90px;
 }
 
@@ -8927,4 +8929,15 @@ button.mfp-arrow {
   .order-summary-card { padding: 1.5rem; }
   .item-card { flex-direction: column; text-align: center; gap: 0.75rem; }
   .item-details { text-align: center; }
+}
+
+/* Hero2 Custom Styles */
+.hero2-wrapper {
+ 
+  background: #ffffff;
+  padding: 2rem 2.5rem; /* py-8 (2rem) and px-4 (1rem) */
+}
+
+.hero2-rounded {
+  border-radius: 1.5rem; /* rounded-3xl */
 }
