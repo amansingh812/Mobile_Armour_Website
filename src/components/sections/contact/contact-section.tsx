@@ -13,7 +13,7 @@ function ContactSection() {
         <div className="section-title">
           <h6>Get in Touch</h6>
           <h2>
-            Don't hesitate to <br /> contact us for info
+            Don't hesitate to contact us
           </h2>
         </div>
         <div className="contact-form">

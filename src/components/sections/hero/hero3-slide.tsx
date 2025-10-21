@@ -9,6 +9,7 @@ interface props {
   buttonText: string;
   src: string;
 }
+
 export default function Hero3Slide({
   subtitle,
   title,

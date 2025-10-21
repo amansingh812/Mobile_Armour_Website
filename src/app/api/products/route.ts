@@ -2,10 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   await dbConnect();
   try {
-    const products = await Product.find({});
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get('category');
+    
+    let query = {};
+    if (category) {
+      query = { category: category };
+    }
+    
+    const products = await Product.find(query);
     return NextResponse.json(products, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });

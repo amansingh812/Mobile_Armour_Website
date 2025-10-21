@@ -33,6 +33,23 @@
   padding: 0 1rem;
 }
 
+/* Products layout with sidebar */
+.products-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.filters-sidebar {
+  position: sticky;
+  top: 2rem;
+}
+
+.products-content {
+  min-height: 400px;
+}
+
 @media (max-width: 768px) {
   .products-header {
     padding: 3rem 0;
@@ -44,5 +61,15 @@
   
   .products-subtitle {
     font-size: 1rem;
+  }
+
+  .products-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .filters-sidebar {
+    position: static;
+    order: -1;
   }
 }

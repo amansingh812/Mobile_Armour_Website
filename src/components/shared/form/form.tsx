@@ -124,6 +124,7 @@ export default function Form() {
           value={formData.model}
           onChange={handleChange}
           required
+          style={{ marginTop: '15px' }}
         />
 
         <textarea

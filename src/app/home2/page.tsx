@@ -10,9 +10,11 @@ import Service2Slider from "@/components/sections/service/service2-slider";
 import Testimonial3 from "@/components/sections/testimonial/testimonial3";
 import React from "react";
 
+
 function Home2({ }) {
   return (
     <div>
+      
       <Hero2 />
       <About2 />
       <Service2Slider />

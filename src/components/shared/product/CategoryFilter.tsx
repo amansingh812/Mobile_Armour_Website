@@ -22,7 +22,11 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ selectedCategory }) => 
       params.delete('category');
     }
     
-    router.push(`/products?${params.toString()}`);
+    const newUrl = `/products?${params.toString()}`;
+    console.log('CategoryFilter - navigating to:', newUrl);
+    console.log('CategoryFilter - selected category:', categoryName);
+    
+    router.push(newUrl);
   };
 
   return (
