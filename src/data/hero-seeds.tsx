@@ -14,7 +14,7 @@ export const Hero1Data: IHero1[] = [
     description: `Need a quick fix for your phone or tablet? Smart Solutions has you covered! We specialize in fast, affordable repairs for all major brands.`,
     link: `/products`,
     buttonText: "View Product",
-    src: "/img/slider/slider-47.jpg",
+    src: "/img/slider/newImages/slider5.webp",
   },
   {
     subtitle: ``,
@@ -22,27 +22,42 @@ export const Hero1Data: IHero1[] = [
     description: ` Cracked screen? Dead battery? No worries! At Smart Solutions, we fix phones and tabs fast, cheap, and right.`,
     link: `/products`,
     buttonText: "View Product",
-    src: "/img/slider/slider-47.png",
+    src: "/img/slider/newImages/slider6.webp",
   },
-
-
+  {
+    subtitle: ``,
+    title: `Expert Mobile Repair Services – Fast & Reliable`,
+    description: ` Cracked screen? Dead battery? No worries! At Smart Solutions, we fix phones and tabs fast, cheap, and right.`,
+    link: `/products`,
+    buttonText: "View Product",
+    src: "/img/slider/newImages/slider3.webp",
+  },
 ];
 
 export const Hero3Data: IHero1[] = [
-  {
-    subtitle: `Smart Solutions`,
-    title: `Professional Criteria for Roofing Solutions`,
-    description: `Vestibulum rhoncus nisl ac gravida porta. Mauris eu sapien lacus. Etiam molestie justo neque, in convallis massa tempus in.`,
-    src: `/img/slider/slide-4.jpg`,
+ {
+    subtitle: ``,
+    title: `Your Trusted Partner for Mobile Repair`,
+    description: `Need a quick fix for your phone or tablet? Smart Solutions has you covered! We specialize in fast, affordable repairs for all major brands.`,
     link: `/products`,
-    buttonText: `View Product`,
+    buttonText: "View Product",
+    src: "/img/slider/newImages/slider5.webp",
   },
   {
-    subtitle: `Smart Solutions`,
-    title: `Elevate Your Home Solid Protection`,
-    description: `Vestibulum rhoncus nisl ac gravida porta. Mauris eu sapien lacus. Etiam molestie justo neque, in convallis massa tempus in.`,
-    src: `/img/slider/slide-3.png`,
+    subtitle: ``,
+    title: `Expert Mobile Repair Services – Fast & Reliable`,
+    description: ` Cracked screen? Dead battery? No worries! At Smart Solutions, we fix phones and tabs fast, cheap, and right.`,
     link: `/products`,
-    buttonText: `View Product`,
+    buttonText: "View Product",
+    src: "/img/slider/newImages/slider6.webp",
   },
+  {
+    subtitle: ``,
+    title: `Expert Mobile Repair Services – Fast & Reliable`,
+    description: ` Cracked screen? Dead battery? No worries! At Smart Solutions, we fix phones and tabs fast, cheap, and right.`,
+    link: `/products`,
+    buttonText: "View Product",
+    src: "/img/slider/newImages/slider3.webp",
+  },
+ 
 ];
