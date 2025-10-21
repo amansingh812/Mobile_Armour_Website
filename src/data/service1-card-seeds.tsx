@@ -15,7 +15,7 @@ export const Service1CardData: IService1CardData[] = [
     title: "Phone Screen Repairs",
     desc: "Cracked or unresponsive screen? We replace damaged displays with high-quality LCD/OLED panels—same-day service, warranty included!",
     href: "/contact",
-    linkText: "Contact Us",
+    linkText: "Know More",
     linkIcon: <i className="las la-arrow-right"></i>,
   },
   {
@@ -24,7 +24,7 @@ export const Service1CardData: IService1CardData[] = [
     title: "Corporate Repair",
     desc: "Bulk device repairs for businesses! On-site or in-store service with minimal downtime to keep your team connected and productive.",
     href: "/contact",
-    linkText: "Contact Us",
+    linkText: "Know More",
     linkIcon: <i className="las la-arrow-right"></i>,
   },
   {
@@ -33,7 +33,7 @@ export const Service1CardData: IService1CardData[] = [
     title: "In Home repair",
     desc: "Can’t make it to our shop? Our technicians come to you for screen fixes, battery swaps, and more—convenience at your doorstep!",
     href: "/contact",
-    linkText: "Contact Us",
+    linkText: "Know More",
     linkIcon: <i className="las la-arrow-right"></i>,
   },
   {
@@ -42,7 +42,7 @@ export const Service1CardData: IService1CardData[] = [
     title: "Water Damage Repairs",
     desc: "Spilled coffee or a dunked phone? Emergency cleaning & diagnostics to quickly rescue your device from liquid disasters!",
     href: "/contact",
-    linkText: "Contact Us",
+    linkText: "Know More",
     linkIcon: <i className="las la-arrow-right"></i>,
   },
   {
@@ -51,7 +51,7 @@ export const Service1CardData: IService1CardData[] = [
     title: "Charging Repair",
     desc: "Faulty charging port or slow charging? We replace ports, batteries, and cables to restore full power—fast and hassle-free every time.",
     href: "/contact",
-    linkText: "Contact Us",
+    linkText: "Know More",
     linkIcon: <i className="las la-arrow-right"></i>,
   },
   {
@@ -60,7 +60,7 @@ export const Service1CardData: IService1CardData[] = [
     title: "Back Glass Replacement",
     desc: "Shattered back cover? We replace it while preserving water resistance (where applicable) and offer color-matching options!",
     href: "/contact",
-    linkText: "Contact Us",
+    linkText: "Know More",
     linkIcon: <i className="las la-arrow-right"></i>,
   },
 ];

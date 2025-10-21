@@ -30,7 +30,6 @@ const PopularProducts: React.FC = () => {
         <div className="popular-products-header">
           < SectionTitle
               title="Popular Products"
-              subTitle="Discover our best-selling accessories"
             />
         </div>
         <div className="popular-products-carousel">
@@ -72,20 +71,7 @@ const PopularProducts: React.FC = () => {
                     <h3 className="popular-product-name" title={product.name}>
                       {product.name}
                     </h3>
-                    <p className="popular-product-description">
-                      {product.description}
-                    </p>
-                    
-                    {product.features && product.features.length > 0 && (
-                      <div className="popular-product-features">
-                        {product.features.slice(0, 2).map((feature, idx) => (
-                          <span key={idx} className="feature-tag">
-                            {feature}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
+                   
                     <div className="popular-product-footer">
                       <div className="popular-product-price">
                         <span className="popular-current-price">${current}</span>

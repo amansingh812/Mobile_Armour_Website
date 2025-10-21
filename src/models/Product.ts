@@ -10,6 +10,7 @@ export interface IProduct extends Document {
   category: string;
   stock: number;
   features: string[];
+  images?: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -25,9 +26,11 @@ const ProductSchema: Schema = new Schema(
     category: { type: String, required: true, index: true },
     stock: { type: Number, required: true, default: 0, min: 0 },
     features: [{ type: String }],
+    images: [{ type: String, default: undefined }],
   },
   { timestamps: true }
 );
 
 // Check if the model already exists to prevent overwriting during hot reloads
 export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
+

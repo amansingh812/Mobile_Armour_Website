@@ -31,13 +31,11 @@ const Categories: React.FC = () => {
     <section className="categories-section">
       <div className="container">
         <div className="categories-header">
-        <h2 className="categories-title">Explore Categories</h2>
-        <p className="categories-subtitle">Smart picks for every device.</p>
-
+        <p className="categories-subtitle">Shop by Category</p>
         </div>
         <div className="categories-carousel-wrapper">
           {/* Left Arrow */}
-          <button 
+          {/* <button 
             className="carousel-arrow carousel-arrow-left"
             onClick={scrollLeft}
             aria-label="Scroll left"
@@ -45,7 +43,7 @@ const Categories: React.FC = () => {
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </button>
+          </button> */}
           {/* Categories Container */}
           <div 
             className="categories-carousel"
@@ -82,7 +80,7 @@ const Categories: React.FC = () => {
             ))}
           </div>
           {/* Right Arrow */}
-          <button 
+          {/* <button 
             className="carousel-arrow carousel-arrow-right"
             onClick={scrollRight}
             aria-label="Scroll right"
@@ -90,7 +88,7 @@ const Categories: React.FC = () => {
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </button>
+          </button> */}
         </div>
         {/* Mobile Swipe Hint */}
         <div className="mobile-hint">
