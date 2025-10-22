@@ -4,7 +4,7 @@ import React from "react";
 
 function ServiceCards({}) {
   return (
-    <div className="service-section gray-bg section-padding pb-20">
+    <div className="service-section gray-bg  pb-20">
       <div className="container">
         <div className="row mt-100">
           {Service1CardData &&

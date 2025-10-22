@@ -9,6 +9,7 @@ export interface Product {
   newPrice?: number;
   stock?: number;
   features?: string[];
+  images?: string[];
 }
 
 export interface CartItem {

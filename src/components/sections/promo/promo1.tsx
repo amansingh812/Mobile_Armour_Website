@@ -77,7 +77,7 @@ function Promo1({
   ];
 
   return (
-    <div className={`promo-section section-padding  ${sectionClass ?? "pt-0"}`}>
+    <div className={"promo-section"}>
       <div className="container">
         <div className="row align-items-end">
           <div className="col-xl-6 col-lg-6 col-md-6">

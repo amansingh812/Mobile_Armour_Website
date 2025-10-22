@@ -15,6 +15,7 @@ const ProductDetailPage = () => {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const id = Array.isArray(params?.id) ? params.id[0] : (params?.id as string);
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -44,6 +45,10 @@ const ProductDetailPage = () => {
 
   const showPrice: number = product?.newPrice && product.newPrice > 0 ? product.newPrice : product.price;
   const inStock: boolean = typeof product.stock === 'number' ? product.stock > 0 : true;
+  const images: string[] = Array.isArray(product.images) && product.images.length > 0 
+    ? product.images 
+    : [product.imageUrl];
+  const mainImage = images[selectedImageIndex] || images[0];
 
   const handleAddToCart = () => {
     // Require login before adding to cart
@@ -72,11 +77,31 @@ const ProductDetailPage = () => {
 
         <div className="product-detail-content">
           <div className="product-image-section">
-            <img 
-              src={product.imageUrl} 
-              alt={product.name}
-              className="product-detail-image"
-            />
+            <div className="product-gallery">
+              {/* Main Image */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src={mainImage} 
+                alt={product.name}
+                className="product-detail-image"
+              />
+
+              {/* Thumbnails */}
+              {images.length > 1 && (
+                <div className="product-thumbs">
+                  {images.map((img: string, idx: number) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={idx}
+                      src={img}
+                      alt={`${product.name} ${idx + 1}`}
+                      className={`product-thumb ${idx === selectedImageIndex ? 'active' : ''}`}
+                      onClick={() => setSelectedImageIndex(idx)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="product-info-section">
@@ -172,3 +197,4 @@ const ProductDetailPage = () => {
 };
 
 export default ProductDetailPage;
+

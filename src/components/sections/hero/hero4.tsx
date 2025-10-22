@@ -5,14 +5,14 @@ import React, { useState, useEffect } from "react";
 
 import Image from "next/image";
 
-function Hero2() {
+function Hero4() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);   
 
-  const imageUrl = "/img/slider/newImages/slider1.webp"; 
+  const imageUrl = "/img/slider/newImages/sliderPixcel1.webp";  
  
   return (
     <div className="hero2-wrapper">
@@ -31,8 +31,8 @@ function Hero2() {
                 <div className="section-title">
                  
                   <h2 className="text-white ">
-                  Get a grip on <br></br>
-              your key essentials.
+                  Pixel Pro Fold  <br></br>
+              Collection.
                   </h2>
                 </div>              
                 <div className="hero-btn mt-40  d-flex align-items-center flex-wrap">
@@ -52,4 +52,4 @@ function Hero2() {
   );
 }
 
-export default Hero2;
+export default Hero4;

@@ -9,40 +9,54 @@ export interface IHero1 {
 
 export const Hero1Data: IHero1[] = [
   {
-    subtitle: ``,
-    title: `Your Trusted Partner for Mobile Repair`,
-    description: `Need a quick fix for your phone or tablet? Smart Solutions has you covered! We specialize in fast, affordable repairs for all major brands.`,
+    subtitle: `Upgrade Your Everyday Mobile Experience`,
+    title: `Premium Mobile Accessories for Every Phone`,
+    description: `Explore our latest collection of premium phone cases designed for perfect fit, grip, and protection. Keep your device safe and stylish with Smart Solutions.`,
     link: `/products`,
-    buttonText: "View Product",
-    src: "/img/slider/slider-47.jpg",
+    buttonText: "Shop Now",
+    src: "/img/slider/newImages/slider5.webp",
   },
   {
-    subtitle: ``,
-    title: `Expert Mobile Repair Services – Fast & Reliable`,
-    description: ` Cracked screen? Dead battery? No worries! At Smart Solutions, we fix phones and tabs fast, cheap, and right.`,
-    link: `/products`,
-    buttonText: "View Product",
-    src: "/img/slider/slider-47.png",
+    subtitle: `Style. Protection. Quality.`,
+    title: `Premium Mobile Accessories for Every Phone`,
+    description: `From cracked screens to battery replacements — our certified experts repair all brands quickly and affordably. Get your phone back in top shape today!`,
+    link: `/contact`,
+    buttonText: "Book Repair",
+    src: "/img/slider/newImages/slider6.webp",
   },
-
-
+  {
+    subtitle: `Perfect Fit. Premium Look. Ultimate Protection.`,
+    title: `Stylish & Protective Cases You’ll Love`,
+    description: `Explore our latest collection of premium phone cases designed for perfect fit, grip, and protection. Keep your device safe and stylish with Smart Solutions.`,
+    link: `/products`,
+    buttonText: "View Collection",
+    src: "/img/slider/newImages/slider3.webp",
+  },
 ];
 
 export const Hero3Data: IHero1[] = [
-  {
-    subtitle: `Smart Solutions`,
-    title: `Professional Criteria for Roofing Solutions`,
-    description: `Vestibulum rhoncus nisl ac gravida porta. Mauris eu sapien lacus. Etiam molestie justo neque, in convallis massa tempus in.`,
-    src: `/img/slider/slide-4.jpg`,
+ {
+    subtitle: ``,
+    title: `Stylish & Protective Cases for iPhone & Samsung`,
+    description: `Explore our latest collection of premium phone cases designed for perfect fit, grip, and protection. Keep your device safe and stylish with Smart Solutions.`,
     link: `/products`,
-    buttonText: `View Product`,
+    buttonText: "Shop Now",
+    src: "/img/slider/newImages/slider5.webp",
   },
   {
-    subtitle: `Smart Solutions`,
-    title: `Elevate Your Home Solid Protection`,
-    description: `Vestibulum rhoncus nisl ac gravida porta. Mauris eu sapien lacus. Etiam molestie justo neque, in convallis massa tempus in.`,
-    src: `/img/slider/slide-3.png`,
+    subtitle: ``,
+    title: `Premium Mobile Accessories for Every Phone`,
+    description: `From cracked screens to battery replacements — our certified experts repair all brands quickly and affordably. Get your phone back in top shape today!`,
+    link: `/contact`,
+    buttonText: "Book Repair",
+    src: "/img/slider/newImages/slider6.webp",
+  },
+  {
+    subtitle: ``,
+    title: `Stylish & Protective Cases for iPhone & Samsung`,
+    description: `Explore our latest collection of premium phone cases designed for perfect fit, grip, and protection. Keep your device safe and stylish with Smart Solutions.`,
     link: `/products`,
-    buttonText: `View Product`,
+    buttonText: "View Collection",
+    src: "/img/slider/newImages/slider3.webp",
   },
 ];

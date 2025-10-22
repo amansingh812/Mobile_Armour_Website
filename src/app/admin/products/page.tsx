@@ -16,6 +16,7 @@ type Product = {
     category: string;
     stock: number;
     features: string[];
+    images?: string[];
     createdAt?: string;
 };
 
@@ -29,6 +30,7 @@ const initialForm: Product = {
     category: "",
     stock: 0,
     features: [],
+    images: [],
 };
 
 export default function AdminProductsPage() {
@@ -42,6 +44,7 @@ export default function AdminProductsPage() {
     const [products, setProducts] = useState<Product[]>([]);
     const [refreshKey, setRefreshKey] = useState(0);
     const [editingId, setEditingId] = useState<string | null>(null);
+    const [imagesText, setImagesText] = useState("");
 
     // Check if user is admin and redirect if not
     useEffect(() => {
@@ -79,6 +82,13 @@ export default function AdminProductsPage() {
             .map((f) => f.trim())
             .filter(Boolean);
     }, [featuresText]);
+
+    const parsedImages = useMemo(() => {
+        return imagesText
+            .split(/\n|,/)
+            .map((u) => u.trim())
+            .filter(Boolean);
+    }, [imagesText]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -133,12 +143,19 @@ export default function AdminProductsPage() {
         setError(null);
         setSuccess(null);
         try {
-            const payload = {
+            const payload: any = {
                 ...form,
                 features: parsedFeatures,
                 // Keep compatibility: default main price to newPrice if provided
                 price: form.newPrice && form.newPrice > 0 ? form.newPrice : form.price,
             };
+
+            // Only send images if provided (keeps backward compatibility)
+            if (parsedImages.length > 0) {
+                payload.images = parsedImages;
+            } else {
+                payload.images = undefined;
+            }
 
             const isEditing = editingId !== null;
             const method = isEditing ? "PUT" : "POST";
@@ -172,6 +189,7 @@ export default function AdminProductsPage() {
     const handleEdit = (product: Product) => {
         setForm(product);
         setFeaturesText(product.features?.join('\n') || '');
+        setImagesText(product.images?.join('\n') || '');
         setEditingId(product._id || null);
         setError(null);
         setSuccess(null);
@@ -182,6 +200,7 @@ export default function AdminProductsPage() {
     const handleReset = () => {
         setForm(initialForm);
         setFeaturesText("");
+        setImagesText("");
         setEditingId(null);
         setError(null);
         setSuccess(null);
@@ -368,6 +387,23 @@ export default function AdminProductsPage() {
                         placeholder="https://..."
                         style={inputStyle}
                     />
+                </div>
+
+                <div style={{ gridColumn: "1 / -1" }}>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Additional Images (one per line or comma separated)
+                    </label>
+                    <textarea
+                        name="images"
+                        value={imagesText}
+                        onChange={(e) => setImagesText(e.target.value)}
+                        placeholder="https://example.com/img1.jpg\nhttps://example.com/img2.jpg"
+                        rows={3}
+                        style={{ ...inputStyle, resize: "vertical" }}
+                    />
+                    <div style={{ color: "#6b7280", fontSize: 12, marginTop: 6 }}>
+                        The first image from this list will be shown as thumbnails along with the main Image URL.
+                    </div>
                 </div>
 
                 <div style={{ gridColumn: "1 / -1" }}>
