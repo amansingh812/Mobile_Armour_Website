@@ -45,9 +45,11 @@ const ProductDetailPage = () => {
 
   const showPrice: number = product?.newPrice && product.newPrice > 0 ? product.newPrice : product.price;
   const inStock: boolean = typeof product.stock === 'number' ? product.stock > 0 : true;
-  const images: string[] = Array.isArray(product.images) && product.images.length > 0 
-    ? product.images 
-    : [product.imageUrl];
+  const imagesSet = new Set<string>([
+    ...(product.imageUrl ? [product.imageUrl] : []),
+    ...(Array.isArray(product.images) ? product.images.filter(Boolean) : []),
+  ]);
+  const images: string[] = Array.from(imagesSet);
   const mainImage = images[selectedImageIndex] || images[0];
 
   const handleAddToCart = () => {

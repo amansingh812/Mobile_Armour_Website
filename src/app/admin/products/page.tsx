@@ -45,7 +45,6 @@ export default function AdminProductsPage() {
     const [refreshKey, setRefreshKey] = useState(0);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [imagesText, setImagesText] = useState("");
-    const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
     // Check if user is admin and redirect if not
     useEffect(() => {
