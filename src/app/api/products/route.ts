@@ -24,6 +24,13 @@ export async function POST(req: NextRequest) {
   await dbConnect();
   try {
     const body = await req.json();
+    // Sanitize optional prices: if admin leaves them blank, avoid saving 0
+    if (body && (body.oldPrice === 0 || body.oldPrice === '0' || body.oldPrice === '' || body.oldPrice === null)) {
+      delete body.oldPrice;
+    }
+    if (body && (body.newPrice === 0 || body.newPrice === '0' || body.newPrice === '' || body.newPrice === null)) {
+      delete body.newPrice;
+    }
     const product = await Product.create(body);
     return NextResponse.json(product, { status: 201 });
   } catch (error) {
@@ -39,6 +46,14 @@ export async function PUT(req: NextRequest) {
     
     if (!_id) {
       return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });
+    }
+
+    // Sanitize optional prices on update: do not persist 0 as a value
+    if (updateData && (updateData.oldPrice === 0 || updateData.oldPrice === '0' || updateData.oldPrice === '' || updateData.oldPrice === null)) {
+      delete (updateData as any).oldPrice;
+    }
+    if (updateData && (updateData.newPrice === 0 || updateData.newPrice === '0' || updateData.newPrice === '' || updateData.newPrice === null)) {
+      delete (updateData as any).newPrice;
     }
 
     const product = await Product.findByIdAndUpdate(_id, updateData, { 

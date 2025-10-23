@@ -45,6 +45,7 @@ export default function AdminProductsPage() {
     const [refreshKey, setRefreshKey] = useState(0);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [imagesText, setImagesText] = useState("");
+    const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
     // Check if user is admin and redirect if not
     useEffect(() => {
@@ -115,7 +116,12 @@ export default function AdminProductsPage() {
             name === "oldPrice" ||
             name === "newPrice"
         ) {
-            setForm((prev) => ({ ...prev, [name]: value === "" ? Number.NaN : Number(value) }));
+            // For optional prices, treat 0 as empty
+            if ((name === 'oldPrice' || name === 'newPrice')) {
+                setForm((prev) => ({ ...prev, [name]: value === "" || Number(value) === 0 ? Number.NaN : Number(value) }));
+            } else {
+                setForm((prev) => ({ ...prev, [name]: value === "" ? Number.NaN : Number(value) }));
+            }
         } else {
             setForm((prev) => ({ ...prev, [name]: value } as Product));
         }
@@ -129,11 +135,15 @@ export default function AdminProductsPage() {
         });
     };
 
-    // If left empty (NaN), restore to 0 on blur
+    // If left empty (NaN), restore based on field: price -> 0, old/new price -> undefined
     const restoreIfEmpty = (name: keyof Pick<Product, 'price' | 'oldPrice' | 'newPrice'>) => () => {
         setForm((prev) => {
             const current = (prev as any)[name];
-            return { ...prev, [name]: Number.isNaN(current) ? 0 : current } as Product;
+            if (Number.isNaN(current)) {
+                const restored = name === 'price' ? 0 : undefined;
+                return { ...prev, [name]: restored } as Product;
+            }
+            return { ...prev } as Product;
         });
     };
 
@@ -195,6 +205,28 @@ export default function AdminProductsPage() {
         setSuccess(null);
         // Scroll to form
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleDelete = async (id?: string) => {
+        if (!id) return;
+        const ok = window.confirm('Are you sure you want to delete this product?');
+        if (!ok) return;
+        setLoading(true);
+        setError(null);
+        setSuccess(null);
+        try {
+            const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err?.error || 'Failed to delete product');
+            }
+            setSuccess('Product deleted successfully');
+            setRefreshKey((k) => k + 1);
+        } catch (e: any) {
+            setError(e.message ?? 'Failed to delete product');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleReset = () => {
@@ -329,8 +361,6 @@ export default function AdminProductsPage() {
                         type="number"
                         name="oldPrice"
                         value={Number.isNaN(form.oldPrice as number) ? "" : (form.oldPrice ?? 0)}
-                        min={0}
-                        step={0.01}
                         onChange={handleChange}
                         onFocus={clearIfZero('oldPrice')}
                         onBlur={restoreIfEmpty('oldPrice')}
@@ -347,8 +377,6 @@ export default function AdminProductsPage() {
                         type="number"
                         name="newPrice"
                         value={Number.isNaN(form.newPrice as number) ? "" : (form.newPrice ?? 0)}
-                        min={0}
-                        step={0.01}
                         onChange={handleChange}
                         onFocus={clearIfZero('newPrice')}
                         onBlur={restoreIfEmpty('newPrice')}
@@ -527,6 +555,21 @@ export default function AdminProductsPage() {
                                             }}
                                         >
                                             Edit
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(p._id)}
+                                            style={{
+                                                background: "#ef4444",
+                                                color: "#fff",
+                                                padding: "6px 12px",
+                                                borderRadius: 6,
+                                                border: "none",
+                                                cursor: "pointer",
+                                                fontSize: 12,
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            Delete
                                         </button>
                                     </div>
                                 </div>
