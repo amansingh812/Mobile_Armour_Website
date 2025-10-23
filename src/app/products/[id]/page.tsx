@@ -60,6 +60,10 @@ const ProductDetailPage = () => {
       return;
     }
     addItem(product, quantity);
+    // Open the cart drawer globally
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('open-cart'));
+    }
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 2000);
   };

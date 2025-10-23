@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/hooks/useCart';
 import CartDrawer from './CartDrawer';
@@ -9,6 +9,12 @@ import './Navigation.css';
 const Navigation: React.FC = () => {
   const { getItemCount } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  useEffect(() => {
+    const onOpenCart = () => setIsCartOpen(true);
+    window.addEventListener('open-cart', onOpenCart as EventListener);
+    return () => window.removeEventListener('open-cart', onOpenCart as EventListener);
+  }, []);
 
   return (
     <>
