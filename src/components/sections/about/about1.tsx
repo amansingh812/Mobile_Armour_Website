@@ -56,24 +56,24 @@ function About1({ type }: About1Props) {
                 </h2>
               </div>
               <p>
-                At Mobile Armour, we believe your phone shouldn’t stay broken. Whether it’s a shattered screen, dying battery, or mysterious software glitch, our expert technicians deliver high-quality repairs to get you back online quickly—without the hassle.{" "}
+                At Mobile Armour, we believe your phone shouldn’t stay broken. Whether it’s a shattered screen, dying battery, or mysterious software glitch, our expert technicians deliver high-quality servicing to get you back online quickly—without the hassle.{" "}
               </p>
               <div className="about-list-item">
                 <ul>
                   <li>
-                    <i className="fa-solid fa-circle-check"></i>Smartphone Body Repair{" "}
+                    <i className="fa-solid fa-circle-check"></i>Smartphone Body Refitting{" "}
                   </li>
                   <li>
                     <i className="fa-solid fa-circle-check"></i>Universal Unlocking{" "}
                   </li>
                   <li>
-                    <i className="fa-solid fa-circle-check"></i>Water Damage Repair
+                    <i className="fa-solid fa-circle-check"></i>Liquid Exposure Assessment
                   </li>
                   <li>
                     <i className="fa-solid fa-circle-check"></i>Speaker Microphone Fix
                   </li>
                   <li>
-                    <i className="fa-solid fa-circle-check"></i>Broken LCD Repair
+                    <i className="fa-solid fa-circle-check"></i>Display Replacement
                   </li>
                   <li>
                     <i className="fa-solid fa-circle-check"></i>Battery Replacement

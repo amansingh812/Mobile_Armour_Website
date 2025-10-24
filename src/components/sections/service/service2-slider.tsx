@@ -23,7 +23,7 @@ function Service2Slider({ }) {
             height={64}
 
           />
-          Corporate Repair
+          Business Device Services
         </h5>
         <h5>
           <Image
@@ -33,7 +33,7 @@ function Service2Slider({ }) {
             height={64}
 
           />
-          In Home repair{" "}
+          In‑Store Service{" "}
         </h5>
         <h5 className="stroke">
           <Image
@@ -43,7 +43,7 @@ function Service2Slider({ }) {
             height={64}
 
           />
-          Water Damage Repairs
+          Charging Port Service
         </h5>
       </div>
     </div>
