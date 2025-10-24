@@ -37,7 +37,7 @@ export const Service3CardData: IService3CardData[] = [
   {
     src: "/img/service/repairing.png",
     alt: "img",
-    title: "Corporate Repair",
+    title: "Business Device Services",
     href: "/service-details",
     linkText: "Read More",
     linkIcon: <i className="las la-arrow-right"></i>,

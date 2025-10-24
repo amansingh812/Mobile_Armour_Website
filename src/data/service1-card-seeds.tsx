@@ -12,7 +12,7 @@ export const Service1CardData: IService1CardData[] = [
   {
     src: "/img/service/1-13.png",
     alt: "img",
-    title: "Phone Screen Repairs",
+    title: "Screen Replacement",
     desc: "Cracked or unresponsive screen? We replace damaged displays with high-quality LCD/OLED panels—same-day service, warranty included!",
     href: "/contact",
     linkText: "Know More",
@@ -21,8 +21,8 @@ export const Service1CardData: IService1CardData[] = [
   {
     src: "/img/service/repairing.png",
     alt: "img",
-    title: "Corporate Repair",
-    desc: "Bulk device repairs for businesses! On-site or in-store service with minimal downtime to keep your team connected and productive.",
+    title: "Business Device Services",
+    desc: "Business device services for companies! In-store service with priority turnaround to keep your team connected and productive.",
     href: "/contact",
     linkText: "Know More",
     linkIcon: <i className="las la-arrow-right"></i>,

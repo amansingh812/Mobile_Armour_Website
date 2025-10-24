@@ -3,7 +3,7 @@ import FooterBottom from "./footer-bottom";
 import Link from "next/link";
 import Image from "next/image";
 
-function Footer({ }) {
+function Footer() {
   return (
     <>
       <footer className="footer-area">
@@ -19,25 +19,38 @@ function Footer({ }) {
                       height={75}
                       alt="factorix-logo"
                     />
-                    <span className="logo-namefotter">Mobile <span style={{ color: '#FF5600' }}>Armour</span></span>
+                    <span className="logo-namefotter">
+                      Mobile <span style={{ color: "#FF5600" }}>Armour</span>
+                    </span>
                   </div>
                 </Link>
                 <p>
-                Mobile Armour - Home of Certified Technicians and Quality Accessories. Expert repairs and the best gear for your device.<br />
+                  Mobile Armour – Home of Certified Technicians and Quality Accessories. 
+                  Expert repairs and the best gear for your device.<br />
                 </p>
               </div>
+
               <div className="col-lg-2 col-md-6">
                 <h5>Contact Info</h5>
                 <ul>
                   <li>
                     <p>
-                      Kiosk 4 Warringal Shopping Centre 56 Burgundy Street Heidelberg, VIC 3084<br />
+                      Kiosk 4 Warringal Shopping Centre<br />
+                      56 Burgundy Street<br />
+                      Heidelberg, VIC 3084<br />
                     </p>
-                    <Link href="mailto:Manager@mobilearmour.com.au" target="_blank" rel="noopener noreferrer">Manager@mobilearmour.com.au</Link>
+                    <Link
+                      href="mailto:Manager@mobilearmour.com.au"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Manager@mobilearmour.com.au
+                    </Link>
                     <p>0405-326-205</p>
                   </li>
                 </ul>
               </div>
+
               <div className="col-lg-2 offset-lg-1 col-md-6 col-sm-12">
                 <h5>Links</h5>
                 <ul>
@@ -49,6 +62,7 @@ function Footer({ }) {
                   </li>
                 </ul>
               </div>
+
               <div className="col-lg-3 col-md-6 col-sm-12">
                 <h5>Get in Touch</h5>
                 <ul>
@@ -63,11 +77,15 @@ function Footer({ }) {
                       <Link href="https://www.tiktok.com/@mobilearm0ur?_t=ZS-8xnVKGBKPPF&_r=1" target="_blank" rel="noopener noreferrer">
                         <i className="fab fa-tiktok"></i>TikTok
                       </Link>
-
                     </div>
                   </li>
                 </ul>
               </div>
+            </div>
+
+            {/* ✅ Site-wide disclaimer note */}
+            <div className="text-center mt-4 small text-muted">
+              Independent device servicing provider. Not affiliated with or authorized by any device manufacturer.
             </div>
           </div>
         </div>
