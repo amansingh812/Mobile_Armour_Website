@@ -7,7 +7,7 @@ function HeaderTop({}) {
         <div className="row">
           <div className="col-xl-10 col-lg-10">
             <span>
-              <i className="fa-light fa-envelope"></i>Manager@mobilearmour.com.au
+              <i className="fa-light fa-envelope"></i>repair@mobilearmour.com.au
             </span>
             <span>
               <i className="fa-light fa-location-dot"></i>Kiosk 4 Warringal Shopping Centre, VIC 3084

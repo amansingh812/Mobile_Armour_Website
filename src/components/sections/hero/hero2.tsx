@@ -12,7 +12,7 @@ function Hero2() {
     setIsClient(true);
   }, []);   
 
-  const imageUrl = "/img/slider/newImages/slider1.webp"; 
+  const imageUrl = "https://res.cloudinary.com/drygcfes5/image/upload/v1761373429/sayan-majhi-URx9u4LIHHE-unsplash_an7bsb.jpg"; 
  
   return (
     <div className="hero2-wrapper">
@@ -41,7 +41,6 @@ function Hero2() {
                     href="/products"
                     className="mr-35 position-relative z-1"
                   />
-                  
                 </div>
               </div>
             </div>

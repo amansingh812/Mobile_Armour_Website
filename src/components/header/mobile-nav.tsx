@@ -75,8 +75,8 @@ export default function MobileNav({ }: mobileNavProps) {
                 <AuthNav />
               </div>
               
-              <a href="mailto:Manager@mobilearmour.com.au">
-                <i className="las la-envelope"></i>Manager@mobilearmour.com.au
+              <a href="mailto:repair@mobilearmour.com.au">
+                <i className="las la-envelope"></i>repair@mobilearmour.com.au
               </a>
               <a href="tel:0405-326-205">
                 <i className="fal fa-phone"></i>0405-326-205

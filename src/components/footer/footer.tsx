@@ -40,17 +40,16 @@ function Footer() {
                       Heidelberg, VIC 3084<br />
                     </p>
                     <Link
-                      href="mailto:Manager@mobilearmour.com.au"
+                      href="mailto:repair@mobilearmour.com.au"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Manager@mobilearmour.com.au
+                      repair@mobilearmour.com.au
                     </Link>
                     <p>0405-326-205</p>
                   </li>
                 </ul>
               </div>
-
               <div className="col-lg-2 offset-lg-1 col-md-6 col-sm-12">
                 <h5>Links</h5>
                 <ul>

@@ -91,7 +91,7 @@ function Promo1({
                   <i className="las la-envelope"></i>
                 </div>
                 <div className="contact-text">
-                  <p>Manager@mobilearmour.com.au</p>
+                  <p>repair@mobilearmour.com.au</p>
                 </div>
               </div>
             </div>

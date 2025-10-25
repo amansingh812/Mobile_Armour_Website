@@ -13,7 +13,7 @@ export const ContactInfoCardData: IContactInfoCardData[] = [
   {
     src: "/img/contact/2.png",
     alt: "img",
-    text: "Manager@mobilearmour.com.au",
+    text: "repair@mobilearmour.com.au",
   },
   {
     src: "/img/contact/3.png",

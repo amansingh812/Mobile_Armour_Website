@@ -43,7 +43,7 @@ function SdRight({ }) {
           <li>
             {" "}
             <i className="las la-envelope"></i>
-            Manager@mobilearmour.com.au
+            repair@mobilearmour.com.au
           </li>
           <li>
             {" "}
