@@ -31,7 +31,7 @@ export const Service1CardData: IService1CardData[] = [
     src: "/img/service/1-33.png",
     alt: "img",
   title: "In-Store Servicing",
-    desc: "Can’t make it to our shop? Our technicians come to you for screen fixes, battery swaps, and more—convenience at your doorstep!",
+  desc: "Experience professional device care at our service center. Our certified experts provide quick, precise repairs to keep your phone performing like new.",
     href: "/contact",
     linkText: "Know More",
     linkIcon: <i className="las la-arrow-right"></i>,
