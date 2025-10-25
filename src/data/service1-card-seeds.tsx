@@ -30,7 +30,7 @@ export const Service1CardData: IService1CardData[] = [
   {
     src: "/img/service/1-33.png",
     alt: "img",
-    title: "In Home repair",
+  title: "In-Store Servicing",
     desc: "Can’t make it to our shop? Our technicians come to you for screen fixes, battery swaps, and more—convenience at your doorstep!",
     href: "/contact",
     linkText: "Know More",
@@ -58,7 +58,7 @@ export const Service1CardData: IService1CardData[] = [
     src: "/img/service/1-61.png",
     alt: "img",
     title: "Back Glass Replacement",
-    desc: "Shattered back cover? We replace it while preserving water resistance (where applicable) and offer color-matching options!",
+  desc: "Visit our service center for quick and reliable phone repairs. From screen replacements to battery upgrades — we get your device back in perfect shape, fast.",
     href: "/contact",
     linkText: "Know More",
     linkIcon: <i className="las la-arrow-right"></i>,
