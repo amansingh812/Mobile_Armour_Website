@@ -27,7 +27,7 @@ function About3({
               <SectionTitle title={title} subTitle={subTitle} />
               <div className="p-animation">
                 <p>
-                  We specialize in fast, reliable, and high-quality repairs for all major smartphone brands, including Apple, Samsung, OnePlus, Xiaomi, and more. Whether it’s a cracked screen, worn-out battery, water damage, charging issue, or complex software problem — we’ve got you covered. Every repair is handled by certified technicians with years of experience, using premium-grade replacement parts to ensure lasting performance and peace of mind. We also offer transparent pricing, quick turnaround times, and warranty-backed services to give you confidence in every fix. Your device is in expert hands from drop-off to pickup.                </p>
+                  We provide fast, reliable, and high-quality mobile device servicing for all major brands. From screen replacement and battery change to diagnostics and performance restoration — our certified technicians ensure top-notch results using premium-grade components. Each service is performed with care and precision to maintain your device’s quality and reliability. Enjoy transparent pricing, priority turnaround, and warranty-backed workmanship for complete peace of mind. Your device stays in expert hands from drop-off to pickup.  </p>
               </div>
               {/* <div className="row mt-60">
                 <div className="col-xl-4 col-lg-4 col-md-4">

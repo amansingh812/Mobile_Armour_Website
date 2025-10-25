@@ -58,7 +58,7 @@ export const Service1CardData: IService1CardData[] = [
     src: "/img/service/1-61.png",
     alt: "img",
     title: "Back Glass Replacement",
-  desc: "Visit our service center for quick and reliable phone repairs. From screen replacements to battery upgrades — we get your device back in perfect shape, fast.",
+    desc: "Visit our service center for quick and reliable phone repairs. From screen replacements to battery upgrades — we get your device back.",
     href: "/contact",
     linkText: "Know More",
     linkIcon: <i className="las la-arrow-right"></i>,
