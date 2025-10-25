@@ -13,7 +13,7 @@ function HeaderTop({}) {
               <i className="fa-light fa-location-dot"></i>Kiosk 4 Warringal Shopping Centre, VIC 3084
             </span>
             <span>
-              <i className="fa-light fa-clock"></i>Sun - Sat: 9:30am - 5:30pm
+              <i className="fa-light fa-clock"></i>Mon - Sat: 9:30am - 5:30pm
             </span>
           </div>
           <div className="col-xl-2 col-lg-2 text-end">
