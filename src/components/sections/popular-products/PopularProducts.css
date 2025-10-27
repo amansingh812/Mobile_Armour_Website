@@ -8,7 +8,7 @@
 .popular-products-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding:  20px;
 }
 
 .popular-products-header {
@@ -84,7 +84,7 @@
 .carousel-btn:hover {
   background: #FF5600;
   color: white;
-  transform: translateY(-50%) scale(1.1);
+
   box-shadow: 0 6px 16px rgba(255, 107, 53, 0.3);
 }
 
@@ -302,6 +302,15 @@
     gap: 8px;
   }
 
+  .popular-view-btn {
+    font-size: 10px;
+    padding: 6px 7px !important;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    padding: 12px 20px;
+  }
+
   .popular-products-section {
     padding: 60px 0;
   }
@@ -324,12 +333,20 @@
   }
 
   .popular-products-scroll {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
     gap: 16px;
-    overflow-x: visible;
-    scroll-behavior: auto;
-    -webkit-overflow-scrolling: auto;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 20px; /* Add padding for scrollbar or controls */
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .popular-products-scroll::-webkit-scrollbar {
+    display: none;
   }
 
   .popular-product-card {
@@ -339,11 +356,21 @@
   }
 
   .carousel-btn {
-    display: none;
+    position: static;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .popular-products-carousel {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
   }
 
   .popular-product-image-container {
-            height: 269px;
+            height: 140px;
   }
 
   .popular-current-price {
@@ -361,22 +388,39 @@
     padding: 0;
   }
 
-  .carousel-btn {
-    width: 36px;
-    height: 36px;
+  .popular-products-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 20px;
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
-  .popular-products-scroll {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    overflow-x: hidden;
+  .popular-products-scroll::-webkit-scrollbar {
+    display: none;
   }
 
   .popular-product-card {
-    min-width: initial;
-    max-width: initial;
-    width: 100%;
+    flex: 0 0 45%;
+    max-width: 200px;
+  }
+
+  .carousel-btn {
+    position: static;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .popular-products-carousel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
   }
 
   .popular-products-title {

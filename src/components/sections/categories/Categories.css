@@ -224,8 +224,8 @@
 /* Mobile Scroll Controls */
 .mobile-scroll-controls {
   display: none; /* Hidden by default */
-  justify-content: center;
-  gap: 16px;
+  justify-content: right;
+  gap: 12px;
   margin-top: 24px;
 }
 
@@ -241,7 +241,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .categories-section {
-    padding: 60px 0;
+    padding: 10px 0;
   }
 
   .container {
