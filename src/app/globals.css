@@ -695,15 +695,32 @@ input.form-control {
 @media (max-width: 768px) {
   .product-grid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-    padding: 1rem;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .product-grid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+
+  .product-card {
+    flex: 0 0 45%; /* Show approx 2 cards */
+    max-width: 200px;
+  }
+
+  .product-scroll-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
   }
 }
 
-@media (max-width: 480px) {
-  .product-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+@media (min-width: 769px) {
+  .product-scroll-controls {
+    display: none;
   }
 }
 

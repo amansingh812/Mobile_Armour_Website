@@ -25,7 +25,7 @@ const PopularProducts: React.FC = () => {
   };
 
   return (
-    <section className="popular-products-section">
+    <section className="Popular Products">
       <div className="popular-products-container">
         <div className="popular-products-header">
           < SectionTitle
@@ -33,16 +33,6 @@ const PopularProducts: React.FC = () => {
             />
         </div>
         <div className="popular-products-carousel">
-          <button 
-            className="carousel-btn carousel-btn-left" 
-            onClick={() => scroll('left')}
-            aria-label="Scroll left"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          </button>
-
           <div className="popular-products-scroll" ref={scrollContainerRef}>
             {popularProducts.map((product) => {
               const current = typeof product.newPrice === 'number' && product.newPrice > 0 
@@ -88,9 +78,20 @@ const PopularProducts: React.FC = () => {
               );
             })}
           </div>
+        </div>
 
+        <div className="mobile-scroll-controls">
           <button 
-            className="carousel-btn carousel-btn-right" 
+            className="carousel-btn" 
+            onClick={() => scroll('left')}
+            aria-label="Scroll left"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button 
+            className="carousel-btn" 
             onClick={() => scroll('right')}
             aria-label="Scroll right"
           >

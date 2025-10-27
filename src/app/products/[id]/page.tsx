@@ -20,6 +20,9 @@ const ProductDetailPage = () => {
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data: product, error } = useSWR(id ? `/api/products/${id}` : null, fetcher);
+  // Zoom state for main image (must be declared before any early returns)
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomStyle, setZoomStyle] = useState<React.CSSProperties>({});
 
   if (error) {
     return (
@@ -51,6 +54,8 @@ const ProductDetailPage = () => {
   ]);
   const images: string[] = Array.from(imagesSet);
   const mainImage = images[selectedImageIndex] || images[0];
+
+  
 
   const handleAddToCart = () => {
     // Require login before adding to cart
@@ -86,11 +91,29 @@ const ProductDetailPage = () => {
             <div className="product-gallery">
               {/* Main Image */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src={mainImage} 
-                alt={product.name}
-                className="product-detail-image"
-              />
+              <div
+                className="product-image-wrapper"
+                onMouseEnter={() => setIsZoomed(true)}
+                onMouseLeave={() => setIsZoomed(false)}
+                onMouseMove={(e) => {
+                  const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+                  const x = ((e.clientX - rect.left) / rect.width) * 100;
+                  const y = ((e.clientY - rect.top) / rect.height) * 100;
+                  setZoomStyle({
+                    // @ts-ignore: CSS custom props
+                    "--ox": `${x}%`,
+                    // @ts-ignore
+                    "--oy": `${y}%`,
+                  } as React.CSSProperties);
+                }}
+              >
+                <img 
+                  src={mainImage} 
+                  alt={product.name}
+                  className={`product-detail-image ${isZoomed ? 'zoomed' : ''}`}
+                  style={zoomStyle}
+                />
+              </div>
 
               {/* Thumbnails */}
               {images.length > 1 && (

@@ -221,6 +221,14 @@
   box-shadow: 0 20px 25px -5px rgba(255, 86, 0, 0.3), 0 10px 10px -5px rgba(255, 86, 0, 0.1);
 }
 
+/* Mobile Scroll Controls */
+.mobile-scroll-controls {
+  display: none; /* Hidden by default */
+  justify-content: right;
+  gap: 12px;
+  margin-top: 24px;
+}
+
 /* Mobile Hint */
 .mobile-hint {
   text-align: center;
@@ -233,7 +241,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .categories-section {
-    padding: 60px 0;
+    padding: 10px 0;
   }
 
   .container {
@@ -252,8 +260,14 @@
     margin-bottom: 40px;
   }
 
-  /* Hide arrows on mobile */
-  .carousel-arrow {
+  /* Show mobile scroll controls */
+  .mobile-scroll-controls {
+    display: flex;
+  }
+
+  /* Hide desktop arrows on mobile */
+  .carousel-arrow.carousel-arrow-left,
+  .carousel-arrow.carousel-arrow-right {
     display: none;
   }
 
@@ -262,20 +276,26 @@
   }
 
   .categories-carousel {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
     gap: 16px;
-    padding: 0;
-    margin: 0;
-    overflow-x: visible;
-    scroll-behavior: auto;
-    -webkit-overflow-scrolling: auto;
-    scroll-snap-type: none;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 20px; /* Add padding for scrollbar or controls */
+    margin: 0 -16px; /* Extend to screen edges */
+    padding-left: 16px;
+    padding-right: 16px;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .categories-carousel::-webkit-scrollbar {
+    display: none;
   }
 
   .category-card {
-    flex: initial;
-    width: 100%;
+    flex: 0 0 180px; /* Give cards a fixed width */
+    width: 180px;
   }
 
   .category-image-wrapper {
@@ -296,22 +316,13 @@
 }
 
 @media (max-width: 480px) {
-  .categories-title {
-    font-size: 1.75rem;
-  }
-
   .categories-carousel {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-    padding: 0;
-    margin: 0;
-    overflow-x: hidden;
+    gap: 12px;
   }
 
   .category-card {
-    flex: initial;
-    width: 100%;
+    flex: 0 0 150px; /* Smaller cards for very small screens */
+    width: 150px;
   }
 
   .category-image-wrapper {

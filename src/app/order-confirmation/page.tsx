@@ -61,6 +61,11 @@ const OrderConfirmationPage = () => {
     }
   };
 
+  // Simple fixed tax calculation (10% of subtotal)
+  const TAX_RATE = 0.10;
+  const taxAmount = order.total * TAX_RATE;
+  console.log(taxAmount);
+
   return (
     <div className="order-confirmation-page">
       <div className="container">
@@ -151,8 +156,8 @@ const OrderConfirmationPage = () => {
                     <span>Free</span>
                   </div>
                   <div className="total-row">
-                    <span>Tax:</span>
-                    <span>$0.00</span>
+                    <span>Tax (10%):</span>
+                    <span>${taxAmount.toFixed(2)}</span>
                   </div>
                   <div className="total-row final-total">
                     <span>Total:</span>
