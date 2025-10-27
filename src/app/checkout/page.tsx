@@ -183,6 +183,10 @@ const CheckoutPage = () => {
     }
   };
 
+  // Simple fixed tax calculation (10% of subtotal)
+  const TAX_RATE = 0.10;
+  const taxAmount = state.total * TAX_RATE;
+
   if (state.items.length === 0) {
     return (
       <div className="checkout-page">
@@ -353,8 +357,8 @@ const CheckoutPage = () => {
                     <span>Free</span>
                   </div>
                   <div className="summary-row">
-                    <span>Tax:</span>
-                    <span>$0.00</span>
+                    <span>Tax (10%):</span>
+                    <span>${taxAmount.toFixed(2)}</span>
                   </div>
                   <div className="summary-row total-row">
                     <span>Total:</span>
