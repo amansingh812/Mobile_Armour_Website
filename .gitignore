@@ -31,8 +31,5 @@ sample.env.local
 coverage/
 *.log
 .vercel
-public/sitemap.xml
-public/robots.txt
-public/sitemap-0.xml
 SEO_SITEMAP_GUIDE.md
 SITEMAP_FIX.md

@@ -1,0 +1,26 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /auth
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+Disallow: /_next
+Disallow: /static
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+
+# Host
+Host: https://www.mobilearmour.com.au
+
+# Sitemaps
+Sitemap: https://www.mobilearmour.com.au/sitemap.xml
