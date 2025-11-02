@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { categories } from "@/data/categories";
+import { ALL_FILTER_OPTIONS } from "@/data/filterOptions";
 
 type Product = {
     _id?: string;
@@ -17,6 +18,19 @@ type Product = {
     stock: number;
     features: string[];
     images?: string[];
+    
+    // New filter fields
+    deviceCompatibility: string[];
+    brand: string;
+    accessoryTypes: string[];
+    caseTypes: string[];
+    chargerTypes: string[];
+    mountTypes: string[];
+    cableTypes: string[];
+    screenProtectorTypes: string[];
+    tags: string[];
+    specifications: Record<string, string>;
+    
     createdAt?: string;
 };
 
@@ -31,6 +45,18 @@ const initialForm: Product = {
     stock: 0,
     features: [],
     images: [],
+    
+    // New filter fields
+    deviceCompatibility: [],
+    brand: "",
+    accessoryTypes: [],
+    caseTypes: [],
+    chargerTypes: [],
+    mountTypes: [],
+    cableTypes: [],
+    screenProtectorTypes: [],
+    tags: [],
+    specifications: {},
 };
 
 export default function AdminProductsPage() {
@@ -45,6 +71,10 @@ export default function AdminProductsPage() {
     const [refreshKey, setRefreshKey] = useState(0);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [imagesText, setImagesText] = useState("");
+    
+    // State for new filter fields (as text for multi-select)
+    const [tagsText, setTagsText] = useState("");
+    const [specificationsText, setSpecificationsText] = useState("");
 
     // Check if user is admin and redirect if not
     useEffect(() => {
@@ -89,6 +119,28 @@ export default function AdminProductsPage() {
             .map((u) => u.trim())
             .filter(Boolean);
     }, [imagesText]);
+
+    const parsedTags = useMemo(() => {
+        return tagsText
+            .split(/\n|,/)
+            .map((t) => t.trim())
+            .filter(Boolean);
+    }, [tagsText]);
+
+    const parsedSpecifications = useMemo(() => {
+        const specs: Record<string, string> = {};
+        specificationsText
+            .split(/\n/)
+            .map((line) => line.trim())
+            .filter(Boolean)
+            .forEach((line) => {
+                const [key, ...valueParts] = line.split(':');
+                if (key && valueParts.length > 0) {
+                    specs[key.trim()] = valueParts.join(':').trim();
+                }
+            });
+        return specs;
+    }, [specificationsText]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -155,6 +207,8 @@ export default function AdminProductsPage() {
             const payload: any = {
                 ...form,
                 features: parsedFeatures,
+                tags: parsedTags,
+                specifications: parsedSpecifications,
                 // Keep compatibility: default main price to newPrice if provided
                 price: form.newPrice && form.newPrice > 0 ? form.newPrice : form.price,
             };
@@ -199,6 +253,14 @@ export default function AdminProductsPage() {
         setForm(product);
         setFeaturesText(product.features?.join('\n') || '');
         setImagesText(product.images?.join('\n') || '');
+        setTagsText(product.tags?.join('\n') || '');
+        
+        // Convert specifications object to text format
+        const specsText = Object.entries(product.specifications || {})
+            .map(([key, value]) => `${key}: ${value}`)
+            .join('\n');
+        setSpecificationsText(specsText);
+        
         setEditingId(product._id || null);
         setError(null);
         setSuccess(null);
@@ -232,6 +294,8 @@ export default function AdminProductsPage() {
         setForm(initialForm);
         setFeaturesText("");
         setImagesText("");
+        setTagsText("");
+        setSpecificationsText("");
         setEditingId(null);
         setError(null);
         setSuccess(null);
@@ -445,6 +509,255 @@ export default function AdminProductsPage() {
                         rows={3}
                         style={{ ...inputStyle, resize: "vertical" }}
                     />
+                </div>
+
+                {/* Brand Selection */}
+                <div>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Brand
+                    </label>
+                    <select
+                        name="brand"
+                        value={form.brand}
+                        onChange={handleChange}
+                        style={inputStyle}
+                    >
+                        <option value="">Select a brand</option>
+                        {ALL_FILTER_OPTIONS.brand.map((brand) => (
+                            <option key={brand.id} value={brand.value}>
+                                {brand.label}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Device Compatibility */}
+                <div>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Device Compatibility
+                    </label>
+                    <div style={{ maxHeight: 150, overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
+                        {ALL_FILTER_OPTIONS.device.map((device) => (
+                            <label key={device.id} style={{ display: 'flex', alignItems: 'center', marginBottom: 4, cursor: 'pointer' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={form.deviceCompatibility.includes(device.value)}
+                                    onChange={(e) => {
+                                        const checked = e.target.checked;
+                                        setForm(prev => ({
+                                            ...prev,
+                                            deviceCompatibility: checked
+                                                ? [...prev.deviceCompatibility, device.value]
+                                                : prev.deviceCompatibility.filter(d => d !== device.value)
+                                        }));
+                                    }}
+                                    style={{ marginRight: 8 }}
+                                />
+                                <span style={{ fontSize: 14 }}>{device.label}</span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Accessory Types */}
+                <div>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Accessory Types
+                    </label>
+                    <div style={{ maxHeight: 120, overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
+                        {ALL_FILTER_OPTIONS.accessory.map((accessory) => (
+                            <label key={accessory.id} style={{ display: 'flex', alignItems: 'center', marginBottom: 4, cursor: 'pointer' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={form.accessoryTypes.includes(accessory.value)}
+                                    onChange={(e) => {
+                                        const checked = e.target.checked;
+                                        setForm(prev => ({
+                                            ...prev,
+                                            accessoryTypes: checked
+                                                ? [...prev.accessoryTypes, accessory.value]
+                                                : prev.accessoryTypes.filter(a => a !== accessory.value)
+                                        }));
+                                    }}
+                                    style={{ marginRight: 8 }}
+                                />
+                                <span style={{ fontSize: 14 }}>{accessory.label}</span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Case Types */}
+                <div>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Case Types
+                    </label>
+                    <div style={{ maxHeight: 120, overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
+                        {ALL_FILTER_OPTIONS.cases.map((caseType) => (
+                            <label key={caseType.id} style={{ display: 'flex', alignItems: 'center', marginBottom: 4, cursor: 'pointer' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={form.caseTypes.includes(caseType.value)}
+                                    onChange={(e) => {
+                                        const checked = e.target.checked;
+                                        setForm(prev => ({
+                                            ...prev,
+                                            caseTypes: checked
+                                                ? [...prev.caseTypes, caseType.value]
+                                                : prev.caseTypes.filter(c => c !== caseType.value)
+                                        }));
+                                    }}
+                                    style={{ marginRight: 8 }}
+                                />
+                                <span style={{ fontSize: 14 }}>{caseType.label}</span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Charger Types */}
+                <div>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Charger Types
+                    </label>
+                    <div style={{ maxHeight: 120, overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
+                        {ALL_FILTER_OPTIONS.chargers.map((charger) => (
+                            <label key={charger.id} style={{ display: 'flex', alignItems: 'center', marginBottom: 4, cursor: 'pointer' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={form.chargerTypes.includes(charger.value)}
+                                    onChange={(e) => {
+                                        const checked = e.target.checked;
+                                        setForm(prev => ({
+                                            ...prev,
+                                            chargerTypes: checked
+                                                ? [...prev.chargerTypes, charger.value]
+                                                : prev.chargerTypes.filter(c => c !== charger.value)
+                                        }));
+                                    }}
+                                    style={{ marginRight: 8 }}
+                                />
+                                <span style={{ fontSize: 14 }}>{charger.label}</span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Mount Types */}
+                <div>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Mount Types
+                    </label>
+                    <div style={{ maxHeight: 120, overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
+                        {ALL_FILTER_OPTIONS.mounts.map((mount) => (
+                            <label key={mount.id} style={{ display: 'flex', alignItems: 'center', marginBottom: 4, cursor: 'pointer' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={form.mountTypes.includes(mount.value)}
+                                    onChange={(e) => {
+                                        const checked = e.target.checked;
+                                        setForm(prev => ({
+                                            ...prev,
+                                            mountTypes: checked
+                                                ? [...prev.mountTypes, mount.value]
+                                                : prev.mountTypes.filter(m => m !== mount.value)
+                                        }));
+                                    }}
+                                    style={{ marginRight: 8 }}
+                                />
+                                <span style={{ fontSize: 14 }}>{mount.label}</span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Cable Types */}
+                <div>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Cable Types
+                    </label>
+                    <div style={{ maxHeight: 120, overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
+                        {ALL_FILTER_OPTIONS.cables.map((cable) => (
+                            <label key={cable.id} style={{ display: 'flex', alignItems: 'center', marginBottom: 4, cursor: 'pointer' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={form.cableTypes.includes(cable.value)}
+                                    onChange={(e) => {
+                                        const checked = e.target.checked;
+                                        setForm(prev => ({
+                                            ...prev,
+                                            cableTypes: checked
+                                                ? [...prev.cableTypes, cable.value]
+                                                : prev.cableTypes.filter(c => c !== cable.value)
+                                        }));
+                                    }}
+                                    style={{ marginRight: 8 }}
+                                />
+                                <span style={{ fontSize: 14 }}>{cable.label}</span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Screen Protector Types */}
+                <div>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Screen Protector Types
+                    </label>
+                    <div style={{ maxHeight: 120, overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
+                        {ALL_FILTER_OPTIONS.screenProtectors.map((protector) => (
+                            <label key={protector.id} style={{ display: 'flex', alignItems: 'center', marginBottom: 4, cursor: 'pointer' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={form.screenProtectorTypes.includes(protector.value)}
+                                    onChange={(e) => {
+                                        const checked = e.target.checked;
+                                        setForm(prev => ({
+                                            ...prev,
+                                            screenProtectorTypes: checked
+                                                ? [...prev.screenProtectorTypes, protector.value]
+                                                : prev.screenProtectorTypes.filter(s => s !== protector.value)
+                                        }));
+                                    }}
+                                    style={{ marginRight: 8 }}
+                                />
+                                <span style={{ fontSize: 14 }}>{protector.label}</span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Tags */}
+                <div style={{ gridColumn: "1 / -1" }}>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Tags (comma or newline separated)
+                    </label>
+                    <textarea
+                        name="tags"
+                        value={tagsText}
+                        onChange={(e) => setTagsText(e.target.value)}
+                        placeholder="premium, bestseller, new-arrival, ..."
+                        rows={2}
+                        style={{ ...inputStyle, resize: "vertical" }}
+                    />
+                </div>
+
+                {/* Specifications */}
+                <div style={{ gridColumn: "1 / -1" }}>
+                    <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
+                        Specifications (key: value format, one per line)
+                    </label>
+                    <textarea
+                        name="specifications"
+                        value={specificationsText}
+                        onChange={(e) => setSpecificationsText(e.target.value)}
+                        placeholder="Material: TPU&#10;Weight: 50g&#10;Dimensions: 15x8x1cm"
+                        rows={3}
+                        style={{ ...inputStyle, resize: "vertical" }}
+                    />
+                    <div style={{ color: "#6b7280", fontSize: 12, marginTop: 6 }}>
+                        Format: "Key: Value" on each line. Example: "Material: TPU"
+                    </div>
                 </div>
 
                 <div style={{ gridColumn: "1 / -1", display: "flex", gap: 12 }}>

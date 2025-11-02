@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
+import { ALL_FILTER_OPTIONS } from '@/data/filterOptions';
 
 export async function GET(req: NextRequest) {
   await dbConnect();
@@ -8,14 +9,85 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const category = searchParams.get('category');
     
-    let query = {};
+    // Build MongoDB query based on filters
+    let query: any = {};
+    
+    // Legacy category filter
     if (category) {
-      query = { category: category };
+      query.category = category;
     }
+    
+    // Advanced filters
+    const deviceFilters = searchParams.get('device');
+    const brandFilters = searchParams.get('brand');
+    const accessoryFilters = searchParams.get('accessory');
+    const casesFilters = searchParams.get('cases');
+    const chargersFilters = searchParams.get('chargers');
+    const mountsFilters = searchParams.get('mounts');
+    const cablesFilters = searchParams.get('cables');
+    const screenProtectorsFilters = searchParams.get('screenProtectors');
+    
+    // Map URL ids to exact DB values using central filter options
+    const mapIdsToValues = (sectionId: keyof typeof ALL_FILTER_OPTIONS, ids: string) => {
+      const idList = ids.split(',');
+      const options = ALL_FILTER_OPTIONS[sectionId] as Array<{ id: string; value: string }>;
+      const values = idList
+        .map((id) => options.find((o) => o.id === id)?.value)
+        .filter((v): v is string => Boolean(v));
+      return values;
+    };
+    
+    // Device compatibility filter
+    if (deviceFilters) {
+      const devices = mapIdsToValues('device', deviceFilters);
+      if (devices.length) query.deviceCompatibility = { $in: devices };
+    }
+    
+    // Brand filter
+    if (brandFilters) {
+      const brands = mapIdsToValues('brand', brandFilters);
+      if (brands.length) query.brand = { $in: brands };
+    }
+    
+    // Accessory type filters
+    if (accessoryFilters) {
+      const accessories = mapIdsToValues('accessory', accessoryFilters);
+      if (accessories.length) query.accessoryTypes = { $in: accessories };
+    }
+    
+    if (casesFilters) {
+      const cases = mapIdsToValues('cases', casesFilters);
+      if (cases.length) query.caseTypes = { $in: cases };
+    }
+    
+    if (chargersFilters) {
+      const chargers = mapIdsToValues('chargers', chargersFilters);
+      if (chargers.length) query.chargerTypes = { $in: chargers };
+    }
+    
+    if (mountsFilters) {
+      const mounts = mapIdsToValues('mounts', mountsFilters);
+      if (mounts.length) query.mountTypes = { $in: mounts };
+    }
+    
+    if (cablesFilters) {
+      const cables = mapIdsToValues('cables', cablesFilters);
+      if (cables.length) query.cableTypes = { $in: cables };
+    }
+    
+    if (screenProtectorsFilters) {
+      const protectors = mapIdsToValues('screenProtectors', screenProtectorsFilters);
+      if (protectors.length) query.screenProtectorTypes = { $in: protectors };
+    }
+    
+    // Debug logging
+    console.log('Products API - query:', JSON.stringify(query, null, 2));
+    console.log('Products API - searchParams:', searchParams.toString());
     
     const products = await Product.find(query);
     return NextResponse.json(products, { status: 200 });
   } catch (error) {
+    console.error('Products API error:', error);
     return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
   }
 }

@@ -11,7 +11,7 @@ export const Hero1Data: IHero1[] = [
   {
     subtitle: ``,
     title: `Premium Mobile Accessories for Every Phone`,
-    description: `Protect your phone in style with our premium cases. Designed for a perfect fit and superior grip, they keep your device safe from drops, scratches, and daily wear.`,
+    description: ``,
     link: `/products`,
     buttonText: "Shop Now",
     src: "/img/slider/newImages/slider5.webp",
@@ -19,7 +19,7 @@ export const Hero1Data: IHero1[] = [
   {
   subtitle: ``,
   title: `Next-Gen Accessories. Ultimate Protection.`,
-  description: `Discover high-quality cases, chargers, and screen protectors designed to match your style and keep your device safe. Upgrade your everyday phone experience with REDEFINE accessories.`,
+  description: ``,
   link: `/shop`,
   buttonText: "Shop Now",
   src: "/img/slider/newImages/slider6.webp",
@@ -28,7 +28,7 @@ export const Hero1Data: IHero1[] = [
   {
     subtitle: ``,
     title: `Stylish & Protective Cases You’ll Love`,
-    description: `Explore our latest collection of premium phone cases designed for perfect fit, grip, and protection. Keep your device safe and stylish with Smart Solutions.`,
+    description: ``,
     link: `/products`,
     buttonText: "View Collection",
     src: "/img/slider/newImages/slider3.webp",
