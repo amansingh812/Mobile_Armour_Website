@@ -16,7 +16,6 @@ export const DEVICE_OPTIONS = [
   { id: 'iphone-15-pro', label: 'iPhone 15 Pro', value: 'iPhone 15 Pro' },
   { id: 'iphone-15-pro-max', label: 'iPhone 15 Pro Max', value: 'iPhone 15 Pro Max' },
 
-  // ===== APPLE IPAD =====
   { id: 'ipad-pro-m4-13', label: 'iPad Pro M4 (13-inch)', value: 'iPad Pro M4 (13-inch)' },
   { id: 'ipad-pro-m4-11', label: 'iPad Pro M4 (11-inch)', value: 'iPad Pro M4 (11-inch)' },
   { id: 'ipad-air-m2-13', label: 'iPad Air M2 (13-inch)', value: 'iPad Air M2 (13-inch)' },
@@ -24,7 +23,6 @@ export const DEVICE_OPTIONS = [
   { id: 'ipad-10th-gen', label: 'iPad 10th Gen (10.9-inch)', value: 'iPad 10th Gen (10.9-inch)' },
   { id: 'ipad-mini-6', label: 'iPad Mini 6 (8.3-inch)', value: 'iPad Mini 6 (8.3-inch)' },
 
-  // ===== SAMSUNG GALAXY =====
   { id: 'galaxy-s25', label: 'Galaxy S25', value: 'Galaxy S25' },
   { id: 'galaxy-s25-plus', label: 'Galaxy S25 Plus', value: 'Galaxy S25 Plus' },
   { id: 'galaxy-s25-ultra', label: 'Galaxy S25 Ultra', value: 'Galaxy S25 Ultra' },
@@ -33,7 +31,6 @@ export const DEVICE_OPTIONS = [
   { id: 'galaxy-a55', label: 'Galaxy A55', value: 'Galaxy A55' },
   { id: 'galaxy-a35', label: 'Galaxy A35', value: 'Galaxy A35' },
 
-  // ===== GOOGLE PIXEL =====
   { id: 'pixel-10', label: 'Pixel 10', value: 'Pixel 10' },
   { id: 'pixel-10-pro', label: 'Pixel 10 Pro', value: 'Pixel 10 Pro' },
   { id: 'pixel-10-pro-xl', label: 'Pixel 10 Pro XL', value: 'Pixel 10 Pro XL' },
@@ -58,6 +55,7 @@ export const CASE_TYPE_OPTIONS = [
   { id: 'camera-bump-protector', label: 'Camera Bump Protector', value: 'Camera Bump Protector' },
   { id: 'wallet-case', label: 'Wallet Case', value: 'Wallet Case' },
   { id: 'designer-printed', label: 'Designer Printed', value: 'Designer Printed' },
+  { id: 'mag-safe-compatible', label: 'MagSafe Compatible', value: 'MagSafe Compatible' },
 ];
 
 export const CHARGER_TYPE_OPTIONS = [

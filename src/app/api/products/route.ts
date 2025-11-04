@@ -105,7 +105,16 @@ export async function POST(req: NextRequest) {
     }
     const product = await Product.create(body);
     return NextResponse.json(product, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
+    // Map Mongoose ValidationError to fieldErrors for client highlighting
+    if (error?.name === 'ValidationError' && error?.errors) {
+      const fieldErrors: Record<string, string> = {};
+      Object.keys(error.errors).forEach((key) => {
+        fieldErrors[key] = error.errors[key]?.message || 'Invalid value';
+      });
+      return NextResponse.json({ error: 'Validation failed', fieldErrors }, { status: 400 });
+    }
+    console.error('Create product error:', error);
     return NextResponse.json({ error: 'Failed to create product' }, { status: 500 });
   }
 }

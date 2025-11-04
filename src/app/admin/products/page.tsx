@@ -71,6 +71,7 @@ export default function AdminProductsPage() {
     const [refreshKey, setRefreshKey] = useState(0);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [imagesText, setImagesText] = useState("");
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
     
     // State for new filter fields (as text for multi-select)
     const [tagsText, setTagsText] = useState("");
@@ -198,11 +199,50 @@ export default function AdminProductsPage() {
         });
     };
 
+    // Basic client-side validation for required fields
+    const validateForm = (): Record<string, string> => {
+        const errors: Record<string, string> = {};
+        if (!form.name?.trim()) errors.name = "Name is required";
+        if (!form.description?.trim()) errors.description = "Description is required";
+        if (!form.category?.trim()) errors.category = "Category is required";
+        if (!form.brand?.trim()) errors.brand = "Brand is required";
+        const mainPrice = form.newPrice && form.newPrice > 0 ? form.newPrice : form.price;
+        if (!mainPrice || Number(mainPrice) <= 0) errors.price = "Price must be greater than 0";
+        if (form.stock === undefined || form.stock === null || Number(form.stock) < 0) errors.stock = "Stock cannot be negative";
+        if (!form.imageUrl?.trim()) {
+            errors.imageUrl = "Image URL is required";
+        } else if (!/^https?:\/\//i.test(form.imageUrl.trim())) {
+            errors.imageUrl = "Image URL must start with http or https";
+        }
+        return errors;
+    };
+
+    const styleFor = (name: string): React.CSSProperties => ({
+        ...inputStyle,
+        border: fieldErrors[name] ? "1px solid #ef4444" : inputStyle.border,
+        background: fieldErrors[name] ? "#fef2f2" : (inputStyle as any).background,
+    });
+
+    const errorText = (name: string) => (
+        fieldErrors[name] ? (
+            <div style={{ color: "#b91c1c", fontSize: 12, marginTop: 6 }}>{fieldErrors[name]}</div>
+        ) : null
+    );
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
         setSuccess(null);
+        // Run validation before submit
+        const clientErrors = validateForm();
+        if (Object.keys(clientErrors).length > 0) {
+            setFieldErrors(clientErrors);
+            setError("Please fix the highlighted fields");
+            setLoading(false);
+            return;
+        }
+        setFieldErrors({});
         try {
             const payload: any = {
                 ...form,
@@ -236,6 +276,11 @@ export default function AdminProductsPage() {
 
             if (!res.ok) {
                 const err = await res.json().catch(() => ({}));
+                // Attempt to infer field errors if backend sends details
+                const backendErrors: Record<string, string> = (err && err.fieldErrors) || {};
+                // Fallback: rerun client validation to highlight likely fields
+                const fallback = Object.keys(backendErrors).length ? backendErrors : validateForm();
+                setFieldErrors(fallback);
                 throw new Error(err?.error || `Failed to ${isEditing ? 'update' : 'create'} product`);
             }
 
@@ -361,8 +406,9 @@ export default function AdminProductsPage() {
                         onChange={handleChange}
                         required
                         placeholder="Product name"
-                        style={inputStyle}
+                        style={styleFor('name')}
                     />
+                    {errorText('name')}
                 </div>
 
                 <div style={{ gridColumn: "1 / -1" }}>
@@ -376,8 +422,9 @@ export default function AdminProductsPage() {
                         required
                         placeholder="Describe the product"
                         rows={4}
-                        style={{ ...inputStyle, resize: "vertical" }}
+                        style={{ ...styleFor('description'), resize: "vertical" }}
                     />
+                    {errorText('description')}
                 </div>
 
                 <div>
@@ -395,8 +442,9 @@ export default function AdminProductsPage() {
                         onBlur={restoreIfEmpty('price')}
                         required
                         placeholder="0.00"
-                        style={inputStyle}
+                        style={styleFor('price')}
                     />
+                    {errorText('price')}
                 </div>
 
                 <div>
@@ -412,8 +460,9 @@ export default function AdminProductsPage() {
                         onChange={handleChange}
                         required
                         placeholder="0"
-                        style={inputStyle}
+                        style={styleFor('stock')}
                     />
+                    {errorText('stock')}
                 </div>
 
                 <div>
@@ -456,7 +505,7 @@ export default function AdminProductsPage() {
                         value={form.category}
                         onChange={handleChange}
                         required
-                        style={inputStyle}
+                        style={styleFor('category')}
                     >
                         <option value="">Select a category</option>
                         {categories.map((category) => (
@@ -465,6 +514,7 @@ export default function AdminProductsPage() {
                             </option>
                         ))}
                     </select>
+                    {errorText('category')}
                 </div>
                 <div>
                     <label style={{ display: "block", fontWeight: 600, marginBottom: 6 }}>
@@ -476,8 +526,9 @@ export default function AdminProductsPage() {
                         onChange={handleChange}
                         required
                         placeholder="https://..."
-                        style={inputStyle}
+                        style={styleFor('imageUrl')}
                     />
+                    {errorText('imageUrl')}
                 </div>
 
                 <div style={{ gridColumn: "1 / -1" }}>
@@ -520,7 +571,7 @@ export default function AdminProductsPage() {
                         name="brand"
                         value={form.brand}
                         onChange={handleChange}
-                        style={inputStyle}
+                        style={styleFor('brand')}
                     >
                         <option value="">Select a brand</option>
                         {ALL_FILTER_OPTIONS.brand.map((brand) => (
@@ -529,6 +580,7 @@ export default function AdminProductsPage() {
                             </option>
                         ))}
                     </select>
+                    {errorText('brand')}
                 </div>
 
                 {/* Device Compatibility */}

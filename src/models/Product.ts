@@ -53,10 +53,25 @@ const ProductSchema: Schema = new Schema(
     deviceCompatibility: [{ 
       type: String, 
       enum: [
+        // iPhone 17 series and Apple new
+        'iPhone 17', 'iPhone 17 Plus', 'iPhone 17 Pro', 'iPhone 17 Pro Max', 'iPhone Air',
+        // iPhone 16 series
         'iPhone 16', 'iPhone 16 Plus', 'iPhone 16 Pro', 'iPhone 16 Pro Max',
+        // iPhone 15 series
         'iPhone 15', 'iPhone 15 Plus', 'iPhone 15 Pro', 'iPhone 15 Pro Max',
-        'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max',
-        'iPhone 13 Mini', 'Samsung Galaxy S24', 'Samsung Galaxy S23', 'Google Pixel 8',
+        // iPhone 14 series and earlier example
+        'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 13 Mini',
+        // iPad models
+        'iPad Pro M4 (13-inch)', 'iPad Pro M4 (11-inch)', 'iPad Air M2 (13-inch)', 'iPad Air M2 (11-inch)', 'iPad 10th Gen (10.9-inch)', 'iPad Mini 6 (8.3-inch)',
+        // Samsung Galaxy 25 series and others
+        'Samsung Galaxy S25', 'Samsung Galaxy S25 Plus', 'Samsung Galaxy S25 Ultra',
+        'Samsung Galaxy Z Fold7', 'Samsung Galaxy Z Flip7', 'Samsung Galaxy A55', 'Samsung Galaxy A35',
+        // Previous Samsung examples kept
+        'Samsung Galaxy S24', 'Samsung Galaxy S23',
+        // Google Pixel 10/9 series
+        'Google Pixel 10', 'Google Pixel 10 Pro', 'Google Pixel 10 Pro XL',
+        'Google Pixel 9', 'Google Pixel 9 Pro', 'Google Pixel 9 Pro Fold',
+        // Other examples
         'OnePlus 12', 'Xiaomi 14', 'OPPO Find X7'
       ],
       index: true 
@@ -78,13 +93,13 @@ const ProductSchema: Schema = new Schema(
       ],
       index: true 
     }],
-    
+
     // Product Type Categories
     caseTypes: [{ 
       type: String, 
       enum: [
         'Clear TPU', 'Silicone', 'Leather', 'Rugged Shockproof', 'Slim', 
-        'Camera Bump Protector', 'Wallet Case', 'Designer Printed'
+        'Camera Bump Protector', 'Wallet Case', 'Designer Printed', 'MagSafe Compatible'
       ]
     }],
     
@@ -101,7 +116,7 @@ const ProductSchema: Schema = new Schema(
       enum: ['Car Holder Vent', 'Car Holder Dashboard', 'Magnetic Car Mount']
     }],
     
-    cableTypes: [{ 
+    cableTypes: [{
       type: String, 
       enum: ['USB-C to C', 'USB-C to Lightning', 'USB-C to USB-A']
     }],
