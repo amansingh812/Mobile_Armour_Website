@@ -1,0 +1,16 @@
+# Mobile Armour Heidelberg - Robots.txt
+User-agent: *
+Allow: /
+Allow: /products
+Allow: /category
+Allow: /about
+Allow: /contact
+Allow: /services
+Disallow: /admin
+Disallow: /api
+Disallow: /account
+Disallow: /checkout
+Disallow: /cart
+
+# Sitemap
+Sitemap: https://mobilearmour.com.au/sitemap.xml
