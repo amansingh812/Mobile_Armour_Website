@@ -1,16 +1,26 @@
-# Mobile Armour Heidelberg - Robots.txt
+# *
 User-agent: *
 Allow: /
-Allow: /products
-Allow: /category
-Allow: /about
-Allow: /contact
-Allow: /services
 Disallow: /admin
-Disallow: /api
 Disallow: /account
-Disallow: /checkout
+Disallow: /api
+Disallow: /auth
 Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+Disallow: /_next
+Disallow: /static
 
-# Sitemap
-Sitemap: https://mobilearmour.com.au/sitemap.xml
+# Googlebot
+User-agent: Googlebot
+Allow: /
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+
+# Host
+Host: https://www.mobilearmour.com.au
+
+# Sitemaps
+Sitemap: https://www.mobilearmour.com.au/sitemap.xml

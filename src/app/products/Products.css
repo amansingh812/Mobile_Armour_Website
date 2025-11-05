@@ -81,4 +81,14 @@
   .filters-sidebar {
     display: none;
   }
+
+  /* Mobile: make product list vertically scrollable with one card per viewport */
+  .products-content {
+    height: 100vh;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0; /* let cards take full width/height */
+  }
 }
+

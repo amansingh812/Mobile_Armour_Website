@@ -13,7 +13,7 @@ import AuthProvider from "@/components/providers/AuthProvider";
 import { CartProvider } from "@/hooks/useCart";
 import ChatBot from "@/components/chatbot/ChatBot";
 import Script from "next/script";
-import LocalBusinessSchema from "@/components/seo/LocalBusinessSchema";
+import { Analytics } from '@vercel/analytics/react';
 
 const dm_sans = DM_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -124,6 +124,7 @@ export default function RootLayout({
             <ChatBot />
           </CartProvider>
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );
