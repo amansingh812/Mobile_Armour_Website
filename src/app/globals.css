@@ -2619,40 +2619,16 @@ input[type="search"]::-webkit-search-results-decoration {
 /* Hide header top on tablets only; show on mobile and desktop */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .header-top-area {
-    display: none;
+    display: block;
   }
 }
 
-/* Mobile layout for header top */
-/* @media (max-width: 767px) {
+/* Hide header top on mobile */
+@media (max-width: 767px) {
   .header-top-area {
-    display: block;
+    display: none;
   }
-  .header-top-area .row {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .header-top-area .col-xl-10,
-  .header-top-area .col-lg-10,
-  .header-top-area .col-xl-2,
-  .header-top-area .col-lg-2 {
-    width: 100%;
-    text-align: left;
-  }
-  .header-top-area span {
-    display: block;
-    margin-right: 0;
-    font-size: 12px;
-    line-height: 1.6;
-  }
-  .header-top-area .social-area {
-    margin-top: 4px;
-  }
-  .header-top-area .social-area a i {
-    margin-right: 10px;
-  }
-} */
+}
 
 .header-top-area span {
   margin-right: 15px;
