@@ -7,9 +7,10 @@ import './ProductGrid.css';
 
 interface FilteredProductGridProps {
   category?: string;
+  filters?: Record<string, string[]>;
 }
 
-const FilteredProductGrid: React.FC<FilteredProductGridProps> = ({ category }) => {
+const FilteredProductGrid: React.FC<FilteredProductGridProps> = ({ category, filters = {} }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -23,20 +24,39 @@ const FilteredProductGrid: React.FC<FilteredProductGridProps> = ({ category }) =
       scrollContainerRef.current.scrollBy({ left: 250, behavior: 'smooth' });
     }
   };
+  
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   
-  // Build the API URL with category filter if provided
-  const apiUrl = category ? `/api/products?category=${encodeURIComponent(category)}` : '/api/products';
+  // Build the API URL with filters
+  const buildApiUrl = () => {
+    const params = new URLSearchParams();
+    
+    // Add category filter if provided
+    if (category) {
+      params.set('category', category);
+    }
+    
+    // Add advanced filters
+    Object.entries(filters).forEach(([filterType, values]) => {
+      if (values.length > 0) {
+        params.set(filterType, values.join(','));
+      }
+    });
+    
+    return `/api/products${params.toString() ? `?${params.toString()}` : ''}`;
+  };
+  
+  const apiUrl = buildApiUrl();
   
   // Debug logging
   console.log('FilteredProductGrid - category:', category);
+  console.log('FilteredProductGrid - filters:', filters);
   console.log('FilteredProductGrid - apiUrl:', apiUrl);
   
   const { data, error } = useSWR<DBProduct[]>(apiUrl, fetcher, { revalidateOnFocus: false });
 
   if (error) return <div className="error-message">Failed to load products</div>;
   if (!data) return <div className="loading-message">Loading products...</div>;
-
   if (data.length === 0) {
     return (
       <div className="no-products-message">

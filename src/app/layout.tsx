@@ -28,8 +28,45 @@ const audiowide = Audiowide({
 });
 
 export const metadata: Metadata = {
-  title: "Mobile Armour",
-  description: "Created by Aman",
+  title: "Mobile Armour Heidelberg | Mobile Repair, iPad Repair & Battery Replacement",
+  description: "Expert mobile repair in Heidelberg. Specializing in iPhone & iPad repair, LCD screen replacement, battery replacement, and phone accessories. Located at Warringal Shopping Centre. Fast, reliable service.",
+  keywords: [
+    "mobile repair heidelberg",
+    "ipad repair heidelberg",
+    "lcd repair heidelberg",
+    "battery replacement heidelberg",
+    "phone store heidelberg",
+    "iphone repair heidelberg",
+    "screen repair heidelberg",
+    "phone repair warringal shopping centre",
+    "mobile phone repair near me",
+    "heidelberg phone repair",
+  ],
+  authors: [{ name: "Mobile Armour" }],
+  openGraph: {
+    title: "Mobile Armour Heidelberg - Expert Mobile & iPad Repair",
+    description: "Professional mobile repair services in Heidelberg. iPhone, iPad, LCD repair, battery replacement & more at Warringal Shopping Centre.",
+    url: "https://mobilearmour.com.au",
+    siteName: "Mobile Armour",
+    locale: "en_AU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mobile Armour Heidelberg - Mobile & iPad Repair",
+    description: "Expert mobile repair in Heidelberg. iPhone, iPad, LCD & battery replacement services.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export const viewport = {
@@ -78,6 +115,7 @@ export default function RootLayout({
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
+        <LocalBusinessSchema />
         <AuthProvider>
           <CartProvider>
             <Header />

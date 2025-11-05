@@ -685,21 +685,24 @@ input.form-control {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 2fr));
   gap: 2rem;
   padding: 2rem 0;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-@media (max-width: 768px) {
+/* Mobile: force exactly 2 products per row */
+@media (max-width: 576px) {
   .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-    padding-bottom: 1rem;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 1rem 8px 16px;
   }
+}
+
+@media (max-width: 768px) {
+  
 
   .product-grid::-webkit-scrollbar {
     display: none; /* Chrome, Safari, and Opera */
@@ -731,6 +734,9 @@ input.form-control {
   overflow: hidden;
   transition: all 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .product-card:hover {
@@ -758,6 +764,10 @@ input.form-control {
 
 .product-info {
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
 }
 
 .product-name {
@@ -819,6 +829,7 @@ input.form-control {
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
+  margin-top: auto;
 }
 
 .view-details-btn:hover {
@@ -2605,8 +2616,15 @@ input[type="search"]::-webkit-search-results-decoration {
   padding: 10px 0;
 }
 
-@media only screen and (min-width: 768px) and (max-width: 991px),
-(max-width: 767px) {
+/* Hide header top on tablets only; show on mobile and desktop */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .header-top-area {
+    display: block;
+  }
+}
+
+/* Hide header top on mobile */
+@media (max-width: 767px) {
   .header-top-area {
     display: none;
   }

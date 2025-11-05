@@ -27,6 +27,10 @@
   padding: 2rem 0;
 }
 
+.mobile-filter-section {
+  display: none;
+}
+
 .container {
   /* max-width: 1200px; */
   margin: 0 auto;
@@ -36,7 +40,7 @@
 /* Products layout with sidebar */
 .products-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 320px 1fr;
   gap: 2rem;
   align-items: start;
 }
@@ -44,6 +48,8 @@
 .filters-sidebar {
   position: sticky;
   top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
 }
 
 .products-content {
@@ -63,14 +69,17 @@
     font-size: 1rem;
   }
 
+  .mobile-filter-section {
+    display: block;
+  }
+
   .products-layout {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
 
   .filters-sidebar {
-    position: static;
-    order: -1;
+    display: none;
   }
 
   /* Mobile: make product list vertically scrollable with one card per viewport */
