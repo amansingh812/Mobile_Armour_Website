@@ -28,7 +28,7 @@ const audiowide = Audiowide({
 });
 
 export const metadata: Metadata = {
-  title: "Mobile Armour Heidelberg | Mobile Repair, iPad Repair & Battery Replacement",
+  title: "Mobile Armour  | Mobile Repair , iPad Repair , Phone Repair & Battery Replacement",
   description: "Expert mobile repair in Heidelberg. Specializing in iPhone & iPad repair, LCD screen replacement, battery replacement, and phone accessories. Located at Warringal Shopping Centre. Fast, reliable service.",
   keywords: [
     "mobile repair heidelberg",
