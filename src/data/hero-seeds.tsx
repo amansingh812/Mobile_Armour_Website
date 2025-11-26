@@ -20,7 +20,7 @@ export const Hero1Data: IHero1[] = [
   subtitle: ``,
   title: `Next-Gen Accessories. Ultimate Protection.`,
   description: ``,
-  link: `/shop`,
+  link: `/products`,
   buttonText: "Shop Now",
   src: "/img/slider/newImages/slider6.webp",
 },
