@@ -18,30 +18,39 @@ export default function PaymentSuccess() {
   const [order, setOrder] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isAdvancePayment, setIsAdvancePayment] = useState(false);
 
   useEffect(() => {
     const sessionId = searchParams.get('session_id');
-    
+    const paymentType = searchParams.get('type');
+
     if (!sessionId) {
       setError('No session ID found');
       setLoading(false);
       return;
     }
 
+    // Check if this is an advance payment
+    if (paymentType === 'advance') {
+      setIsAdvancePayment(true);
+      setLoading(false);
+      return;
+    }
+
     // Get order data from localStorage
     const pendingOrderData = localStorage.getItem('pendingOrder');
-    
+
     if (pendingOrderData) {
       try {
         const orderData = JSON.parse(pendingOrderData);
-        
+
         if (orderData.sessionId === sessionId) {
           setOrder(orderData);
-          
+
           // Clear the cart and pending order data
           localStorage.removeItem('pendingOrder');
           localStorage.removeItem('cart'); // Clear cart after successful payment
-          
+
           // Store order in order history
           const orderHistory = JSON.parse(localStorage.getItem('orderHistory') || '[]');
           const completedOrder = {
@@ -61,7 +70,7 @@ export default function PaymentSuccess() {
     } else {
       setError('No pending order found');
     }
-    
+
     setLoading(false);
   }, [searchParams]);
 
@@ -72,6 +81,50 @@ export default function PaymentSuccess() {
           <div className="loading-spinner">
             <div className="spinner"></div>
             <p>Loading order details...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show advance payment success
+  if (isAdvancePayment) {
+    return (
+      <div className="success-page">
+        <div className="success-container">
+          <div className="success-content">
+            <div className="success-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h1 className="success-title">
+              Advance Payment Received!
+            </h1>
+            <p className="success-message">
+              Thank you for your payment. Your advance payment has been successfully processed.
+              We will contact you shortly regarding your mobile repair service.
+            </p>
+
+            <div className="order-summary-card">
+              <h2 className="summary-title">Payment Confirmation</h2>
+              <div className="summary-header">
+                <div className="customer-info">
+                  <h3>What's Next?</h3>
+                  <p>Our team will contact you shortly to confirm the repair details and schedule.</p>
+                  <p style={{ marginTop: '12px' }}>Please keep your receipt and transaction details for reference.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="success-actions">
+              <Link href="/" className="primary-btn">
+                Go Home
+              </Link>
+              <Link href="/contact" className="secondary-btn">
+                Contact Us
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -117,7 +170,7 @@ export default function PaymentSuccess() {
 
           <div className="order-summary-card">
             <h2 className="summary-title">Order Summary</h2>
-            
+
             <div className="summary-header">
               <div className="customer-info">
                 <h3>Customer Information</h3>
