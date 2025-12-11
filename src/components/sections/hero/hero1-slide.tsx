@@ -1,6 +1,7 @@
 "use client";
 
 import PrimaryBtn from "@/components/shared/button/primary-btn";
+
 import Image from "next/image";
 
 interface props {
@@ -37,6 +38,7 @@ export default function Hero1Slide({
                 <h1 className="text-white">{title}</h1>
               </div>
               <p className="text-white">{description}</p>
+             
               <PrimaryBtn
                 href={link}
                 text={buttonText}

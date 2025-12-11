@@ -54,6 +54,66 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.7,
     },
+    {
+      url: `${BASE_URL}/project-details-gallery`,
+      lastModified: lastmod,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/project-details-gallery/`,
+      lastModified: lastmod,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/project-details-right-sidebar`,
+      lastModified: lastmod,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/project-details-left-sidebar`,
+      lastModified: lastmod,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/project-grid`,
+      lastModified: lastmod,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/project-list`,
+      lastModified: lastmod,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/project-metro`,
+      lastModified: lastmod,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/project-slider`,
+      lastModified: lastmod,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/project-standard`,
+      lastModified: lastmod,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/admin/products`,
+      lastModified: lastmod,
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    },
   ]
 
   // ========================================
