@@ -4,8 +4,21 @@ import { Service1CardData } from "@/data/service1-card-seeds";
 import React from "react";
 
 function Service1({ }) {
-  return (
-    <div className="service-section " style={{ backgroundColor: "#ffffff" }}>
+  return ( 
+    <>
+      <style>{`
+        .service-section {
+          display: none;
+        }
+
+        @media (min-width: 768px) {
+          .service-section {
+            display: block !important;
+          }
+        }
+      `}</style>
+
+      <div className="service-section py-12 md:py-20" style={{ backgroundColor: "#ffffff" }}>
       <div className="container">
         <div className="row align-items-center service-title">
           <div className="col-xl-8 col-lg-8 ">
@@ -15,16 +28,17 @@ function Service1({ }) {
             />
           </div>
         </div>
-        <div className="row mt-100">
+        <div className="row mt-8 md:mt-100 g-3 md:g-4">
           {Service1CardData &&
             Service1CardData.map((item, i) => (
-              <div className="col-xl-4 col-lg-4 col-md-6 " key={i}>
+              <div className="col-6 col-md-6 col-lg-4 col-xl-4" key={i}>
                 <Service1Card service1CardData={item} />
               </div>
             ))}
         </div>
       </div>
     </div>
+    </>
   );
 }
 

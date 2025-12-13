@@ -59,19 +59,19 @@ function Promo1({
     {
       title: "Screen Replacement",
       percentage: 90,
-      barColor: "#FE574F",
+      barColor: "#FF5600",
       duration: 5000,
     },
     {
       title: "Battery Replacement",
       percentage: 70,
-      barColor: "#FE574F",
+      barColor: "#FF5600",
       duration: 5000,
     },
     {
       title: "Iphone Unlock",
       percentage: 80,
-      barColor: "#FE574F",
+      barColor: "#FF5600",
       duration: 5000,
     },
   ];

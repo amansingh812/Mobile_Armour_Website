@@ -1,0 +1,380 @@
+/* 
+ * Mobile Service Card - CSS Variables Version
+ * Allows easy theming without changing component code
+ * Import this in your globals.css or use in <style> tag
+ */
+
+:root {
+  /* Primary Colors */
+  --service-primary-color: #FF5600;
+  --service-primary-gradient-start: #FF5600;
+  --service-primary-gradient-end: #ff6b5d;
+  
+  /* Background Colors */
+  --service-bg-inactive: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  --service-bg-active: linear-gradient(135deg, #FF5600 0%, #ff6b5d 100%);
+  --service-bg-light: #f8f9fa;
+  --service-bg-white: #ffffff;
+  
+  /* Text Colors */
+  --service-text-dark: #1a1a1a;
+  --service-text-white: #ffffff;
+  --service-text-gray: #666666;
+  
+  /* Border Colors */
+  --service-border-light: #f0f0f0;
+  --service-border-primary: #FF5600;
+  
+  /* Shadow Colors */
+  --service-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --service-shadow-active: 0 8px 20px rgba(254, 87, 79, 0.25);
+  
+  /* Animation Properties */
+  --service-transition-duration: 0.35s;
+  --service-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --service-stagger-delay: 0.08s;
+  
+  /* Icon Properties */
+  --service-icon-size: 45px;
+  --service-icon-size-mobile: 40px;
+  --service-icon-scale-active: 1.08;
+  
+  /* Spacing */
+  --service-padding: 14px 16px;
+  --service-padding-mobile: 12px 14px;
+  --service-gap: 12px;
+  --service-gap-mobile: 10px;
+  --service-border-radius: 12px;
+  --service-icon-border-radius: 10px;
+  
+  /* Typography */
+  --service-font-size: 15px;
+  --service-font-size-mobile: 14px;
+  --service-font-weight: 600;
+  --service-line-height: 1.4;
+  
+  /* Arrow Properties */
+  --service-arrow-size: 20px;
+  --service-arrow-size-mobile: 18px;
+  --service-arrow-move-distance: 4px;
+}
+
+/* ============================================
+   Mobile Service Item Styles with Variables
+   ============================================ */
+
+.mobile-service-item {
+  display: flex;
+  align-items: center;
+  gap: var(--service-gap);
+  padding: var(--service-padding);
+  background: var(--service-bg-inactive);
+  border-radius: var(--service-border-radius);
+  text-decoration: none;
+  color: inherit;
+  border: 2px solid var(--service-border-light);
+  transition: all var(--service-transition-duration) var(--service-transition-timing);
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-service-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--service-bg-active);
+  transition: left var(--service-transition-duration) var(--service-transition-timing);
+  z-index: 0;
+}
+
+.mobile-service-item.active::before {
+  left: 0;
+}
+
+.mobile-service-item.active {
+  border-color: var(--service-border-primary);
+  box-shadow: var(--service-shadow-active);
+}
+
+/* ============================================
+   Icon Styles
+   ============================================ */
+
+.service-icon {
+  flex-shrink: 0;
+  width: var(--service-icon-size);
+  height: var(--service-icon-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--service-bg-white);
+  border-radius: var(--service-icon-border-radius);
+  padding: 8px;
+  transition: all var(--service-transition-duration) var(--service-transition-timing);
+  position: relative;
+  z-index: 1;
+  box-shadow: var(--service-shadow-light);
+}
+
+.mobile-service-item.active .service-icon {
+  background: rgba(255, 255, 255, 0.95);
+  transform: scale(var(--service-icon-scale-active));
+  box-shadow: var(--service-shadow-active);
+}
+
+.service-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform var(--service-transition-duration) var(--service-transition-timing);
+}
+
+.mobile-service-item.active .service-icon img {
+  transform: scale(1.1);
+}
+
+/* ============================================
+   Text Content Styles
+   ============================================ */
+
+.service-content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.service-title {
+  font-size: var(--service-font-size);
+  font-weight: var(--service-font-weight);
+  color: var(--service-text-dark);
+  line-height: var(--service-line-height);
+  transition: color var(--service-transition-duration) var(--service-transition-timing);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mobile-service-item.active .service-title {
+  color: var(--service-text-white);
+}
+
+/* ============================================
+   Arrow Styles
+   ============================================ */
+
+.service-arrow {
+  flex-shrink: 0;
+  font-size: var(--service-arrow-size);
+  color: var(--service-primary-color);
+  transition: all var(--service-transition-duration) var(--service-transition-timing);
+  position: relative;
+  z-index: 1;
+}
+
+.mobile-service-item.active .service-arrow {
+  color: var(--service-text-white);
+  transform: translateX(var(--service-arrow-move-distance));
+}
+
+/* ============================================
+   Mobile Responsive Adjustments
+   ============================================ */
+
+@media (max-width: 640px) {
+  .mobile-service-item {
+    padding: var(--service-padding-mobile);
+    gap: var(--service-gap-mobile);
+  }
+
+  .service-icon {
+    width: var(--service-icon-size-mobile);
+    height: var(--service-icon-size-mobile);
+  }
+
+  .service-title {
+    font-size: var(--service-font-size-mobile);
+  }
+
+  .service-arrow {
+    font-size: var(--service-arrow-size-mobile);
+  }
+}
+
+/* ============================================
+   Animation Definitions
+   ============================================ */
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   Utility Classes for Easy Theming
+   ============================================ */
+
+/* Light Theme */
+.service-light-theme {
+  --service-bg-inactive: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+  --service-bg-light: #f5f5f5;
+  --service-text-dark: #2c2c2c;
+}
+
+/* Dark Theme */
+.service-dark-theme {
+  --service-bg-inactive: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  --service-bg-white: #333333;
+  --service-text-dark: #f0f0f0;
+  --service-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Blue Theme */
+.service-blue-theme {
+  --service-primary-color: #007AFF;
+  --service-primary-gradient-start: #007AFF;
+  --service-primary-gradient-end: #0051D5;
+  --service-bg-active: linear-gradient(135deg, #007AFF 0%, #0051D5 100%);
+  --service-shadow-active: 0 8px 20px rgba(0, 122, 255, 0.25);
+}
+
+/* Green Theme */
+.service-green-theme {
+  --service-primary-color: #34C759;
+  --service-primary-gradient-start: #34C759;
+  --service-primary-gradient-end: #30B050;
+  --service-bg-active: linear-gradient(135deg, #34C759 0%, #30B050 100%);
+  --service-shadow-active: 0 8px 20px rgba(52, 199, 89, 0.25);
+}
+
+/* Purple Theme */
+.service-purple-theme {
+  --service-primary-color: #9B59B6;
+  --service-primary-gradient-start: #9B59B6;
+  --service-primary-gradient-end: #8E44AD;
+  --service-bg-active: linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%);
+  --service-shadow-active: 0 8px 20px rgba(155, 89, 182, 0.25);
+}
+
+/* ============================================
+   Fast Animation Theme
+   ============================================ */
+
+.service-fast-animation {
+  --service-transition-duration: 0.25s;
+}
+
+/* ============================================
+   Slow Animation Theme
+   ============================================ */
+
+.service-slow-animation {
+  --service-transition-duration: 0.5s;
+}
+
+/* ============================================
+   Compact Spacing Theme
+   ============================================ */
+
+.service-compact {
+  --service-padding: 10px 12px;
+  --service-gap: 8px;
+}
+
+/* ============================================
+   Spacious Theme
+   ============================================ */
+
+.service-spacious {
+  --service-padding: 18px 20px;
+  --service-gap: 16px;
+  --service-icon-size: 50px;
+}
+
+/* ============================================
+   How to Use CSS Variables in Components
+   ============================================ */
+
+/*
+  1. Use in ServiceMobileCard.tsx:
+  
+  .service-mobile-card {
+    padding: var(--service-padding);
+    gap: var(--service-gap);
+    background: var(--service-bg-inactive);
+    border-radius: var(--service-border-radius);
+    transition: all var(--service-transition-duration) var(--service-transition-timing);
+  }
+
+  2. Apply theme in HTML:
+  
+  <div class="service-blue-theme">
+    <ServiceMobileCard ... />
+  </div>
+
+  3. Override specific variable:
+  
+  <style>
+    .custom-section {
+      --service-primary-color: #FF6B35;
+    }
+  </style>
+
+  4. Responsive CSS Variables:
+  
+  @media (max-width: 640px) {
+    :root {
+      --service-icon-size: var(--service-icon-size-mobile);
+    }
+  }
+*/
+
+/* ============================================
+   High Contrast Accessibility Theme
+   ============================================ */
+
+@media (prefers-contrast: more) {
+  :root {
+    --service-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --service-border-light: #d0d0d0;
+    --service-text-dark: #000000;
+  }
+}
+
+/* ============================================
+   Reduced Motion Theme
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --service-transition-duration: 0.01s;
+  }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+  .mobile-service-item {
+    page-break-inside: avoid;
+    border: 1px solid var(--service-border-light);
+    box-shadow: none;
+  }
+
+  .mobile-service-item.active {
+    background: var(--service-bg-inactive);
+    border-color: var(--service-border-light);
+  }
+}
