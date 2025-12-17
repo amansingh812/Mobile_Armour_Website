@@ -19,8 +19,8 @@ function Testimonial1() {
         <div className="row">
           <div className="col-lg-12 text-center">
             <SectionTitle
-              title="Happy Client Says About Us"
-              subTitle="Testimonial"
+              title="Happy Customer Says About Us"
+              subTitle="Reviews"
             />
           </div>
         </div>

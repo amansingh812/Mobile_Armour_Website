@@ -3893,10 +3893,11 @@ only screen and (min-width: 768px) and (max-width: 991px) {
 }
 
 .contact-info-wrap {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 20px;
   margin-top: 30px;
+  flex-wrap: wrap;
 }
 
 .contact-icon {
@@ -3907,6 +3908,7 @@ only screen and (min-width: 768px) and (max-width: 991px) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .contact-icon i {
@@ -3922,6 +3924,19 @@ only screen and (min-width: 768px) and (max-width: 991px) {
 }
 
 @media (max-width: 767px) {
+  .contact-info-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .contact-text p {
+    font-size: 16px;
+    margin-top: 5px;
+  }
+
   .client-area.pt-100 {
     padding-top: 50px;
   }

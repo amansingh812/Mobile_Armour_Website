@@ -8,32 +8,29 @@ import ServiceMobile from "@/components/sections/service/ServiceMobile";
 import Categories from "@/components/sections/categories/Categories";
 import PopularProducts from "@/components/sections/popular-products/PopularProducts";
 import React from "react";
-
-
 import Hero1 from "@/components/sections/hero/hero1";
 import Hero2 from "@/components/sections/hero/hero2";
 import Hero4 from "@/components/sections/hero/hero4";
-import About2 from "@/components/sections/about/about2";
-import TrustBadges from "@/components/sections/trust-badges/TrustBadges";
 import RepairProcess from "@/components/sections/repair-process/RepairProcess";
+import Client from "@/components/sections/client/client";
 import Testimonial1 from "@/components/sections/testimonial/testimonial1";
-import FaqHome from "@/components/sections/faq/FaqHome";
-import LocationMap from "@/components/sections/location/LocationMap";
-import Faq2 from "@/components/sections/faq/faq2";
+import Testimonial3 from "@/components/sections/testimonial/testimonial3";
+
 
 function Home1({ }) {
   return (
     <div>
-      <Hero1   />
-      {/* <About1 /> */}
+      <Hero1 />
       <Hero2 />
       <Service1 />
       <ServiceMobile />
       <RepairProcess />
       <Categories />
       <PopularProducts />
-      <Hero4 />
+      {/* <Hero4 /> */}
+      <Testimonial1 />
       <Promo1 />
+      
     </div>
   );
 }

@@ -60,17 +60,7 @@ function ServiceMobile() {
           overflow: hidden;
         }
 
-        .mobile-service-item::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, #FF5600 0%, #ff6b5d 100%);
-          transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: 0;
-        }
+        
 
         .mobile-service-item.active::before {
           left: 0;
@@ -197,9 +187,9 @@ function ServiceMobile() {
                       key={i}
                       href={item.href}
                       className={`mobile-service-item ${activeIndex === i ? "active" : ""}`}
-                      style={{
-                        animation: `slideInUp 0.5s ease-out ${i * 0.08}s both`,
-                      }}
+                      // style={{
+                      //   animation: `slideInUp 0.5s ease-out ${i * 0.08}s both`,
+                      // }}
                       onMouseEnter={() => setActiveIndex(i)}
                       onMouseLeave={() => setActiveIndex(null)}
                       onTouchStart={() => setActiveIndex(i)}
