@@ -51,5 +51,15 @@ export const Testimonial1CardData: ITestimonial1CardData[] = [
     designation: "Trusted Customer",
     rating: 5,
   },
-  
+  {
+    icon: <i className="la la-quote-left"></i>,
+    comment:
+      "Excellent advice and very good product with good price and quality. The technical  was very friendly and helpful. all the best for for them",
+    src: "/img/unnamed (4).png",
+    alt: "client-5",
+    name: "Ahmad AL Mutawa",
+    designation: "Trusted Customer",
+    rating: 5,
+  },
+
 ];
