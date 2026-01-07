@@ -28,8 +28,8 @@ const audiowide = Audiowide({
 });
 
 export const metadata: Metadata = {
-  title: "Mobile Armour  | Mobile Repair , iPad Repair , Phone Repair & Battery Replacement",
-  description: "Expert mobile repair in Heidelberg. Specializing in iPhone & iPad repair, LCD screen replacement, battery replacement, and phone accessories. Located at Warringal Shopping Centre. Fast, reliable service.",
+  title: "Mobile Phone Repair Heidelberg | Mobile Armour - Same Day Service",
+  description: "Expert smartphone repairs in Heidelberg VIC. iPhone, Samsung & all major brands. 6-month warranty • Same-day service • Certified technicians • 30-60 min repairs. Located at Warringal Shopping Centre. Call 0405-326-205 for free quote.",
   keywords: [
     "mobile repair heidelberg",
     "ipad repair heidelberg",

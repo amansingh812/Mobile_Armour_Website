@@ -5976,7 +5976,7 @@ button.mfp-arrow {
 }
 
 .single-blog-item:hover h4 {
-  color: #0b0d26;
+  color: #2563eb;
 }
 
 .blog-content {
@@ -6007,6 +6007,12 @@ button.mfp-arrow {
   font-size: 16px;
   font-weight: 400;
   margin: 20px 0;
+  color: #1a1a1a;
+  transition: all 0.3s ease;
+}
+
+.single-blog-item:hover .blog-meta {
+  color: #2563eb;
 }
 
 @media (max-width: 767px) {
@@ -6019,6 +6025,8 @@ button.mfp-arrow {
   font-size: 24px;
   line-height: 32px;
   font-weight: 500;
+  color: #1a1a1a;
+  transition: all 0.3s ease;
 }
 
 .blog-info {

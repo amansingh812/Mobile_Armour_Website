@@ -5,6 +5,7 @@ import Service3 from "@/components/sections/service/service3";
 import React from "react";
 import { Metadata } from "next";
 import Funfact from "@/components/sections/funfact/funfact";
+import Service1 from "@/components/sections/service/service1";
 
 export const metadata: Metadata = {
   title: "Mobile Repair Services Heidelberg | iPad, LCD & Battery Replacement",
@@ -33,6 +34,7 @@ function ServicesPage({ }) {
         subTitle="Our Services"
         sectionClass="section-padding"
       />
+       <Service1 />
       <Service3 />
       <Funfact />
       {/* <Service2Slider /> */}

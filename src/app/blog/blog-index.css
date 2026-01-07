@@ -1,0 +1,275 @@
+/* Blog Index Page Styles */
+.blog-index-wrapper {
+  background-color: #f8f9fa;
+}
+
+.blog-section {
+  padding: 80px 0;
+}
+
+.section-header {
+  margin-bottom: 60px;
+}
+
+.section-subtitle {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b18 0%, #ff8c42 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.section-title {
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+}
+
+.section-description {
+  font-size: clamp(16px, 2vw, 18px);
+  color: #6c757d;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Blog Grid */
+.blog-grid {
+  margin-bottom: 60px;
+}
+
+.blog-card-wrapper {
+  margin-bottom: 30px;
+}
+
+.blog-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.blog-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.blog-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.blog-card-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.blog-card-image img {
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover .blog-card-image img {
+  transform: scale(1.05);
+}
+
+.blog-card-category {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #ff6b18;
+  color: #fff;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.blog-card-content {
+  padding: 25px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card-meta {
+  display: flex;
+  gap: 15px;
+  font-size: 13px;
+  color: #6c757d;
+  margin-bottom: 12px;
+}
+
+.blog-card-meta .reading-time::before {
+  content: "•";
+  margin-right: 15px;
+}
+
+.blog-card-title {
+  font-size: clamp(18px, 2.5vw, 20px);
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.blog-card:hover .blog-card-title {
+  color: #ff6b18;
+}
+
+.blog-card-excerpt {
+  font-size: 14px;
+  color: #6c757d;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.read-more {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff6b18;
+  transition: color 0.3s ease;
+}
+
+.blog-card:hover .read-more {
+  color: #e55a0f;
+}
+
+/* CTA Section */
+.blog-cta {
+  background: linear-gradient(135deg, #ff6b18 0%, #ff8c42 100%);
+  color: #fff;
+  padding: clamp(40px, 6vw, 60px);
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(255, 107, 24, 0.3);
+}
+
+.blog-cta h3 {
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.blog-cta p {
+  font-size: clamp(15px, 2vw, 17px);
+  max-width: 550px;
+  margin: 0 auto 30px;
+  opacity: 0.95;
+  line-height: 1.7;
+}
+
+.blog-cta .cta-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.blog-cta .btn {
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+.blog-cta .btn-primary {
+  background: #fff;
+  color: #ff6b18;
+}
+
+.blog-cta .btn-primary:hover {
+  background: #f8f9fa;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.blog-cta .btn-outline {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.blog-cta .btn-outline:hover {
+  background: #fff;
+  color: #ff6b18;
+  transform: translateY(-3px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 991px) {
+  .blog-section {
+    padding: 60px 0;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  .blog-section {
+    padding: 50px 0;
+  }
+
+  .blog-card-wrapper {
+    margin-bottom: 25px;
+  }
+
+  .blog-card-content {
+    padding: 20px;
+  }
+
+  .blog-cta {
+    padding: 30px 20px;
+  }
+
+  .blog-cta .cta-buttons {
+    flex-direction: column;
+  }
+
+  .blog-cta .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+  .section-header {
+    margin-bottom: 30px;
+  }
+
+  .blog-card-title {
+    font-size: 17px;
+  }
+
+  .blog-card-excerpt {
+    font-size: 13px;
+    -webkit-line-clamp: 2;
+  }
+}

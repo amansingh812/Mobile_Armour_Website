@@ -19,29 +19,72 @@ function Hero2() {
       <div className="hero-area hero-two theme-bg bg-cover d-flex align-items-center hero2-rounded">
         <Image
           src={imageUrl}
-          alt="Responsive Image"
+          alt="Mobile Phone Repair Service Heidelberg"
           fill
           style={{ objectFit: "cover" }}
+          priority
         />
         <div className="overlay-1"></div>
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-xl-7 col-lg-7 col-md-8">
-              <div className="hero-area-content">
+            <div className="col-12 col-md-10 col-lg-8 col-xl-7">
+              <div className="hero-area-content" style={{ padding: '20px 0' }}>
                 <div className="section-title">
-                 
-                  <h2 className="text-white ">
-                  Get a grip on <br></br>
-              your key essentials.
+                  <span 
+                    className="text-white hero2-badge" 
+                    style={{ 
+                      fontSize: 'clamp(13px, 3.5vw, 18px)', 
+                      fontWeight: '500', 
+                      display: 'block', 
+                      marginBottom: '12px',
+                      lineHeight: '1.4'
+                    }}
+                  >
+                    ⭐⭐⭐⭐⭐ Rated 5.0 on Google<br className="d-sm-none" /> • 6-Month Warranty
+                  </span>
+                  <h2 
+                    className="text-white hero2-title" 
+                    style={{
+                      fontSize: 'clamp(24px, 6vw, 48px)',
+                      lineHeight: '1.2',
+                      marginBottom: '16px',
+                      wordWrap: 'break-word'
+                    }}
+                  >
+                    Your Trusted Mobile Repair Experts in Heidelberg
                   </h2>
+                  <ul 
+                    className="hero2-list" 
+                    style={{ 
+                      listStyle: 'none', 
+                      padding: '12px 0 0 0', 
+                      margin: '30px 0 25px 0',
+                      color: '#fff'
+                    }}
+                  >
+                    {[
+                      "Certified technicians",
+                      "Same-day service",
+                      "All major brands",
+                      "Located at Warringal Shopping Centre"
+                    ].map((item, idx) => (
+                      <li 
+                        key={idx} 
+                        style={{ 
+                          fontSize: 'clamp(14px, 3.5vw, 17px)', 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: '10px',
+                          marginBottom: '8px'
+                        }}
+                      >
+                        <i className="fa-light fa-circle-check" style={{ color: '#ff5722' }}></i>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>              
-                <div className="hero-btn mt-40  d-flex align-items-center flex-wrap">
-                  <PrimaryBtn
-                    text="Explore More"
-                    href="/products"
-                    className="mr-35 position-relative z-1"
-                  />
-                </div>
+                
               </div>
             </div>
           </div>

@@ -27,10 +27,10 @@ function Blog1Card({ blog1CardData }: Blog1CardProps) {
           <div className="blog-title">
             <h4>{blog1CardData.title}</h4>
           </div>
-          <div className="blog-info">
+          {/* <div className="blog-info">
             <span>{blog1CardData.date}</span>
             <span>{blog1CardData.comment} comment</span>
-          </div>
+          </div> */}
         </div>
       </Link>
     </div>

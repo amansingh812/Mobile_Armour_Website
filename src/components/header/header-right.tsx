@@ -47,17 +47,44 @@ export default function HeaderRight({ }: HeaderRightProps) {
   return (
     <>
       <div className={`header-right relative ${isModalOpen ? 'modal-active' : ''}`}>
+        {/* Phone Number - Click to Call */}
+        <a 
+          href="tel:0405326205" 
+          className="header-phone-link d-none d-lg-inline-block mr-4"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '10px 20px',
+            background: '#ff5722',
+            color: '#fff',
+            borderRadius: '4px',
+            fontWeight: '600',
+            fontSize: '15px',
+            textDecoration: 'none',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = '#e64a19'}
+          onMouseLeave={(e) => e.currentTarget.style.background = '#ff5722'}
+        >
+          <i className="fa-light fa-phone" style={{ fontSize: '16px'  , paddingRight: '6px' }}></i>
+          0405-326-205
+        </a>
+        
+        {/* Get a Quote Button */}
         {/* <button
           ref={buttonRef}
           onClick={() => setIsModalOpen(!isModalOpen)}
-          className="theme-btn  d-none d-lg-inline-block mr-4"
+          className="theme-btn d-none d-lg-inline-block mr-4"
         >
           Get a Quote
         </button> */}
+        
         {/* Auth Navigation */}
         <div className="auth-nav-container d-none d-lg-inline-block mr-4">
           <AuthNav />
         </div>
+        
         {isModalOpen && (
           <div
             ref={modalRef}
@@ -67,9 +94,6 @@ export default function HeaderRight({ }: HeaderRightProps) {
           </div>
         )}
       </div>
-
- 
-      {/* <MobileQuoteButton onOpenQuoteForm={handleOpenQuoteForm} /> */}
     </>
   );
 }

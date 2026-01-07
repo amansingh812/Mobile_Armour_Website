@@ -15,8 +15,8 @@ function Blog1() {
         <div className="row justify-content-center">
           <div className="col-xl-8 col-lg-8 text-center">
             <SectionTitle
-              title="Articles About Roofing"
-              subTitle="From Our Blog"
+              title="Phone Care & Repair Blog"
+              subTitle="Smart Tips to Keep Your Phone Running Smoothly"
             />
           </div>
         </div>
@@ -32,7 +32,7 @@ function Blog1() {
               pagination={{ clickable: true }}
               breakpoints={{
                 640: {
-                  slidesPerView: 2,
+                  slidesPerView: 2, 
                   spaceBetween: 20,
                 },
                 768: {

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import FooterBottom from "./footer-bottom";
 import Link from "next/link";
@@ -46,7 +48,17 @@ function Footer() {
                     >
                       repair@mobilearmour.com.au
                     </Link>
-                    <p>0405-326-205</p>
+                    <br />
+                    <Link
+                      href="tel:0405326205"
+                      style={{
+                        color: '#FF5600',
+                        fontWeight: '600',
+                        fontSize: '16px'
+                      }}
+                    >
+                      0405-326-205
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -79,6 +91,53 @@ function Footer() {
                     </div>
                   </li>
                 </ul>
+              </div>
+            </div>
+
+            {/* Google Maps Embed */}
+            <div className="row mt-5">
+              <div className="col-12">
+                <div className="google-map-container" style={{
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+                  height: '350px'
+                }}>
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.1234567890123!2d145.0603!3d-37.7547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ1JzE2LjkiUyAxNDXCsDAzJzM3LjEiRQ!5e0!3m2!1sen!2sau!4v1234567890123"
+                    width="100%"
+                    height="350"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Mobile Armour Location - Warringal Shopping Centre"
+                  ></iframe>
+                </div>
+                <div className="text-center mt-3">
+                  <a 
+                    href="https://maps.google.com/?q=Warringal+Shopping+Centre+Heidelberg+VIC+3084" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '12px 24px',
+                      background: '#FF5600',
+                      color: '#fff',
+                      borderRadius: '6px',
+                      textDecoration: 'none',
+                      fontWeight: '600',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#e64a00'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = '#FF5600'}
+                  >
+                    <i className="fas fa-directions"></i>
+                    Get Directions to Mobile Armour
+                  </a>
+                </div>
               </div>
             </div>
 

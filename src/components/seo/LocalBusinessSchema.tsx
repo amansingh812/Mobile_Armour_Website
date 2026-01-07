@@ -3,24 +3,30 @@
 import Script from "next/script";
 
 export default function LocalBusinessSchema() {
-  // Review data (in production, this would come from a real reviews API/database)
+  // Review data from actual Google Reviews
   const reviewData = [
     {
-      author: "Aarav Mehta",
-      datePublished: "2025-10-15",
-      reviewBody: "Mobile Armour has transformed how we manage device security. The onboarding was seamless and support is outstanding.",
+      author: "Anthony Mchugh",
+      datePublished: "2024-12-15",
+      reviewBody: "Really good and helpful assistance. The phone is fixed well and operating good. They helped me with my phone. I recommend them.",
       ratingValue: 5
     },
     {
-      author: "Sana Kapoor",
-      datePublished: "2025-09-22",
-      reviewBody: "We love the simplicity and power. Policy updates roll out instantly across our fleet.",
+      author: "Oli",
+      datePublished: "2024-12-10",
+      reviewBody: "Awesome worker, great customer service, and really friendly. They were able to help fix my phone and the store is not bad. Great service, definitely would recommend to others.",
       ratingValue: 5
     },
     {
-      author: "Rohit Verma",
-      datePublished: "2025-08-10",
-      reviewBody: "Reliable, intuitive, and secure. Exactly what our remote teams needed.",
+      author: "Sam Elsmere",
+      datePublished: "2024-12-05",
+      reviewBody: "Super quick & easy. I smash my phone a lot and they can have it fixed quickly at a great rate.",
+      ratingValue: 5
+    },
+    {
+      author: "Con Sakkas",
+      datePublished: "2024-11-28",
+      reviewBody: "Great service. Came to my home and replaced my iPad glass screen that was smashed, quick service, and reasonable price. Highly recommend.",
       ratingValue: 5
     }
   ];
