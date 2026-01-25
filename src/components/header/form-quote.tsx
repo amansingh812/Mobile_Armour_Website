@@ -50,6 +50,26 @@ export default function Form() {
         body: formData2.toString()
       });
 
+      // Send email notification (fire and forget - don't await)
+      fetch('/api/send-lead-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'ENQUIRY',
+          data: {
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            brand: formData.brand,
+            model: formData.model,
+            description: formData.description
+          }
+        }),
+      }).then(() => console.log('Email notification sent')
+      ).catch(err => console.error('Failed to send email notification:', err));
+
       // When using no-cors mode, we can't access response properties
       // So we'll assume success if no error is thrown
 

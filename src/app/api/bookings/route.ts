@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendLeadNotificationEmail } from '@/lib/mailer';
 
 export async function POST(request: NextRequest) {
   try {
@@ -65,6 +66,23 @@ export async function POST(request: NextRequest) {
       },
       body: formData.toString()
     });
+
+    // Send email notification immediately (don't await to avoid slowing down response)
+    console.log('[bookings] Triggering email notification for lead...');
+    sendLeadNotificationEmail({
+      type: type,
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      brand: data.brand,
+      model: data.model,
+      message: data.message || data.problem,
+      productName: data.productName,
+      quantity: data.quantity,
+      deliveryAddress: data.deliveryAddress,
+      preferredDate: data.preferredDate,
+      preferredTime: data.preferredTime,
+    }).catch(err => console.error('Email notification failed:', err));
 
     // Since we're using no-cors mode, we can't access response properties
     // So we'll assume success if no error is thrown

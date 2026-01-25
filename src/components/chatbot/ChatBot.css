@@ -2,7 +2,7 @@
 .chat-widget-button {
   position: fixed;
   bottom: 20px;
-  left: 20px;
+  right: 20px;
   width: 60px;
   height: 60px;
   background: linear-gradient(135deg, #FF5600 0%, #E24E00 100%);
@@ -30,7 +30,7 @@
 .chat-teaser {
   position: fixed;
   bottom: 94px; /* just above the widget button */
-  left: 23px; /* to the right of the widget button */
+  right: 23px; /* to the left of the widget button */
   max-width: 300px;
   background-color: white; /* Light background */
   border: 1px solid #ccc; /* Subtle border */
@@ -147,7 +147,7 @@ wavinghand
 .chat-window {
   position: fixed;
   bottom: 90px;
-  left: 20px;
+  right: 20px;
   width: 380px;
   height: 570px;
   background: #000000; /* dark black in light mode */
@@ -429,14 +429,14 @@ wavinghand
     width: calc(100vw - 40px);
     height: calc(100vh - 140px);
     bottom: 90px;
-    left: 20px;
-    right: auto;
+    left: auto;
+    right: 20px;
   }
   
   .chat-widget-button {
-    bottom: 20px;
-    left: 20px;
-    right: auto;
+    bottom: 34px;
+        left: auto;
+        right: 9px;
   }
 }
 

@@ -15,8 +15,8 @@ function Blog1Card({ blog1CardData }: Blog1CardProps) {
             width={365}
             height={244}
             style={{
-              width: "100%",
-              height: "auto",
+              width: "140",
+              height: "200",
             }}
           />
         </div>

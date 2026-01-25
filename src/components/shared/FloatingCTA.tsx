@@ -97,7 +97,7 @@ export default function FloatingCTA() {
         /* Desktop Floating Button */
         .floating-cta-desktop {
           position: fixed;
-          right: -80px;
+          left: -80px;
           bottom: 30px;
           z-index: 1000;
           transition: right 0.3s ease;
@@ -105,7 +105,7 @@ export default function FloatingCTA() {
         }
 
         .floating-cta-desktop.visible {
-          right: 30px;
+          left: 30px;
         }
 
         .cta-phone-circle {

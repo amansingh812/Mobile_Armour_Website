@@ -10,10 +10,10 @@ import "swiper/css/navigation";
 
 function Blog1() {
   return (
-    <div className="blog-section gray-bg section-padding">
+    <div className="blog-section gray-bg section-padding pb-5">
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-xl-8 col-lg-8 text-center">
+          <div className="col-xl-8 col-lg-8 text-center pb-3">
             <SectionTitle
               title="Phone Care & Repair Blog"
               subTitle="Smart Tips to Keep Your Phone Running Smoothly"
