@@ -12,7 +12,7 @@ export default function FAQ() {
     },
     {
       question: "Do you offer a warranty on repairs?",
-      answer: "Yes! All our repairs come with a comprehensive 6-month warranty covering parts and workmanship. If you experience any issues with your repair within this period, bring it back and we'll fix it at no additional cost."
+      answer: "Yes. A 6-month limited warranty is provided only on Premium A-Grade parts and workmanship. Warranty does not cover standard or customer-supplied parts, accidental damage, liquid damage, or misuse. Proof of repair is required for warranty claims."
     },
     {
       question: "What phone brands do you repair?",

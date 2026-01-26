@@ -8,6 +8,7 @@ export default function Form() {
     phone: "",
     email: "",
     brand: "",
+    otherBrand: "",
     model: "",
     description: ""
   });
@@ -15,7 +16,13 @@ export default function Form() {
   const [message, setMessage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    // Clear otherBrand if brand is not "other"
+    if (name === "brand" && value !== "other") {
+      setFormData(prev => ({ ...prev, brand: value, otherBrand: "" }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,6 +32,9 @@ export default function Form() {
     // Get current date in the required format
     const currentDate = new Date().toLocaleDateString('en-CA');
 
+    // Use otherBrand value if brand is "other", otherwise use brand value
+    const finalBrand = formData.brand === "other" ? formData.otherBrand : formData.brand;
+
     try {
       // Create URL search params object for form data to maintain compatibility with Google Apps Script
       const formData2 = new URLSearchParams();
@@ -32,7 +42,7 @@ export default function Form() {
       formData2.append('NAME', formData.name);
       formData2.append('PHONE', formData.phone);
       formData2.append('EMIAL', formData.email); // Using EMIAL to match your Google Sheet column name
-      formData2.append('BRAND', formData.brand);
+      formData2.append('BRAND', finalBrand);
       formData2.append('MODEL', formData.model);
       formData2.append('DESCRIPTION', formData.description);
 
@@ -61,7 +71,7 @@ export default function Form() {
             name: formData.name,
             phone: formData.phone,
             email: formData.email,
-            brand: formData.brand,
+            brand: finalBrand,
             model: formData.model,
             description: formData.description
           }
@@ -80,6 +90,7 @@ export default function Form() {
         phone: "",
         email: "",
         brand: "",
+        otherBrand: "",
         model: "",
         description: ""
       });
@@ -136,6 +147,18 @@ export default function Form() {
           <option value="oneplus">OnePlus</option>
           <option value="other">Other</option>
         </select>
+
+        {formData.brand === "other" && (
+          <input
+            type="text"
+            name="otherBrand"
+            placeholder="Please specify brand"
+            value={formData.otherBrand}
+            onChange={handleChange}
+            required
+            style={{ marginTop: '15px' }}
+          />
+        )}
 
         <input
           type="text"
