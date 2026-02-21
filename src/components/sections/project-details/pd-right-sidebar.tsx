@@ -12,7 +12,7 @@ function PdRightSidebar({}) {
               <div className="project-feature-img">
                 <Image
                   src="/img/project/project-feature-img.jpg"
-                  alt="img"
+                  alt="Repair project feature - Mobile Armour showcase"
                   width={666}
                   height={444}
                   style={{
@@ -38,7 +38,7 @@ function PdRightSidebar({}) {
                   <div className="col-6">
                     <Image
                       src="/img/project/gallery-img-1.jpg"
-                      alt="img"
+                      alt="Repair work gallery - Warringal Shopping Centre"
                       width={321}
                       height={214}
                       style={{
@@ -50,7 +50,7 @@ function PdRightSidebar({}) {
                   <div className="col-6">
                     <Image
                       src="/img/project/gallery-img-2.jpg"
-                      alt="img"
+                      alt="Mobile phone repair work - Professional service"
                       width={321}
                       height={214}
                       style={{
@@ -62,7 +62,7 @@ function PdRightSidebar({}) {
                   <div className="col-12 mt-30">
                     <Image
                       src="/img/project/gallery-img-3.jpg"
-                      alt="img"
+                      alt="Device service project - Heidelberg phone repair"
                       width={666}
                       height={444}
                       style={{

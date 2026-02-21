@@ -22,10 +22,10 @@ function Funfact({ }) {
           <div className="col-xl-6 col-lg-6 col-md-6">
             <div className="team-img-wrap">
               <Image
-                src="/img/funfact/Store_servicing.jpg"
+                src="/img/funfact/Store_servicing.webp"
                 width={516}
                 height={476}
-                alt="img"
+                alt="In-store mobile device servicing and repair facility"
                 style={{
                   width: "100%",
                   height: "auto",

@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       authors: [post.author],
       images: [
         {
-          url: `https://mobilearmour.com.au${post.image}`,
+          url: `https://www.mobilearmour.com.au${post.image}`,
           width: 1200,
           height: 630,
           alt: post.imageAlt,
@@ -44,10 +44,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
-      images: [`https://mobilearmour.com.au${post.image}`],
+      images: [`https://www.mobilearmour.com.au${post.image}`],
     },
     alternates: {
-      canonical: `https://mobilearmour.com.au/blog/${post.slug}`,
+      canonical: `https://www.mobilearmour.com.au/blog/${post.slug}`,
     },
     robots: {
       index: true,

@@ -1,0 +1,21 @@
+{
+  "name": "Mobile Armour - Phone Repair Heidelberg",
+  "short_name": "Mobile Armour",
+  "description": "Expert mobile phone repair and accessories at Warringal Shopping Centre, Heidelberg VIC 3084. Same-day service, 6-month warranty.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1B3A5C",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-AU",
+  "categories": ["shopping", "utilities"],
+  "icons": [
+    {
+      "src": "/img/logo-22.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

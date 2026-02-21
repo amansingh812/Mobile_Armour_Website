@@ -12,7 +12,7 @@ export default function SingleClient({ imageSrc }: props) {
           src={imageSrc}
           width={190}
           height={60}
-          alt="img"
+          alt="Mobile Armour partner brand logo"
           style={{
             width: "100%",
             height: "auto",

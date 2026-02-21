@@ -61,12 +61,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/project-details-gallery/`,
-      lastModified: lastmod,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
       url: `${BASE_URL}/project-details-right-sidebar`,
       lastModified: lastmod,
       changeFrequency: 'monthly',
@@ -108,11 +102,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    // Blog page - important for content SEO
     {
-      url: `${BASE_URL}/admin/products`,
+      url: `${BASE_URL}/blog`,
       lastModified: lastmod,
       changeFrequency: 'weekly',
-      priority: 0.5,
+      priority: 0.7,
     },
   ]
 

@@ -8,7 +8,7 @@ function Service2Slider({ }) {
         <h5>
           <Image
             src="/img/service/1-13.png"
-            alt="img"
+            alt="Mobile Armour phone screen repair service icon"
             width={64}
             height={64}
 
@@ -18,7 +18,7 @@ function Service2Slider({ }) {
         <h5 className="stroke">
           <Image
             src="/img/service/repairing.png"
-            alt="img"
+            alt="Business device repair services at Mobile Armour Heidelberg"
             width={64}
             height={64}
 
@@ -28,7 +28,7 @@ function Service2Slider({ }) {
         <h5>
           <Image
             src="/img/service/1-33.png"
-            alt="img"
+            alt="In-store phone repair service icon for Mobile Armour"
             width={64}
             height={64}
 
@@ -37,8 +37,8 @@ function Service2Slider({ }) {
         </h5>
         <h5 className="stroke">
           <Image
-            src="/img/service/1-41.png"
-            alt="img"
+            src="/img/service/1-41.webp"
+            alt="Mobile phone charging port repair service icon"
             width={64}
             height={64}
 

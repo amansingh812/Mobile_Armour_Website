@@ -19,7 +19,7 @@ function Footer() {
                       src="/img/logo-22.png"
                       width={50}
                       height={75}
-                      alt="factorix-logo"
+                      alt="Mobile Armour - Phone Repair Heidelberg Melbourne"
                     />
                     <span className="logo-namefotter">
                       Mobile <span style={{ color: "#FF5600" }}>Armour</span>
@@ -43,8 +43,6 @@ function Footer() {
                     </p>
                     <Link
                       href="mailto:repair@mobilearmour.com.au"
-                      target="_blank"
-                      rel="noopener noreferrer"
                     >
                       repair@mobilearmour.com.au
                     </Link>
@@ -66,10 +64,10 @@ function Footer() {
                 <h5>Links</h5>
                 <ul>
                   <li>
-                    <Link href="/services" target="_blank" rel="noopener noreferrer">Services</Link>
-                    <Link href="/products" target="_blank" rel="noopener noreferrer">Products</Link>
-                    <Link href="/about" target="_blank" rel="noopener noreferrer">About</Link>
-                    <Link href="/contact" target="_blank" rel="noopener noreferrer">Contact</Link>
+                    <Link href="/services">Services</Link>
+                    <Link href="/products">Products</Link>
+                    <Link href="/about">About</Link>
+                    <Link href="/contact">Contact</Link>
                   </li>
                 </ul>
               </div>

@@ -29,7 +29,7 @@ function BdLeft({}) {
               src="/img/straight-quotes.png"
               width={36}
               height={36}
-              alt="img"
+              alt="Blog quote icon for mobile repair article"
             />
           </div>
           <div className="blog-quote-text">
@@ -69,7 +69,7 @@ function BdLeft({}) {
                 src="/img/blog/blog-details-img-1.jpg"
                 width={368}
                 height={245}
-                alt="img"
+                alt="Mobile device repair techniques and best practices"
                 style={{
                   width: "100%",
                   height: "auto",
@@ -83,7 +83,7 @@ function BdLeft({}) {
                 src="/img/blog/blog-details-img-2.jpg"
                 width={368}
                 height={245}
-                alt="img"
+                alt="Phone repair tips and device maintenance guide"
                 style={{
                   width: "100%",
                   height: "auto",

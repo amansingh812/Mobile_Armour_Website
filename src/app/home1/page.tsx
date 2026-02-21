@@ -21,11 +21,13 @@ import FloatingCTA from "@/components/shared/FloatingCTA";
 import LeadCapturePopup from "@/components/shared/LeadCapturePopup";
 import FAQ from "@/components/sections/faq/FAQ";
 import MobileEnhancements from "@/components/shared/MobileEnhancements";
+import ReviewSchema from "@/components/seo/ReviewSchema";
 
 
 function Home1({ }) {
   return (
     <div>
+      <ReviewSchema />
       <Hero1 />
      {/* <TrustBadges />  */}
       <Hero2 />

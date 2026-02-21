@@ -13,7 +13,7 @@ function About2({}) {
                 src="/img/about/about-2-1.jpg"
                 width={500}
                 height={575}
-                alt="alt"
+                alt="Mobile Armour team - Heidelberg phone repair shop"
                 style={{
                   width: "100%",
                   height: "auto",
@@ -46,7 +46,7 @@ function About2({}) {
                           src="/img/feature/worker.png"
                           width={50}
                           height={50}
-                          alt="alt"
+                          alt="Professional staff icon - Mobile Armour"
                         />
                       </div>
                       <div className="feat-content">
@@ -64,7 +64,7 @@ function About2({}) {
                           src="/img/feature/customer-service.png"
                           width={50}
                           height={50}
-                          alt="alt"
+                          alt="Customer support icon - Mobile Armour Heidelberg"
                         />
                       </div>
                       <div className="feat-content">

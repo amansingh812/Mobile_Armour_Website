@@ -59,8 +59,10 @@ const OrderSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-// Create a compound index for faster queries
+// Compound indexes for faster queries
 OrderSchema.index({ user: 1, createdAt: -1 });
+OrderSchema.index({ orderStatus: 1, createdAt: -1 });
+OrderSchema.index({ paymentStatus: 1 });
 
 // Check if the model already exists to prevent overwriting during hot reloads
 export default mongoose.models.Order || mongoose.model<IOrder>('Order', OrderSchema);

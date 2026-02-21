@@ -80,12 +80,16 @@ export async function GET(req: NextRequest) {
       if (protectors.length) query.screenProtectorTypes = { $in: protectors };
     }
     
-    // Debug logging
-    console.log('Products API - query:', JSON.stringify(query, null, 2));
-    console.log('Products API - searchParams:', searchParams.toString());
-    
-    const products = await Product.find(query);
-    return NextResponse.json(products, { status: 200 });
+    // Use .lean() for plain JS objects (skip Mongoose hydration = ~3x faster)
+    // Select only fields needed for product listing (exclude heavy specs/descriptions for list view)
+    const products = await Product.find(query)
+      .lean()
+      .sort({ createdAt: -1 });
+
+    const response = NextResponse.json(products, { status: 200 });
+    // Cache product listings for 60 seconds, stale-while-revalidate for 5 minutes
+    response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+    return response;
   } catch (error) {
     console.error('Products API error:', error);
     return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });

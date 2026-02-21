@@ -42,7 +42,7 @@ export default function LocalBusinessSchema() {
     "@id": "https://mobilearmour.com.au/#business",
     "name": "Mobile Armour",
     "image": "https://mobilearmour.com.au/logo.png",
-    "description": "Expert mobile phone repair services in Heidelberg. Specializing in iPhone repair, iPad repair, LCD screen replacement, battery replacement, and phone accessories. We repair all iPhone models including iPhone 14, iPhone 13, iPhone 11, Samsung models including Galaxy S23 Ultra, S22, S21, and many more. Quick repair service for cracked screens and damaged devices.",
+    "description": "Expert mobile phone repair services in Heidelberg. Specializing in iPhone repair, iPad repair, Apple Watch screen replacement, Apple Watch battery replacement, LCD screen replacement, battery replacement, and phone accessories. We repair all iPhone models including iPhone 14, iPhone 13, iPhone 11, Samsung models including Galaxy S23 Ultra, S22, S21, Apple Watch Series Ultra, 9, 8, 7, 6, SE and many more. Quick repair service for cracked screens and damaged devices.",
     "url": "https://mobilearmour.com.au",
     "telephone": "+61-405-326-205",
     "email": "repair@mobilearmour.com.au",
@@ -124,8 +124,16 @@ export default function LocalBusinessSchema() {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Apple Watch Repair",
-            "description": "Professional Apple Watch repair and battery replacement for Series 8, Series 7, Series 6, Ultra, and other models."
+            "name": "Apple Watch Screen Repair",
+            "description": "Professional Apple Watch screen replacement in Heidelberg for all Apple Watch Series — Ultra, Series 9, 8, 7, 6, SE and older models. Same-day service with quality parts and warranty."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Apple Watch Battery Replacement",
+            "description": "Apple Watch battery replacement in Heidelberg Melbourne. Restore all-day battery life with a fast, reliable battery swap for Apple Watch Series Ultra, 9, 8, 7, 6, SE and older models at Warringal Shopping Centre."
           }
         },
         {

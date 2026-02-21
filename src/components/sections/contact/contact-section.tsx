@@ -2,7 +2,7 @@ import Form from "@/components/shared/form/form";
 import React from "react";
 
 function ContactSection() {
-  const imageUrl = "/img/contact/contact-img2.jpg";
+  const imageUrl = "/img/contact/contact-img2.webp";
   return (
     <div className="contact-section">
       <div

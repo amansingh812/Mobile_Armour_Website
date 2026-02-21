@@ -28,7 +28,7 @@ export const Blog1CardData: IBlog1CardData[] = [
     comment: 12,
   },
   {
-    src: "/img/blog/water-damage.jpeg",
+    src: "/img/blog/water-damage.webp",
     alt: "Water damage first aid for phones",
     meta: "Emergency Help",
     title: "Dropped Your Phone in Water? Follow These Steps Immediately",

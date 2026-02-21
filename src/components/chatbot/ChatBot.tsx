@@ -20,14 +20,19 @@ interface LeadData {
   collected: boolean;
 }
 
+// Use a stable epoch date for SSR so server and client produce identical HTML.
+// The real timestamp is set on the client after mount.
+const INITIAL_TIMESTAMP = new Date(0);
+
 const ChatBot: React.FC = () => {
+  const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       text: 'Hi! Welcome to Mobile Armour! 👋 I\'m here to help you with mobile repairs, accessories, and any questions about our services. How can I assist you today?',
       sender: 'bot',
-      timestamp: new Date()
+      timestamp: INITIAL_TIMESTAMP
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
@@ -44,6 +49,18 @@ const ChatBot: React.FC = () => {
   });
   const [lastSentSig, setLastSentSig] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // After hydration, patch the initial message timestamp to the real current time
+  useEffect(() => {
+    setIsMounted(true);
+    setMessages(prev =>
+      prev.map(msg =>
+        msg.id === '1' && msg.timestamp.getTime() === 0
+          ? { ...msg, timestamp: new Date() }
+          : msg
+      )
+    );
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -65,14 +82,14 @@ const ChatBot: React.FC = () => {
           clearTimeout(hideTimer);
         };
       }
-    } catch {}
+    } catch { }
   }, []);
 
   // Open chat and persist that teaser was shown
   const openChat = () => {
     setIsOpen(true);
     setIsTeaserVisible(false);
-     try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch {}
+    try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch { }
   };
 
   const toggleChat = () => {
@@ -80,7 +97,7 @@ const ChatBot: React.FC = () => {
     setIsOpen(next);
     if (next) {
       setIsTeaserVisible(false);
-      try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch {}
+      try { sessionStorage.setItem('maChatTeaserShown', '1'); } catch { }
     }
   };
 
@@ -166,29 +183,29 @@ const ChatBot: React.FC = () => {
     const nameRegex = /(?:my name is|i'm|i am|call me|name|i'm)\s+([a-zA-Z\s]+)/i;
     // Simple name extraction - if it's a single word response after asking for name
     const simpleNameRegex = /^([a-zA-Z]{2,20})$/;
-    
+
     const phoneRegex = /(\+?[\d\s\-\(\)]{8,15})/;
     const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
-    
+
     // Enhanced brand/model detection including iPad
-    const knownBrands = ['apple','iphone','ipad','samsung','galaxy','xiaomi','mi','redmi','oneplus','google','pixel','oppo','vivo','motorola','realme','nokia','sony','huawei'];
-    
+    const knownBrands = ['apple', 'iphone', 'ipad', 'samsung', 'galaxy', 'xiaomi', 'mi', 'redmi', 'oneplus', 'google', 'pixel', 'oppo', 'vivo', 'motorola', 'realme', 'nokia', 'sony', 'huawei'];
+
     let newLeadData = { ...leadData };
     let updated = false;
     let identityChanged = false;
 
     // Extract name - enhanced patterns for combined responses
     if (!newLeadData.name) {
-      const botAskedForName = botResponse.toLowerCase().includes('name') || 
-                             messages.some(m => m.sender === 'bot' && m.text.toLowerCase().includes('name'));
-      
+      const botAskedForName = botResponse.toLowerCase().includes('name') ||
+        messages.some(m => m.sender === 'bot' && m.text.toLowerCase().includes('name'));
+
       let nameMatch = userMessage.match(nameRegex);
-      
+
       // If bot asked for name and user gave simple response, try simple pattern
       if (!nameMatch && botAskedForName) {
         nameMatch = userMessage.match(simpleNameRegex);
       }
-      
+
       // Try to extract name from combined response like "aman sing@gmail.com 9900523423"
       if (!nameMatch) {
         const combinedMatch = userMessage.match(/^([a-zA-Z\s]+)\s+[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
@@ -196,7 +213,7 @@ const ChatBot: React.FC = () => {
           nameMatch = [combinedMatch[0], combinedMatch[1]];
         }
       }
-      
+
       if (nameMatch) {
         let foundName = nameMatch[1].trim();
 
@@ -220,8 +237,8 @@ const ChatBot: React.FC = () => {
     // Extract phone - more flexible
     if (!newLeadData.phone) {
       // Look for phone numbers in various formats
-      const phoneMatch = userMessage.match(phoneRegex) || 
-                        userMessage.match(/(\d{10})/); // Simple 10-digit number
+      const phoneMatch = userMessage.match(phoneRegex) ||
+        userMessage.match(/(\d{10})/); // Simple 10-digit number
       if (phoneMatch) {
         const foundPhone = phoneMatch[1].replace(/[\s\-\(\)]/g, '');
         if (leadData.collected && leadData.phone && leadData.phone !== foundPhone) {
@@ -246,14 +263,14 @@ const ChatBot: React.FC = () => {
     if (!newLeadData.brand || !newLeadData.model) {
       const lower = userMessage.toLowerCase();
       const words = lower.split(/[^a-z0-9+]+/i);
-      
+
       // Brand detection
       const brandFound = words.find(w => knownBrands.includes(w));
       if (brandFound && !newLeadData.brand) {
         newLeadData.brand = brandFound === 'ipad' ? 'Apple iPad' : brandFound;
         updated = true;
       }
-      
+
       // Model detection - enhanced for iPad and other devices
       if (!newLeadData.model) {
         // iPad models
@@ -427,7 +444,8 @@ const ChatBot: React.FC = () => {
   };
 
   const formatTime = (date: Date) => {
-    // Use consistent 24-hour format to avoid server/client hydration mismatch
+    // Don't render time during SSR — only show after client mount to avoid hydration mismatch
+    if (!isMounted || date.getTime() === 0) return '';
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
@@ -439,11 +457,11 @@ const ChatBot: React.FC = () => {
       <div className={`chat-widget-button ${isOpen ? 'open' : ''}`} onClick={toggleChat}>
         {isOpen ? (
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         ) : (
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}
       </div>
@@ -456,7 +474,7 @@ const ChatBot: React.FC = () => {
         <div className="teaser-content">
           {/* Avatar/Icon - Mbot icon */}
           <div className="mbot-icon-placeholder">
-            <img src="/img/bot.png" alt="Mbot" />
+            <img src="/img/bot.png" alt="Mobile Armour chat assistant" loading="lazy" width={40} height={40} />
           </div>
 
           <div className="teaser-text-area">
@@ -473,7 +491,7 @@ const ChatBot: React.FC = () => {
         <div className="chat-header">
           <div className="chat-header-info">
             <div className="chat-avatar">
-              <img src="/img/bot.png" alt="Mbot" />
+              <img src="/img/bot.png" alt="Mobile Armour chat assistant" loading="lazy" width={40} height={40} />
             </div>
             <div>
               <h4>Mobile Armour Assistant</h4>
@@ -482,7 +500,7 @@ const ChatBot: React.FC = () => {
           </div>
           <button className="close-button" onClick={() => setIsOpen(false)}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
@@ -520,13 +538,13 @@ const ChatBot: React.FC = () => {
               rows={1}
               disabled={isLoading}
             />
-            <button 
-              onClick={sendMessage} 
+            <button
+              onClick={sendMessage}
               disabled={!inputMessage.trim() || isLoading}
               className="send-button"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>

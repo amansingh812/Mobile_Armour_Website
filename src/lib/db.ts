@@ -29,6 +29,11 @@ async function connectToDatabase() {
     if (!cached.promise) {
         const opts = {
             bufferCommands: false,
+            maxPoolSize: 10,           // Connection pool for concurrent requests
+            minPoolSize: 2,            // Keep minimum connections warm
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 45000,
+            maxIdleTimeMS: 30000,      // Close idle connections after 30s
         };
         cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
             return mongoose;
@@ -36,7 +41,6 @@ async function connectToDatabase() {
     }
     try {
         cached.conn = await cached.promise;
-        console.log("Database connection established");
     } catch (e) {
         cached.promise = null;
         throw e;

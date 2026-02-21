@@ -19,7 +19,7 @@ function About1({ type }: About1Props) {
             <div className="about-img-wrap">
               <div className="image-one">
                 <Image
-                  src="/img/about/about-1-11.png"
+                  src="/img/about/about-1-11.webp"
                   width={403}
                   height={538}
                   alt="about image"

@@ -11,7 +11,7 @@ export interface IService3CardData {
 
 export const Service3CardData: IService3CardData[] = [
   {
-    src: "/img/service/1-13.png",
+    src: "/img/service/screen-replacement.png",
     alt: "img",
     title: "Phone Screen Repairs",
     href: "/service-details",
@@ -19,7 +19,7 @@ export const Service3CardData: IService3CardData[] = [
     linkIcon: <i className="las la-arrow-right"></i>,
   },
   {
-    src: "/img/service/1-41.png",
+    src: "/img/service/water-damage-repairs.png",
     alt: "img",
     title: "Water Damage Repairs",
     href: "/service-details",
@@ -27,7 +27,7 @@ export const Service3CardData: IService3CardData[] = [
     linkIcon: <i className="las la-arrow-right"></i>,
   },
   {
-    src: "/img/service/1-61.png",
+    src: "/img/service/back-glass-replacement.png",
     alt: "img",
     title: "Back Glass Replacement",
     href: "/service-details",
@@ -41,6 +41,6 @@ export const Service3CardData: IService3CardData[] = [
     href: "/service-details",
     linkText: "Read More",
     linkIcon: <i className="las la-arrow-right"></i>,
-    className: "b-none",
   },
+
 ];

@@ -133,6 +133,12 @@ const ProductSchema: Schema = new Schema(
   { timestamps: true }
 );
 
+// Compound indexes for common filter queries
+ProductSchema.index({ category: 1, brand: 1 });
+ProductSchema.index({ category: 1, price: 1 });
+ProductSchema.index({ category: 1, createdAt: -1 });
+ProductSchema.index({ name: 'text', description: 'text', tags: 'text' }); // Full-text search
+
 // Check if the model already exists to prevent overwriting during hot reloads
 export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
 

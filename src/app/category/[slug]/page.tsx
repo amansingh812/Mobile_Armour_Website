@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 import { categories } from '@/data/categories';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 
 interface CategoryPageProps {
   params: Promise<{
@@ -7,11 +9,57 @@ interface CategoryPageProps {
   }>;
 }
 
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const category = categories.find(cat => cat.link === `/category/${slug}`);
+
+  if (!category) {
+    return {
+      title: 'Category Not Found | Mobile Armour',
+      description: 'The category you are looking for could not be found.',
+    };
+  }
+
+  return {
+    title: `${category.name} | Phone Accessories Heidelberg | Mobile Armour`,
+    description: `Shop ${category.name.toLowerCase()} at Mobile Armour, Warringal Shopping Centre, Heidelberg VIC 3084. Premium quality mobile accessories for iPhone, Samsung & more. Visit us or order online.`,
+    keywords: [
+      `${category.name.toLowerCase()} heidelberg`,
+      `buy ${category.name.toLowerCase()} melbourne`,
+      `phone ${category.name.toLowerCase()} warringal`,
+      'mobile accessories heidelberg',
+      'mobile armour shop',
+    ],
+    openGraph: {
+      title: `${category.name} - Mobile Armour Heidelberg`,
+      description: `Premium ${category.name.toLowerCase()} at Warringal Shopping Centre, Heidelberg.`,
+      url: `https://www.mobilearmour.com.au/category/${slug}`,
+      siteName: 'Mobile Armour',
+      locale: 'en_AU',
+      type: 'website',
+    },
+    alternates: {
+      canonical: `https://www.mobilearmour.com.au/category/${slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large' as const,
+        'max-snippet': -1,
+      },
+    },
+  };
+}
+
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
-  
+
   // Find the category based on the slug
-  const category = categories.find(cat => 
+  const category = categories.find(cat =>
     cat.link === `/category/${slug}`
   );
 
@@ -21,6 +69,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: '/' },
+        { name: 'Products', url: '/products' },
+        { name: category.name },
+      ]} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">

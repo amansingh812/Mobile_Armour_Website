@@ -4,6 +4,7 @@ import ContactSection from "@/components/sections/contact/contact-section";
 import Map from "@/components/shared/map/map";
 import React from "react";
 import { Metadata } from "next";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
 export const metadata: Metadata = {
   title: "Contact Mobile Armour Heidelberg | Phone Repair Shop Location & Hours",
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contact Mobile Armour - Phone Repair Heidelberg",
     description: "Visit us at Warringal Shopping Centre, Heidelberg. Expert iPhone & Samsung repair. Call 0405-326-205. Open 7 days.",
-    url: "https://mobilearmour.com.au/contact",
+    url: "https://www.mobilearmour.com.au/contact",
     siteName: "Mobile Armour",
     locale: "en_AU",
     type: "website",
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     description: "Visit us at Warringal Shopping Centre, Heidelberg VIC 3084. Expert mobile repair services.",
   },
   alternates: {
-    canonical: "https://mobilearmour.com.au/contact",
+    canonical: "https://www.mobilearmour.com.au/contact",
   },
   robots: {
     index: true,
@@ -54,6 +55,10 @@ export const metadata: Metadata = {
 function ContactPage({ }) {
   return (
     <div>
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: '/' },
+        { name: 'Contact' },
+      ]} />
       <Breadcrumb title="Contact" />
       <Map />
       <ContactInfo />

@@ -12,11 +12,6 @@ const ProductsPage = () => {
   const selectedCategory = searchParams.get('category');
   const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
 
-  // Debug logging
-  console.log('ProductsPage - selectedCategory:', selectedCategory);
-  console.log('ProductsPage - searchParams:', searchParams.toString());
-  console.log('ProductsPage - activeFilters:', activeFilters);
-
   const handleFiltersChange = (filters: Record<string, string[]>) => {
     setActiveFilters(filters);
   };

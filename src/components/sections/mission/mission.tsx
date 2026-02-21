@@ -1,7 +1,7 @@
 import React from "react";
 
 function Mission({ }) {
-  const imageUrl = "/img/mission-bg1.jpg";
+  const imageUrl = "/img/mission-bg1.webp";
   return (
     <div
       className="mission-section pt-90 pb-90"

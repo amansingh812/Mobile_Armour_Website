@@ -22,7 +22,7 @@ export default function Hero3Slide({
     <div className="single-slide-item d-flex align-items-center">
       <Image
         src={src}
-        alt="Responsive Image"
+        alt={`${title} - Mobile Armour Heidelberg`}
         fill
         style={{ objectFit: "cover" }}
       />

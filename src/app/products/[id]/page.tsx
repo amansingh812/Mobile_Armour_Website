@@ -5,6 +5,7 @@ import { useParams, useRouter, usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 import { useCart } from '@/hooks/useCart';
+import Image from 'next/image';
 import './ProductDetail.css';
 
 const ProductDetailPage = () => {
@@ -89,8 +90,7 @@ const ProductDetailPage = () => {
         <div className="product-detail-content">
           <div className="product-image-section">
             <div className="product-gallery">
-              {/* Main Image */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {/* Main Image - Using Next/Image for automatic optimization */}
               <div
                 className="product-image-wrapper"
                 onMouseEnter={() => setIsZoomed(true)}
@@ -107,11 +107,15 @@ const ProductDetailPage = () => {
                   } as React.CSSProperties);
                 }}
               >
-                <img 
-                  src={mainImage} 
-                  alt={product.name}
+                <Image
+                  src={mainImage}
+                  alt={`${product.name} - Buy at Mobile Armour Heidelberg`}
+                  width={600}
+                  height={600}
                   className={`product-detail-image ${isZoomed ? 'zoomed' : ''}`}
                   style={zoomStyle}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
                 />
               </div>
 
@@ -119,13 +123,15 @@ const ProductDetailPage = () => {
               {images.length > 1 && (
                 <div className="product-thumbs">
                   {images.map((img: string, idx: number) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       key={idx}
                       src={img}
-                      alt={`${product.name} ${idx + 1}`}
+                      alt={`${product.name} view ${idx + 1} - Mobile Armour`}
+                      width={100}
+                      height={100}
                       className={`product-thumb ${idx === selectedImageIndex ? 'active' : ''}`}
                       onClick={() => setSelectedImageIndex(idx)}
+                      sizes="100px"
                     />
                   ))}
                 </div>

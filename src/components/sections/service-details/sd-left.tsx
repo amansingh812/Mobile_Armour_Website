@@ -7,8 +7,8 @@ function SdLeft({ }) {
       <div className="service-details-wrap">
         <div className="feature-img">
           <Image
-            src="/img/service/service-feat-img1.jpg" //roofix\public\img\service\service-feat-img1.jpg
-            alt="img"
+            src="/img/service/service-feat-img1.webp" //roofix\public\img\service\service-feat-img1.webp
+            alt="Professional mobile phone and wearable device repair services"
             width={768}
             height={511}
             style={{
@@ -29,8 +29,8 @@ function SdLeft({ }) {
           <div className="row gy-5">
             <div className="col-md-6">
               <Image
-                src="/img/service/service-details-img-11.jpg"
-                alt="img"
+                src="/img/service/service-details-img-11.webp"
+                alt="Mobile phone screen repair and battery replacement service"
                 width={372}
                 height={248}
                 style={{
@@ -41,8 +41,8 @@ function SdLeft({ }) {
             </div>
             <div className="col-md-6">
               <Image
-                src="/img/service/service-details-img-22.jpg"
-                alt="img"
+                src="/img/service/service-details-img-22.webp"
+                alt="Water damage repair and device diagnostics at Mobile Armour"
                 width={372}
                 height={248}
                 style={{
@@ -66,8 +66,8 @@ We provide convenient in-store servicing by appointment. Visit our store for scr
         </p>
         <div className="service-details-img">
           <Image
-            src="/img/service/service-details-img-333.jpg"
-            alt="img"
+            src="/img/service/service-details-img-333.webp"
+            alt="Corporate device repair solutions at Warringal Shopping Centre"
             width={768}
             height={512}
             style={{

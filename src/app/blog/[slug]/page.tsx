@@ -2,7 +2,6 @@
 
 import { useParams } from 'next/navigation';
 import { notFound } from 'next/navigation';
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { blogPosts } from '@/data/blog-posts';
@@ -22,7 +21,7 @@ export default function BlogPostPage() {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
-    image: `https://mobilearmour.com.au${post.image}`,
+    image: `https://www.mobilearmour.com.au${post.image}`,
     author: {
       '@type': 'Person',
       name: post.author,
@@ -32,7 +31,7 @@ export default function BlogPostPage() {
       name: 'Mobile Armour',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://mobilearmour.com.au/images/logo.png',
+        url: 'https://www.mobilearmour.com.au/images/logo.png',
       },
     },
     datePublished: post.publishedDate,
@@ -40,7 +39,7 @@ export default function BlogPostPage() {
     description: post.excerpt,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://mobilearmour.com.au/blog/${post.slug}`,
+      '@id': `https://www.mobilearmour.com.au/blog/${post.slug}`,
     },
     keywords: post.keywords.join(', '),
   };
@@ -53,19 +52,19 @@ export default function BlogPostPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://mobilearmour.com.au',
+        item: 'https://www.mobilearmour.com.au',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Blog',
-        item: 'https://mobilearmour.com.au/blog',
+        item: 'https://www.mobilearmour.com.au/blog',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: post.title,
-        item: `https://mobilearmour.com.au/blog/${post.slug}`,
+        item: `https://www.mobilearmour.com.au/blog/${post.slug}`,
       },
     ],
   };
@@ -82,29 +81,15 @@ export default function BlogPostPage() {
 
   return (
     <>
-      <Head>
-        <title>{post.title} | Mobile Armour Heidelberg</title>
-        <meta name="description" content={post.excerpt} />
-        <meta name="keywords" content={post.keywords.join(', ')} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt} />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content={`https://mobilearmour.com.au${post.image}`} />
-        <meta property="article:published_time" content={post.publishedDate} />
-        <meta property="article:author" content={post.author} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.excerpt} />
-        <link rel="canonical" href={`https://mobilearmour.com.au/blog/${post.slug}`} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-        />
-      </Head>
+      {/* Schema markup - metadata handled by layout.tsx generateMetadata */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
 
       <div className="blog-post-wrapper">
         {/* Breadcrumb */}

@@ -472,7 +472,7 @@ export default function LoginPage() {
 
                         <div className="otp-modal-body">
                             <div className="otp-icon">
-                                <Image src="/img/otp_logo.png" alt="Mobile Armour" width={64} height={64} />
+                                <Image src="/img/otp_logo.webp" alt="Mobile Armour" width={64} height={64} />
                             </div>
 
                             <p className="otp-description">
@@ -568,7 +568,7 @@ export default function LoginPage() {
                             {forgotPasswordStep === "email" && (
                                 <>
                                     <div className="otp-icon">
-                                        <Image src="/img/otp_logo.png" alt="Mobile Armour" width={64} height={64} />
+                                        <Image src="/img/otp_logo.webp" alt="Mobile Armour" width={64} height={64} />
                                     </div>
 
                                     <p className="otp-description">
@@ -614,7 +614,7 @@ export default function LoginPage() {
                             {forgotPasswordStep === "otp" && (
                                 <>
                                     <div className="otp-icon">
-                                        <Image src="/img/otp_logo.png" alt="Mobile Armour" width={64} height={64} />
+                                        <Image src="/img/otp_logo.webp" alt="Mobile Armour" width={64} height={64} />
                                     </div>
 
                                     <p className="otp-description">

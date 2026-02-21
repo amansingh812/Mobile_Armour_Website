@@ -64,7 +64,6 @@ const OrderConfirmationPage = () => {
   // Simple fixed tax calculation (10% of subtotal)
   const TAX_RATE = 0.10;
   const taxAmount = order.total * TAX_RATE;
-  console.log(taxAmount);
 
   return (
     <div className="order-confirmation-page">

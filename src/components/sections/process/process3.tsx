@@ -72,7 +72,7 @@ function Process3() {
                         src={step.image}
                         width={576}
                         height={383}
-                        alt="img"
+                        alt="Mobile Armour phone repair process step"
                         style={{
                           width: "100%",
                           height: "auto",

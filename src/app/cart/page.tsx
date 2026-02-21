@@ -57,10 +57,13 @@ const CartPage = () => {
             {state.items.map((item) => (
               <div key={item.product._id} className="cart-item-row">
                 <div className="product-info">
-                  <img 
-                    src={item.product.imageUrl} 
+                  <img
+                    src={item.product.imageUrl}
                     alt={item.product.name}
                     className="product-thumbnail"
+                    loading="lazy"
+                    width={80}
+                    height={80}
                   />
                   <div className="product-details">
                     <h3>{item.product.name}</h3>

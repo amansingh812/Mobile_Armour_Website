@@ -5,7 +5,7 @@ interface BreadcrumbProps {
 }
 function Breadcrumb({ title, backgroundImage }: BreadcrumbProps) {
   //nst imageUrl = "/img/bread-bg1.jpg";  about-us-bg
-  const imageUrl = backgroundImage || "/img/about-us-bg.jpg";
+  const imageUrl = backgroundImage || "/img/about-us-bg.webp";
 
   return (
     <div

@@ -10,6 +10,11 @@ import Service3 from "@/components/sections/service/service3";
 import Team1 from "@/components/sections/team/team1";
 import Testimonial3 from "@/components/sections/testimonial/testimonial3";
 import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 function Home3({}) {
   return (

@@ -42,7 +42,7 @@ function PdLeftSidebar({}) {
                     width: "100%",
                     height: "auto",
                   }}
-                  alt="img"
+                  alt="Phone repair service image - Mobile Armour expert"
                   width={666}
                   height={656}
                 />
@@ -50,7 +50,7 @@ function PdLeftSidebar({}) {
               <div className="project-feature-img mt-30">
                 <Image
                   src="/img/project/project-feature-img-3.jpg"
-                  alt="img"
+                  alt="Device repair work image - Warringal Shopping Centre"
                   width={666}
                   height={656}
                   style={{
@@ -62,7 +62,7 @@ function PdLeftSidebar({}) {
               <div className="project-feature-img mt-30">
                 <Image
                   src="/img/project/project-feature-img-4.jpg"
-                  alt="img"
+                  alt="Smartphone repair showcase - Heidelberg mobile service"
                   width={666}
                   height={656}
                   style={{

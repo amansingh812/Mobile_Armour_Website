@@ -24,7 +24,7 @@ export default function Hero1Slide({
     <div className="single-slide-item d-flex align-items-center position-relative">
       <Image
         src={src}
-        alt="Responsive Image"
+        alt={`${title} - Mobile Armour phone repair Heidelberg`}
         fill
         style={{ objectFit: "cover" }}
       />

@@ -9,7 +9,11 @@ import Service2 from "@/components/sections/service/service2";
 import Service2Slider from "@/components/sections/service/service2-slider";
 import Testimonial3 from "@/components/sections/testimonial/testimonial3";
 import React from "react";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 function Home2({ }) {
   return (

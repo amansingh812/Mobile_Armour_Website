@@ -42,7 +42,7 @@ function Faq2({}) {
                   src="/img/counter-bg.jpg"
                   width={576}
                   height={697}
-                  alt="img"
+                  alt="Mobile Armour phone repair FAQ and support resources"
                   style={{
                     width: "100%",
                     height: "auto",

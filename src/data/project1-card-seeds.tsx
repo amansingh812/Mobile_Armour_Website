@@ -9,35 +9,35 @@ export interface IProject1CardData {
 
 export const Project1CardData: IProject1CardData[] = [
   {
-    src: "/img/project/1-1111.jpg",
+    src: "/img/project/1-1111.webp",
     alt: "img",
     title: "Mobile Cases",
     desc: "Shock Resistance",
     href: "/contact",
   },
   {
-    src: "/img/project/1-222.jpg",
+    src: "/img/project/1-222.webp",
     alt: "img",
     title: "Power Bank",
     desc: "Portable Power",
     href: "/contact",
   },
   {
-    src: "/img/project/1-41.png",
+    src: "/img/project/1-41.webp",
     alt: "img",
     title: "Mobile Stand",
     desc: "hand-Free Suport",
     href: "/contact",
   },
   {
-    src: "/img/project/1-31.jpeg",
+    src: "/img/project/1-31.webp",
     alt: "img",
     title: "Lens Protection",
     desc: "Camera Safety",
     href: "/contact",
   },
   {
-    src: "/img/project/1-51.png",
+    src: "/img/project/1-51.webp",
     alt: "img",
     title: "Data cable",
     desc: "Durable wires",

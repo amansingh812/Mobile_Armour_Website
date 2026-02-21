@@ -83,7 +83,7 @@ function About3({
                   src="/img/about/about-3-22.jpg"
                   width={239}
                   height={256}
-                  alt="alt"
+                  alt="Mobile Armour phone repair service demonstration"
                   style={{
                     width: "100%",
                     height: "auto",

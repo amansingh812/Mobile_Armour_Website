@@ -15,7 +15,7 @@ function Testimonial3({}) {
                 src="/img/testimonial/testimonial-img.jpg"
                 width={516}
                 height={516}
-                alt="img"
+                alt="Mobile Armour customer testimonial and review image"
                 style={{
                   width: "100%",
                   height: "auto",
@@ -28,7 +28,7 @@ function Testimonial3({}) {
               <div className="testimonial-icon">
                 <Image
                   src="/img/straight-quotes.png"
-                  alt="img"
+                  alt="Quotation mark icon for customer testimonial review"
                   width={64}
                   height={64}
                 />
@@ -49,7 +49,7 @@ function Testimonial3({}) {
                 <div className="author-img">
                   <Image
                     src="/img/testimonial/ceo.jpg"
-                    alt="img"
+                    alt="Testimonial author CEO portrait at Mobile Armour"
                     width={80}
                     height={80}
                   />
