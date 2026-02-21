@@ -39,11 +39,11 @@ export default function LocalBusinessSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://mobilearmour.com.au/#business",
+    "@id": "https://www.mobilearmour.com.au/#business",
     "name": "Mobile Armour",
-    "image": "https://mobilearmour.com.au/logo.png",
+    "image": "https://www.mobilearmour.com.au/img/og-image.jpg",
     "description": "Expert mobile phone repair services in Heidelberg. Specializing in iPhone repair, iPad repair, Apple Watch screen replacement, Apple Watch battery replacement, LCD screen replacement, battery replacement, and phone accessories. We repair all iPhone models including iPhone 14, iPhone 13, iPhone 11, Samsung models including Galaxy S23 Ultra, S22, S21, Apple Watch Series Ultra, 9, 8, 7, 6, SE and many more. Quick repair service for cracked screens and damaged devices.",
-    "url": "https://mobilearmour.com.au",
+    "url": "https://www.mobilearmour.com.au",
     "telephone": "+61-405-326-205",
     "email": "repair@mobilearmour.com.au",
     "address": {
@@ -70,10 +70,24 @@ export default function LocalBusinessSchema() {
     "priceRange": "$$",
     "paymentAccepted": "Cash, Credit Card, Debit Card",
     "currenciesAccepted": "AUD",
-    "areaServed": {
-      "@type": "City",
-      "name": "Heidelberg"
-    },
+    "areaServed": [
+      { "@type": "City", "name": "Heidelberg, VIC 3084" },
+      { "@type": "City", "name": "Ivanhoe, VIC 3079" },
+      { "@type": "City", "name": "Rosanna, VIC 3084" },
+      { "@type": "City", "name": "Bulleen, VIC 3105" },
+      { "@type": "City", "name": "Templestowe, VIC 3106" },
+      { "@type": "City", "name": "Greensborough, VIC 3088" },
+      { "@type": "City", "name": "Preston, VIC 3072" },
+      { "@type": "City", "name": "Doncaster, VIC 3108" },
+      { "@type": "City", "name": "Eltham, VIC 3095" },
+      { "@type": "City", "name": "Epping, VIC 3076" },
+      { "@type": "City", "name": "Bundoora, VIC 3083" },
+      { "@type": "City", "name": "Reservoir, VIC 3073" },
+      { "@type": "City", "name": "Northcote, VIC 3070" },
+      { "@type": "City", "name": "Coburg, VIC 3058" },
+      { "@type": "City", "name": "South Morang, VIC 3752" },
+      { "@type": "City", "name": "Thomastown, VIC 3074" }
+    ],
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": parseFloat(averageRating),

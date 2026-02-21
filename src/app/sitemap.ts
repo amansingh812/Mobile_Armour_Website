@@ -2,6 +2,9 @@ import type { MetadataRoute } from 'next'
 import dbConnect from '@/lib/db'
 import Product from '@/models/Product'
 import { categories } from '@/data/categories'
+import { getAllSuburbSlugs } from '@/data/location-pages'
+import { getAllServiceSlugs } from '@/data/service-pages'
+import { blogPosts } from '@/data/blog-posts'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://www.mobilearmour.com.au'
 
@@ -16,13 +19,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${BASE_URL}/`,
       lastModified: lastmod,
       changeFrequency: 'daily',
-      priority: 1.0, // Homepage - highest priority
+      priority: 1.0,
     },
     {
       url: `${BASE_URL}/products`,
       lastModified: lastmod,
       changeFrequency: 'daily',
-      priority: 0.9, // Main products page - very high priority
+      priority: 0.9,
     },
     {
       url: `${BASE_URL}/about`,
@@ -34,13 +37,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${BASE_URL}/contact`,
       lastModified: lastmod,
       changeFrequency: 'monthly',
-      priority: 0.8, // Contact is important for local business
+      priority: 0.8,
     },
     {
       url: `${BASE_URL}/services`,
       lastModified: lastmod,
       changeFrequency: 'weekly',
-      priority: 0.8, // Services page important for SEO
+      priority: 0.8,
     },
     {
       url: `${BASE_URL}/faq`,
@@ -102,12 +105,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
-    // Blog page - important for content SEO
     {
       url: `${BASE_URL}/blog`,
       lastModified: lastmod,
       changeFrequency: 'weekly',
       priority: 0.7,
+    },
+    // Phone repair service areas hub
+    {
+      url: `${BASE_URL}/phone-repair`,
+      lastModified: lastmod,
+      changeFrequency: 'weekly',
+      priority: 0.85,
     },
   ]
 
@@ -115,42 +124,73 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 2. CATEGORY PAGES - Product categories
   // ========================================
   const categoryPages: MetadataRoute.Sitemap = categories.map((category) => {
-    // Extract slug from category link
     const categoryParam = encodeURIComponent(category.name)
     return {
       url: `${BASE_URL}/products?category=${categoryParam}`,
       lastModified: lastmod,
       changeFrequency: 'daily',
-      priority: 0.85, // Category pages are very important for SEO
+      priority: 0.85,
     }
   })
 
   // ========================================
-  // 3. DYNAMIC PRODUCT PAGES - Individual products
+  // 3. LOCATION PAGES - Suburb landing pages
+  // ========================================
+  const locationPagesList: MetadataRoute.Sitemap = getAllSuburbSlugs().map((slug) => ({
+    url: `${BASE_URL}/phone-repair/${slug}`,
+    lastModified: lastmod,
+    changeFrequency: 'weekly' as const,
+    priority: 0.85,
+  }))
+
+  // ========================================
+  // 4. SERVICE PAGES - Device/repair pages
+  // ========================================
+  const servicePagesList: MetadataRoute.Sitemap = getAllServiceSlugs().map((slug) => ({
+    url: `${BASE_URL}/services/${slug}`,
+    lastModified: lastmod,
+    changeFrequency: 'weekly' as const,
+    priority: 0.80,
+  }))
+
+  // ========================================
+  // 5. BLOG POSTS - Individual articles
+  // ========================================
+  const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: post.modifiedDate || post.publishedDate || lastmod,
+    changeFrequency: 'monthly' as const,
+    priority: 0.65,
+  }))
+
+  // ========================================
+  // 6. DYNAMIC PRODUCT PAGES - Individual products
   // ========================================
   let productPages: MetadataRoute.Sitemap = []
-  
+
   try {
     await dbConnect()
     const products = await Product.find({}).select('_id updatedAt').lean()
-    
+
     productPages = products.map((product: any) => ({
       url: `${BASE_URL}/products/${product._id.toString()}`,
       lastModified: product.updatedAt?.toISOString() || lastmod,
       changeFrequency: 'weekly' as const,
-      priority: 0.75, // Individual products - good priority
+      priority: 0.75,
     }))
   } catch (error) {
     console.error('Error fetching products for sitemap:', error)
-    // Continue without product pages if DB fails
   }
 
   // ========================================
-  // 4. COMBINE ALL PAGES
+  // 7. COMBINE ALL PAGES
   // ========================================
   return [
     ...staticPages,
     ...categoryPages,
+    ...locationPagesList,
+    ...servicePagesList,
+    ...blogPages,
     ...productPages,
   ]
 }

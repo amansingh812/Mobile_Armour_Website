@@ -60,7 +60,7 @@ function Footer() {
                   </li>
                 </ul>
               </div>
-              <div className="col-lg-2 offset-lg-1 col-md-6 col-sm-12">
+              <div className="col-lg-2 col-md-6 col-sm-12">
                 <h5>Links</h5>
                 <ul>
                   <li>
@@ -68,11 +68,26 @@ function Footer() {
                     <Link href="/products">Products</Link>
                     <Link href="/about">About</Link>
                     <Link href="/contact">Contact</Link>
+                    <Link href="/phone-repair">Service Areas</Link>
                   </li>
                 </ul>
               </div>
 
-              <div className="col-lg-3 col-md-6 col-sm-12">
+              <div className="col-lg-2 col-md-6 col-sm-12">
+                <h5>Service Areas</h5>
+                <ul>
+                  <li>
+                    <Link href="/phone-repair/greensborough">Greensborough</Link>
+                    <Link href="/phone-repair/preston">Preston</Link>
+                    <Link href="/phone-repair/doncaster">Doncaster</Link>
+                    <Link href="/phone-repair/bundoora">Bundoora</Link>
+                    <Link href="/phone-repair/ivanhoe">Ivanhoe</Link>
+                    <Link href="/phone-repair/eltham">Eltham</Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="col-lg-2 col-md-6 col-sm-12">
                 <h5>Get in Touch</h5>
                 <ul>
                   <li>
