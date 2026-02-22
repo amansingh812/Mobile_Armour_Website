@@ -28,7 +28,7 @@ function Hero1() {
         speed={1000}
       >
         {Hero1Data &&
-          Hero1Data.map((item, i) => (  
+          Hero1Data.map((item, i) => (
             <SwiperSlide key={i}>
               <Hero1Slide
                 subtitle={item.subtitle}
@@ -37,6 +37,7 @@ function Hero1() {
                 description={item.description}
                 link={item.link}
                 buttonText={item.buttonText}
+                isFirst={i === 0}
               />
             </SwiperSlide>
           ))}

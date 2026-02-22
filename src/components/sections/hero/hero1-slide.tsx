@@ -11,6 +11,7 @@ interface props {
   link: string;
   buttonText: string;
   src: string;
+  isFirst?: boolean;
 }
 export default function Hero1Slide({
   subtitle,
@@ -19,6 +20,7 @@ export default function Hero1Slide({
   link,
   buttonText,
   src,
+  isFirst = false,
 }: props) {
   return (
     <div className="single-slide-item d-flex align-items-center position-relative">
@@ -27,6 +29,9 @@ export default function Hero1Slide({
         alt={`${title} - Mobile Armour phone repair Heidelberg`}
         fill
         style={{ objectFit: "cover" }}
+        priority={isFirst}
+        sizes="100vw"
+        quality={isFirst ? 85 : 75}
       />
       <div className="overlay-2"></div>
       <div className="hero-area-content">

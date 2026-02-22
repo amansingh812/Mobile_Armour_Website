@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, Audiowide } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/css/line-awesome.min.css";
-import "./assets/css/fontAwesomePro.css";
+// line-awesome.min.css and fontAwesomePro.css moved to public/css/ and loaded
+// via DeferredIconFonts (non-blocking) to eliminate 678 KB render-blocking CSS
 // Removed unused CSS bundles: animate.css, barfiller.css, flaticon.css
 import "./globals.css";
 import Header from "@/components/header/header";
@@ -12,6 +12,7 @@ import { CartProvider } from "@/hooks/useCart";
 import ChatBot from "@/components/chatbot/ChatBot";
 import Script from "next/script";
 import LocalBusinessSchema from "@/components/seo/LocalBusinessSchema";
+import DeferredIconFonts from "@/components/shared/DeferredIconFonts";
 
 const dm_sans = DM_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -115,6 +116,20 @@ export default function RootLayout({
         <meta name="geo.placename" content="Heidelberg" />
         <meta name="geo.position" content="-37.7547;145.0603" />
         <meta name="ICBM" content="-37.7547, 145.0603" />
+        {/* Preload the LCP hero image so the browser fetches it immediately */}
+        <link
+          rel="preload"
+          as="image"
+          href="/img/slider/newImages/slider6.webp"
+          // @ts-expect-error fetchpriority is a valid HTML attribute not yet in TS types
+          fetchpriority="high"
+        />
+        {/* Cloudinary CDN — used for product/service images */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="//res.cloudinary.com" />
+        {/* Google Tag Manager — loaded afterInteractive but prefetch speeds it up */}
+        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="//www.google-analytics.com" />
       </head>
       {/* Google Tag Manager */}
       <Script id="gtm-base" strategy="afterInteractive">{`
@@ -135,6 +150,8 @@ export default function RootLayout({
           />
         </noscript>
         <LocalBusinessSchema />
+        {/* Defers 678 KB of icon CSS (line-awesome + font-awesome) off critical path */}
+        <DeferredIconFonts />
         <AuthProvider>
           <CartProvider>
             <Header />
