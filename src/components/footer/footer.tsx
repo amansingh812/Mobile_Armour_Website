@@ -65,7 +65,9 @@ function Footer() {
                 <ul>
                   <li>
                     <Link href="/services">Services</Link>
+                    <Link href="/pricing">Repair Prices</Link>
                     <Link href="/products">Products</Link>
+                    <Link href="/corporate-repairs">Business Repairs</Link>
                     <Link href="/about">About</Link>
                     <Link href="/contact">Contact</Link>
                     <Link href="/phone-repair">Service Areas</Link>
@@ -117,7 +119,7 @@ function Footer() {
                   height: '350px'
                 }}>
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.1234567890123!2d145.0603!3d-37.7547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ1JzE2LjkiUyAxNDXCsDAzJzM3LjEiRQ!5e0!3m2!1sen!2sau!4v1234567890123"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12617.851307817262!2d145.05563676579146!3d-37.755744605270706!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad647c89707795f%3A0x2ce576275e4b8085!2sMOBILE%20ARMOUR%20-%20Phone%20Repair%20Specialist!5e0!3m2!1sen!2snp!4v1772186376272!5m2!1sen!2snp"
                     width="100%"
                     height="350"
                     style={{ border: 0 }}

@@ -4,6 +4,7 @@ import Product from '@/models/Product'
 import { categories } from '@/data/categories'
 import { getAllSuburbSlugs } from '@/data/location-pages'
 import { getAllServiceSlugs } from '@/data/service-pages'
+import { getAllModelSlugs } from '@/data/model-repair-pages'
 import { blogPosts } from '@/data/blog-posts'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://www.mobilearmour.com.au'
@@ -118,6 +119,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.85,
     },
+    // Pricing page
+    {
+      url: `${BASE_URL}/pricing`,
+      lastModified: lastmod,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    // Corporate repairs page
+    {
+      url: `${BASE_URL}/corporate-repairs`,
+      lastModified: lastmod,
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    },
   ]
 
   // ========================================
@@ -154,7 +169,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // ========================================
-  // 5. BLOG POSTS - Individual articles
+  // 5. MODEL-SPECIFIC REPAIR PAGES
+  // ========================================
+  const modelPagesList: MetadataRoute.Sitemap = getAllModelSlugs().map((slug) => ({
+    url: `${BASE_URL}/repairs/${slug}`,
+    lastModified: lastmod,
+    changeFrequency: 'weekly' as const,
+    priority: 0.80,
+  }))
+
+  // ========================================
+  // 6. BLOG POSTS - Individual articles
   // ========================================
   const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
@@ -190,6 +215,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...categoryPages,
     ...locationPagesList,
     ...servicePagesList,
+    ...modelPagesList,
     ...blogPages,
     ...productPages,
   ]
