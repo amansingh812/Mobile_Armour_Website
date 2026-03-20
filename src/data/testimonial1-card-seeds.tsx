@@ -61,5 +61,26 @@ export const Testimonial1CardData: ITestimonial1CardData[] = [
     designation: "Trusted Customer",
     rating: 5,
   },
+  {
+    icon: <i className="la la-quote-left"></i>,
+    comment:
+      "Went to get the back of my phone repaired and can honestly say the service was amazing and the finished product even better. Pricing was on point and was kind enough to give me a discount on the case. Definitely referring to others",
+    src: "/img/harriet.png",  
+    alt: "client-6",
+    name: "Harriet Knijff",
+    designation: "Satisfied Customer",
+    rating: 5,
+  },
+  {
+    icon: <i className="la la-quote-left"></i>,
+    comment:
+   "Came in today around 2:00pm and had the absolute best experience! My phone was very cracked to the point my screen had blacked out. I unfortunately didn’t catch their name but the worker who served me and fixed my phone is the absolute nicest person. Amazing service and really fair and affordable price. Will definitely be back in the future if I need. I highly recommend this place! I can finally use my phone again, Thank you so much!",
+    src: "/img/alina.png",
+    alt: "client-7",
+    name: "Alina Marquardt",  
+    designation: "Happy Customer",
+    rating: 5,
+  },
+
 
 ];
