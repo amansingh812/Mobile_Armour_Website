@@ -7,9 +7,8 @@ const nextConfig = {
   // Remove X-Powered-By header (minor security + fewer bytes)
   poweredByHeader: false,
 
-  // Optimise fonts: Next.js downloads Google Fonts at build time and self-hosts
-  // them, eliminating the fonts.googleapis.com round-trip entirely
-  optimizeFonts: true,
+  // Note: optimizeFonts is built-in and always enabled in Next.js 15+
+  // No need to set it explicitly
 
   images: {
     // Allow Cloudinary-hosted product/service images
