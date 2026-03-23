@@ -58,24 +58,18 @@ export async function POST(request: NextRequest) {
 
     console.log('Sending booking data:', formData.toString());
 
-    // Send to Google Sheets — wrapped in its own try/catch so a failure here
-    // never blocks the email notification below.
-    try {
-      await fetch(scriptURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData.toString()
-      });
-      console.log('[bookings] Google Sheets submission completed');
-    } catch (sheetsErr) {
-      console.error('[bookings] Google Sheets submission failed (continuing to email):', sheetsErr);
-    }
+    const response = await fetch(scriptURL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formData.toString()
+    });
 
-    // Send email notification — always runs, even if Sheets failed
+    // Send email notification immediately (don't await to avoid slowing down response)
     console.log('[bookings] Triggering email notification for lead...');
-    await sendLeadNotificationEmail({
+    sendLeadNotificationEmail({
       type: type,
       name: data.name,
       phone: data.phone,
@@ -88,8 +82,10 @@ export async function POST(request: NextRequest) {
       deliveryAddress: data.deliveryAddress,
       preferredDate: data.preferredDate,
       preferredTime: data.preferredTime,
-    }).catch(err => console.error('[bookings] Email notification failed:', err));
+    }).catch(err => console.error('Email notification failed:', err));
 
+    // Since we're using no-cors mode, we can't access response properties
+    // So we'll assume success if no error is thrown
     return NextResponse.json({
       success: true,
       message: 'Booking submitted successfully!',

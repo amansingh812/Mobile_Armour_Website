@@ -214,25 +214,6 @@ const ChatBot: React.FC = () => {
         }
       }
 
-      // If still no match, try extracting the first word when bot asked for name
-      // e.g. user typed "aman andnumber" — first word is the name
-      if (!nameMatch && botAskedForName) {
-        const firstWordMatch = userMessage.match(/^([a-zA-Z]{2,20})\b/);
-        if (firstWordMatch) {
-          nameMatch = [firstWordMatch[0], firstWordMatch[1]];
-        }
-      }
-
-      // Last resort: look at the bot's reply for a confirmation like "Thank you, Aman!"
-      if (!nameMatch) {
-        const botConfirmMatch = botResponse.match(
-          /(?:thank you|thanks|great|hi|hello|hey)[,!\s]+([A-Z][a-z]{1,19})\b/
-        );
-        if (botConfirmMatch) {
-          nameMatch = [botConfirmMatch[0], botConfirmMatch[1]];
-        }
-      }
-
       if (nameMatch) {
         let foundName = nameMatch[1].trim();
 
@@ -323,41 +304,10 @@ const ChatBot: React.FC = () => {
 
     // Extract issue - more comprehensive
     if (!newLeadData.issue && userMessage.length > 5) {
-      const issueKeywords = [
-        'repair', 'fix', 'broken', 'problem', 'issue', 'screen', 'battery', 'charging',
-        'crack', 'cracked', 'damage', 'not working', 'assistance',
-        // water / liquid damage
-        'water', 'liquid', 'wet', 'dropped', 'splash', 'spill',
-        // hardware components
-        'speaker', 'mic', 'microphone', 'camera', 'button', 'port', 'jack', 'headphone',
-        'volume', 'power', 'home', 'face id', 'touch id', 'fingerprint',
-        // display / touch
-        'display', 'touch', 'glass', 'shattered', 'black screen', 'white screen',
-        // connectivity / software
-        'wifi', 'bluetooth', 'signal', 'sim', 'imei', 'software', 'update', 'boot',
-        // general
-        'slow', 'heating', 'hot', 'overheat', 'virus', 'unlock', 'password',
-      ];
-      const lowerMsg = userMessage.toLowerCase();
-      if (issueKeywords.some(keyword => lowerMsg.includes(keyword))) {
+      const issueKeywords = ['repair', 'fix', 'broken', 'problem', 'issue', 'screen', 'battery', 'charging', 'crack', 'cracked', 'damage', 'not working', 'assistance'];
+      if (issueKeywords.some(keyword => userMessage.toLowerCase().includes(keyword))) {
         newLeadData.issue = userMessage;
         updated = true;
-      }
-      // Also capture as issue if the bot previously asked about the problem/device
-      if (!newLeadData.issue) {
-        const botAskedAboutIssue = messages.some(m =>
-          m.sender === 'bot' && (
-            m.text.toLowerCase().includes('issue') ||
-            m.text.toLowerCase().includes('problem') ||
-            m.text.toLowerCase().includes('help') ||
-            m.text.toLowerCase().includes('assist') ||
-            m.text.toLowerCase().includes('repair')
-          )
-        );
-        if (botAskedAboutIssue && userMessage.length > 3) {
-          newLeadData.issue = userMessage;
-          updated = true;
-        }
       }
     }
 
@@ -379,8 +329,7 @@ const ChatBot: React.FC = () => {
       console.log('Lead data updated:', newLeadData);
       // Check if we have enough info to send to Google Sheets - more flexible conditions
       const sig = `${newLeadData.name}|${newLeadData.phone}|${newLeadData.email}|${newLeadData.brand}|${newLeadData.model}|${newLeadData.issue}`;
-      // Send as soon as we have a contact method (phone or email) — name/issue are bonus
-      const hasMinimumData = !!(newLeadData.phone || newLeadData.email);
+      const hasMinimumData = (newLeadData.phone || newLeadData.email) && (newLeadData.name || newLeadData.issue);
       if (hasMinimumData && sig !== lastSentSig) {
         console.log('Auto-sending lead to sheets (flexible conditions):', newLeadData);
         sendLeadToGoogleSheets(newLeadData);
@@ -416,28 +365,6 @@ const ChatBot: React.FC = () => {
         setLeadData(prev => ({ ...prev, collected: true }));
         setLastSentSig(sig);
         console.log('Lead data sent to Google Sheets successfully');
-
-        // Send email notification to store owner — same flow as the contact form
-        try {
-          await fetch('/api/send-lead-email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              type: 'ENQUIRY',
-              data: {
-                name: lead.name,
-                phone: lead.phone,
-                email: lead.email,
-                brand: lead.brand,
-                model: lead.model,
-                message: lead.issue
-              }
-            }),
-          });
-          console.log('Lead email notification sent successfully');
-        } catch (emailError) {
-          console.error('Failed to send lead email notification:', emailError);
-        }
       }
     } catch (error) {
       console.error('Failed to send lead data:', error);
