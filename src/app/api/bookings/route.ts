@@ -58,16 +58,7 @@ export async function POST(request: NextRequest) {
 
     console.log('Sending booking data:', formData.toString());
 
-    const response = await fetch(scriptURL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formData.toString()
-    });
-
-    // Send email notification immediately (don't await to avoid slowing down response)
+    // Fire email immediately — don't await, so a slow SMTP never blocks the response
     console.log('[bookings] Triggering email notification for lead...');
     sendLeadNotificationEmail({
       type: type,
@@ -82,10 +73,25 @@ export async function POST(request: NextRequest) {
       deliveryAddress: data.deliveryAddress,
       preferredDate: data.preferredDate,
       preferredTime: data.preferredTime,
-    }).catch(err => console.error('Email notification failed:', err));
+    }).catch(err => console.error('[bookings] Email notification failed:', err));
 
-    // Since we're using no-cors mode, we can't access response properties
-    // So we'll assume success if no error is thrown
+    // Send to Google Sheets with a hard 8-second timeout so the API never hangs
+    const sheetsController = new AbortController();
+    const sheetsTimeout = setTimeout(() => sheetsController.abort(), 8000);
+    try {
+      await fetch(scriptURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString(),
+        signal: sheetsController.signal,
+      });
+      console.log('[bookings] Google Sheets submission completed');
+    } catch (sheetsErr) {
+      console.error('[bookings] Google Sheets submission failed (email still sent):', sheetsErr);
+    } finally {
+      clearTimeout(sheetsTimeout);
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Booking submitted successfully!',
