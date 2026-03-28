@@ -124,12 +124,9 @@ export default function Form() {
         <input
           type="tel"
           name="phone"
-          placeholder="Number"
-          pattern="[0-9]{10}"
-          title="Please enter a valid 10-digit mobile number"
+          placeholder="Phone Number (optional)"
           value={formData.phone}
           onChange={handleChange}
-          required
         />
 
         <select

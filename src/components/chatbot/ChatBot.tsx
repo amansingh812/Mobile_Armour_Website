@@ -190,10 +190,9 @@ const FloatingEnquiryForm: React.FC = () => {
                   <input
                     type="tel"
                     name="phone"
-                    placeholder="Phone Number *"
+                    placeholder="Phone Number (optional)"
                     value={formData.phone}
                     onChange={handleChange}
-                    required
                   />
                 </div>
               </div>
