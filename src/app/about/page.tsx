@@ -11,21 +11,23 @@ import { Metadata } from "next";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "About Mobile Armour | Trusted Phone Repair Experts in Heidelberg",
+  title: "About Mobile Armour | Apple Authorised Repair Provider Heidelberg",
   description:
-    "Mobile Armour is Heidelberg's trusted mobile phone repair shop located at Warringal Shopping Centre, VIC 3084. Certified technicians, 6-month warranty on all repairs, same-day service for iPhone, Samsung & all major brands. Serving Melbourne's northern suburbs.",
+    "Mobile Armour is an Apple Authorised Repair Provider in Heidelberg, located at Warringal Shopping Centre, VIC 3084. IRP certified technicians, genuine Apple parts, 6-month warranty on all repairs, same-day service for iPhone, iPad, Apple Watch, Samsung & all major brands.",
   keywords: [
     "about mobile armour",
+    "apple authorised repair provider heidelberg",
     "phone repair experts heidelberg",
     "mobile repair shop warringal",
-    "certified phone technicians melbourne",
+    "IRP certified technicians melbourne",
     "trusted phone repair heidelberg",
+    "genuine apple parts repair",
     "mobile armour heidelberg about",
   ],
   openGraph: {
-    title: "About Mobile Armour - Heidelberg's Trusted Phone Repair Experts",
+    title: "About Mobile Armour — Apple Authorised Repair Provider in Heidelberg",
     description:
-      "Certified mobile repair technicians at Warringal Shopping Centre, Heidelberg VIC 3084. 6-month warranty, same-day service.",
+      "Apple Authorised Repair Provider with IRP certified technicians at Warringal Shopping Centre, Heidelberg VIC 3084. Genuine Apple parts, 6-month warranty, same-day service.",
     url: "https://www.mobilearmour.com.au/about",
     siteName: "Mobile Armour",
     locale: "en_AU",
@@ -33,9 +35,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Mobile Armour - Phone Repair Heidelberg",
+    title: "About Mobile Armour — Apple Authorised Repair | Heidelberg",
     description:
-      "Trusted mobile repair at Warringal Shopping Centre. Certified technicians, 6-month warranty.",
+      "Apple Authorised Repair Provider at Warringal Shopping Centre. IRP certified technicians, genuine Apple parts, 6-month warranty.",
   },
   alternates: {
     canonical: "https://www.mobilearmour.com.au/about",

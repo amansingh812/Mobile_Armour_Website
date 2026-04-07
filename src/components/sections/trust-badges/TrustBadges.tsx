@@ -4,6 +4,12 @@ import React from "react";
 function TrustBadges() {
   const badges = [
     {
+      icon: "fa-brands fa-apple",
+      title: "Apple Authorised",
+      description: "Repair Provider",
+      color: "#555555",
+    },
+    {
       icon: "fa-solid fa-star",
       title: "5-Star Rated",
       description: "Google Reviews",
@@ -11,8 +17,8 @@ function TrustBadges() {
     },
     {
       icon: "fa-solid fa-shield-halved",
-      title: "6-Month Warranty",
-      description: "On All Repairs",
+      title: "Genuine Parts",
+      description: "Apple Certified",
       color: "#FF5600",
     },
     {
@@ -23,8 +29,8 @@ function TrustBadges() {
     },
     {
       icon: "fa-solid fa-certificate",
-      title: "Certified Technicians",
-      description: "Expert Service",
+      title: "IRP Certified",
+      description: "Expert Technicians",
       color: "#2196F3",
     },
     {

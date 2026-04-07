@@ -23,15 +23,15 @@ export const servicePages: ServicePageData[] = [
   {
     title: "iPhone Screen Repair",
     slug: "iphone-screen-repair",
-    metaTitle: "iPhone Screen Repair Heidelberg Melbourne | Same Day Service",
-    metaDescription: "Expert iPhone screen replacement in Heidelberg. iPhone 11, 12, 13, 14, 15, 16, 17 screen repair from $XX. Same-day service, 6-month warranty. Warringal Shopping Centre.",
-    keywords: ["iphone screen repair", "iphone screen replacement", "iphone screen repair heidelberg", "iphone 14 screen replacement", "iphone 15 screen replacement", "iphone 17 pro max screen repair cost", "cracked iphone screen repair melbourne", "iphone repair near me", "fix iphone screen", "screen repair iphone 14 pro", "15 pro max screen replacement", "16 pro screen replacement"],
+    metaTitle: "iPhone Screen Repair Heidelberg Melbourne | Apple Authorised Repair",
+    metaDescription: "Apple Authorised iPhone screen replacement in Heidelberg. Genuine Apple parts, IRP certified technicians. iPhone 11-17 screen repair. Same-day service, 6-month warranty. Warringal Shopping Centre.",
+    keywords: ["iphone screen repair", "iphone screen replacement", "iphone screen repair heidelberg", "apple authorised repair melbourne", "genuine apple parts repair", "IRP certified iphone repair", "iphone screen repair reservoir", "iphone 14 screen replacement", "iphone 15 screen replacement", "iphone 17 pro max screen repair cost", "cracked iphone screen repair melbourne", "iphone repair near me", "fix iphone screen", "screen repair iphone 14 pro", "15 pro max screen replacement", "16 pro screen replacement", "apple repair shop near me"],
     heroHeading: "iPhone Screen Repair & Replacement",
     heroSubheading: "Same-day screen repair for all iPhone models — done in 30-45 minutes",
-    intro: "Cracked your iPhone screen? Mobile Armour at Warringal Shopping Centre, Heidelberg, offers fast, professional iPhone screen replacement for every model from iPhone 11 through to the latest iPhone 17 Pro Max. Our certified technicians use premium-grade LCD and OLED replacement screens that restore your display to perfect clarity. Every screen repair comes with our 6-month warranty, and most are completed in just 30-45 minutes while you wait.",
+    intro: "Cracked your iPhone screen? As an Apple Authorised Repair Provider, Mobile Armour at Warringal Shopping Centre, Heidelberg, offers fast, professional iPhone screen replacement using genuine Apple parts for every model from iPhone 11 through to the latest iPhone 17 Pro Max. Our IRP certified technicians deliver the same quality you'd expect from Apple, with the convenience and speed of a local repair shop. Every screen repair comes with our 6-month warranty, and most are completed in just 30-45 minutes while you wait.",
     processSteps: [
       "Free diagnostic assessment — we examine your iPhone and provide an upfront quote with no hidden fees",
-      "Premium screen replacement — we use high-quality LCD/OLED screens matched to your specific iPhone model",
+      "Genuine Apple screen replacement — as an authorised provider, we use genuine Apple LCD/OLED screens matched to your specific iPhone model",
       "Full functionality testing — we test touch response, display colour accuracy, Face ID, and all sensors",
       "Quality assurance check — final inspection ensures everything meets our standards before handover"
     ],
@@ -42,29 +42,29 @@ export const servicePages: ServicePageData[] = [
       { question: "How much does iPhone screen repair cost?", answer: "iPhone screen repair pricing depends on the model. Newer models like iPhone 15 and 16 Pro Max cost more due to OLED technology, while older models like iPhone 11 and 12 are more affordable. Call 0405-326-205 for an instant quote for your specific model." },
       { question: "How long does iPhone screen replacement take?", answer: "Most iPhone screen replacements are completed in 30-45 minutes. You're welcome to wait at Warringal Shopping Centre or pop out for a quick errand — we'll text you when your phone is ready." },
       { question: "Will my iPhone be waterproof after screen repair?", answer: "We apply adhesive sealing during screen replacement, but no third-party repair can guarantee the same level of water resistance as the original factory seal. We recommend using a waterproof case after any screen repair." },
-      { question: "Do you use genuine Apple screens?", answer: "We use premium-grade aftermarket screens that match Apple's quality standards for display clarity, colour accuracy, and touch sensitivity. These screens are thoroughly tested and come with our 6-month warranty." }
+      { question: "Do you use genuine Apple screens?", answer: "Yes! As an Apple Authorised Repair Provider, we use genuine Apple screens and parts for all iPhone repairs. Our IRP certified technicians are trained to Apple's standards, ensuring your repair meets the same quality as an Apple Store. All repairs come with our 6-month warranty." }
     ]
   },
   {
     title: "iPhone Battery Replacement",
     slug: "iphone-battery-replacement",
-    metaTitle: "iPhone Battery Replacement Heidelberg Melbourne | All Models",
-    metaDescription: "iPhone battery replacement in Heidelberg from competitive prices. All models iPhone 6 to iPhone 17. 20-30 min service, 6-month warranty. Warringal Shopping Centre.",
-    keywords: ["iphone battery replacement", "iphone battery replacement cost", "iphone battery replacement cost australia", "iphone battery near me", "iphone battery repair", "iphone battery repair near me", "iphone battery replacement preston", "iphone 13 battery replacement", "iphone se battery replacement", "new battery for iphone", "replace iphone battery", "change an iphone battery", "new battery iphone 13 pro max", "new iphone battery", "iphone 11 battery replacement", "iphone 12 battery replacement", "iphone 15 pro battery replacement", "authorised iphone battery replacement", "battery replacement iphone"],
+    metaTitle: "iPhone Battery Replacement Heidelberg Melbourne | Apple Authorised",
+    metaDescription: "Apple Authorised iPhone battery replacement in Heidelberg. Genuine Apple batteries, IRP certified service. All models iPhone 6 to iPhone 17. 20-30 min, 6-month warranty.",
+    keywords: ["iphone battery replacement", "iphone battery replacement cost", "iphone battery replacement cost australia", "iphone battery near me", "iphone battery repair", "iphone battery repair near me", "apple authorised battery replacement", "genuine apple battery", "iphone battery replacement preston", "iphone 13 battery replacement", "iphone se battery replacement", "new battery for iphone", "replace iphone battery", "change an iphone battery", "new battery iphone 13 pro max", "new iphone battery", "iphone 11 battery replacement", "iphone 12 battery replacement", "iphone 15 pro battery replacement", "authorised iphone battery replacement", "battery replacement iphone", "iphone battery replacement reservoir"],
     heroHeading: "iPhone Battery Replacement",
     heroSubheading: "Restore your iPhone's battery life in just 20-30 minutes",
-    intro: "Is your iPhone battery draining faster than it should? Mobile Armour offers professional iPhone battery replacement for all models from iPhone 6 through to iPhone 17. Our certified technicians use high-capacity replacement batteries that restore your phone's original battery performance. The entire process takes just 20-30 minutes, and every battery replacement comes with a 6-month warranty. Stop living tethered to a charger — get your iPhone battery replaced today.",
+    intro: "Is your iPhone battery draining faster than it should? As an Apple Authorised Repair Provider, Mobile Armour offers professional iPhone battery replacement using genuine Apple batteries for all models from iPhone 6 through to iPhone 17. Our IRP certified technicians deliver factory-quality service that restores your phone's original battery performance. The entire process takes just 20-30 minutes, and every battery replacement comes with a 6-month warranty. Stop living tethered to a charger — get your iPhone battery replaced today.",
     processSteps: [
       "Battery health diagnostic — we check your current battery health percentage and confirm replacement is needed",
       "Safe battery removal — we carefully remove the old battery following proper procedures to protect your device",
-      "Premium battery installation — we install a high-capacity replacement battery matched to your iPhone model",
+      "Genuine Apple battery installation — as an authorised provider, we install genuine Apple batteries matched to your iPhone model",
       "Calibration and testing — we verify battery charging, percentage reporting, and overall device performance"
     ],
     models: ["iPhone 17 Pro Max", "iPhone 17 Pro", "iPhone 17", "iPhone 16 Pro Max", "iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro Max", "iPhone 15 Pro", "iPhone 15", "iPhone 14 Pro Max", "iPhone 14 Pro", "iPhone 14", "iPhone 13 Pro Max", "iPhone 13", "iPhone 12 Pro Max", "iPhone 12", "iPhone 11 Pro Max", "iPhone 11", "iPhone SE", "iPhone XR", "iPhone X", "iPhone 8", "iPhone 7", "iPhone 6S", "iPhone 6"],
     commonIssues: ["Battery drains quickly (less than a day)", "Phone shuts down at 20-30% battery", "Battery health below 80%", "Phone overheating during normal use", "Slow charging or not charging fully", "Battery swelling (urgent — come in immediately)"],
     warrantyNote: "All iPhone battery replacements include a 6-month warranty. If your new battery shows any defects in capacity or performance within the warranty period, we'll replace it free of charge.",
     faqs: [
-      { question: "How much does iPhone battery replacement cost in Australia?", answer: "iPhone battery replacement costs vary by model. We offer competitive pricing that's typically less than Apple's official service. Call 0405-326-205 for pricing specific to your iPhone model." },
+      { question: "How much does iPhone battery replacement cost in Australia?", answer: "As an Apple Authorised Repair Provider, our iPhone battery replacement uses genuine Apple batteries at competitive pricing. Costs vary by model — call 0405-326-205 for pricing specific to your iPhone model." },
       { question: "How do I know if my iPhone needs a new battery?", answer: "Check Settings > Battery > Battery Health. If your maximum capacity is below 80%, or your phone shuts down unexpectedly, it's time for a replacement. We also offer free battery diagnostics in-store." },
       { question: "Will I lose my data during battery replacement?", answer: "No! Battery replacement does not affect your data. All your photos, apps, and settings remain exactly as they are. However, we always recommend backing up before any repair as a precaution." },
       { question: "How long does an iPhone battery last after replacement?", answer: "A new replacement battery should last 2-3 years of normal use, similar to when your iPhone was new. Battery lifespan depends on usage patterns, charging habits, and temperature exposure." }
@@ -73,12 +73,12 @@ export const servicePages: ServicePageData[] = [
   {
     title: "iPad Screen Repair",
     slug: "ipad-screen-repair",
-    metaTitle: "iPad Screen & Battery Repair Heidelberg | iPad Pro, Air, Mini",
-    metaDescription: "Expert iPad screen replacement and battery repair in Heidelberg. iPad Pro, Air, Mini, standard iPad. Same-day service, 6-month warranty at Warringal Shopping Centre.",
-    keywords: ["ipad screen replacement", "ipad repair near me", "ipad repairs", "ipad repairs near me", "ipad battery replacement near me", "ipad battery repair", "ipad pro battery replacement", "ipad pro screen fix", "ipad air screen repair melbourne", "ipad mini repair melbourne", "ipad repair preston", "replace ipad screen"],
+    metaTitle: "iPad Screen & Battery Repair Heidelberg | Apple Authorised Service",
+    metaDescription: "Apple Authorised iPad screen replacement and battery repair in Heidelberg. Genuine Apple parts. iPad Pro, Air, Mini, standard iPad. Same-day service, 6-month warranty.",
+    keywords: ["ipad screen replacement", "ipad repair near me", "ipad repairs", "ipad repairs near me", "ipad battery replacement near me", "ipad battery repair", "apple authorised ipad repair", "genuine apple parts ipad", "ipad pro battery replacement", "ipad pro screen fix", "ipad air screen repair melbourne", "ipad mini repair melbourne", "ipad repair preston", "replace ipad screen"],
     heroHeading: "iPad Screen & Battery Repair",
     heroSubheading: "Expert iPad repair for all models — screen, battery, and more",
-    intro: "Cracked iPad screen or failing battery? Mobile Armour provides expert iPad repair for all models including iPad Pro, iPad Air, iPad Mini, and standard iPads. Our certified technicians carefully replace iPad screens and batteries using premium-grade components, preserving Apple Pencil support and touch responsiveness. iPad repairs are a specialty service that many repair shops avoid due to their complexity — but our technicians handle them daily with confidence.",
+    intro: "Cracked iPad screen or failing battery? As an Apple Authorised Repair Provider, Mobile Armour provides expert iPad repair using genuine Apple parts for all models including iPad Pro, iPad Air, iPad Mini, and standard iPads. Our IRP certified technicians carefully replace iPad screens and batteries, preserving Apple Pencil support and touch responsiveness. iPad repairs are a specialty service that many repair shops avoid due to their complexity — but our authorised technicians handle them daily with confidence.",
     processSteps: [
       "Comprehensive iPad diagnostic — we assess the screen damage and test all functions including touch, Apple Pencil, and Face ID",
       "Precision screen removal — iPads require careful heat-and-pry techniques to avoid damaging internal components",
@@ -147,16 +147,16 @@ export const servicePages: ServicePageData[] = [
   {
     title: "Apple Watch Repair",
     slug: "apple-watch-repair",
-    metaTitle: "Apple Watch Repair Heidelberg Melbourne | Screen & Battery Replacement",
-    metaDescription: "Apple Watch screen and battery repair in Heidelberg. All Apple Watch models. Specialist smartwatch repair, 6-month warranty at Warringal Shopping Centre.",
-    keywords: ["apple watch repair", "apple watch screen repair heidelberg", "apple watch battery replacement heidelberg", "apple watch screen replacement melbourne", "apple watch battery replacement melbourne", "iwatch screen repair near me", "repair iwatch screen near me", "smart watch repair near me open now"],
+    metaTitle: "Apple Watch Repair Heidelberg Melbourne | Apple Authorised Service",
+    metaDescription: "Apple Authorised Apple Watch screen and battery repair in Heidelberg. Genuine Apple parts, IRP certified technicians. All Apple Watch models. 6-month warranty.",
+    keywords: ["apple watch repair", "apple watch screen repair heidelberg", "apple watch battery replacement heidelberg", "apple authorised apple watch repair", "genuine apple watch parts", "apple watch screen replacement melbourne", "apple watch battery replacement melbourne", "iwatch screen repair near me", "repair iwatch screen near me", "smart watch repair near me open now"],
     heroHeading: "Apple Watch Screen & Battery Repair",
     heroSubheading: "Specialist Apple Watch repair — screen replacement and battery service",
-    intro: "Apple Watch screen cracked or battery failing? Mobile Armour offers specialist Apple Watch repair services at Warringal Shopping Centre, Heidelberg. Apple Watch repair requires micro-precision tools and techniques that most phone repair shops simply don't have. Our technicians are trained in smartwatch repair and handle Apple Watch screen replacements and battery swaps with the care these delicate devices demand.",
+    intro: "Apple Watch screen cracked or battery failing? As an Apple Authorised Repair Provider, Mobile Armour offers specialist Apple Watch repair services using genuine Apple parts at Warringal Shopping Centre, Heidelberg. Apple Watch repair requires micro-precision tools and techniques that most phone repair shops simply don't have. Our IRP certified technicians are trained in smartwatch repair and handle Apple Watch screen replacements and battery swaps with the care these delicate devices demand.",
     processSteps: [
       "Micro-diagnostic — we examine the Apple Watch under magnification to assess screen and internal damage",
       "Precision disassembly — Apple Watches require specialised tools for safe opening without further damage",
-      "Component replacement — we install premium replacement screens or batteries designed for your Apple Watch model",
+      "Genuine parts replacement — as an authorised provider, we install genuine Apple screens or batteries designed for your Apple Watch model",
       "Water resistance check — we reseal the device and test to maintain water resistance integrity"
     ],
     models: ["Apple Watch Ultra 2", "Apple Watch Series 9", "Apple Watch Series 8", "Apple Watch Series 7", "Apple Watch Series 6", "Apple Watch SE (2nd Gen)", "Apple Watch SE", "Apple Watch Series 5", "Apple Watch Series 4"],

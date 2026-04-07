@@ -29,7 +29,7 @@ function Home1({ }) {
     <div>
       <ReviewSchema />
       <Hero1 />
-     {/* <TrustBadges />  */}
+      <TrustBadges /> 
       <Hero2 />
       {/* <ServiceSummary /> */}
        <Categories />

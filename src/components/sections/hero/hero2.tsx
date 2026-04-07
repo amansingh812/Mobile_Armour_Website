@@ -40,7 +40,7 @@ function Hero2() {
                       lineHeight: '1.4'
                     }}
                   >
-                    ⭐⭐⭐⭐⭐ Rated 5.0 on Google<br className="d-sm-none" /> • 6-Month Warranty
+                    <i className="fa-brands fa-apple"></i> Apple Authorised Repair Provider<br className="d-sm-none" /> • ⭐ 5.0 on Google • 6-Month Warranty
                   </span>
                   <h2 
                     className="text-white hero2-title" 
@@ -51,7 +51,7 @@ function Hero2() {
                       wordWrap: 'break-word'
                     }}
                   >
-                    Your Trusted Mobile Repair Experts in Heidelberg
+                    Melbourne's Trusted Apple Authorised Repair Experts
                   </h2>
                   <ul 
                     className="hero2-list" 
@@ -63,10 +63,10 @@ function Hero2() {
                     }}
                   >
                     {[
-                      "Certified technicians",
-                      "Same-day service",
-                      "All major brands",
-                      "Located at Warringal Shopping Centre"
+                      "Apple Authorised — Genuine Apple Parts",
+                      "IRP Certified Technicians",
+                      "Same-day service — all major brands",
+                      "Warringal Shopping Centre, Heidelberg"
                     ].map((item, idx) => (
                       <li 
                         key={idx} 
