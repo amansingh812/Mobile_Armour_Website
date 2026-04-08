@@ -27,14 +27,9 @@ const audiowide = Audiowide({
 });
 
 export const metadata: Metadata = {
-  title: "Apple Authorised Repair | Mobile Phone Repair Heidelberg Melbourne | Mobile Armour",
-  description: "Apple Authorised Repair Provider in Heidelberg & Reservoir, Melbourne. Genuine Apple parts, IRP certified iPhone repair, iPad & Apple Watch service. Samsung & all brands. 6-month warranty • Same-day service • Certified technicians. Warringal Shopping Centre. Call 0405-326-205.",
+  title: "Mobile Phone Repair Heidelberg Melbourne | Mobile Armour - Same Day Service",
+  description: "Expert smartphone repairs in Heidelberg VIC 3084, serving Melbourne's northern suburbs. iPhone, Samsung, iPad & Apple Watch repair. 6-month warranty • Same-day service • Certified technicians • 30-60 min repairs. Located at Warringal Shopping Centre. Call 0405-326-205 for free quote.",
   keywords: [
-    "apple authorised repair melbourne",
-    "iphone screen repair reservoir",
-    "genuine apple parts repair",
-    "IRP certified iphone repair",
-    "apple repair shop near me",
     "mobile phone repair heidelberg",
     "iphone repair heidelberg",
     "samsung repair heidelberg",
@@ -55,14 +50,11 @@ export const metadata: Metadata = {
     "phone repair bundoora",
     "apple watch repair melbourne",
     "mobile repair near me melbourne vic",
-    "apple authorised service provider melbourne",
-    "genuine apple screen repair",
-    "authorised iphone repair near me",
   ],
   authors: [{ name: "Mobile Armour" }],
   openGraph: {
-    title: "Mobile Armour — Apple Authorised Repair Provider | Heidelberg Melbourne",
-    description: "Apple Authorised Repair Provider. Genuine Apple parts, IRP certified technicians. iPhone, iPad, Apple Watch & Samsung repair at Warringal Shopping Centre, Heidelberg.",
+    title: "Mobile Armour Heidelberg - Expert Mobile & iPad Repair",
+    description: "Professional mobile repair services in Heidelberg. iPhone, iPad, LCD repair, battery replacement & more at Warringal Shopping Centre.",
     url: "https://www.mobilearmour.com.au",
     siteName: "Mobile Armour",
     locale: "en_AU",
@@ -72,7 +64,7 @@ export const metadata: Metadata = {
         url: "https://www.mobilearmour.com.au/img/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Mobile Armour — Apple Authorised Repair Provider in Heidelberg Melbourne",
+        alt: "Mobile Armour - Expert Phone Repair Heidelberg Melbourne",
         type: "image/jpeg",
       },
     ],
@@ -85,8 +77,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mobile Armour — Apple Authorised Repair | Heidelberg Melbourne",
-    description: "Apple Authorised Repair Provider in Heidelberg. Genuine Apple parts, IRP certified iPhone, iPad & Apple Watch repair.",
+    title: "Mobile Armour Heidelberg - Mobile & iPad Repair",
+    description: "Expert mobile repair in Heidelberg. iPhone, iPad, LCD & battery replacement services.",
   },
   robots: {
     index: true,

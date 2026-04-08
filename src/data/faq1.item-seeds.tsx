@@ -19,9 +19,9 @@ export const FaqItemData: IFaqItemData[] = [
   },
   {
     id: "Three",
-    question: "Are your parts genuine?",
+    question: "Are your parts original (OEM)?",
     answer:
-      "Yes! We are an Apple Authorised Repair Provider, which means we use genuine Apple parts for all iPhone, iPad, and Apple Watch repairs. Our IRP certified technicians are trained to Apple's standards. For Samsung and other brands, we use OEM-equivalent or premium-grade parts that match manufacturer quality.",
+      "We use OEM-equivalent or premium-grade parts that match manufacturer quality. For screens, we offer both original (if available) and high-quality aftermarket options with perfect touch sensitivity.",
   },
   {
     id: "Four",

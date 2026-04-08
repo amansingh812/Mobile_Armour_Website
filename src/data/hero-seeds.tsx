@@ -9,9 +9,9 @@ export interface IHero1 {
 
 export const Hero1Data: IHero1[] = [
   {
-    subtitle: `Apple Authorised Repair Provider`,
-    title: `Genuine Apple Parts. Certified Technicians.`,
-    description: `Officially authorised by Apple • IRP certified repairs • Genuine Apple parts • iPhone, iPad & Apple Watch`,
+    subtitle: `Expert Smartphone Repairs in Heidelberg`,
+    title: `Fast, Reliable Mobile Phone Repairs`,
+    description: `Same-day service • 6-month warranty • Certified technicians • Most repairs in 30-60 minutes`,
     link: `/contact`,
     buttonText: "Book a Repair",
     src: "/img/slider/newImages/slider6.webp",
@@ -19,15 +19,15 @@ export const Hero1Data: IHero1[] = [
   {
     subtitle: `No Fix, No Fee Guarantee`,
     title: `Screen Cracked? Battery Dead? We've Got You Covered`,
-    description: `Apple authorised repairs • All major brands • Affordable pricing • Free diagnosis in 15 minutes`,
+    description: `All major brands serviced • Quality parts • Affordable pricing • Free diagnosis in 15 minutes`,
     link: `tel:0405326205`,
     buttonText: "Call Now: 0405-326-205",
     src: "/img/slider/newImages/slider5.webp",
   },
   {
-    subtitle: `Warringal Shopping Centre, Heidelberg`,
+    subtitle: `Warringal Shopping Centre`,
     title: `Walk-In or Book Online - No Appointment Needed`,
-    description: `Open 7 days • Apple authorised technicians on-site • Same-day service • 6-month warranty`,
+    description: `Open 7 days • Expert technicians on-site • Accessories available while you wait`,
     link: `/contact`,
     buttonText: "Get Free Quote",
     src: "/img/slider/newImages/slider3.webp",

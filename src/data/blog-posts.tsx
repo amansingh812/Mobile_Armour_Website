@@ -259,17 +259,16 @@ export const blogPosts: BlogPost[] = [
       <p><strong>A:</strong> We perform comprehensive diagnostics before repair. If we discover additional issues (like water damage), we'll inform you before proceeding. Our 6-month warranty covers the screen repair work - if it fails due to workmanship, we fix it free.</p>
 
       <h3>Q: Do you use genuine Apple/Samsung parts?</h3>
-      <p><strong>A:</strong> Yes! Mobile Armour is an Apple Authorised Repair Provider — we use genuine Apple parts for all iPhone, iPad, and Apple Watch repairs. For Samsung, we offer both OEM and premium aftermarket options. We'll explain the differences and let you choose based on your budget and needs.</p>
+      <p><strong>A:</strong> We offer both OEM (original) and premium aftermarket options. OEM parts are available for most iPhone and flagship Samsung models. We'll explain the differences and let you choose based on your budget and needs.</p>
 
       <h2>Why Choose Mobile Armour for Screen Repairs in Heidelberg?</h2>
 
       <ul>
-        <li><strong>Apple Authorised:</strong> Genuine Apple parts, IRP certified technicians</li>
-        <li><strong>6-Month Warranty:</strong> Parts and labor covered — the longest in Heidelberg</li>
+        <li><strong>6-Month Warranty:</strong> Parts and labor covered - the longest in Heidelberg</li>
         <li><strong>Same-Day Service:</strong> Most repairs completed within hours</li>
-        <li><strong>Transparent Pricing:</strong> No hidden fees — quote matches final price</li>
-        <li><strong>Expert Technicians:</strong> IRP certified with 10+ years combined experience</li>
-        <li><strong>Genuine Parts:</strong> Apple Authorised repairs with genuine components</li>
+        <li><strong>Transparent Pricing:</strong> No hidden fees - quote matches final price</li>
+        <li><strong>Expert Technicians:</strong> 10+ years combined experience</li>
+        <li><strong>Premium Parts:</strong> OEM and A+ aftermarket options</li>
         <li><strong>Free Diagnostics:</strong> We assess your phone before quoting</li>
         <li><strong>Convenient Location:</strong> Warringal Shopping Centre, Heidelberg</li>
         <li><strong>No Fix, No Fee:</strong> If we can't fix it, you don't pay</li>

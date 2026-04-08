@@ -42,7 +42,7 @@ export default function LocalBusinessSchema() {
     "@id": "https://www.mobilearmour.com.au/#business",
     "name": "Mobile Armour",
     "image": "https://www.mobilearmour.com.au/img/og-image.jpg",
-    "description": "Apple Authorised Repair Provider in Heidelberg, Melbourne. Using genuine Apple parts and IRP certified technicians for iPhone, iPad, and Apple Watch repairs. Also servicing Samsung, Google Pixel, and all major brands. Expert mobile phone repair including screen replacement, battery replacement, and phone accessories. We repair all iPhone models including iPhone 17, 16, 15, 14, 13, Samsung Galaxy S25, S24, S23 and more. Quick same-day service for cracked screens and damaged devices.",
+    "description": "Expert mobile phone repair services in Heidelberg. Specializing in iPhone repair, iPad repair, Apple Watch screen replacement, Apple Watch battery replacement, LCD screen replacement, battery replacement, and phone accessories. We repair all iPhone models including iPhone 14, iPhone 13, iPhone 11, Samsung models including Galaxy S23 Ultra, S22, S21, Apple Watch Series Ultra, 9, 8, 7, 6, SE and many more. Quick repair service for cracked screens and damaged devices.",
     "url": "https://www.mobilearmour.com.au",
     "telephone": "+61-405-326-205",
     "email": "repair@mobilearmour.com.au",
@@ -114,8 +114,8 @@ export default function LocalBusinessSchema() {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Apple Authorised iPhone Repair",
-            "description": "Apple Authorised iPhone repair using genuine Apple parts. IRP certified technicians servicing all iPhone models including iPhone 17, 16, 15, 14, 13, 12, 11, SE and more. Services include screen replacement, battery replacement, and same-day repair."
+            "name": "iPhone Repair",
+            "description": "Expert repair for all iPhone models including iPhone 15, iPhone 14, iPhone 14 Pro, iPhone 13, iPhone 13 Pro, iPhone 11, iPhone XR, iPhone X, iPhone 8, iPhone SE and more. Services include screen replacement, battery replacement, and quick repair."
           }
         },
         {
@@ -138,16 +138,16 @@ export default function LocalBusinessSchema() {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Apple Authorised Watch Screen Repair",
-            "description": "Apple Authorised Apple Watch screen replacement in Heidelberg using genuine Apple parts. All Apple Watch models — Ultra, Series 10, 9, 8, 7, 6, SE. Same-day service with IRP certified technicians and 6-month warranty."
+            "name": "Apple Watch Screen Repair",
+            "description": "Professional Apple Watch screen replacement in Heidelberg for all Apple Watch Series — Ultra, Series 9, 8, 7, 6, SE and older models. Same-day service with quality parts and warranty."
           }
         },
         {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Apple Authorised Watch Battery Replacement",
-            "description": "Apple Authorised Apple Watch battery replacement in Heidelberg Melbourne using genuine Apple batteries. Restore all-day battery life with IRP certified service for Apple Watch Ultra, Series 10, 9, 8, 7, 6, SE at Warringal Shopping Centre."
+            "name": "Apple Watch Battery Replacement",
+            "description": "Apple Watch battery replacement in Heidelberg Melbourne. Restore all-day battery life with a fast, reliable battery swap for Apple Watch Series Ultra, 9, 8, 7, 6, SE and older models at Warringal Shopping Centre."
           }
         },
         {

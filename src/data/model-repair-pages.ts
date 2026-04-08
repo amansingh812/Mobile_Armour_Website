@@ -43,7 +43,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     heroSubheading:
       "Expert repair for Apple's flagship — OLED display, battery, camera & more",
     intro:
-      "The iPhone 16 Pro Max features a stunning 6.9-inch Super Retina XDR OLED display with ProMotion 120Hz technology and a titanium frame. When this premium device needs repair, you need an Apple Authorised Repair Provider. Mobile Armour at Warringal Shopping Centre, Heidelberg, specialises in iPhone 16 Pro Max repairs using genuine Apple parts — from cracked OLED screen replacement to battery swaps and camera lens repair. Our IRP certified technicians ensure the same quality you'd expect from Apple. Most repairs are completed same-day with our 6-month warranty.",
+      "The iPhone 16 Pro Max features a stunning 6.9-inch Super Retina XDR OLED display with ProMotion 120Hz technology and a titanium frame. When this premium device needs repair, you need technicians who understand its advanced technology. Mobile Armour at Warringal Shopping Centre, Heidelberg, specialises in iPhone 16 Pro Max repairs — from cracked OLED screen replacement to battery swaps and camera lens repair. We use high-quality replacement parts that match Apple's display standards for colour accuracy and touch responsiveness. Most repairs are completed same-day with our 6-month warranty.",
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "45-60 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
@@ -67,7 +67,7 @@ export const modelRepairPages: ModelRepairPage[] = [
       {
         question: "How much does iPhone 16 Pro Max screen repair cost?",
         answer:
-          "iPhone 16 Pro Max screen replacement pricing depends on the type of damage. As an Apple Authorised Repair Provider, we use genuine Apple parts and IRP certified technicians. Call 0405-326-205 for an instant quote.",
+          "iPhone 16 Pro Max screen replacement pricing depends on the type of damage. The 6.9-inch OLED display requires precision repair by certified technicians. Call 0405-326-205 for an instant quote — we're typically more affordable than Apple's official pricing.",
       },
       {
         question: "Can you fix iPhone 16 Pro Max Face ID after screen repair?",
@@ -102,7 +102,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     heroSubheading:
       "Fast, affordable repairs for the iPhone 16 — screen, battery, camera & charging port",
     intro:
-      "The iPhone 16 brings the Dynamic Island, 48MP camera system, and a vibrant 6.1-inch Super Retina XDR OLED display to Apple's standard lineup. If your iPhone 16 has a cracked screen, dying battery, or damaged camera, Mobile Armour — your Apple Authorised Repair Provider in Heidelberg — has you covered. Our IRP certified technicians use genuine Apple parts and are experienced with the iPhone 16's internal architecture, including the new battery removal design that makes replacements quicker and cleaner. Walk in to Warringal Shopping Centre or call ahead — most iPhone 16 repairs are same-day.",
+      "The iPhone 16 brings the Dynamic Island, 48MP camera system, and a vibrant 6.1-inch Super Retina XDR OLED display to Apple's standard lineup. If your iPhone 16 has a cracked screen, dying battery, or damaged camera, Mobile Armour in Heidelberg has you covered. Our technicians are experienced with the iPhone 16's internal architecture, including the new battery removal design that makes replacements quicker and cleaner. We use premium-quality OLED replacement screens tested for colour accuracy, brightness, and touch response. Walk in to Warringal Shopping Centre or call ahead — most iPhone 16 repairs are same-day.",
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "40-55 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "20-30 min", priceRange: "Call for quote" },
@@ -160,7 +160,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     heroSubheading:
       "Titanium-frame flagship repair — screen, battery, camera & more",
     intro:
-      "Apple's iPhone 15 Pro Max was the first iPhone to feature a titanium frame and the A17 Pro chip, with a massive 6.7-inch Super Retina XDR display and a 5x optical zoom periscope camera. When your premium device needs expert attention, choose Mobile Armour — an Apple Authorised Repair Provider at Warringal Shopping Centre, Heidelberg. Using genuine Apple parts, our IRP certified technicians handle cracked OLED screens, degraded batteries, and camera lens repairs with precision. We understand the titanium frame's construction and maintain the device's integrity. Walk-in service available — most repairs completed same-day.",
+      "Apple's iPhone 15 Pro Max was the first iPhone to feature a titanium frame and the A17 Pro chip, with a massive 6.7-inch Super Retina XDR display and a 5x optical zoom periscope camera. When your premium device needs expert attention, Mobile Armour delivers precision repairs at our Warringal Shopping Centre location in Heidelberg. Whether it's a cracked OLED screen, degraded battery, or damaged camera lens, our certified technicians handle every repair with care. We understand the titanium frame's construction and use compatible parts to maintain the device's integrity. Walk-in service available — most repairs completed same-day.",
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "45-60 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
@@ -218,7 +218,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     heroHeading: "iPhone 15 Repair",
     heroSubheading: "Screen, battery & more — repaired in 30-45 minutes",
     intro:
-      "The iPhone 15 introduced USB-C to the standard iPhone lineup, along with the Dynamic Island and a 48MP main camera. It's a popular device — and when it needs repair, you want an Apple Authorised Repair Provider. Mobile Armour at Warringal Shopping Centre, Heidelberg, provides fast, professional iPhone 15 repairs using genuine Apple parts — including screen replacement, battery swaps, camera fixes, and charging port repair. Our IRP certified technicians ensure factory-quality results. Most repairs are completed in 30-45 minutes while you wait.",
+      "The iPhone 15 introduced USB-C to the standard iPhone lineup, along with the Dynamic Island and a 48MP main camera. It's a popular device — and when it needs repair, you want technicians who know the internals. Mobile Armour at Warringal Shopping Centre, Heidelberg, provides fast, professional iPhone 15 repairs including screen replacement, battery swaps, camera fixes, and charging port repair. Our premium replacement screens are tested for colour accuracy and touch sensitivity to match the original display quality. Most repairs are completed in 30-45 minutes while you wait.",
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "35-50 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "20-30 min", priceRange: "Call for quote" },
@@ -277,7 +277,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     heroSubheading:
       "iPhone 14, 14 Plus, 14 Pro & 14 Pro Max — all models repaired",
     intro:
-      "The iPhone 14 series includes the iPhone 14, 14 Plus, 14 Pro, and 14 Pro Max. Whether you have the standard model with its improved camera or the Pro version with the Dynamic Island, Mobile Armour — your Apple Authorised Repair Provider in Heidelberg — repairs them all. Our IRP certified technicians use genuine Apple parts and are experienced with the iPhone 14's updated internal design, which Apple engineered for easier repairability. We handle screen replacements, battery swaps, camera repairs, and more. Located at Warringal Shopping Centre, we provide same-day repair with a 6-month warranty on every job.",
+      "The iPhone 14 series includes the iPhone 14, 14 Plus, 14 Pro, and 14 Pro Max. Whether you have the standard model with its improved camera or the Pro version with the Dynamic Island, Mobile Armour in Heidelberg repairs them all. Our technicians are experienced with the iPhone 14's updated internal design, which Apple engineered for easier repairability. We handle screen replacements, battery swaps, camera repairs, and more. Located at Warringal Shopping Centre, we provide same-day repair with a 6-month warranty on every job.",
     repairTypes: [
       { name: "Screen Replacement", time: "30-50 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "20-30 min", priceRange: "Call for quote" },
@@ -336,7 +336,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     heroSubheading:
       "iPhone 13, Mini, Pro & Pro Max — affordable repair for all variants",
     intro:
-      "The iPhone 13 series remains one of the most popular iPhones in Australia, and we see plenty of them at our Warringal Shopping Centre repair counter. As an Apple Authorised Repair Provider, Mobile Armour delivers repairs using genuine Apple parts for every iPhone 13 variant. Whether your iPhone 13 Mini's screen has cracked, your iPhone 13 Pro's battery is degraded, or your iPhone 13 Pro Max's camera needs attention, our IRP certified technicians can complete most repairs in just 30 minutes. Every repair comes backed by our 6-month warranty.",
+      "The iPhone 13 series remains one of the most popular iPhones in Australia, and we see plenty of them at our Warringal Shopping Centre repair counter. Whether your iPhone 13 Mini's screen has cracked, your iPhone 13 Pro's battery is degraded, or your iPhone 13 Pro Max's camera needs attention, Mobile Armour delivers fast, affordable repairs. We stock quality replacement parts for every iPhone 13 variant and can complete most repairs in just 30 minutes. Every repair comes backed by our 6-month warranty.",
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "30-45 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "20-25 min", priceRange: "Call for quote" },
@@ -745,7 +745,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     heroSubheading:
       "Expert repair for all iPad Pro models — M1, M2 & M4 chip devices",
     intro:
-      "The iPad Pro is Apple's most powerful tablet, available in 11-inch and 13-inch models with M-series chips and stunning Liquid Retina XDR displays. When your iPad Pro's screen cracks or battery degrades, bring it to Mobile Armour — an Apple Authorised Repair Provider at Warringal Shopping Centre, Heidelberg. Our IRP certified technicians use genuine Apple parts for iPad Pro repairs including screen replacement, battery swaps, and charging port fixes. iPad Pro screens are larger and more complex than iPhone screens, but our experienced technicians handle them regularly. Same-day service available for most repairs.",
+      "The iPad Pro is Apple's most powerful tablet, available in 11-inch and 13-inch models with M-series chips and stunning Liquid Retina XDR displays. When your iPad Pro's screen cracks or battery degrades, you need technicians who understand these premium devices. Mobile Armour at Warringal Shopping Centre, Heidelberg, provides expert iPad Pro repairs including screen replacement, battery swaps, and charging port fixes. iPad Pro screens are larger and more complex than iPhone screens, but our experienced technicians handle them regularly. Same-day service available for most repairs.",
     repairTypes: [
       { name: "Screen Replacement", time: "60-90 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "45-60 min", priceRange: "Call for quote" },
