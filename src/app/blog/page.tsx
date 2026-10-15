@@ -21,6 +21,10 @@ export const metadata: Metadata = {
     title: 'Mobile Repair Blog | Mobile Armour Heidelberg',
     description: 'Expert mobile repair tips, guides, and tutorials. Learn how to care for your smartphone and when to seek professional help.',
     type: 'website',
+    url: '/blog',
+  },
+  alternates: {
+    canonical: '/blog',
   },
 };
 

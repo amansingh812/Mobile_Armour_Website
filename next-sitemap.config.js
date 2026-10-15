@@ -14,6 +14,7 @@ module.exports = {
       {
         userAgent: '*',
         allow: '/',
+        // Never block /_next: it holds the CSS/JS Google needs to render pages.
         disallow: [
           '/admin',
           '/account',
@@ -22,21 +23,7 @@ module.exports = {
           '/cart',
           '/checkout',
           '/payment',
-          '/_next',
-          '/static',
         ],
-      },
-      // Optimize for Google (most important for Australian market)
-      {
-        userAgent: 'Googlebot',
-        allow: '/',
-        crawlDelay: 0,
-      },
-      // Optimize for Bing
-      {
-        userAgent: 'Bingbot',
-        allow: '/',
-        crawlDelay: 0,
       },
     ],
     additionalSitemaps: [

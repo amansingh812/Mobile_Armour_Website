@@ -258,28 +258,32 @@ hr {
   }
 }
 
-.section-title h1 {
+.section-title h1,
+.section-title .hero-slide-title {
   font-size: 70px;
   font-weight: 700;
   line-height: 80px;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1200px) {
-  .section-title h1 {
+  .section-title h1,
+.section-title .hero-slide-title {
     font-size: 60px;
     line-height: 70px;
   }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  .section-title h1 {
+  .section-title h1,
+.section-title .hero-slide-title {
     font-size: 60px;
     line-height: 70px;
   }
 }
 
 @media (max-width: 767px) {
-  .section-title h1 {
+  .section-title h1,
+.section-title .hero-slide-title {
     font-size: 35px;
     line-height: 45px;
   }

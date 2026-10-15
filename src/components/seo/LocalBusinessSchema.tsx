@@ -1,41 +1,8 @@
-"use client";
-
-import Script from "next/script";
-
+// Server-rendered so the JSON-LD is in the initial HTML Google crawls.
+// Review stars are intentionally NOT included: Google ignores self-served
+// LocalBusiness reviews, and hand-typed numbers drift from the real
+// Google Business Profile rating.
 export default function LocalBusinessSchema() {
-  // Review data from actual Google Reviews
-  const reviewData = [
-    {
-      author: "Anthony Mchugh",
-      datePublished: "2024-12-15",
-      reviewBody: "Really good and helpful assistance. The phone is fixed well and operating good. They helped me with my phone. I recommend them.",
-      ratingValue: 5
-    },
-    {
-      author: "Oli",
-      datePublished: "2024-12-10",
-      reviewBody: "Awesome worker, great customer service, and really friendly. They were able to help fix my phone and the store is not bad. Great service, definitely would recommend to others.",
-      ratingValue: 5
-    },
-    {
-      author: "Sam Elsmere",
-      datePublished: "2024-12-05",
-      reviewBody: "Super quick & easy. I smash my phone a lot and they can have it fixed quickly at a great rate.",
-      ratingValue: 5
-    },
-    {
-      author: "Con Sakkas",
-      datePublished: "2024-11-28",
-      reviewBody: "Great service. Came to my home and replaced my iPad glass screen that was smashed, quick service, and reasonable price. Highly recommend.",
-      ratingValue: 5
-    }
-  ];
-
-  // Calculate aggregate rating
-  const totalRating = reviewData.reduce((sum, review) => sum + review.ratingValue, 0);
-  const averageRating = (totalRating / reviewData.length).toFixed(1);
-  const reviewCount = reviewData.length;
-
   const schema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -48,7 +15,7 @@ export default function LocalBusinessSchema() {
     "email": "repair@mobilearmour.com.au",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Kiosk 4 Warringal Shopping Centre",
+      "streetAddress": "Kiosk 4, Warringal Shopping Centre, 56 Burgundy Street",
       "addressLocality": "Heidelberg",
       "addressRegion": "VIC",
       "postalCode": "3084",
@@ -88,24 +55,6 @@ export default function LocalBusinessSchema() {
       { "@type": "City", "name": "South Morang, VIC 3752" },
       { "@type": "City", "name": "Thomastown, VIC 3074" }
     ],
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": parseFloat(averageRating),
-      "reviewCount": reviewCount
-    },
-    "review": reviewData.map(review => ({
-      "@type": "Review",
-      "author": {
-        "@type": "Person",
-        "name": review.author
-      },
-      "datePublished": review.datePublished,
-      "reviewBody": review.reviewBody,
-      "reviewRating": {
-        "@type": "Rating",
-        "ratingValue": review.ratingValue
-      }
-    })),
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Mobile Repair Services",
@@ -208,11 +157,10 @@ export default function LocalBusinessSchema() {
   };
 
   return (
-    <Script
+    <script
       id="local-business-schema"
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      strategy="afterInteractive"
     />
   );
 }
