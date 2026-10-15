@@ -13,6 +13,7 @@ import ChatBot from "@/components/chatbot/ChatBot";
 import Script from "next/script";
 import LocalBusinessSchema from "@/components/seo/LocalBusinessSchema";
 import DeferredIconFonts from "@/components/shared/DeferredIconFonts";
+import { SITE_URL } from "@/lib/site";
 
 const dm_sans = DM_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -26,7 +27,10 @@ const audiowide = Audiowide({
   variable: "--audiowide-font",
 });
 
+
 export const metadata: Metadata = {
+  // Relative canonicals/OG URLs on every page resolve against this.
+  metadataBase: new URL(SITE_URL),
   title: "Mobile Phone Repair Heidelberg Melbourne | Mobile Armour - Same Day Service",
   description: "Expert smartphone repairs in Heidelberg VIC 3084, serving Melbourne's northern suburbs. iPhone, Samsung, iPad & Apple Watch repair. 6-month warranty • Same-day service • Certified technicians • 30-60 min repairs. Located at Warringal Shopping Centre. Call 0405-326-205 for free quote.",
   keywords: [
@@ -69,12 +73,9 @@ export const metadata: Metadata = {
       },
     ],
   },
-  alternates: {
-    canonical: "https://www.mobilearmour.com.au",
-    languages: {
-      "en-AU": "https://www.mobilearmour.com.au",
-    },
-  },
+  // No canonical here: a canonical in the root layout is inherited by every
+  // page that doesn't set its own, telling Google they all duplicate the
+  // homepage. Each page sets `alternates.canonical` itself.
   twitter: {
     card: "summary_large_image",
     title: "Mobile Armour Heidelberg - Mobile & iPad Repair",
@@ -105,7 +106,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const GTM_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || 'GTM-XXXXXXX';
+  // NEXT_PUBLIC_GOOGLE_TAG_ID can be a GA4 measurement ID (G-...) or a GTM
+  // container ID (GTM-...). Previously a G- ID was loaded through the GTM
+  // container snippet, which sends no page views, so GA4 recorded nothing.
+  const TAG_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || "";
+  const isGtm = TAG_ID.startsWith("GTM-");
+  const isGa4 = TAG_ID.startsWith("G-");
   return (
     <html lang="en-AU">
       <head>
@@ -131,24 +137,40 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
       </head>
-      {/* Google Tag Manager */}
-      <Script id="gtm-base" strategy="afterInteractive">{`
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','${GTM_ID}');
-      `}</Script>
+      {isGa4 && (
+        <>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${TAG_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="ga4-init" strategy="afterInteractive">{`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${TAG_ID}');
+          `}</Script>
+        </>
+      )}
+      {isGtm && (
+        <Script id="gtm-base" strategy="afterInteractive">{`
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','${TAG_ID}');
+        `}</Script>
+      )}
       <body className={`${dm_sans.className} ${audiowide.variable}`}>
-        {/* Google Tag Manager (noscript) */}
+        {isGtm && (
         <noscript>
           <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            src={`https://www.googletagmanager.com/ns.html?id=${TAG_ID}`}
             height="0"
             width="0"
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
+        )}
         <LocalBusinessSchema />
         {/* Defers 678 KB of icon CSS (line-awesome + font-awesome) off critical path */}
         <DeferredIconFonts />

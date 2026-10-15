@@ -1,13 +1,17 @@
 import type { MetadataRoute } from 'next'
 import dbConnect from '@/lib/db'
 import Product from '@/models/Product'
-import { categories } from '@/data/categories'
 import { getAllSuburbSlugs } from '@/data/location-pages'
 import { getAllServiceSlugs } from '@/data/service-pages'
 import { getAllModelSlugs } from '@/data/model-repair-pages'
 import { blogPosts } from '@/data/blog-posts'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://www.mobilearmour.com.au'
+import { SITE_URL } from '@/lib/site'
+
+// Must match the host used in canonical tags. The env var on Vercel appears
+// to be "https://mobilearmour.com.au/" (non-www + trailing slash), producing
+// "https://mobilearmour.com.au//about" for every sitemap URL.
+const BASE_URL = SITE_URL
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastmod = new Date().toISOString()
@@ -53,60 +57,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     {
-      url: `${BASE_URL}/price`,
-      lastModified: lastmod,
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/project-details-gallery`,
-      lastModified: lastmod,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/project-details-right-sidebar`,
-      lastModified: lastmod,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/project-details-left-sidebar`,
-      lastModified: lastmod,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/project-grid`,
-      lastModified: lastmod,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/project-list`,
-      lastModified: lastmod,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/project-metro`,
-      lastModified: lastmod,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/project-slider`,
-      lastModified: lastmod,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/project-standard`,
-      lastModified: lastmod,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
       url: `${BASE_URL}/blog`,
       lastModified: lastmod,
       changeFrequency: 'weekly',
@@ -135,18 +85,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  // ========================================
-  // 2. CATEGORY PAGES - Product categories
-  // ========================================
-  const categoryPages: MetadataRoute.Sitemap = categories.map((category) => {
-    const categoryParam = encodeURIComponent(category.name)
-    return {
-      url: `${BASE_URL}/products?category=${categoryParam}`,
-      lastModified: lastmod,
-      changeFrequency: 'daily',
-      priority: 0.85,
-    }
-  })
+  // Category URLs are currently /products?category=... and canonicalise to
+  // /products, so they are left out until real category pages exist (Sprint 2).
 
   // ========================================
   // 3. LOCATION PAGES - Suburb landing pages
@@ -212,7 +152,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ========================================
   return [
     ...staticPages,
-    ...categoryPages,
     ...locationPagesList,
     ...servicePagesList,
     ...modelPagesList,

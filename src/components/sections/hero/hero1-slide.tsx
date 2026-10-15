@@ -40,7 +40,11 @@ export default function Hero1Slide({
             <div className="col-xl-8 col-lg-6 ">
               <div className="section-title">
                 <h6 className="text-white">{subtitle}</h6>
-                <h1 className="text-white">{title}</h1>
+                {isFirst ? (
+                  <h1 className="text-white hero-slide-title">{title}</h1>
+                ) : (
+                  <h2 className="text-white hero-slide-title">{title}</h2>
+                )}
               </div>
               <p className="text-white">{description}</p>
              

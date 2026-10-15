@@ -24,16 +24,46 @@ const nextConfig = {
     deviceSizes: [390, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  async headers() {
+  // Old theme demo pages and duplicate routes. Google has indexed several of
+  // them (they even show as sitelinks), so they 301 to the closest real page.
+  async redirects() {
     return [
+      { source: "/price", destination: "/pricing", permanent: true },
+      { source: "/home1", destination: "/", permanent: true },
+      { source: "/home2", destination: "/", permanent: true },
+      { source: "/home3", destination: "/", permanent: true },
+      { source: "/service-details", destination: "/services", permanent: true },
+      { source: "/project-grid", destination: "/services", permanent: true },
+      { source: "/project-list", destination: "/services", permanent: true },
+      { source: "/project-metro", destination: "/services", permanent: true },
+      { source: "/project-slider", destination: "/services", permanent: true },
+      { source: "/project-standard", destination: "/services", permanent: true },
+      { source: "/project-details-gallery", destination: "/services", permanent: true },
+      { source: "/project-details-left-sidebar", destination: "/services", permanent: true },
+      { source: "/project-details-right-sidebar", destination: "/services", permanent: true },
+    ];
+  },
+  async headers() {
+    // Pages that should never appear in Google: carts, checkout, accounts,
+    // payment results and order confirmations.
+    const noindexPaths = [
+      "/cart",
+      "/checkout",
+      "/order-confirmation",
+      "/payment/:path*",
+      "/account/:path*",
+    ];
+    return [
+      ...noindexPaths.map((source) => ({
+        source,
+        headers: [{ key: "X-Robots-Tag", value: "noindex, follow" }],
+      })),
       {
         // Apply to all routes
         source: "/:path*",
         headers: [
-          {
-            key: "X-Robots-Tag",
-            value: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-          },
+          // No site-wide X-Robots-Tag: it overrode the noindex headers above.
+          // Indexing rules come from each page's <meta name="robots">.
           {
             key: "X-Content-Type-Options",
             value: "nosniff",
