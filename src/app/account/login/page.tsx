@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
-export default function LoginPage() {
+function LoginPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl") || "/";
@@ -731,4 +731,15 @@ export default function LoginPage() {
             )}
         </div>
     );
+}
+
+// Suspense is required because this page reads useSearchParams(). (The global
+// app/loading.tsx used to provide it, but that made every page stream with a 200
+// status, so 404s and redirects reached Google as "200 OK".)
+export default function LoginPageWithSuspense() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center roofix-loader"><span className="loader"></span></div>}>
+      <LoginPage />
+    </Suspense>
+  );
 }

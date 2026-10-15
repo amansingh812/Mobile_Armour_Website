@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import FilteredProductGrid from '../../components/shared/product/FilteredProductGrid';
 import AdvancedProductFilter from '@/components/shared/product/AdvancedProductFilter';
@@ -42,4 +42,13 @@ const ProductsPage = () => {
   );
 };
 
-export default ProductsPage;
+// Suspense is required because this page reads useSearchParams(). (The global
+// app/loading.tsx used to provide it, but that made every page stream with a 200
+// status, so 404s and redirects reached Google as "200 OK".)
+export default function ProductsPageWithSuspense() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center roofix-loader"><span className="loader"></span></div>}>
+      <ProductsPage />
+    </Suspense>
+  );
+}

@@ -8,27 +8,27 @@ export const categories: Category[] = [
   {
     name: "Cases",
     image: "/img/categories/case.jpg",
-    link: "/products?category=Cases",
+    link: "/shop/cases",
   },
   {
     name: "Power Banks",
     image: "/img/categories/powerbank.jpg",
-    link: "/products?category=Power Banks",
+    link: "/shop/power-banks",
   },
   {
     name: "Car Holders",
     image: "/img/categories/carholder.jpg",
-    link: "/products?category=Car Holders",
+    link: "/shop/car-holders",
   },
   {
     name: "Cables & Adapters",
     image: "/img/categories/cable.jpg",
-    link: "/products?category=Cables & Adapters",
+    link: "/shop/cables-adapters",
   },
   {
     name: "Screen Protectors",
     image: "/img/categories/screenprotector.jpg",
-    link: "/products?category=Screen Protectors",
+    link: "/shop/screen-protectors",
   },
 ];
 

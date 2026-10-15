@@ -1,0 +1,9 @@
+
+/* Product name links to the product page (Sprint 2) */
+.product-name a {
+  color: inherit;
+  text-decoration: none;
+}
+.product-name a:hover {
+  text-decoration: underline;
+}

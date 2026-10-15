@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -12,7 +12,7 @@ interface OrderData {
   createdAt: string;
 }
 
-export default function PaymentSuccess() {
+function PaymentSuccess() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [order, setOrder] = useState<OrderData | null>(null);
@@ -164,5 +164,16 @@ export default function PaymentSuccess() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Suspense is required because this page reads useSearchParams(). (The global
+// app/loading.tsx used to provide it, but that made every page stream with a 200
+// status, so 404s and redirects reached Google as "200 OK".)
+export default function PaymentSuccessWithSuspense() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center roofix-loader"><span className="loader"></span></div>}>
+      <PaymentSuccess />
+    </Suspense>
   );
 }

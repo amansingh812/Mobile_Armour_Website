@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 import Link from 'next/link';
+import { productPath } from '@/lib/products';
 import { popularProducts } from '@/data/popular-products';
 import './PopularProducts.css';
 import SectionTitle from '@/components/shared/section/section-title';
@@ -69,7 +70,7 @@ const PopularProducts: React.FC = () => {
                           <span className="popular-old-price">${old}</span>
                         )}
                       </div>
-                      <Link href={`/products/${product._id}`} className="popular-view-btn">
+                      <Link href={productPath(product)} className="popular-view-btn">
                         View Details
                       </Link>
                     </div>

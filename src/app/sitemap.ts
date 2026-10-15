@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
-import dbConnect from '@/lib/db'
-import Product from '@/models/Product'
+import { getAllProducts, devicesWithPages } from '@/lib/shop-data'
+import { SHOP_CATEGORIES } from '@/data/shop-categories'
+import { productPath } from '@/lib/products'
 import { getAllSuburbSlugs } from '@/data/location-pages'
 import { getAllServiceSlugs } from '@/data/service-pages'
 import { getAllModelSlugs } from '@/data/model-repair-pages'
@@ -12,6 +13,9 @@ import { SITE_URL } from '@/lib/site'
 // to be "https://mobilearmour.com.au/" (non-www + trailing slash), producing
 // "https://mobilearmour.com.au//about" for every sitemap URL.
 const BASE_URL = SITE_URL
+
+// Rebuilt at most hourly so new products appear without a redeploy.
+export const revalidate = 3600
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastmod = new Date().toISOString()
@@ -85,8 +89,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  // Category URLs are currently /products?category=... and canonicalise to
-  // /products, so they are left out until real category pages exist (Sprint 2).
+  // ========================================
+  // 2. SHOP CATEGORY + PHONE-MODEL PAGES (only those with products)
+  // ========================================
+  const allProducts = await getAllProducts()
+  const shopPages: MetadataRoute.Sitemap = []
+  for (const cat of SHOP_CATEGORIES) {
+    const inCat = allProducts.filter((p) => p.category === cat.dbCategory)
+    if (inCat.length === 0) continue
+    shopPages.push({ url: `${BASE_URL}/shop/${cat.slug}`, lastModified: lastmod, changeFrequency: 'daily', priority: 0.9 })
+    for (const d of devicesWithPages(inCat)) {
+      shopPages.push({ url: `${BASE_URL}/shop/${cat.slug}/${d.slug}`, lastModified: lastmod, changeFrequency: 'daily', priority: 0.85 })
+    }
+  }
 
   // ========================================
   // 3. LOCATION PAGES - Suburb landing pages
@@ -131,27 +146,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ========================================
   // 6. DYNAMIC PRODUCT PAGES - Individual products
   // ========================================
-  let productPages: MetadataRoute.Sitemap = []
-
-  try {
-    await dbConnect()
-    const products = await Product.find({}).select('_id updatedAt').lean()
-
-    productPages = products.map((product: any) => ({
-      url: `${BASE_URL}/products/${product._id.toString()}`,
-      lastModified: product.updatedAt?.toISOString() || lastmod,
-      changeFrequency: 'weekly' as const,
-      priority: 0.75,
-    }))
-  } catch (error) {
-    console.error('Error fetching products for sitemap:', error)
-  }
+  const productPages: MetadataRoute.Sitemap = allProducts.map((p) => ({
+    url: `${BASE_URL}${productPath(p)}`,
+    lastModified: p.updatedAt || lastmod,
+    changeFrequency: 'weekly' as const,
+    priority: 0.75,
+  }))
 
   // ========================================
   // 7. COMBINE ALL PAGES
   // ========================================
   return [
     ...staticPages,
+    ...shopPages,
     ...locationPagesList,
     ...servicePagesList,
     ...modelPagesList,

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { productPath } from '@/lib/products';
 // MongoDB product shape
 export type DBProduct = {
   _id: string;
@@ -32,19 +33,22 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           src={product.imageUrl}
           alt={product.name}
           className="product-image"
+          loading="lazy"
         />
         {hasDiscount && <span className="sale-badge">Sale</span>}
       </div>
 
       <div className="product-info">
-        <h3 className="product-name" title={product.name}>{product.name}</h3>
+        <h3 className="product-name" title={product.name}>
+          <Link href={productPath(product)}>{product.name}</Link>
+        </h3>
         <div className="product-price">
           <span className="current-price">${current}</span>
           {hasDiscount && (
             <span className="old-price">${old}</span>
           )}
         </div>
-        <Link href={`/products/${product._id}`} className="view-details-btn">
+        <Link href={productPath(product)} className="view-details-btn">
           View Details
         </Link>
       </div>

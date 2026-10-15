@@ -29,6 +29,9 @@ const nextConfig = {
   async redirects() {
     return [
       { source: "/price", destination: "/pricing", permanent: true },
+      // Old placeholder category pages (they rendered fake products) and bare /shop
+      { source: "/category/:path*", destination: "/products", permanent: true },
+      { source: "/shop", destination: "/products", permanent: true },
       { source: "/home1", destination: "/", permanent: true },
       { source: "/home2", destination: "/", permanent: true },
       { source: "/home3", destination: "/", permanent: true },
@@ -62,8 +65,7 @@ const nextConfig = {
         // Apply to all routes
         source: "/:path*",
         headers: [
-          // No site-wide X-Robots-Tag: it overrode the noindex headers above.
-          // Indexing rules come from each page's <meta name="robots">.
+          // No site-wide X-Robots-Tag (overrode noindex headers).
           {
             key: "X-Content-Type-Options",
             value: "nosniff",
