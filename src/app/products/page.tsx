@@ -10,6 +10,7 @@ import './Products.css';
 const ProductsPage = () => {
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get('category');
+  const searchQuery = searchParams.get('q') || '';
   const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
 
   const handleFiltersChange = (filters: Record<string, string[]>) => {
@@ -25,13 +26,17 @@ const ProductsPage = () => {
             <MobileFilterToggle onFiltersChange={handleFiltersChange} />
           </div>
           
+          {searchQuery && (
+            <h1 className="products-search-title">Results for &ldquo;{searchQuery}&rdquo;</h1>
+          )}
           <div className="products-layout">
             <aside className="filters-sidebar">
               <AdvancedProductFilter onFiltersChange={handleFiltersChange} />
             </aside>
             <div className="products-content">
               <FilteredProductGrid 
-                category={selectedCategory || undefined} 
+                category={selectedCategory || undefined}
+                query={searchQuery || undefined}
                 filters={activeFilters}
               />
             </div>

@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { blogPosts } from '@/data/blog-posts';
 
 interface BlogLayoutProps {
@@ -6,16 +7,14 @@ interface BlogLayoutProps {
   params: Promise<{ slug: string }>;
 }
 
+// Only the posts we have: any other /blog/<slug> is a real 404.
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
 
-  if (!post) {
-    return {
-      title: 'Blog Post Not Found | Mobile Armour',
-      description: 'The blog post you are looking for does not exist.',
-    };
-  }
+  if (!post) notFound();
 
   return {
     title: `${post.title} | Mobile Armour Heidelberg`,
@@ -26,17 +25,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: post.title,
       description: post.excerpt,
       type: 'article',
+      url: `/blog/${post.slug}`,
       publishedTime: post.publishedDate,
       modifiedTime: post.modifiedDate || post.publishedDate,
       authors: [post.author],
-      images: [
-        {
-          url: `https://www.mobilearmour.com.au${post.image}`,
-          width: 1200,
-          height: 630,
-          alt: post.imageAlt,
-        },
-      ],
+      images: [{ url: post.image, alt: post.imageAlt }],
       siteName: 'Mobile Armour',
       locale: 'en_AU',
     },
@@ -44,21 +37,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
-      images: [`https://www.mobilearmour.com.au${post.image}`],
+      images: [post.image],
     },
     alternates: {
-      canonical: `https://www.mobilearmour.com.au/blog/${post.slug}`,
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
+      canonical: `/blog/${post.slug}`,
     },
   };
 }

@@ -16,6 +16,18 @@ export async function GET(req: NextRequest) {
     if (category) {
       query.category = category;
     }
+
+    // Text search from the header search box (?q=iphone 17 case).
+    // Every word must appear in the name, category or device list.
+    const q = (searchParams.get('q') || '').trim().slice(0, 80);
+    if (q) {
+      const words = q.split(/\s+/).filter(Boolean).slice(0, 6);
+      const esc = (w: string) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      query.$and = words.map((w) => {
+        const re = new RegExp(esc(w), 'i');
+        return { $or: [{ name: re }, { category: re }, { deviceCompatibility: re }] };
+      });
+    }
     
     // Advanced filters
     const deviceFilters = searchParams.get('device');

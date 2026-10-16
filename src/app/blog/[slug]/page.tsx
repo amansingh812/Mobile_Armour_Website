@@ -1,280 +1,181 @@
-"use client";
-
-import { useParams } from 'next/navigation';
-import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { blogPosts } from '@/data/blog-posts';
-import './blog-post.css';
+import JsonLd, { BUSINESS_ID, faqPage } from '@/components/seo/JsonLd';
+import { Breadcrumbs } from '@/components/site/PageBits';
+import { BUSINESS, hoursSummary } from '@/data/business';
+import { extractFaqs, withHeadingIds } from '@/lib/blog-content';
+import '@/components/site/page.css';
+import '../blog.css';
 
-export default function BlogPostPage() {
-  const params = useParams();
-  const slug = params.slug as string;
-  
+// Server-rendered: the full article, headings, schema and links are in the
+// first HTML response, which is what Google and AI crawlers read.
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
+  if (!post) notFound();
 
-  if (!post) {
-    notFound();
-  }
+  const { html, toc } = withHeadingIds(post.content);
+  const faqs = extractFaqs(post.content);
+  const updated = post.modifiedDate || post.publishedDate;
+  const updatedLabel = new Date(updated).toLocaleDateString('en-AU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: BUSINESS.timeZone,
+  });
+  const url = `${BUSINESS.url}/blog/${post.slug}`;
 
-  const articleSchema = {
+  const article = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
-    image: `https://www.mobilearmour.com.au${post.image}`,
-    author: {
-      '@type': 'Person',
-      name: post.author,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Mobile Armour',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://www.mobilearmour.com.au/images/logo.png',
-      },
-    },
-    datePublished: post.publishedDate,
-    dateModified: post.modifiedDate || post.publishedDate,
     description: post.excerpt,
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `https://www.mobilearmour.com.au/blog/${post.slug}`,
+    image: {
+      '@type': 'ImageObject',
+      url: `${BUSINESS.url}${post.image}`,
+      caption: post.imageAlt,
     },
+    author: { '@type': 'Organization', name: post.author, url: BUSINESS.url },
+    publisher: { '@id': BUSINESS_ID },
+    datePublished: post.publishedDate,
+    dateModified: updated,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     keywords: post.keywords.join(', '),
+    articleSection: post.category,
+    inLanguage: 'en-AU',
   };
 
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://www.mobilearmour.com.au',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Blog',
-        item: 'https://www.mobilearmour.com.au/blog',
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: post.title,
-        item: `https://www.mobilearmour.com.au/blog/${post.slug}`,
-      },
-    ],
-  };
-
-  // Get related posts from same category
-  const relatedPosts = blogPosts
-    .filter((p) => p.slug !== post.slug && p.category === post.category)
-    .slice(0, 3);
-
-  // If no same-category posts, get latest posts
-  const displayRelatedPosts = relatedPosts.length > 0 
-    ? relatedPosts 
-    : blogPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const related = [
+    ...blogPosts.filter((p) => p.slug !== post.slug && p.category === post.category),
+    ...blogPosts.filter((p) => p.slug !== post.slug && p.category !== post.category),
+  ].slice(0, 3);
 
   return (
-    <>
-      {/* Schema markup - metadata handled by layout.tsx generateMetadata */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+    <main className="ma-page ma-post">
+      <JsonLd data={article} />
+      {faqs.length > 0 && <JsonLd data={faqPage(faqs)} />}
+      <Breadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Guides', path: '/blog' },
+          { name: post.title, path: `/blog/${post.slug}` },
+        ]}
       />
 
-      <div className="blog-post-wrapper">
-        {/* Breadcrumb */}
-        <div className="breadcrumb-section">
-          <div className="container">
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                  <Link href="/">Home</Link>
+      <div className="ma-wrap ma-post__layout">
+        <article className="ma-post__main">
+          <header className="ma-post__header">
+            <span className="ma-eyebrow">{post.category}</span>
+            <h1 className="ma-post__title">{post.title}</h1>
+            <p className="ma-byline">
+              By {post.author} · {post.modifiedDate ? 'Updated' : 'Published'} <time dateTime={updated}>{updatedLabel}</time> · {post.readingTime} min read
+            </p>
+          </header>
+
+          <section aria-label="In short" className="ma-quick">
+            <p className="ma-quick__label">In short</p>
+            <p className="ma-quick__text">{post.excerpt}</p>
+          </section>
+
+          <figure className="ma-post__figure">
+            <div className="ma-post__img">
+              <Image src={post.image} alt={post.imageAlt} fill priority sizes="(max-width: 960px) 100vw, 800px" />
+            </div>
+            <figcaption>{post.imageAlt}</figcaption>
+          </figure>
+
+          {toc.length > 2 && (
+            <details className="ma-toc ma-toc--inline">
+              <summary>In this guide ({toc.length} sections)</summary>
+              <ol>
+                {toc.map((t) => (
+                  <li key={t.id}>
+                    <a href={`#${t.id}`}>{t.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </details>
+          )}
+
+          <div className="ma-prose" dangerouslySetInnerHTML={{ __html: html }} />
+
+          <aside className="ma-post__cta" aria-label="Book a repair">
+            <h2>Need it fixed? Bring it to Warringal.</h2>
+            <p>
+              Most screens, batteries and charging ports are done in {BUSINESS.repairTimes.common}, with a{' '}
+              {BUSINESS.warranty.short}. Walk-ins welcome.
+            </p>
+            <div className="ma-actions">
+              <Link href="/contact?topic=repair" className="ma-btn ma-btn--primary">
+                Book a repair
+              </Link>
+              <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--ghost">
+                Call {BUSINESS.phoneDisplay}
+              </a>
+            </div>
+          </aside>
+
+          {post.tags?.length > 0 && (
+            <ul className="ma-chips ma-post__tags" aria-label="Topics">
+              {post.tags.map((t) => (
+                <li key={t}>
+                  <span className="ma-chip">{t}</span>
                 </li>
-                <li className="breadcrumb-item">
-                  <Link href="/home1">Blog</Link>
-                </li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  {post.title.length > 50 ? post.title.substring(0, 50) + '...' : post.title}
-                </li>
+              ))}
+            </ul>
+          )}
+        </article>
+
+        <aside className="ma-post__aside" aria-label="More from Mobile Armour">
+          {toc.length > 2 && (
+            <nav className="ma-toc ma-toc--side" aria-label="In this guide">
+              <p className="ma-toc__title">In this guide</p>
+              <ol>
+                {toc.map((t) => (
+                  <li key={t.id}>
+                    <a href={`#${t.id}`}>{t.text}</a>
+                  </li>
+                ))}
               </ol>
             </nav>
+          )}
+          <div className="ma-panel ma-panel--dark" style={{ padding: 22, gap: 10 }}>
+            <strong style={{ color: '#fff', fontSize: 18 }}>Talk to a technician</strong>
+            <span style={{ fontSize: 14 }}>
+              {BUSINESS.address.unit}, {BUSINESS.address.centre}, Heidelberg · {hoursSummary()}
+            </span>
+            <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--primary">
+              Call {BUSINESS.phoneDisplay}
+            </a>
+            <a href={BUSINESS.mapsUrl} className="ma-btn ma-btn--ghost" target="_blank" rel="noopener">
+              Get directions
+            </a>
           </div>
-        </div>
-
-        {/* Blog Post Content */}
-        <article className="blog-post-container">
-          <div className="container">
-            <div className="row">
-              {/* Main Content */}
-              <div className="col-lg-8">
-                <div className="blog-post-content">
-                  {/* Post Header */}
-                  <header className="post-header">
-                    <div className="post-meta">
-                      <span className="category">{post.category}</span>
-                      <span className="date">{post.date}</span>
-                      <span className="reading-time">{post.readingTime} min read</span>
-                    </div>
-                    <h1 className="post-title">{post.title}</h1>
-                    <p className="post-excerpt">{post.excerpt}</p>
-                    <div className="author-info">
-                      <span className="author-name">By {post.author}</span>
-                    </div>
-                  </header>
-
-                  {/* Featured Image */}
-                  <div className="featured-image">
-                    <Image
-                      src={post.image}
-                      alt={post.imageAlt}
-                      width={800}
-                      height={450}
-                      priority
-                      className="img-fluid"
-                      style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
-                    />
-                  </div>
-
-                  {/* Post Body */}
-                  <div className="post-body" dangerouslySetInnerHTML={{ __html: post.content }} />
-
-                  {/* Call to Action */}
-                  <div className="post-cta">
-                    <h3>Need Professional Mobile Phone Repair?</h3>
-                    <p>
-                      Visit Mobile Armour in Heidelberg for expert repairs with a 6-month warranty.
-                      Same-day service available!
-                    </p>
-                    <div className="cta-buttons">
-                      <Link href="/contact" className="btn btn-primary">
-                        Book a Repair
-                      </Link>
-                      <Link href="tel:0405326205" className="btn btn-outline">
-                        Call 0405-326-205
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Tags */}
-                  {post.tags && post.tags.length > 0 && (
-                    <div className="post-tags">
-                      <strong>Tags:</strong>
-                      {post.tags.map((tag, index) => (
-                        <span key={index} className="tag">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Sidebar */}
-              <aside className="col-lg-4">
-                <div className="blog-sidebar">
-                  {/* Contact Widget */}
-                  <div className="sidebar-widget contact-widget">
-                    <h4>Need Help Now?</h4>
-                    <p>Our repair experts are ready to assist you.</p>
-                    <Link href="tel:0405326205" className="sidebar-cta-btn">
-                      📞 0405-326-205
-                    </Link>
-                    <div className="opening-hours">
-                      <p>
-                        <strong>Mon-Fri:</strong> 9:00 AM - 6:00 PM
-                      </p>
-                      <p>
-                        <strong>Sat:</strong> 9:00 AM - 5:00 PM
-                      </p>
-                      <p>
-                        <strong>Sun:</strong> 10:00 AM - 4:00 PM
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Related Posts */}
-                  <div className="sidebar-widget related-posts">
-                    <h4>Related Articles</h4>
-                    <ul>
-                      {displayRelatedPosts.map((relatedPost) => (
-                        <li key={relatedPost.slug}>
-                          <Link href={`/blog/${relatedPost.slug}`}>{relatedPost.title}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Services Widget */}
-                  <div className="sidebar-widget services-widget">
-                    <h4>Our Services</h4>
-                    <ul>
-                      <li>
-                        <Link href="/services">Screen Repairs</Link>
-                      </li>
-                      <li>
-                        <Link href="/services">Battery Replacement</Link>
-                      </li>
-                      <li>
-                        <Link href="/services">Water Damage Repair</Link>
-                      </li>
-                      <li>
-                        <Link href="/services">Charging Port Repair</Link>
-                      </li>
-                      <li>
-                        <Link href="/services">Camera Repair</Link>
-                      </li>
-                    </ul>
-                  </div>
-
-                  {/* Location Widget */}
-                  <div className="sidebar-widget location-widget">
-                    <h4>Visit Us</h4>
-                    <address>
-                      <strong>Mobile Armour</strong><br />
-                      Kiosk 4, Warringal Shopping Centre<br />
-                      56 Burgundy Street<br />
-                      Heidelberg VIC 3084
-                    </address>
-                    <Link 
-                      href="https://maps.google.com/?q=Warringal+Shopping+Centre+Heidelberg" 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="directions-link"
-                    >
-                      📍 Get Directions
-                    </Link>
-                  </div>
-                </div>
-              </aside>
-            </div>
-          </div>
-        </article>
+        </aside>
       </div>
 
-      <style jsx>{`
-        .blog-post-wrapper {
-          padding-top: 120px;
-          padding-bottom: 80px;
-          background-color: #f8f9fa;
-        }
-        
-        @media (max-width: 767px) {
-          .blog-post-wrapper {
-            padding-top: 80px;
-            padding-bottom: 60px;
-          }
-        }
-      `}</style>
-    </>
+      {related.length > 0 && (
+        <section aria-labelledby="related" className="ma-section">
+          <h2 id="related" className="ma-h2">
+            Keep reading
+          </h2>
+          <div className="ma-grid ma-grid--3" style={{ marginTop: 20 }}>
+            {related.map((r) => (
+              <Link key={r.slug} href={`/blog/${r.slug}`} className="ma-guide">
+                <span className="ma-guide__img">
+                  <Image src={r.image} alt={r.imageAlt} fill sizes="(max-width: 860px) 100vw, 400px" />
+                </span>
+                <span className="ma-guide__body">
+                  <span className="ma-guide__tag">{r.category}</span>
+                  <span className="ma-guide__title">{r.title}</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+    </main>
   );
 }

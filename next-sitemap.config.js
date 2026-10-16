@@ -25,6 +25,25 @@ module.exports = {
           '/payment',
         ],
       },
+      // AI search and answer engines (ChatGPT, Perplexity, Claude, Gemini,
+      // Apple, Copilot/Bing): explicitly allowed so they can read and cite us.
+      ...[
+        'OAI-SearchBot',
+        'ChatGPT-User',
+        'GPTBot',
+        'PerplexityBot',
+        'Perplexity-User',
+        'ClaudeBot',
+        'Claude-SearchBot',
+        'Claude-User',
+        'Google-Extended',
+        'Applebot-Extended',
+        'Bingbot',
+      ].map((userAgent) => ({
+        userAgent,
+        allow: '/',
+        disallow: ['/admin', '/account', '/api', '/cart', '/checkout', '/payment'],
+      })),
     ],
     additionalSitemaps: [
       // Point to Next.js generated sitemap

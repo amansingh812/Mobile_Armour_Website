@@ -7,10 +7,11 @@ import './ProductGrid.css';
 
 interface FilteredProductGridProps {
   category?: string;
+  query?: string;
   filters?: Record<string, string[]>;
 }
 
-const FilteredProductGrid: React.FC<FilteredProductGridProps> = ({ category, filters = {} }) => {
+const FilteredProductGrid: React.FC<FilteredProductGridProps> = ({ category, query, filters = {} }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -34,6 +35,9 @@ const FilteredProductGrid: React.FC<FilteredProductGridProps> = ({ category, fil
     // Add category filter if provided
     if (category) {
       params.set('category', category);
+    }
+    if (query) {
+      params.set('q', query);
     }
     
     // Add advanced filters
@@ -60,7 +64,7 @@ const FilteredProductGrid: React.FC<FilteredProductGridProps> = ({ category, fil
   if (data.length === 0) {
     return (
       <div className="no-products-message">
-        <p>No products found{category ? ` in ${category} category` : ''}.</p>
+        <p>No products found{query ? ` for "${query}"` : category ? ` in ${category} category` : ''}.</p>
       </div>
     );
   }

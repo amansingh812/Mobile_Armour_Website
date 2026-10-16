@@ -5,8 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // via DeferredIconFonts (non-blocking) to eliminate 678 KB render-blocking CSS
 // Removed unused CSS bundles: animate.css, barfiller.css, flaticon.css
 import "./globals.css";
-import Header from "@/components/header/header";
-import Footer from "@/components/footer/footer";
+import SiteHeader from "@/components/site/SiteHeader";
+import SiteFooter from "@/components/site/SiteFooter";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { CartProvider } from "@/hooks/useCart";
 import ChatBot from "@/components/chatbot/ChatBot";
@@ -117,7 +117,7 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/img/logo-22.png" />
-        <meta name="theme-color" content="#1B3A5C" />
+        <meta name="theme-color" content="#15171C" />
         <meta name="geo.region" content="AU-VIC" />
         <meta name="geo.placename" content="Heidelberg" />
         <meta name="geo.position" content="-37.7547;145.0603" />
@@ -176,9 +176,9 @@ export default function RootLayout({
         <DeferredIconFonts />
         <AuthProvider>
           <CartProvider>
-            <Header />
-            {children}
-            <Footer />
+            <SiteHeader />
+            <div id="main">{children}</div>
+            <SiteFooter />
             <ChatBot />
           </CartProvider>
         </AuthProvider>

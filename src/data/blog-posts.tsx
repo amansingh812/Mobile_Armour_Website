@@ -26,7 +26,7 @@ export const blogPosts: BlogPost[] = [
     publishedDate: '2026-01-05T09:00:00+11:00',
     author: 'Mobile Armour Team',
     readingTime: 7,
-    image: '/img/blog/screen-repair-guide.jpg',
+    image: '/img/blog/screen-repair-guide.webp',
     imageAlt: 'Phone screen repair vs replacement guide showing damaged screen',
     keywords: [
       'phone screen repair',
@@ -301,7 +301,7 @@ export const blogPosts: BlogPost[] = [
     publishedDate: '2026-01-03T10:00:00+11:00',
     author: 'Mobile Armour Team',
     readingTime: 8,
-    image: '/img/blog/battery-tips.jpg',
+    image: '/img/blog/battery-tips.webp',
     imageAlt: 'Smartphone battery life optimization tips and tricks',
     keywords: [
       'smartphone battery life',
@@ -646,7 +646,7 @@ export const blogPosts: BlogPost[] = [
     publishedDate: '2025-12-28T11:00:00+11:00',
     author: 'Mobile Armour Team',
     readingTime: 6,
-    image: '/img/blog/water-damage.jpg',
+    image: '/img/blog/water-damage.webp',
     imageAlt: 'Water damage first aid for smartphones - emergency response guide',
     keywords: [
       'water damaged phone',
@@ -1870,7 +1870,7 @@ export const blogPosts: BlogPost[] = [
     publishedDate: '2025-12-10T11:00:00+11:00',
     author: 'Mobile Armour Team',
     readingTime: 7,
-    image: '/img/blog/samsung-repair.jpg',
+    image: '/img/blog/samsung-repair.webp',
     imageAlt: 'Samsung Galaxy repair cost guide for Heidelberg Australia',
     keywords: [
       'Samsung repair cost',

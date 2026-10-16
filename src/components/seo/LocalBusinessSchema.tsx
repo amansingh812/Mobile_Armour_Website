@@ -2,38 +2,46 @@
 // Review stars are intentionally NOT included: Google ignores self-served
 // LocalBusiness reviews, and hand-typed numbers drift from the real
 // Google Business Profile rating.
+import { BUSINESS, openingHoursSpecification } from "@/data/business";
+
 export default function LocalBusinessSchema() {
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${BUSINESS.url}/#website`,
+    "name": BUSINESS.name,
+    "url": BUSINESS.url,
+    "inLanguage": "en-AU",
+    "publisher": { "@id": `${BUSINESS.url}/#business` },
+  };
   const schema = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": "https://www.mobilearmour.com.au/#business",
-    "name": "Mobile Armour",
-    "image": "https://www.mobilearmour.com.au/img/og-image.jpg",
+    // MobilePhoneStore is a LocalBusiness subtype: covers both the repair
+    // desk and the accessories shop.
+    "@type": "MobilePhoneStore",
+    "@id": `${BUSINESS.url}/#business`,
+    "name": BUSINESS.name,
+    "image": BUSINESS.image,
+    "logo": BUSINESS.logo,
     "description": "Expert mobile phone repair services in Heidelberg. Specializing in iPhone repair, iPad repair, Apple Watch screen replacement, Apple Watch battery replacement, LCD screen replacement, battery replacement, and phone accessories. We repair all iPhone models including iPhone 14, iPhone 13, iPhone 11, Samsung models including Galaxy S23 Ultra, S22, S21, Apple Watch Series Ultra, 9, 8, 7, 6, SE and many more. Quick repair service for cracked screens and damaged devices.",
-    "url": "https://www.mobilearmour.com.au",
-    "telephone": "+61-405-326-205",
-    "email": "repair@mobilearmour.com.au",
+    "url": BUSINESS.url,
+    "telephone": BUSINESS.phoneIntl,
+    "email": BUSINESS.email,
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Kiosk 4, Warringal Shopping Centre, 56 Burgundy Street",
-      "addressLocality": "Heidelberg",
-      "addressRegion": "VIC",
-      "postalCode": "3084",
-      "addressCountry": "AU"
+      "streetAddress": `${BUSINESS.address.unit}, ${BUSINESS.address.centre}, ${BUSINESS.address.street}`,
+      "addressLocality": BUSINESS.address.suburb,
+      "addressRegion": BUSINESS.address.state,
+      "postalCode": BUSINESS.address.postcode,
+      "addressCountry": BUSINESS.address.country
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": -37.7547,
-      "longitude": 145.0603
+      "latitude": BUSINESS.geo.lat,
+      "longitude": BUSINESS.geo.lng
     },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "opens": "09:30",
-        "closes": "17:30"
-      }
-    ],
+    "hasMap": BUSINESS.mapsUrl,
+    "openingHoursSpecification": openingHoursSpecification(),
     "priceRange": "$$",
     "paymentAccepted": "Cash, Credit Card, Debit Card",
     "currenciesAccepted": "AUD",
@@ -149,18 +157,21 @@ export default function LocalBusinessSchema() {
         }
       ]
     },
-    "sameAs": [
-      "https://www.facebook.com/people/Mobile-Armour/61577763766480/",
-      "https://www.instagram.com/mobilearm0ur/",
-      "https://tiktok.com/@mobilearmourau"
-    ]
+    "sameAs": [...BUSINESS.sameAs]
   };
 
   return (
-    <script
-      id="local-business-schema"
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
+    <>
+      <script
+        id="local-business-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        id="website-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
+      />
+    </>
   );
 }

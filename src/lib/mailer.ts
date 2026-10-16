@@ -60,7 +60,20 @@ interface LeadNotificationData {
   preferredTime?: string;
 }
 
-export async function sendLeadNotificationEmail(data: LeadNotificationData) {
+function escapeHtml(v: string): string {
+  return v
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export async function sendLeadNotificationEmail(rawData: LeadNotificationData) {
+  // Form input goes straight into the email HTML: escape it and cap lengths.
+  const data = Object.fromEntries(
+    Object.entries(rawData).map(([k, v]) => [k, typeof v === "string" ? escapeHtml(v.slice(0, 4000)) : v])
+  ) as LeadNotificationData;
   if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !SMTP_FROM) {
     console.warn("[mailer] SMTP not configured. Skipping lead notification email.");
     return null;
@@ -92,6 +105,10 @@ export async function sendLeadNotificationEmail(data: LeadNotificationData) {
     case 'ENQUIRY':
       typeLabel = '💬 New Chatbot Enquiry';
       typeColor = '#2196F3';
+      break;
+    case 'CONTACT':
+      typeLabel = '📩 New Website Message';
+      typeColor = '#FF5600';
       break;
   }
 
@@ -141,7 +158,7 @@ export async function sendLeadNotificationEmail(data: LeadNotificationData) {
     const mailResult = await transporter.sendMail({
       from: SMTP_FROM,
       to: notificationEmail,
-      subject: `${typeLabel} - ${data.name || data.phone || 'New Customer'}`,
+      subject: `${typeLabel} - ${(rawData.name || rawData.phone || 'New Customer').slice(0, 80)}`,
       html,
     });
     console.log(`[mailer] ✅ Lead notification email sent successfully for ${data.type}`, {

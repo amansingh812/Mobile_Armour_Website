@@ -1,4 +1,7 @@
-# *
+# Mobile Armour — phone repairs and accessories, Heidelberg VIC
+# Search engines and AI answer engines (ChatGPT, Perplexity, Claude, Gemini,
+# Copilot) may read the public site so they can recommend and cite us.
+
 User-agent: *
 Allow: /
 Disallow: /admin
@@ -9,5 +12,24 @@ Disallow: /cart
 Disallow: /checkout
 Disallow: /payment
 
-# Sitemaps
+# AI search and answer engines — explicitly allowed
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
 Sitemap: https://www.mobilearmour.com.au/sitemap.xml
