@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { useCart } from "@/hooks/useCart";
 import { BUSINESS } from "@/data/business";
 import "./site.css";
+import "@/components/store/store.css";
 
 const ADMIN_EMAIL = "dromperfectly125@gmail.com";
 
@@ -16,10 +17,10 @@ export const NAV_LINKS: { label: string; href: string }[] = [
   { label: "Cases", href: "/shop/cases" },
   { label: "Screen protectors", href: "/shop/screen-protectors" },
   { label: "Chargers & cables", href: "/shop/cables-adapters" },
+  { label: "Protection bundle", href: "/bundle" },
   { label: "Repairs", href: "/services" },
   { label: "Repair prices", href: "/pricing" },
   { label: "Guides", href: "/blog" },
-  { label: "FAQs", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -40,6 +41,23 @@ export default function SiteHeader() {
   // client HTML match.
   useEffect(() => setCount(getItemCount()), [getItemCount]);
   useEffect(() => setOpen(false), [pathname]);
+
+  // "Added to cart" toast, fired by AddToCartButton and the bundle builder.
+  const [toast, setToast] = useState<string | null>(null);
+  useEffect(() => {
+    let t: ReturnType<typeof setTimeout>;
+    const on = (e: Event) => {
+      const d = (e as CustomEvent<{ name: string; count: number }>).detail;
+      setToast(d.count > 1 && d.name === "bundle" ? `${d.count} items added` : `${d.name} added`);
+      clearTimeout(t);
+      t = setTimeout(() => setToast(null), 4000);
+    };
+    window.addEventListener("ma-cart-added", on);
+    return () => {
+      window.removeEventListener("ma-cart-added", on);
+      clearTimeout(t);
+    };
+  }, []);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -128,6 +146,20 @@ export default function SiteHeader() {
           </Link>
         ))}
       </nav>
+
+      <div className="ma-toast" role="status" aria-live="polite" hidden={!toast}>
+        {toast && (
+          <>
+            <span className="ma-toast__tick" aria-hidden="true">
+              ✓
+            </span>
+            <span className="ma-toast__text">{toast}</span>
+            <Link href="/cart" className="ma-btn ma-btn--primary">
+              View cart
+            </Link>
+          </>
+        )}
+      </div>
 
       <div id="ma-drawer" className={`ma-drawer${open ? " is-open" : ""}`} hidden={!open}>
         <nav aria-label="Mobile">

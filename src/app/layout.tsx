@@ -122,14 +122,6 @@ export default function RootLayout({
         <meta name="geo.placename" content="Heidelberg" />
         <meta name="geo.position" content="-37.7547;145.0603" />
         <meta name="ICBM" content="-37.7547, 145.0603" />
-        {/* Preload the LCP hero image so the browser fetches it immediately */}
-        <link
-          rel="preload"
-          as="image"
-          href="/img/slider/newImages/slider6.webp"
-          // @ts-expect-error fetchpriority is a valid HTML attribute not yet in TS types
-          fetchpriority="high"
-        />
         {/* Cloudinary CDN — used for product/service images */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="//res.cloudinary.com" />

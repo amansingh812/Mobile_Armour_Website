@@ -1,13 +1,23 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { servicePages, getServiceBySlug, getAllServiceSlugs } from '@/data/service-pages';
+import { getServiceBySlug, getAllServiceSlugs } from '@/data/service-pages';
 import { locationPages } from '@/data/location-pages';
-import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import { modelRepairPages } from '@/data/model-repair-pages';
+import JsonLd, { BUSINESS_ID, faqPage } from '@/components/seo/JsonLd';
+import { Breadcrumbs, FaqList, QuickAnswer } from '@/components/site/PageBits';
+import { BUSINESS, SERVICE_AREAS, hoursSummary } from '@/data/business';
+import { STORE } from '@/data/store-settings';
+import RepairQuotePicker from './RepairQuotePicker';
+import '@/components/site/page.css';
+import '@/app/contact/contact.css';
+import './service.css';
 
 interface PageProps {
   params: Promise<{ service: string }>;
 }
+
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   return getAllServiceSlugs().map((slug) => ({ service: slug }));
@@ -16,252 +26,236 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { service: slug } = await params;
   const service = getServiceBySlug(slug);
-  if (!service) return { title: 'Service Not Found' };
-
+  if (!service) notFound();
   return {
     title: service.metaTitle,
     description: service.metaDescription,
     keywords: service.keywords,
+    alternates: { canonical: `/services/${slug}` },
     openGraph: {
       title: service.metaTitle,
       description: service.metaDescription,
-      url: `https://www.mobilearmour.com.au/services/${slug}`,
-      siteName: 'Mobile Armour',
+      url: `/services/${slug}`,
+      siteName: BUSINESS.name,
       locale: 'en_AU',
       type: 'website',
     },
-    twitter: {
-      card: 'summary_large_image',
-      title: service.title + ' - Mobile Armour Heidelberg',
-      description: service.metaDescription,
-    },
-    alternates: {
-      canonical: `https://www.mobilearmour.com.au/services/${slug}`,
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
   };
 }
+
+// "iPhone Screen Repair" -> "iPhone screen repair" (brand names keep their case)
+const BRANDS = ['iPhone', 'iPad', 'Samsung', 'Google', 'Pixel', 'Apple', 'Watch', 'MacBook'];
+const lowerTitle = (t: string) =>
+  t
+    .split(' ')
+    .map((w) => (BRANDS.includes(w) ? w : w.toLowerCase()))
+    .join(' ');
+
+const firstSentences = (text: string, n: number) =>
+  (text.match(/[^.!?]+[.!?]+/g) || [text]).slice(0, n).join(' ').trim();
 
 export default async function ServiceDetailPage({ params }: PageProps) {
   const { service: slug } = await params;
   const service = getServiceBySlug(slug);
   if (!service) notFound();
 
-  const serviceSchema = {
+  const modelPages: Record<string, string> = {};
+  for (const m of service.models) {
+    const page = modelRepairPages.find((p) => p.model.toLowerCase() === m.toLowerCase());
+    if (page) modelPages[m] = `/repairs/${page.slug}`;
+  }
+  const faqs = service.faqs.map((f, i) => {
+    const short = firstSentences(f.answer, 1);
+    const rest = f.answer.slice(short.length).trim();
+    return { id: `faq-${i + 1}`, q: f.question, short, more: rest || undefined };
+  });
+  const steps = service.processSteps.map((s) => {
+    const [title, ...body] = s.split(/\s+[—–-]\s+/);
+    return { title: title.trim(), body: body.join(' — ').trim() };
+  });
+  const protects = /screen|glass|lens|protector/i.test(slug);
+
+  const schema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: service.title,
+    serviceType: service.title,
     description: service.intro,
-    provider: {
-      '@type': 'LocalBusiness',
-      name: 'Mobile Armour',
-      telephone: '+61405326205',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: 'Kiosk 4, Warringal Shopping Centre, 56 Burgundy Street',
-        addressLocality: 'Heidelberg',
-        addressRegion: 'VIC',
-        postalCode: '3084',
-        addressCountry: 'AU',
-      },
-    },
-    areaServed: locationPages.map((loc) => ({
-      '@type': 'City',
-      name: `${loc.name}, VIC ${loc.postcode}`,
-    })),
-    url: `https://www.mobilearmour.com.au/services/${slug}`,
-  };
-
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: service.faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
-    })),
+    url: `${BUSINESS.url}/services/${slug}`,
+    provider: { '@id': BUSINESS_ID },
+    areaServed: locationPages.map((loc) => ({ '@type': 'City', name: `${loc.name}, VIC ${loc.postcode}` })),
   };
 
   return (
-    <div>
-      <BreadcrumbSchema items={[
-        { name: 'Home', url: '/' },
-        { name: 'Services', url: '/services' },
-        { name: service.title },
-      ]} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+    <main className="ma-page">
+      <JsonLd data={schema} />
+      <JsonLd data={faqPage(faqs.map((f) => ({ q: f.q, a: f.more ? `${f.short} ${f.more}` : f.short })))} />
+      <Breadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Repairs', path: '/services' },
+          { name: service.title, path: `/services/${slug}` },
+        ]}
+      />
 
-      {/* Hero */}
-      <section className="section-padding" style={{ background: 'linear-gradient(135deg, #1B3A5C 0%, #2d5a8c 100%)', color: '#fff' }}>
-        <div className="container">
-          <nav aria-label="breadcrumb" style={{ marginBottom: '1rem' }}>
-            <ol style={{ display: 'flex', gap: '0.5rem', listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9rem', opacity: 0.85 }}>
-              <li><Link href="/" style={{ color: '#fff', textDecoration: 'none' }}>Home</Link> /</li>
-              <li><Link href="/services" style={{ color: '#fff', textDecoration: 'none' }}>Services</Link> /</li>
-              <li style={{ color: '#FF5600' }}>{service.title}</li>
-            </ol>
-          </nav>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>
-            {service.heroHeading}
-          </h1>
-          <p style={{ fontSize: '1.2rem', maxWidth: '700px', opacity: 0.9 }}>
-            {service.heroSubheading}
-          </p>
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
-            <Link href="tel:0405326205" style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 28px',
-              background: '#FF5600', color: '#fff', borderRadius: '6px', textDecoration: 'none',
-              fontWeight: 600, fontSize: '1.05rem'
-            }}>
-              Get Instant Quote — 0405-326-205
+      <section className="ma-hero ma-svc-hero">
+        <div className="ma-hero__copy">
+          <span className="ma-eyebrow">Repairs at Warringal Shopping Centre</span>
+          <h1 className="ma-h1">{service.heroHeading}</h1>
+          <p className="ma-byline">{service.heroSubheading}</p>
+          <QuickAnswer>
+            {firstSentences(service.intro, 2)} Every repair comes with a <strong>{BUSINESS.warranty.long}</strong>.
+          </QuickAnswer>
+          <div className="ma-actions">
+            <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--primary">
+              Call {BUSINESS.phoneDisplay}
+            </a>
+            <a href={BUSINESS.mapsUrl} className="ma-btn ma-btn--outline" target="_blank" rel="noopener">
+              Get directions
+            </a>
+          </div>
+        </div>
+        {service.models.length > 0 && (
+          <RepairQuotePicker service={service.title} models={service.models} modelPages={modelPages} />
+        )}
+      </section>
+
+      <section aria-labelledby="issues" className="ma-section">
+        <h2 id="issues" className="ma-h2">
+          Signs you need {lowerTitle(service.title)}
+        </h2>
+        <p className="ma-lead">{service.intro}</p>
+        <ul className="ma-grid ma-grid--3 ma-svc-issues">
+          {service.commonIssues.map((i) => (
+            <li key={i} className="ma-tile">
+              <strong>{i}</strong>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="how" className="ma-section">
+        <h2 id="how" className="ma-h2">
+          How does the repair work?
+        </h2>
+        <ol className="ma-steps" style={{ marginTop: 18 }}>
+          {steps.map((s, i) => (
+            <li key={s.title}>
+              <span className="ma-steps__n" aria-hidden="true">
+                {i + 1}
+              </span>
+              <h3>{s.title}</h3>
+              {s.body && <p>{s.body}</p>}
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {service.models.length > 0 && (
+        <section aria-labelledby="models" className="ma-section">
+          <h2 id="models" className="ma-h2">
+            Which models do you repair?
+          </h2>
+          <ul className="ma-chips" style={{ marginTop: 16 }}>
+            {service.models.map((m) => (
+              <li key={m}>
+                {modelPages[m] ? (
+                  <Link href={modelPages[m]} className="ma-chip">
+                    {m}
+                  </Link>
+                ) : (
+                  <span className="ma-chip">{m}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+          <p className="ma-note">Not listed? Call {BUSINESS.phoneDisplay}; we repair many more models.</p>
+        </section>
+      )}
+
+      <section className="ma-section">
+        <div className="ma-grid ma-grid--2">
+          <div className="ma-panel ma-panel--peach">
+            <h2>What warranty do I get?</h2>
+            <p>{service.warrantyNote}</p>
+          </div>
+          {protects ? (
+            <div className="ma-panel ma-panel--dark">
+              <h2>Protect the new screen</h2>
+              <p>
+                A tempered glass screen protector costs far less than another repair.
+                {STORE.freeFitting ? ' Buy one from us and we fit it free before you leave.' : ''}
+              </p>
+              <div className="ma-actions">
+                <Link href="/shop/screen-protectors" className="ma-btn ma-btn--primary">
+                  Screen protectors
+                </Link>
+                {STORE.bundle.enabled && (
+                  <Link href="/bundle" className="ma-btn ma-btn--ghost">
+                    Case + glass bundle
+                  </Link>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="ma-panel ma-panel--dark">
+              <h2>Is my data safe?</h2>
+              <p>
+                Yes. We don&apos;t open your apps, photos or messages unless you ask us to. We still recommend a backup
+                before any repair.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section aria-labelledby="faq" className="ma-section">
+        <div className="ma-faq-split">
+          <div>
+            <h2 id="faq" className="ma-h2">
+              {service.title} questions
+            </h2>
+            <Link href="/faq" className="ma-link">
+              All FAQs →
+            </Link>
+          </div>
+          <FaqList faqs={faqs} />
+        </div>
+      </section>
+
+      <section aria-labelledby="areas" className="ma-section">
+        <h2 id="areas" className="ma-h2" style={{ fontSize: 24 }}>
+          {service.title} near you
+        </h2>
+        <ul className="ma-chips" style={{ marginTop: 14 }}>
+          {SERVICE_AREAS.filter((a) => a.slug).map((a) => (
+            <li key={a.name}>
+              <Link href={`/phone-repair/${a.slug}`} className="ma-chip">
+                {a.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="ma-section">
+        <div className="ma-cta">
+          <div>
+            <h2>Bring it in today</h2>
+            <p>
+              {BUSINESS.address.unit}, {BUSINESS.address.centre}, {BUSINESS.address.streetShort}, Heidelberg · {hoursSummary()}
+            </p>
+          </div>
+          <div className="ma-actions">
+            <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--primary">
+              Call {BUSINESS.phoneDisplay}
+            </a>
+            <Link href="/services" className="ma-btn ma-btn--ghost">
+              All repairs
             </Link>
           </div>
         </div>
       </section>
-
-      {/* Intro + Process */}
-      <section className="section-padding">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-8">
-              <h2>About Our {service.title} Service</h2>
-              <p style={{ lineHeight: 1.8, fontSize: '1.05rem' }}>{service.intro}</p>
-
-              <h3 style={{ marginTop: '2rem' }}>Our Repair Process</h3>
-              <div style={{ marginTop: '1rem' }}>
-                {service.processSteps.map((step, i) => (
-                  <div key={i} style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem', alignItems: 'flex-start' }}>
-                    <div style={{
-                      minWidth: '40px', height: '40px', borderRadius: '50%', background: '#FF5600',
-                      color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontWeight: 700, fontSize: '1.1rem'
-                    }}>
-                      {i + 1}
-                    </div>
-                    <p style={{ margin: 0, lineHeight: 1.7, fontSize: '1.02rem' }}>{step}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Common Issues */}
-              <h3 style={{ marginTop: '2rem' }}>Common Issues We Fix</h3>
-              <div className="row" style={{ marginTop: '1rem' }}>
-                {service.commonIssues.map((issue, i) => (
-                  <div key={i} className="col-md-6" style={{ marginBottom: '0.75rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <span style={{ color: '#FF5600', fontWeight: 700 }}>✓</span>
-                      <span>{issue}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Sidebar */}
-            <div className="col-lg-4">
-              <div style={{ background: '#f8f9fa', borderRadius: '12px', padding: '1.5rem', position: 'sticky', top: '100px' }}>
-                <h4 style={{ color: '#1B3A5C', marginBottom: '1rem' }}>Supported Models</h4>
-                <ul style={{ paddingLeft: '1.2rem', lineHeight: 1.8, fontSize: '0.95rem' }}>
-                  {service.models.slice(0, 12).map((model, i) => (
-                    <li key={i}>{model}</li>
-                  ))}
-                  {service.models.length > 12 && <li>...and more</li>}
-                </ul>
-                <hr />
-                <h5 style={{ color: '#1B3A5C', marginBottom: '0.5rem' }}>Warranty</h5>
-                <p style={{ fontSize: '0.95rem', lineHeight: 1.6 }}>{service.warrantyNote}</p>
-                <hr />
-                <Link href="tel:0405326205" style={{
-                  display: 'block', textAlign: 'center', padding: '12px', background: '#FF5600',
-                  color: '#fff', borderRadius: '6px', textDecoration: 'none', fontWeight: 600
-                }}>
-                  Call for Quote
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section style={{ background: '#f8f9fa', padding: '4rem 0' }}>
-        <div className="container">
-          <h2 className="text-center" style={{ marginBottom: '2.5rem' }}>
-            {service.title} — Frequently Asked Questions
-          </h2>
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              {service.faqs.map((faq, i) => (
-                <div key={i} style={{
-                  background: '#fff', borderRadius: '10px', padding: '1.5rem 2rem',
-                  marginBottom: '1rem', boxShadow: '0 1px 4px rgba(0,0,0,0.05)'
-                }}>
-                  <h4 style={{ color: '#1B3A5C', fontSize: '1.1rem', marginBottom: '0.75rem' }}>{faq.question}</h4>
-                  <p style={{ lineHeight: 1.7, margin: 0 }}>{faq.answer}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Service Areas */}
-      <section className="section-padding">
-        <div className="container text-center">
-          <h3 style={{ marginBottom: '1.5rem' }}>Available Across Melbourne&apos;s Northern Suburbs</h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.5rem', maxWidth: '800px', margin: '0 auto' }}>
-            {locationPages.map((loc) => (
-              <Link
-                key={loc.slug}
-                href={`/phone-repair/${loc.slug}`}
-                style={{
-                  background: '#f0f4f8', color: '#1B3A5C', padding: '0.4rem 0.9rem',
-                  borderRadius: '20px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500
-                }}
-              >
-                {loc.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Other Services */}
-      <section style={{ background: '#1B3A5C', color: '#fff', padding: '3rem 0' }}>
-        <div className="container text-center">
-          <h3 style={{ marginBottom: '1.5rem' }}>Other Repair Services</h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.75rem' }}>
-            {servicePages
-              .filter((s) => s.slug !== slug)
-              .map((s) => (
-                <Link
-                  key={s.slug}
-                  href={`/services/${s.slug}`}
-                  style={{
-                    background: 'rgba(255,255,255,0.1)', color: '#fff', padding: '0.5rem 1rem',
-                    borderRadius: '6px', textDecoration: 'none', fontSize: '0.95rem',
-                    border: '1px solid rgba(255,255,255,0.2)'
-                  }}
-                >
-                  {s.title}
-                </Link>
-              ))}
-          </div>
-        </div>
-      </section>
-    </div>
+    </main>
   );
 }

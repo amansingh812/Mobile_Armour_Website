@@ -70,15 +70,15 @@ export default async function ShopDevicePage({ params }: Props) {
         { name: cat.name, url: `/shop/${cat.slug}` },
         { name: deviceName },
       ]}
-      subLinksHeading={`Other models`}
-      subLinks={siblings
-        .filter((s) => s.slug !== device)
-        .map((s) => ({
-          label: `${s.device} ${cat.shortName.toLowerCase()}`,
-          href: `/shop/${cat.slug}/${s.slug}`,
-          count: s.count,
-        }))}
+      subLinksHeading="Phone model"
+      subLinks={siblings.map((s) => ({
+        label: s.device,
+        href: `/shop/${cat.slug}/${s.slug}`,
+        count: s.count,
+        active: s.slug === device,
+      }))}
       buyingTips={cat.buyingTips}
+      bundleDevice={cat.slug === 'cases' || cat.slug === 'screen-protectors' ? deviceName : undefined}
     />
   );
 }

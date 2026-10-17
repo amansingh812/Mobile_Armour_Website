@@ -56,13 +56,14 @@ export default async function ShopCategoryPage({ params }: Props) {
         { name: 'Shop', url: '/products' },
         { name: cat.name },
       ]}
-      subLinksHeading={`${cat.shortName} by phone model`}
+      subLinksHeading="Phone model"
       subLinks={devices.map((d) => ({
-        label: `${d.device} ${cat.shortName.toLowerCase()}`,
+        label: d.device,
         href: `/shop/${cat.slug}/${d.slug}`,
         count: d.count,
       }))}
       buyingTips={cat.buyingTips}
+      bundleDevice={cat.slug === 'cases' || cat.slug === 'screen-protectors' ? null : undefined}
     />
   );
 }

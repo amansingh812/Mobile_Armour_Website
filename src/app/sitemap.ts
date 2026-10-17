@@ -6,6 +6,7 @@ import { getAllSuburbSlugs } from '@/data/location-pages'
 import { getAllServiceSlugs } from '@/data/service-pages'
 import { getAllModelSlugs } from '@/data/model-repair-pages'
 import { blogPosts } from '@/data/blog-posts'
+import { getPhoneHubs } from '@/lib/phones'
 
 import { SITE_URL } from '@/lib/site'
 
@@ -87,6 +88,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.75,
     },
+    { url: `${BASE_URL}/phones`, lastModified: lastmod, changeFrequency: 'daily', priority: 0.85 },
+    { url: `${BASE_URL}/bundle`, lastModified: lastmod, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${BASE_URL}/why-mobile-armour`, lastModified: lastmod, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/delivery-returns`, lastModified: lastmod, changeFrequency: 'monthly', priority: 0.6 },
   ]
 
   // ========================================
@@ -102,6 +107,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       shopPages.push({ url: `${BASE_URL}/shop/${cat.slug}/${d.slug}`, lastModified: lastmod, changeFrequency: 'daily', priority: 0.85 })
     }
   }
+
+  // Phone hubs: everything that fits one phone model
+  const phonePages: MetadataRoute.Sitemap = (await getPhoneHubs()).map((h) => ({
+    url: `${BASE_URL}/phones/${h.slug}`,
+    lastModified: lastmod,
+    changeFrequency: 'daily' as const,
+    priority: 0.85,
+  }))
 
   // ========================================
   // 3. LOCATION PAGES - Suburb landing pages
@@ -159,6 +172,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...staticPages,
     ...shopPages,
+    ...phonePages,
     ...locationPagesList,
     ...servicePagesList,
     ...modelPagesList,

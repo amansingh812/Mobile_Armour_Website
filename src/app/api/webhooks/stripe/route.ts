@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { sendLeadNotificationEmail } from '@/lib/mailer';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -46,28 +47,34 @@ export async function POST(request: Request) {
 async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) {
   try {
     console.log('Processing completed checkout session:', session.id);
-    
-    const orderId = session.metadata?.orderId;
-    const customerName = session.metadata?.customerName;
-    
-    // Here you would typically save the order to your database
-    // For now, we'll just log the successful payment
-    console.log('Payment completed successfully:', {
-      sessionId: session.id,
-      orderId,
-      customerName,
-      customerEmail: session.customer_email,
-      amountTotal: session.amount_total,
-      currency: session.currency,
-      paymentStatus: session.payment_status,
-    });
+    if (session.payment_status !== 'paid') return;
 
-    // You can add database operations here to:
-    // 1. Create/update order record
-    // 2. Update inventory
-    // 3. Send confirmation emails
-    // 4. Trigger fulfillment processes
-    
+    // Tell the shop about the order so it can be packed or set aside for collection.
+    const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 100 });
+    const fulfilment = session.metadata?.fulfilment === 'delivery' ? 'delivery' : 'collect';
+    const details = session.customer_details;
+    const ship = (session as any).shipping_details || (session as any).collected_information?.shipping_details;
+    const addr = ship?.address;
+    const itemsText = lineItems.data
+      .map((li) => `${li.quantity} x ${li.description} ($${((li.amount_total || 0) / 100).toFixed(2)})`)
+      .join('\n');
+
+    await sendLeadNotificationEmail({
+      type: 'PRODUCT_ORDER',
+      name: details?.name || ship?.name || undefined,
+      phone: details?.phone || undefined,
+      email: details?.email || session.customer_email || undefined,
+      productName: fulfilment === 'collect' ? 'CLICK & COLLECT order' : 'DELIVERY order',
+      quantity: String(lineItems.data.reduce((n, li) => n + (li.quantity || 0), 0)),
+      deliveryAddress: addr
+        ? [addr.line1, addr.line2, addr.city, addr.state, addr.postal_code, addr.country].filter(Boolean).join(', ')
+        : fulfilment === 'collect'
+          ? 'Collecting from the kiosk'
+          : undefined,
+      message: `${itemsText}\n\nPaid: $${((session.amount_total || 0) / 100).toFixed(2)} AUD${
+        Number(session.metadata?.bundleSaving || 0) > 0 ? ` (bundle saving $${session.metadata?.bundleSaving})` : ''
+      }\nStripe session: ${session.id}`,
+    });
   } catch (error) {
     console.error('Error handling checkout session completed:', error);
   }

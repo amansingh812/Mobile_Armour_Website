@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Navigation from '@/components/shared/product/Navigation';
 
 export default function CartLayout({
   children,
@@ -10,7 +9,6 @@ export default function CartLayout({
 }) {
   return (
     <>
-      <Navigation />
       {children}
     </>
   );

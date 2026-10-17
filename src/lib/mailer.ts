@@ -99,7 +99,7 @@ export async function sendLeadNotificationEmail(rawData: LeadNotificationData) {
       typeColor = '#FF5722';
       break;
     case 'PRODUCT_ORDER':
-      typeLabel = '🛒 New Product Order';
+      typeLabel = '🛒 New Paid Order';
       typeColor = '#4CAF50';
       break;
     case 'ENQUIRY':
@@ -137,7 +137,7 @@ export async function sendLeadNotificationEmail(rawData: LeadNotificationData) {
       
       ${data.message ? `
       <h3 style="margin: 24px 0 12px; color: #333; border-bottom: 1px solid #eee; padding-bottom: 8px;">Message / Issue</h3>
-      <p style="margin: 0; padding: 12px; background: #f9f9f9; border-radius: 6px; color: #555; line-height: 1.6;">${data.message}</p>
+      <p style="margin: 0; padding: 12px; background: #f9f9f9; border-radius: 6px; color: #555; line-height: 1.6; white-space: pre-line;">${data.message}</p>
       ` : ''}
       
       ${data.phone ? `

@@ -1,0 +1,327 @@
+/* Shop components (Sprint 4). Tokens from components/site/site.css. */
+
+/* ---------- product tile ---------- */
+.ma-pgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.ma-pgrid--rail {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.ma-tile-p {
+  border-radius: 18px;
+  border: 1px solid var(--ma-line);
+  background: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.ma-tile-p:hover {
+  border-color: var(--ma-ink);
+  box-shadow: 0 10px 30px rgba(21, 23, 28, 0.07);
+}
+.ma-tile-p__img {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  background: var(--ma-stone);
+}
+.ma-tile-p__img img {
+  object-fit: contain;
+  padding: 14px;
+}
+.ma-tile-p__badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--ma-orange);
+  color: var(--ma-ink);
+  font-size: 12px;
+  font-weight: 800;
+}
+.ma-tile-p__badge--out {
+  background: var(--ma-ink);
+  color: #fff;
+}
+.ma-tile-p__body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.ma-tile-p__fit {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ma-green);
+}
+.ma-tile-p__name {
+  margin: 0 !important;
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+  font-weight: 600 !important;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ma-tile-p__name a {
+  color: var(--ma-ink) !important;
+}
+.ma-tile-p__name a:hover {
+  color: var(--ma-orange-text) !important;
+}
+.ma-tile-p__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+.ma-tile-p__price {
+  font-size: 18px;
+  font-weight: 800;
+}
+.ma-tile-p__price s {
+  margin-left: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ma-slate);
+}
+.ma-add-icon {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 0;
+  background: var(--ma-orange);
+  color: var(--ma-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.ma-add-icon:hover {
+  background: #ff6d24;
+}
+.ma-add-icon:disabled {
+  background: var(--ma-line);
+  cursor: not-allowed;
+}
+.ma-add-full {
+  width: 100%;
+  min-height: 54px;
+  font-size: 16px;
+  font-weight: 800;
+  border: 0;
+}
+.ma-add-full:disabled {
+  background: var(--ma-line);
+  cursor: not-allowed;
+}
+
+/* ---------- promise strip ---------- */
+.ma-pstrip {
+  background: var(--ma-night);
+}
+.ma-pstrip ul {
+  list-style: none;
+  max-width: var(--ma-max);
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.ma-pstrip a {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: #fff !important;
+}
+.ma-pstrip__icon {
+  flex: 0 0 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #262931;
+  color: #ff7a3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+}
+.ma-pstrip strong {
+  display: block;
+  font-size: 15px;
+}
+.ma-pstrip span span {
+  font-size: 13px;
+  color: #9ea2ad;
+}
+.ma-pstrip--compact {
+  border-radius: 20px;
+  max-width: var(--ma-max);
+  margin: 0 auto;
+}
+.ma-pstrip--compact ul {
+  padding: 18px 22px;
+}
+
+/* ---------- toast ---------- */
+.ma-toast {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 12px 16px;
+  border-radius: 16px;
+  background: #fff;
+  color: var(--ma-ink);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  max-width: min(420px, calc(100vw - 32px));
+}
+.ma-toast[hidden] {
+  display: none;
+}
+.ma-toast__tick {
+  flex: 0 0 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ma-green-bg);
+  color: var(--ma-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+.ma-toast__text {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.ma-toast .ma-btn {
+  min-height: 40px;
+  padding: 0 14px;
+}
+
+/* ---------- section head ---------- */
+.ma-shead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.ma-shead .ma-h2 {
+  margin: 0;
+}
+.ma-shead p {
+  color: var(--ma-slate);
+  margin-top: 6px !important;
+}
+
+/* ---------- category tiles ---------- */
+.ma-cats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+.ma-cat {
+  border-radius: 20px;
+  background: var(--ma-stone);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: var(--ma-ink) !important;
+}
+.ma-cat:hover {
+  background: var(--ma-peach);
+}
+.ma-cat__img {
+  position: relative;
+  aspect-ratio: 4 / 3;
+}
+.ma-cat__img img {
+  object-fit: contain;
+  padding: 16px;
+}
+.ma-cat__body {
+  padding: 4px 16px 16px;
+  display: flex;
+  flex-direction: column;
+}
+.ma-cat__body strong {
+  font-size: 16px;
+}
+.ma-cat__body span {
+  font-size: 13px;
+  color: var(--ma-slate);
+}
+
+/* ---------- phone chips ---------- */
+.ma-phones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 12px;
+}
+.ma-phone {
+  border-radius: 16px;
+  border: 1px solid var(--ma-line);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--ma-ink) !important;
+  background: #fff;
+}
+.ma-phone:hover {
+  border-color: var(--ma-ink);
+  background: var(--ma-stone);
+}
+.ma-phone strong {
+  font-size: 16px;
+}
+.ma-phone span {
+  font-size: 13px;
+  color: var(--ma-slate);
+}
+
+@media (max-width: 1100px) {
+  .ma-pgrid--rail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .ma-pgrid,
+  .ma-pgrid--rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .ma-tile-p__body {
+    padding: 10px 12px 12px;
+  }
+  .ma-tile-p__price {
+    font-size: 16px;
+  }
+  .ma-add-icon {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+  }
+  .ma-toast {
+    left: 16px;
+    right: 16px;
+    top: auto;
+    bottom: 16px;
+  }
+}

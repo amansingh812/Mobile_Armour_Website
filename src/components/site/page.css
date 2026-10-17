@@ -602,3 +602,37 @@ a.ma-guide:hover {
 .ma-panel ul li {
   list-style: disc;
 }
+
+/* policy / long-form pages */
+.ma-policy {
+  padding-top: 12px;
+  font-size: 17px;
+  line-height: 1.7;
+}
+.ma-policy > section {
+  padding-top: 32px;
+  scroll-margin-top: 140px;
+}
+.ma-policy h2 {
+  margin: 0 0 10px;
+  font-size: 26px;
+  letter-spacing: -0.5px;
+}
+.ma-policy p + p {
+  margin-top: 10px;
+}
+.ma-policy ol,
+.ma-policy ul {
+  padding-left: 22px;
+  margin: 0;
+}
+.ma-policy ol li {
+  list-style: decimal;
+}
+.ma-policy ul li {
+  list-style: disc;
+}
+.ma-policy a {
+  color: var(--ma-orange-text) !important;
+  font-weight: 700;
+}

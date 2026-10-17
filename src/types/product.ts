@@ -10,6 +10,7 @@ export interface Product {
   stock?: number;
   features?: string[];
   images?: string[];
+  deviceCompatibility?: string[];
 }
 
 export interface CartItem {

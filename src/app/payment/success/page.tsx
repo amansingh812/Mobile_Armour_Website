@@ -1,178 +1,99 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { useCart } from '@/hooks/useCart';
+import { BUSINESS, fullAddress } from '@/data/business';
+import { STORE } from '@/data/store-settings';
+import '@/components/site/page.css';
+import '@/components/store/store.css';
+import '@/app/cart/cart.css';
 
-interface OrderData {
-  customer: any;
-  items: any[];
-  total: number;
+interface PendingOrder {
   sessionId: string;
-  createdAt: string;
+  fulfilment?: 'collect' | 'delivery';
+  items: { product: { _id: string; name: string; imageUrl: string }; quantity: number }[];
+  total: number;
 }
 
 function PaymentSuccess() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [order, setOrder] = useState<OrderData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const params = useSearchParams();
+  const { clearCart } = useCart();
+  const [order, setOrder] = useState<PendingOrder | null>(null);
 
   useEffect(() => {
-    const sessionId = searchParams.get('session_id');
-    
-    if (!sessionId) {
-      setError('No session ID found');
-      setLoading(false);
-      return;
-    }
-
-    // Get order data from localStorage
-    const pendingOrderData = localStorage.getItem('pendingOrder');
-    
-    if (pendingOrderData) {
-      try {
-        const orderData = JSON.parse(pendingOrderData);
-        
-        if (orderData.sessionId === sessionId) {
-          setOrder(orderData);
-          
-          // Clear the cart and pending order data
-          localStorage.removeItem('pendingOrder');
-          localStorage.removeItem('cart'); // Clear cart after successful payment
-          
-          // Store order in order history
-          const orderHistory = JSON.parse(localStorage.getItem('orderHistory') || '[]');
-          const completedOrder = {
-            ...orderData,
-            status: 'paid',
-            paymentMethod: 'stripe',
-            stripeSessionId: sessionId,
-          };
-          orderHistory.push(completedOrder);
-          localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
-        } else {
-          setError('Session ID mismatch');
-        }
-      } catch (e) {
-        setError('Failed to parse order data');
+    const sessionId = params.get('session_id');
+    try {
+      const raw = localStorage.getItem('pendingOrder');
+      const o = raw ? (JSON.parse(raw) as PendingOrder) : null;
+      if (o && sessionId && o.sessionId === sessionId) {
+        setOrder(o);
+        localStorage.removeItem('pendingOrder');
       }
-    } else {
-      setError('No pending order found');
-    }
-    
-    setLoading(false);
-  }, [searchParams]);
+    } catch {}
+    if (sessionId) clearCart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  if (loading) {
-    return (
-      <div className="success-page">
-        <div className="success-container">
-          <div className="loading-spinner">
-            <div className="spinner"></div>
-            <p>Loading order details...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !order) {
-    return (
-      <div className="success-page">
-        <div className="success-container">
-          <div className="error-state">
-            <div className="error-icon">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </div>
-            <h2>Error</h2>
-            <p>{error || 'Order not found'}</p>
-            <Link href="/" className="success-btn">
-              Go Home
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const collect = (order?.fulfilment || 'collect') === 'collect';
 
   return (
-    <div className="success-page">
-      <div className="success-container">
-        <div className="success-content">
-          <div className="success-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h1 className="success-title">
-            Payment Successful!
+    <main className="ma-page ma-cart">
+      <div className="ma-wrap" style={{ maxWidth: 760, paddingTop: 48 }}>
+        <div className="ma-cart__box" style={{ padding: 32, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <span className="ma-toast__tick" aria-hidden="true" style={{ width: 56, height: 56, fontSize: 26 }}>
+            ✓
+          </span>
+          <h1 className="ma-h1" style={{ fontSize: 34 }}>
+            Thanks, your order is paid
           </h1>
-          <p className="success-message">
-            Thank you for your purchase. Your order has been confirmed and is being processed.
-          </p>
+          {collect ? (
+            <p style={{ fontSize: 17 }}>
+              We&apos;ll text you when it&apos;s ready to collect from <strong>{fullAddress}</strong> (
+              {STORE.clickAndCollect.readyText}).{' '}
+              {STORE.freeFitting ? 'Bring your phone and we’ll fit any screen protector for you.' : ''}
+            </p>
+          ) : (
+            <p style={{ fontSize: 17 }}>
+              We&apos;ll pack it and send it by {STORE.delivery.carrier}; you&apos;ll get an email when it&apos;s on its
+              way.
+            </p>
+          )}
+          <p style={{ color: 'var(--ma-body)' }}>A receipt has been emailed to you by Stripe.</p>
 
-          <div className="order-summary-card">
-            <h2 className="summary-title">Order Summary</h2>
-            
-            <div className="summary-header">
-              <div className="customer-info">
-                <h3>Customer Information</h3>
-                <p className="customer-name">{order.customer.fullName}</p>
-                <p className="customer-email">{order.customer.email}</p>
-              </div>
-              <div className="order-total">
-                <h3>Order Total</h3>
-                <p className="total-amount">${order.total.toFixed(2)}</p>
-              </div>
-            </div>
+          {order && order.items.length > 0 && (
+            <ul className="ma-cart__items" aria-label="Items in this order">
+              {order.items.map((i) => (
+                <li key={i.product._id} className="ma-cart__item" style={{ gridTemplateColumns: '64px 1fr auto' }}>
+                  <span className="ma-cart__thumb" style={{ width: 64, height: 64 }}>
+                    {i.product.imageUrl && <Image src={i.product.imageUrl} alt="" fill sizes="64px" />}
+                  </span>
+                  <span className="ma-cart__name">{i.product.name}</span>
+                  <span>× {i.quantity}</span>
+                </li>
+              ))}
+            </ul>
+          )}
 
-            <div className="items-section">
-              <h3 className="items-title">Items Ordered</h3>
-              <div className="items-list">
-                {order.items.map((item, index) => (
-                  <div key={index} className="item-card">
-                    <img
-                      src={item.product.imageUrl}
-                      alt={item.product.name}
-                      className="item-image"
-                    />
-                    <div className="item-details">
-                      <h4 className="item-name">{item.product.name}</h4>
-                      <p className="item-quantity">Quantity: {item.quantity}</p>
-                    </div>
-                    <div className="item-price">
-                      ${((item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price) * item.quantity).toFixed(2)}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="success-actions">
-            <Link href="/products" className="primary-btn">
-              Continue Shopping
+          <div className="ma-actions">
+            <Link href="/products" className="ma-btn ma-btn--primary">
+              Keep shopping
             </Link>
-            <Link href="/" className="secondary-btn">
-              Go Home
-            </Link>
+            <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--outline">
+              Questions? Call {BUSINESS.phoneDisplay}
+            </a>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
-// Suspense is required because this page reads useSearchParams(). (The global
-// app/loading.tsx used to provide it, but that made every page stream with a 200
-// status, so 404s and redirects reached Google as "200 OK".)
-export default function PaymentSuccessWithSuspense() {
+export default function PaymentSuccessPage() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center roofix-loader"><span className="loader"></span></div>}>
+    <Suspense fallback={<main className="ma-page" style={{ padding: 80, textAlign: 'center' }}>Loading…</main>}>
       <PaymentSuccess />
     </Suspense>
   );

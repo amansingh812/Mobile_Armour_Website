@@ -10,7 +10,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Cases", href: "/shop/cases" },
       { label: "Screen protectors", href: "/shop/screen-protectors" },
       { label: "Chargers & cables", href: "/shop/cables-adapters" },
-      { label: "Car holders", href: "/shop/car-holders" },
+      { label: "Protection bundle", href: "/bundle" },
       { label: "All products", href: "/products" },
     ],
   },
@@ -28,6 +28,8 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     title: "Help",
     links: [
       { label: "FAQs", href: "/faq" },
+      { label: "Delivery & returns", href: "/delivery-returns" },
+      { label: "Why buy from us", href: "/why-mobile-armour" },
       { label: "Contact us", href: "/contact" },
       { label: "Repair guides", href: "/blog" },
       { label: "About", href: "/about" },

@@ -24,7 +24,7 @@ export const servicePages: ServicePageData[] = [
     title: "iPhone Screen Repair",
     slug: "iphone-screen-repair",
     metaTitle: "iPhone Screen Repair Heidelberg Melbourne | Same Day Service",
-    metaDescription: "Expert iPhone screen replacement in Heidelberg. iPhone 11, 12, 13, 14, 15, 16, 17 screen repair from $XX. Same-day service, 6-month warranty. Warringal Shopping Centre.",
+    metaDescription: "Expert iPhone screen replacement in Heidelberg. iPhone 11, 12, 13, 14, 15, 16, 17 screen repair, quoted per model. Same-day service, 6-month warranty. Warringal Shopping Centre.",
     keywords: ["iphone screen repair", "iphone screen replacement", "iphone screen repair heidelberg", "iphone 14 screen replacement", "iphone 15 screen replacement", "iphone 17 pro max screen repair cost", "cracked iphone screen repair melbourne", "iphone repair near me", "fix iphone screen", "screen repair iphone 14 pro", "15 pro max screen replacement", "16 pro screen replacement"],
     heroHeading: "iPhone Screen Repair & Replacement",
     heroSubheading: "Same-day screen repair for all iPhone models — done in 30-45 minutes",
