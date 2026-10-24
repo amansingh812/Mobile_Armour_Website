@@ -3,10 +3,7 @@
 // (new hours, new phone number) is made once and stays consistent for
 // Google, ChatGPT and other AI answer engines.
 //
-// TO CONFIRM with the owner before launch:
-// - HOURS: the website and schema say 9:30–5:30 daily; the Google Business
-//   Profile says 9–5 (Sun 10–5). Make both say the same thing.
-// - WARRANTY: most pages say 6 months; the old FAQ said 1 year.
+// Hours and warranty confirmed by the owner on 24 Oct 2026.
 
 import { SITE_URL } from "@/lib/site";
 
@@ -62,7 +59,7 @@ export const BUSINESS = {
   mapEmbedUrl:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3154.462652365058!2d145.06878609999998!3d-37.75574869999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad647c89707795f%3A0x2ce576275e4b8085!2sMOBILE%20ARMOUR%20-%20Phone%20Repair%20Specialist!5e0!3m2!1sen!2sau!4v1761033751415!5m2!1sen!2sau",
   timeZone: "Australia/Melbourne",
-  hours: DAYS.map((day) => ({ day, opens: "09:30", closes: "17:30" })) as OpeningHours[],
+  hours: DAYS.map((day) => ({ day, opens: day === "Sunday" ? "10:00" : "09:00", closes: "17:00" })) as OpeningHours[],
   warranty: {
     short: "6-month warranty",
     long: "6-month warranty on parts and labour",
@@ -89,14 +86,35 @@ export function formatTime(hhmm: string): string {
   return m === 0 ? `${h12} ${suffix}` : `${h12}:${String(m).padStart(2, "0")} ${suffix}`;
 }
 
-/** One-line summary, e.g. "Open 7 days, 9:30 am – 5:30 pm". */
-export function hoursSummary(): string {
-  const first = BUSINESS.hours[0];
-  const same = BUSINESS.hours.every((h) => h.opens === first.opens && h.closes === first.closes);
-  if (same && BUSINESS.hours.length === 7) {
-    return `Open 7 days, ${formatTime(first.opens)} – ${formatTime(first.closes)}`;
+const SHORT_DAY: Record<Day, string> = {
+  Monday: "Mon",
+  Tuesday: "Tue",
+  Wednesday: "Wed",
+  Thursday: "Thu",
+  Friday: "Fri",
+  Saturday: "Sat",
+  Sunday: "Sun",
+};
+
+/** Hours grouped by run of days, e.g. "Mon–Sat 9 am – 5 pm, Sun 10 am – 5 pm". */
+export function hoursShort(): string {
+  const runs: { from: Day; to: Day; opens: string; closes: string }[] = [];
+  for (const h of BUSINESS.hours) {
+    const last = runs[runs.length - 1];
+    if (last && last.opens === h.opens && last.closes === h.closes) last.to = h.day;
+    else runs.push({ from: h.day, to: h.day, opens: h.opens, closes: h.closes });
   }
-  return "Open 7 days";
+  return runs
+    .map((r) => {
+      const days = r.from === r.to ? SHORT_DAY[r.from] : `${SHORT_DAY[r.from]}–${SHORT_DAY[r.to]}`;
+      return `${days} ${formatTime(r.opens)} – ${formatTime(r.closes)}`;
+    })
+    .join(", ");
+}
+
+/** One-line summary, e.g. "Open 7 days: Mon–Sat 9 am – 5 pm, Sun 10 am – 5 pm". */
+export function hoursSummary(): string {
+  return BUSINESS.hours.length === 7 ? `Open 7 days: ${hoursShort()}` : hoursShort();
 }
 
 /** Suburbs with their own /phone-repair/[suburb] page, nearest first. */

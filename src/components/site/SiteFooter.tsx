@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BUSINESS, hoursSummary } from "@/data/business";
+import { STORE } from "@/data/store-settings";
 import "./site.css";
 
 const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
@@ -10,7 +11,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Cases", href: "/shop/cases" },
       { label: "Screen protectors", href: "/shop/screen-protectors" },
       { label: "Chargers & cables", href: "/shop/cables-adapters" },
-      { label: "Protection bundle", href: "/bundle" },
+      STORE.bundle.enabled ? { label: "Protection bundle", href: "/bundle" } : { label: "Shop by phone", href: "/phones" },
       { label: "All products", href: "/products" },
     ],
   },

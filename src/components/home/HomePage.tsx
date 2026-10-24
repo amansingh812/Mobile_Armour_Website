@@ -9,7 +9,7 @@ import { getPhoneHubs, hubSummary } from '@/lib/phones';
 import { currentPrice } from '@/lib/products';
 import { SHOP_CATEGORIES } from '@/data/shop-categories';
 import { categories as CATEGORY_IMAGES } from '@/data/categories';
-import { BUSINESS, fullAddress, hoursSummary } from '@/data/business';
+import { BUSINESS, fullAddress, hoursShort, hoursSummary } from '@/data/business';
 import { STORE } from '@/data/store-settings';
 import { faqAnswerText, faqsById } from '@/data/faqs';
 import '@/components/site/page.css';
@@ -79,7 +79,7 @@ export default async function HomePage() {
             </li>
             <li>
               <strong>7 days</strong>
-              <span>{hoursSummary().replace('Open 7 days, ', '')}</span>
+              <span>{hoursShort()}</span>
             </li>
             {STORE.googleRating && (
               <li>

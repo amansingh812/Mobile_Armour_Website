@@ -97,7 +97,7 @@ export default function LeadCapturePopup() {
               <i className="fa-solid fa-chevron-right ml-2"></i>
             </Link>
             <p className="footer-text">
-              <i className="fa-solid fa-clock"></i> Open Mon-Sun 9:30am - 5:30pm
+              <i className="fa-solid fa-clock"></i> Open Mon–Sat 9am–5pm, Sun 10am–5pm
             </p>
           </div>
         </div>

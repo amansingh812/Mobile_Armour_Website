@@ -15,7 +15,7 @@ function LocationMap() {
       icon: "fa-solid fa-phone",
       title: "Call Us",
       info: "0405 326 205",
-      subInfo: "Mon-Sun: 9:30 AM - 5:30 PM",
+      subInfo: "Mon–Sat 9am–5pm, Sun 10am–5pm",
       link: "tel:+61405326205",
     },
     {

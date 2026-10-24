@@ -10,7 +10,7 @@ import { STORE, deliveryFeeText } from '@/data/store-settings';
 import { BUSINESS, fullAddress } from '@/data/business';
 import '@/components/site/page.css';
 import '@/components/store/store.css';
-import './cart.css';
+import './cart-page.css';
 
 const FULFIL_KEY = 'ma-fulfilment';
 
@@ -226,7 +226,8 @@ export default function CartPage() {
                       </span>
                     </span>
                     <span className="ma-fulfil__sub">
-                      {STORE.delivery.carrier}, {STORE.delivery.timeText}. Returns can still be dropped at the kiosk.
+                      {STORE.delivery.carrier}, {STORE.delivery.timeText}.
+                      {STORE.returns.walkIn ? ' Returns can still be dropped at the kiosk.' : ''}
                     </span>
                   </label>
                 )}

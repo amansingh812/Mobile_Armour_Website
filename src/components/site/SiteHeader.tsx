@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useCart } from "@/hooks/useCart";
 import { BUSINESS } from "@/data/business";
+import { STORE } from "@/data/store-settings";
 import "./site.css";
 import "@/components/store/store.css";
 
@@ -17,7 +18,7 @@ export const NAV_LINKS: { label: string; href: string }[] = [
   { label: "Cases", href: "/shop/cases" },
   { label: "Screen protectors", href: "/shop/screen-protectors" },
   { label: "Chargers & cables", href: "/shop/cables-adapters" },
-  { label: "Protection bundle", href: "/bundle" },
+  STORE.bundle.enabled ? { label: "Protection bundle", href: "/bundle" } : { label: "Shop by phone", href: "/phones" },
   { label: "Repairs", href: "/services" },
   { label: "Repair prices", href: "/pricing" },
   { label: "Guides", href: "/blog" },

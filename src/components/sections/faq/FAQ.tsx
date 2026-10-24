@@ -24,7 +24,7 @@ export default function FAQ() {
     },
     {
       question: "Do I need to book an appointment?",
-      answer: "No appointment needed! We welcome walk-ins at our Warringal Shopping Centre kiosk during business hours (Mon-Sun 9:30am-5:30pm). However, you can book online or call ahead if you prefer to guarantee immediate service."
+      answer: "No appointment needed! We welcome walk-ins at our Warringal Shopping Centre kiosk during business hours (Mon–Sat 9am–5pm, Sun 10am–5pm). However, you can book online or call ahead if you prefer to guarantee immediate service."
     },
     {
       question: "Can you fix water-damaged phones?",

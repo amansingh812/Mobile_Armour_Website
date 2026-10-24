@@ -373,7 +373,7 @@ export const locationPages: SuburbData[] = [
       },
       {
         question: "Can I drop off my phone before work in Rosanna?",
-        answer: "Absolutely! We're open from 9:30am and most repairs take 30-60 minutes. Many Rosanna commuters drop off their phone on the way to work and pick it up on their way home. Call 0405-326-205 to arrange your drop-off."
+        answer: "Absolutely! We're open from 9am (10am on Sundays) and most repairs take 30-60 minutes. Many Rosanna commuters drop off their phone on the way to work and pick it up on their way home. Call 0405-326-205 to arrange your drop-off."
       },
       {
         question: "Do you do back glass replacement for iPhones near Rosanna?",

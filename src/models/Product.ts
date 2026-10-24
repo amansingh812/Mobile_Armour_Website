@@ -53,6 +53,8 @@ const ProductSchema: Schema = new Schema(
     deviceCompatibility: [{ 
       type: String, 
       enum: [
+        // iPhone 18 series (Sept 2026) and iPhone Duo foldable
+        'iPhone 18', 'iPhone 18 Pro', 'iPhone 18 Pro Max', 'iPhone Duo',
         // iPhone 17 series and Apple new
         'iPhone 17', 'iPhone 17 Plus', 'iPhone 17 Pro', 'iPhone 17 Pro Max', 'iPhone Air',
         // iPhone 16 series

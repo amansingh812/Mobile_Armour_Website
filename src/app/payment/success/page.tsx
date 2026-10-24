@@ -9,7 +9,7 @@ import { BUSINESS, fullAddress } from '@/data/business';
 import { STORE } from '@/data/store-settings';
 import '@/components/site/page.css';
 import '@/components/store/store.css';
-import '@/app/cart/cart.css';
+import '@/app/cart/cart-page.css';
 
 interface PendingOrder {
   sessionId: string;

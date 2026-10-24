@@ -7,6 +7,7 @@ import { getAllServiceSlugs } from '@/data/service-pages'
 import { getAllModelSlugs } from '@/data/model-repair-pages'
 import { blogPosts } from '@/data/blog-posts'
 import { getPhoneHubs } from '@/lib/phones'
+import { STORE } from '@/data/store-settings'
 
 import { SITE_URL } from '@/lib/site'
 
@@ -89,7 +90,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.75,
     },
     { url: `${BASE_URL}/phones`, lastModified: lastmod, changeFrequency: 'daily', priority: 0.85 },
-    { url: `${BASE_URL}/bundle`, lastModified: lastmod, changeFrequency: 'weekly', priority: 0.8 },
+    ...(STORE.bundle.enabled
+      ? [{ url: `${BASE_URL}/bundle`, lastModified: lastmod, changeFrequency: 'weekly' as const, priority: 0.8 }]
+      : []),
     { url: `${BASE_URL}/why-mobile-armour`, lastModified: lastmod, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/delivery-returns`, lastModified: lastmod, changeFrequency: 'monthly', priority: 0.6 },
   ]

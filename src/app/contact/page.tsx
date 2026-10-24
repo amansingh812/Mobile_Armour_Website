@@ -4,7 +4,7 @@ import JsonLd, { BUSINESS_ID, faqPage } from "@/components/seo/JsonLd";
 import { Breadcrumbs, FaqList, QuickAnswer } from "@/components/site/PageBits";
 import ContactForm from "@/components/site/ContactForm";
 import { HoursTable, OpenNowBadge } from "@/components/site/OpenNow";
-import { BUSINESS, SERVICE_AREAS, fullAddress, hoursSummary } from "@/data/business";
+import { BUSINESS, SERVICE_AREAS, fullAddress, hoursShort, hoursSummary } from "@/data/business";
 import { faqAnswerText, faqsById } from "@/data/faqs";
 import "@/components/site/page.css";
 import "./contact.css";
@@ -54,8 +54,7 @@ export default function ContactPage() {
           <h1 className="ma-h1">Contact Mobile Armour, Heidelberg</h1>
           <QuickAnswer>
             Call <strong>{BUSINESS.phoneDisplay}</strong>, email <strong>{BUSINESS.email}</strong>, or walk in to{" "}
-            <strong>{fullAddress}</strong>. We&apos;re {hoursSummary().replace("Open", "open")} and no appointment is
-            needed.
+            <strong>{fullAddress}</strong>. We&apos;re open 7 days ({hoursShort()}) and no appointment is needed.
           </QuickAnswer>
           <div className="ma-actions">
             <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--primary">

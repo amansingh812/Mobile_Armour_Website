@@ -193,7 +193,7 @@ export default async function SuburbPage({ params }: PageProps) {
                 <p><strong>Drive time:</strong> {suburb.driveTime}</p>
                 <p><strong>Address:</strong> Kiosk 4, Warringal Shopping Centre, 56 Burgundy St, Heidelberg VIC 3084</p>
                 <p><strong>Phone:</strong> <Link href="tel:0405326205" style={{ color: '#FF5600', fontWeight: 600 }}>0405-326-205</Link></p>
-                <p><strong>Hours:</strong> Mon-Sun 9:30am - 5:30pm</p>
+                <p><strong>Hours:</strong> Mon–Sat 9am–5pm, Sun 10am–5pm</p>
                 <hr />
                 <h5 style={{ color: '#1B3A5C', marginBottom: '0.75rem' }}>Also serving:</h5>
                 <p style={{ fontSize: '0.95rem' }}>{suburb.nearbySuburbs.join(', ')}</p>

@@ -1,44 +1,46 @@
 // Shop decisions in one place. The policy pages, cart, checkout, home page,
 // product pages and bundle builder all read from here.
 //
-// Values marked PROPOSED came from the approved designs and still need the
-// owner's confirmation before launch. Change the value here and every page
-// updates.
+// Confirmed by the owner on 24 Oct 2026. Change a value here and every page
+// updates (e.g. switch the bundle back on later).
 
 export const STORE = {
-  /** PROPOSED: protection bundle = 1 case + 1 screen protector for the same phone. */
+  /** Protection bundle = 1 case + 1 screen protector for the same phone. Off for now. */
   bundle: {
-    enabled: true as boolean,
-    discountPercent: 10 as number, // PROPOSED
+    enabled: false as boolean,
+    discountPercent: 10 as number,
     label: "Protection bundle",
   },
 
-  /** PROPOSED: glass fitted free when bought from us and collected/fitted at the kiosk. */
-  freeFitting: true as boolean,
+  /** Free screen protector fitting at the kiosk. Not offered. */
+  freeFitting: false as boolean,
 
-  /** PROPOSED: order online, pick up at the kiosk. */
+  /** Order online, pick up at the kiosk. */
   clickAndCollect: {
     enabled: true as boolean,
-    readyText: "usually ready within 1 hour during opening hours", // PROPOSED
+    readyText: "usually ready within 1 hour during opening hours",
   },
 
-  /** Delivery. The current site charges no shipping, so fee 0 keeps that. */
+  /** Delivery: $9.95, free on orders of $100 or more. */
   delivery: {
     enabled: true as boolean,
-    fee: 0 as number, // AUD. PROPOSED: confirm (0 = free delivery)
-    freeOver: null as number | null, // e.g. 50 = free over $50; null = flat fee always
-    carrier: "Australia Post", // PROPOSED
-    timeText: "2–5 business days after dispatch", // PROPOSED
+    fee: 9.95 as number, // AUD
+    freeOver: 100 as number | null, // free at or above this order value; null = flat fee always
+    carrier: "Australia Post",
+    timeText: "2–5 business days after dispatch",
     countries: ["AU"] as const,
   },
 
-  /** PROPOSED returns policy. Consumer guarantees under Australian Consumer Law always apply on top. */
+  /**
+   * No change-of-mind returns (0 days). Wrong-model swaps (fit guarantee) and
+   * faulty items under Australian Consumer Law still apply.
+   */
   returns: {
-    changeOfMindDays: 14 as number, // PROPOSED
-    walkIn: true as boolean,
+    changeOfMindDays: 0 as number,
+    walkIn: false as boolean,
   },
 
-  /** PROPOSED: wrong model? swap it the same day at the kiosk. */
+  /** Wrong model? Swap it the same day at the kiosk. */
   fitGuarantee: true as boolean,
 
   /**

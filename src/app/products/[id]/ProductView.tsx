@@ -54,12 +54,19 @@ export default function ProductView({
         q: 'Will you fit the screen protector for me?',
         a: 'Yes. Bring your phone to the kiosk and we fit it bubble-free for free when you buy it from us.',
       },
-    {
-      q: 'What if I change my mind?',
-      a: `Bring it back unused within ${STORE.returns.changeOfMindDays} days with your receipt or order email${
-        STORE.returns.walkIn ? ', straight to the kiosk' : ''
-      }. Faulty items are covered under Australian Consumer Law.`,
-    },
+    STORE.returns.changeOfMindDays > 0
+      ? {
+          q: 'What if I change my mind?',
+          a: `Bring it back unused within ${STORE.returns.changeOfMindDays} days with your receipt or order email${
+            STORE.returns.walkIn ? ', straight to the kiosk' : ''
+          }. Faulty items are covered under Australian Consumer Law.`,
+        }
+      : {
+          q: 'Can I return it?',
+          a: `We don't offer change-of-mind returns, so please check your model before you buy.${
+            STORE.fitGuarantee ? " Bought the wrong model? Bring it back unused and we'll swap it the same day." : ''
+          } Faulty items are covered under Australian Consumer Law.`,
+        },
   ].filter(Boolean) as { q: string; a: string }[];
 
   const cartProduct = {
@@ -128,8 +135,14 @@ export default function ProductView({
             )}
             {STORE.delivery.enabled && (
               <li>
-                <strong>{STORE.delivery.fee === 0 ? 'Free delivery' : 'Delivery'}</strong> by {STORE.delivery.carrier},{' '}
-                {STORE.delivery.timeText}
+                <strong>
+                  {STORE.delivery.fee === 0
+                    ? 'Free delivery'
+                    : STORE.delivery.freeOver !== null
+                      ? `Free delivery over $${STORE.delivery.freeOver}`
+                      : 'Delivery'}
+                </strong>{' '}
+                by {STORE.delivery.carrier}, {STORE.delivery.timeText}
               </li>
             )}
             {STORE.fitGuarantee && (

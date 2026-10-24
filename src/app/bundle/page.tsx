@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import JsonLd, { faqPage } from '@/components/seo/JsonLd';
 import { Breadcrumbs, FaqList, QuickAnswer } from '@/components/site/PageBits';
 import BundleBuilder from './BundleBuilder';
@@ -25,6 +26,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BundlePage() {
+  // Bundle switched off in store-settings: the page doesn't exist until it's back on.
+  if (!STORE.bundle.enabled) notFound();
   const all = await getAllProducts();
   const cases = all.filter((p) => p.category === 'Cases');
   const protectors = all.filter((p) => p.category === 'Screen Protectors');

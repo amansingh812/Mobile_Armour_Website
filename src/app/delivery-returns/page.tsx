@@ -2,12 +2,15 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd, { faqPage } from '@/components/seo/JsonLd';
 import { Breadcrumbs, QuickAnswer } from '@/components/site/PageBits';
-import { BUSINESS, fullAddress, hoursSummary } from '@/data/business';
+import { BUSINESS, fullAddress, hoursShort } from '@/data/business';
 import { STORE, deliveryFeeText } from '@/data/store-settings';
 import '@/components/site/page.css';
 
 const TITLE = 'Delivery, Click & Collect and Returns | Mobile Armour Heidelberg';
-const DESCRIPTION = `Click & collect from Warringal Shopping Centre, ${STORE.delivery.fee === 0 ? 'free ' : ''}delivery across Australia, ${STORE.returns.changeOfMindDays}-day walk-in returns${STORE.fitGuarantee ? ' and a same-day fit guarantee' : ''} at Mobile Armour, Heidelberg.`;
+const noReturns = STORE.returns.changeOfMindDays <= 0;
+const DESCRIPTION = `Click & collect from Warringal Shopping Centre, delivery across Australia (${deliveryFeeText().toLowerCase()})${
+  STORE.fitGuarantee ? ', a same-day fit guarantee' : ''
+} and our returns policy at Mobile Armour, Heidelberg.`;
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -27,12 +30,19 @@ export default function DeliveryReturnsPage() {
       q: 'How much is delivery and how long does it take?',
       a: `Delivery is ${deliveryFeeText().toLowerCase()} by ${d.carrier}, ${d.timeText}. We deliver within Australia.`,
     },
-    {
-      q: 'Can I return something I bought online?',
-      a: `Yes. Bring it back unused, in its packaging, within ${STORE.returns.changeOfMindDays} days with your receipt or order email${
-        STORE.returns.walkIn ? '. You can return online orders at the kiosk, no posting needed' : ''
-      }.`,
-    },
+    noReturns
+      ? {
+          q: 'Can I return something if I change my mind?',
+          a: `No, we don't offer change-of-mind returns, so please check the model before you buy.${
+            STORE.fitGuarantee ? ' Bought the wrong model? Bring it back unused and we swap it the same day.' : ''
+          } Faulty items are always covered under Australian Consumer Law.`,
+        }
+      : {
+          q: 'Can I return something I bought online?',
+          a: `Yes. Bring it back unused, in its packaging, within ${STORE.returns.changeOfMindDays} days with your receipt or order email${
+            STORE.returns.walkIn ? '. You can return online orders at the kiosk, no posting needed' : ''
+          }.`,
+        },
     STORE.fitGuarantee && {
       q: "What if the case or screen protector doesn't fit my phone?",
       a: 'Bring it back to the kiosk and we swap it for the right model the same day, as long as it is unused.',
@@ -58,8 +68,10 @@ export default function DeliveryReturnsPage() {
                 or get it{' '}
               </>
             )}
-            delivered by {d.carrier} ({deliveryFeeText().toLowerCase()}, {d.timeText}). Unused items can be returned
-            within {STORE.returns.changeOfMindDays} days{STORE.returns.walkIn ? ', straight to the kiosk' : ''}.
+            delivered by {d.carrier} ({deliveryFeeText().toLowerCase()}, {d.timeText}).{' '}
+            {noReturns
+              ? `We don't offer change-of-mind returns${STORE.fitGuarantee ? ', but a wrong model can be swapped the same day' : ''}.`
+              : `Unused items can be returned within ${STORE.returns.changeOfMindDays} days${STORE.returns.walkIn ? ', straight to the kiosk' : ''}.`}
           </QuickAnswer>
         </div>
       </section>
@@ -74,7 +86,7 @@ export default function DeliveryReturnsPage() {
               <li>We text you when it&apos;s ready. Collect from {fullAddress}.</li>
             </ol>
             <p>
-              Collection hours: {hoursSummary().replace('Open ', '')}. Bring your order email or the name on the order.
+              Collection hours: {hoursShort()}. Bring your order email or the name on the order.
             </p>
           </section>
         )}
@@ -111,13 +123,23 @@ export default function DeliveryReturnsPage() {
 
         <section id="returns">
           <h2>What is your returns policy?</h2>
-          <p>
-            Changed your mind? Return unused items in their original packaging within{' '}
-            <strong>{STORE.returns.changeOfMindDays} days</strong> of purchase with your receipt or order email for a
-            refund or exchange.
-            {STORE.returns.walkIn && ' Online orders can be returned at the kiosk, so there is nothing to post.'}
-          </p>
-          <p>Screen protectors that have been fitted can&apos;t be returned for change of mind.</p>
+          {noReturns ? (
+            <p>
+              We don&apos;t offer refunds or returns for change of mind, so please check your phone model before you buy.
+              Not sure? Call <a href={BUSINESS.phoneHref}>{BUSINESS.phoneDisplay}</a> or bring your phone to the kiosk and
+              we&apos;ll check it. This doesn&apos;t affect your rights if a product is faulty (see below).
+            </p>
+          ) : (
+            <>
+              <p>
+                Changed your mind? Return unused items in their original packaging within{' '}
+                <strong>{STORE.returns.changeOfMindDays} days</strong> of purchase with your receipt or order email for a
+                refund or exchange.
+                {STORE.returns.walkIn && ' Online orders can be returned at the kiosk, so there is nothing to post.'}
+              </p>
+              <p>Screen protectors that have been fitted can&apos;t be returned for change of mind.</p>
+            </>
+          )}
         </section>
 
         {STORE.fitGuarantee && (

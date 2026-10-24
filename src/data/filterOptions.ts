@@ -1,5 +1,10 @@
 export const DEVICE_OPTIONS = [
  // ===== APPLE IPHONE =====
+  { id: 'iphone-18-pro-max', label: 'iPhone 18 Pro Max', value: 'iPhone 18 Pro Max' },
+  { id: 'iphone-18-pro', label: 'iPhone 18 Pro', value: 'iPhone 18 Pro' },
+  { id: 'iphone-18', label: 'iPhone 18', value: 'iPhone 18' },
+  { id: 'iphone-duo', label: 'iPhone Duo', value: 'iPhone Duo' },
+
   { id: 'iphone-17', label: 'iPhone 17', value: 'iPhone 17' },
   { id: 'iphone-17-plus', label: 'iPhone 17 Plus', value: 'iPhone 17 Plus' },
   { id: 'iphone-17-pro', label: 'iPhone 17 Pro', value: 'iPhone 17 Pro' },

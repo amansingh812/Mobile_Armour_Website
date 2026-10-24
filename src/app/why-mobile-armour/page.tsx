@@ -33,7 +33,9 @@ export default function WhyBuyPage() {
     ['Checks it fits your phone', 'Yes, at the counter', 'You check the listing yourself'],
     ...(STORE.freeFitting ? ([['Screen protector fitting', 'Free, done for you', 'Do it yourself']] as [string, string, string][]) : []),
     ...(STORE.clickAndCollect.enabled ? ([['When you get it', 'Collect the same day', 'Usually a few days']] as [string, string, string][]) : []),
-    ['Returns', STORE.returns.walkIn ? 'Walk in, talk to a person' : `Within ${STORE.returns.changeOfMindDays} days`, 'Online form and post it back'],
+    STORE.returns.walkIn
+      ? ['Returns', 'Walk in, talk to a person', 'Online form and post it back']
+      : ['Wrong model?', STORE.fitGuarantee ? 'Swap it at the counter, same day' : 'Talk to us at the counter', 'Post it back and wait'],
     ['Who you talk to', 'The technician who sold it', 'Seller messages or support chat'],
     ['If your phone breaks', 'Repair desk at the same kiosk', 'Find a repairer yourself'],
     ['Price', 'Local shop prices', 'Often lower'],
@@ -49,7 +51,7 @@ export default function WhyBuyPage() {
     {
       id: 'online',
       q: 'Can I buy online and still get the in-store service?',
-      short: 'Yes. Order online, choose click & collect, and we check the fit and fit your glass when you pick up.',
+      short: `Yes. Order online, choose click & collect, and we check the fit${STORE.freeFitting ? ' and fit your glass' : ''} when you pick up.`,
     },
     {
       id: 'deliver',
