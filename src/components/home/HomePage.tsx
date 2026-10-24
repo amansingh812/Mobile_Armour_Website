@@ -35,6 +35,7 @@ export default async function HomePage() {
     image: CATEGORY_IMAGES.find((x) => x.link === `/shop/${c.slug}`)?.image,
   })).filter((c) => c.count > 0);
   const topHub = hubs[0];
+  const topCases = topHub ? topHub.products.filter((p) => p.category === 'Cases') : [];
   const faqs = faqsById(['repair-time', 'appointment', 'accessories', 'warranty-cover', 'where']);
 
   return (
@@ -146,17 +147,27 @@ export default async function HomePage() {
       <section className="ma-section">
         <div className="ma-grid ma-grid--2">
           <div className="ma-panel ma-panel--dark ma-home__promo">
-            <span className="ma-eyebrow" style={{ color: '#ff7a3d' }}>
-              Repairs
-            </span>
-            <h2>Cracked screen? Fixed today.</h2>
-            <p>
-              Screens, batteries, charging ports and back glass for iPhone, Samsung, Pixel and iPad. Price confirmed before
-              we start.
-            </p>
-            <Link href="/services" className="ma-btn ma-btn--primary" style={{ alignSelf: 'flex-start' }}>
-              See repairs
-            </Link>
+            <div className="ma-home__promo-copy">
+              <span className="ma-eyebrow" style={{ color: '#ff7a3d' }}>
+                Repairs
+              </span>
+              <h2>Cracked screen? Fixed today.</h2>
+              <p>
+                Screens, batteries, charging ports and back glass for iPhone, Samsung, Pixel and iPad. Price confirmed
+                before we start.
+              </p>
+              <Link href="/pricing" className="ma-btn ma-btn--primary" style={{ alignSelf: 'flex-start' }}>
+                See repair prices
+              </Link>
+            </div>
+            <div className="ma-home__promo-img ma-home__promo-img--photo">
+              <Image
+                src="/img/home/repair-hands.webp"
+                alt="Technician's hands replacing a cracked phone screen"
+                fill
+                sizes="(max-width: 560px) 112px, 220px"
+              />
+            </div>
           </div>
           {STORE.bundle.enabled ? (
             <div className="ma-panel ma-panel--peach ma-home__promo">
@@ -179,11 +190,32 @@ export default async function HomePage() {
           ) : (
             topHub && (
               <div className="ma-panel ma-panel--peach ma-home__promo">
-                <span className="ma-eyebrow">New in</span>
-                <h2>{topHub.device} accessories</h2>
-                <p>{hubSummary(topHub.products)} in stock. Try them on at the kiosk.</p>
-                <Link href={`/phones/${topHub.slug}`} className="ma-btn ma-btn--dark" style={{ alignSelf: 'flex-start' }}>
-                  Shop {topHub.device}
+                <div className="ma-home__promo-copy">
+                  <span className="ma-eyebrow">New in</span>
+                  <h2>
+                    {topHub.device} {topCases.length > 0 ? 'cases' : 'accessories'}
+                  </h2>
+                  <p>
+                    {topCases.length > 0
+                      ? `${topCases.length} ${topCases.length === 1 ? 'case' : 'cases'} in stock.`
+                      : `${hubSummary(topHub.products)} in stock.`}{' '}
+                    Try them on at the kiosk.
+                  </p>
+                  <Link
+                    href={`/phones/${topHub.slug}`}
+                    className="ma-btn ma-btn--dark"
+                    style={{ alignSelf: 'flex-start' }}
+                  >
+                    {topCases.length > 0 ? 'Shop cases' : `Shop ${topHub.device}`}
+                  </Link>
+                </div>
+                <Link
+                  href={`/phones/${topHub.slug}`}
+                  className="ma-home__promo-img ma-home__promo-img--photo"
+                  tabIndex={-1}
+                  aria-hidden="true"
+                >
+                  <Image src="/img/home/new-in-cases.webp" alt="" fill sizes="(max-width: 560px) 112px, 220px" />
                 </Link>
               </div>
             )

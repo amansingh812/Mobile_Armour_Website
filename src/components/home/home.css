@@ -76,11 +76,51 @@
   font-size: 13px;
   color: #9ea2ad;
 }
+.ma-home__promo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(150px, 16vw, 210px);
+  gap: 24px;
+  align-items: center;
+}
+.ma-home__promo-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
 .ma-home__promo h2 {
   font-size: clamp(24px, 2.6vw, 32px);
+  margin: 0;
 }
 .ma-home__promo p {
   max-width: 520px;
+  margin: 0 0 6px;
+}
+.ma-home__promo-img {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+}
+.ma-home__promo-img img {
+  object-fit: contain;
+  padding: 10px;
+}
+.ma-home__promo-img--photo {
+  background: #0e0f12;
+  aspect-ratio: 4 / 5;
+}
+.ma-home__promo-img--photo img {
+  object-fit: cover;
+  padding: 0;
+}
+@media (max-width: 560px) {
+  .ma-home__promo {
+    grid-template-columns: minmax(0, 1fr) 112px;
+    gap: 16px;
+    align-items: start;
+  }
 }
 .ma-home__repairs {
   list-style: none;
