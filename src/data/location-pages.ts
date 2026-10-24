@@ -33,20 +33,20 @@ export const locationPages: SuburbData[] = [
     faqs: [
       {
         question: "Where can I get my phone repaired near Greensborough?",
-        answer: "Mobile Armour is located at Warringal Shopping Centre in Heidelberg, just a 10-15 minute drive from Greensborough. We offer same-day repairs for iPhone, Samsung, iPad, and Apple Watch devices. Many Greensborough residents choose us for our certified technicians and 6-month warranty on all repairs."
+        answer: "Mobile Armour is located at Warringal Shopping Centre in Heidelberg, just a 10-15 minute drive from Greensborough. We offer same-day repairs for iPhone, Samsung, iPad, and Apple Watch devices. Many Greensborough residents choose us for our experienced technicians and 6-month warranty on all repairs."
       },
       {
         question: "How much does an iPhone screen repair cost near Greensborough?",
-        answer: "iPhone screen repair prices at Mobile Armour start from competitive rates depending on the model. We serve Greensborough and surrounding suburbs like Watsonia, Briar Hill, and St Helena. Call us on 0405-326-205 for an instant quote — most repairs are completed in 30-60 minutes."
+        answer: "iPhone screen repair prices at Mobile Armour start from competitive rates depending on the model. We serve Greensborough and surrounding suburbs like Watsonia, Briar Hill, and St Helena. Call us on 0405-326-205 for an instant quote — most repairs are completed in about 1–2 hours."
       },
       {
         question: "Do you offer phone repair pickup from Greensborough?",
         answer: "While we don't currently offer pickup services, our Heidelberg store is an easy 10-minute drive from Greensborough via Greensborough Highway. We offer free parking at Warringal Shopping Centre, and most repairs are done while you wait."
       }
     ],
-    intro: "Looking for reliable phone repair near Greensborough? Mobile Armour at Warringal Shopping Centre, Heidelberg, is the top-rated mobile repair destination for Greensborough residents. Located just 6 km south along Greensborough Highway, our store is easily accessible from Greensborough Plaza and surrounding streets. Whether you've cracked your iPhone screen at Greensborough Park or your Samsung battery is dying during the commute, our certified technicians provide fast, affordable repairs with a 6-month warranty.",
+    intro: "Looking for reliable phone repair near Greensborough? Mobile Armour at Warringal Shopping Centre, Heidelberg, is the top-rated mobile repair destination for Greensborough residents. Located just 6 km south along Greensborough Highway, our store is easily accessible from Greensborough Plaza and surrounding streets. Whether you've cracked your iPhone screen at Greensborough Park or your Samsung battery is dying during the commute, our experienced technicians provide fast, affordable repairs with a 6-month warranty.",
     serviceHighlights: "Greensborough residents regularly visit us for iPhone screen replacements, Samsung Galaxy repairs, iPad screen fixes, and Apple Watch battery replacements. We're a trusted alternative to the big-chain phone shops at Greensborough Plaza, offering more personalised service, faster turnaround, and better pricing. Our technicians handle everything from water damage recovery to charging port repairs, using only premium-grade replacement parts.",
-    whyChooseUs: "Many Greensborough locals have switched to Mobile Armour after experiencing longer wait times and higher prices at other repair shops. We pride ourselves on transparent pricing with no hidden fees, same-day service for most repairs, and a full 6-month warranty. Our location at Warringal Shopping Centre means you can grab a coffee or do some shopping while your device is being repaired — most jobs take just 30-60 minutes."
+    whyChooseUs: "Many Greensborough locals have switched to Mobile Armour after experiencing longer wait times and higher prices at other repair shops. We pride ourselves on transparent pricing with no hidden fees, same-day service for most repairs, and a full 6-month warranty. Our location at Warringal Shopping Centre means you can grab a coffee or do some shopping while your device is being repaired — most jobs take about 1–2 hours."
   },
   {
     name: "Preston",
@@ -100,9 +100,9 @@ export const locationPages: SuburbData[] = [
         answer: "Yes! We offer iPad screen replacement and battery repair for all iPad models including iPad Pro, Air, Mini, and standard iPads. Our Heidelberg store is easily accessible from Doncaster — just 15 minutes via Manningham Road. Most iPad repairs are completed within 1-2 hours."
       }
     ],
-    intro: "Searching for phone repair near Doncaster? Mobile Armour in Heidelberg serves the entire Manningham area with expert mobile device repairs. Located just 15 minutes from Westfield Doncaster via Manningham Road, we're a trusted alternative for Doncaster residents who want quality repairs at fair prices. From cracked iPhone screens to Samsung battery replacements, our certified technicians handle all major brands with a 6-month warranty on every repair.",
+    intro: "Searching for phone repair near Doncaster? Mobile Armour in Heidelberg serves the entire Manningham area with expert mobile device repairs. Located just 15 minutes from Westfield Doncaster via Manningham Road, we're a trusted alternative for Doncaster residents who want quality repairs at fair prices. From cracked iPhone screens to Samsung battery replacements, our experienced technicians handle all major brands with a 6-month warranty on every repair.",
     serviceHighlights: "Doncaster and Manningham residents visit Mobile Armour for comprehensive repair services including iPhone screen and battery replacements across all models, Samsung Galaxy S25 and Z Fold/Flip repairs, iPad screen and battery servicing, Google Pixel screen replacements, and Apple Watch repairs. We also specialise in laptop and MacBook repairs — a service rarely found at shopping centre kiosks. Our use of premium-grade components ensures your device performs like new after repair.",
-    whyChooseUs: "While Westfield Doncaster has phone repair options, Mobile Armour offers a different experience. We provide one-on-one service with certified technicians who explain exactly what's wrong with your device before starting any work. Our transparent pricing means no surprise fees, and our 6-month warranty is one of the most generous in Melbourne's eastern suburbs. The short drive from Doncaster to Warringal Shopping Centre is worth it for the quality and care you'll receive."
+    whyChooseUs: "While Westfield Doncaster has phone repair options, Mobile Armour offers a different experience. We provide one-on-one service with experienced technicians who explain exactly what's wrong with your device before starting any work. Our transparent pricing means no surprise fees, and our 6-month warranty is one of the most generous in Melbourne's eastern suburbs. The short drive from Doncaster to Warringal Shopping Centre is worth it for the quality and care you'll receive."
   },
   {
     name: "Eltham",
@@ -117,7 +117,7 @@ export const locationPages: SuburbData[] = [
     faqs: [
       {
         question: "Where can I get my phone fixed near Eltham?",
-        answer: "Mobile Armour at Warringal Shopping Centre, Heidelberg, is about 15 minutes from Eltham via Main Road and Rosanna Road. We offer same-day repairs for all major phone brands, with most repairs completed in 30-60 minutes. Eltham residents appreciate our certified service and 6-month warranty."
+        answer: "Mobile Armour at Warringal Shopping Centre, Heidelberg, is about 15 minutes from Eltham via Main Road and Rosanna Road. We offer same-day repairs for all major phone brands, with most repairs completed in about 1–2 hours. Eltham residents appreciate our certified service and 6-month warranty."
       },
       {
         question: "Do you repair Google Pixel phones near Eltham?",
@@ -130,7 +130,7 @@ export const locationPages: SuburbData[] = [
     ],
     intro: "Need mobile phone repair near Eltham? Mobile Armour at Warringal Shopping Centre, Heidelberg, provides expert device repairs for the Eltham, Research, and Nillumbik communities. Located approximately 15 minutes south via Main Road, we offer fast same-day repairs for iPhones, Samsung devices, iPads, Google Pixels, and Apple Watches. Eltham's active lifestyle means phones take a beating — whether it's a cracked screen from the park or water damage from the Diamond Creek trail, we've got you covered.",
     serviceHighlights: "Eltham and Nillumbik residents regularly bring their devices to Mobile Armour for screen repairs (iPhone and Samsung), battery replacements, iPad servicing, Google Pixel repairs, and Apple Watch screen and battery replacement. We're one of the few repair centres in Melbourne's north-east that also handles MacBook and laptop repairs. Our technicians use premium components and provide detailed diagnostics so you know exactly what your device needs.",
-    whyChooseUs: "Eltham locals trust Mobile Armour because we offer the complete package: certified technicians, transparent pricing, premium parts, and a 6-month warranty. While there are limited phone repair options in the Eltham area, our Heidelberg location is just a short drive away and provides a far wider range of services. We treat every device with care, and our fast turnaround means you won't be without your phone for long."
+    whyChooseUs: "Eltham locals trust Mobile Armour because we offer the complete package: experienced technicians, transparent pricing, premium parts, and a 6-month warranty. While there are limited phone repair options in the Eltham area, our Heidelberg location is just a short drive away and provides a far wider range of services. We treat every device with care, and our fast turnaround means you won't be without your phone for long."
   },
   {
     name: "Epping",
@@ -156,9 +156,9 @@ export const locationPages: SuburbData[] = [
         answer: "Yes! Mobile Armour specialises in Apple Watch screen and battery replacement for all models. While Apple Watch repair is hard to find in the Epping area, our Heidelberg store is just a 20-minute drive and our technicians are experienced with all Apple Watch generations."
       }
     ],
-    intro: "Looking for quality phone repair near Epping? Mobile Armour at Warringal Shopping Centre, Heidelberg, is the go-to repair destination for Epping, South Morang, and Mill Park residents. While Epping Plaza has some repair options, many locals make the 20-minute drive to Mobile Armour for our certified technicians, premium replacement parts, and industry-leading 6-month warranty. Whether your iPhone screen is cracked or your Samsung won't charge, we'll have it fixed fast.",
+    intro: "Looking for quality phone repair near Epping? Mobile Armour at Warringal Shopping Centre, Heidelberg, is the go-to repair destination for Epping, South Morang, and Mill Park residents. While Epping Plaza has some repair options, many locals make the 20-minute drive to Mobile Armour for our experienced technicians, premium replacement parts, and industry-leading 6-month warranty. Whether your iPhone screen is cracked or your Samsung won't charge, we'll have it fixed fast.",
     serviceHighlights: "We serve the Epping, South Morang, Mill Park, and Lalor areas with comprehensive mobile repair services. Popular repairs for Epping residents include iPhone and Samsung screen replacements, battery replacements for all phone models, iPad screen and battery repair, Apple Watch servicing, charging port repairs, and water damage recovery. We also offer MacBook and laptop repair — a service that's particularly popular with students and professionals in the Northern Hospital precinct.",
-    whyChooseUs: "Epping residents consistently choose Mobile Armour because we offer something the Epping Plaza repair shops often can't: transparent pricing, genuine-quality parts, and a proper 6-month warranty. Our certified technicians take the time to diagnose your device properly before recommending any repair, so you only pay for what you need. The drive from Epping to Heidelberg is straightforward via Plenty Road, and free parking at Warringal Shopping Centre makes the visit hassle-free."
+    whyChooseUs: "Epping residents consistently choose Mobile Armour because we offer something the Epping Plaza repair shops often can't: transparent pricing, genuine-quality parts, and a proper 6-month warranty. Our experienced technicians take the time to diagnose your device properly before recommending any repair, so you only pay for what you need. The drive from Epping to Heidelberg is straightforward via Plenty Road, and free parking at Warringal Shopping Centre makes the visit hassle-free."
   },
   {
     name: "Bundoora",
@@ -184,7 +184,7 @@ export const locationPages: SuburbData[] = [
         answer: "Yes! Mobile Armour repairs MacBooks and laptops — perfect for Bundoora's student population. We handle screen replacements, battery swaps, and general repairs. Our Heidelberg store is just a short drive from both La Trobe and RMIT Bundoora campuses."
       }
     ],
-    intro: "Need phone repair near Bundoora? Mobile Armour at Warringal Shopping Centre, Heidelberg, is just 8-12 minutes from Bundoora and serves the entire university precinct. As the nearest certified repair shop to La Trobe University and RMIT Bundoora, we understand the student community's need for fast, affordable repairs. Whether you've dropped your iPhone between lectures or your Samsung battery won't last the day, our technicians will have it fixed in 30-60 minutes.",
+    intro: "Need phone repair near Bundoora? Mobile Armour at Warringal Shopping Centre, Heidelberg, is just 8-12 minutes from Bundoora and serves the entire university precinct. As the nearest certified repair shop to La Trobe University and RMIT Bundoora, we understand the student community's need for fast, affordable repairs. Whether you've dropped your iPhone between lectures or your Samsung battery won't last the day, our technicians will have it fixed in about 1–2 hours.",
     serviceHighlights: "Bundoora residents and university students visit Mobile Armour for iPhone screen and battery replacements, Samsung repairs, iPad servicing, MacBook and laptop repairs (popular with students), charging port fixes, and Apple Watch screen replacements. We're particularly popular with the La Trobe and RMIT community because we offer quick turnaround times that fit between classes and competitive pricing that suits a student budget.",
     whyChooseUs: "Bundoora students and residents love Mobile Armour because we're fast, affordable, and just minutes away. Unlike mail-in repair services that leave you without a phone for days, we complete most repairs in under an hour. Our 6-month warranty gives you peace of mind, and our transparent pricing means no surprise costs. We're easily reached from Bundoora via Plenty Road — just head south towards Heidelberg and you'll find us at Warringal Shopping Centre."
   },
@@ -209,12 +209,12 @@ export const locationPages: SuburbData[] = [
       },
       {
         question: "How long does a phone repair take at Mobile Armour?",
-        answer: "Most phone repairs take 30-60 minutes. Screen replacements are typically done in 45 minutes, battery replacements in 20-30 minutes. You can wait at Warringal Shopping Centre or pop out for a quick errand — we'll text you when your device is ready."
+        answer: "Most phone repairs take about 1–2 hours. You can wait at Warringal Shopping Centre or pop out for a quick errand — we'll text you when your device is ready."
       }
     ],
-    intro: "Searching for phone repair near Reservoir? Mobile Armour at Warringal Shopping Centre, Heidelberg, is just a 10-15 minute drive from Reservoir and offers the most comprehensive mobile repair services in Melbourne's north. Whether you're near Summerhill Shopping Centre or the Broadway shops, our certified technicians provide fast same-day repairs for all major phone brands at competitive prices.",
+    intro: "Searching for phone repair near Reservoir? Mobile Armour at Warringal Shopping Centre, Heidelberg, is just a 10-15 minute drive from Reservoir and offers the most comprehensive mobile repair services in Melbourne's north. Whether you're near Summerhill Shopping Centre or the Broadway shops, our experienced technicians provide fast same-day repairs for all major phone brands at competitive prices.",
     serviceHighlights: "Reservoir residents trust Mobile Armour for iPhone screen repairs across all models, Samsung Galaxy screen and battery replacements, iPad screen and battery servicing, Apple Watch repairs, charging port and water damage repairs, and back glass replacement for newer iPhones. We use premium-grade parts on every repair and provide a full diagnostic before starting any work.",
-    whyChooseUs: "Reservoir locals appreciate Mobile Armour's combination of quality and value. Our 6-month warranty is one of the longest you'll find in Melbourne's north, and our certified technicians take pride in every repair. We're a short drive from Reservoir via Plenty Road, with free parking at Warringal Shopping Centre. No appointment needed — just drop in and we'll take care of your device."
+    whyChooseUs: "Reservoir locals appreciate Mobile Armour's combination of quality and value. Our 6-month warranty is one of the longest you'll find in Melbourne's north, and our experienced technicians take pride in every repair. We're a short drive from Reservoir via Plenty Road, with free parking at Warringal Shopping Centre. No appointment needed — just drop in and we'll take care of your device."
   },
   {
     name: "Northcote",
@@ -242,7 +242,7 @@ export const locationPages: SuburbData[] = [
     ],
     intro: "Need phone repair near Northcote? Mobile Armour at Warringal Shopping Centre, Heidelberg, serves the inner-north community with expert mobile device repairs. Just a quick 12-minute drive from Northcote Plaza via Heidelberg Road, we offer same-day repairs for iPhones, Samsung phones, iPads, and more. Northcote's vibrant community relies on their devices for work and play — we make sure you're never without yours for long.",
     serviceHighlights: "Northcote and inner-north residents visit us for the full range of mobile repairs: iPhone and Samsung screen replacements, battery replacements for all models, iPad repairs, MacBook servicing (popular with Northcote's creative and freelance community), Apple Watch repairs, and specialised services like water damage recovery and camera lens replacement.",
-    whyChooseUs: "Northcote locals love Mobile Armour for our personalised approach. Unlike the chain repair shops, we take the time to explain what's wrong with your device and give you options. Our certified technicians use premium parts, and our 6-month warranty means you're covered long after you leave. The drive from Northcote to Heidelberg is just 12 minutes via Heidelberg Road, and free parking at Warringal Shopping Centre makes the trip easy."
+    whyChooseUs: "Northcote locals love Mobile Armour for our personalised approach. Unlike the chain repair shops, we take the time to explain what's wrong with your device and give you options. Our experienced technicians use premium parts, and our 6-month warranty means you're covered long after you leave. The drive from Northcote to Heidelberg is just 12 minutes via Heidelberg Road, and free parking at Warringal Shopping Centre makes the trip easy."
   },
   {
     name: "South Morang",
@@ -270,7 +270,7 @@ export const locationPages: SuburbData[] = [
     ],
     intro: "Looking for phone repair near South Morang? Mobile Armour at Warringal Shopping Centre, Heidelberg, serves the South Morang, Mill Park, and Mernda communities with expert device repairs. While Westfield Plenty Valley has some options, many South Morang residents make the drive to Mobile Armour for our certified expertise, premium parts, and 6-month warranty. We offer same-day service for most repairs and handle everything from cracked screens to water damage.",
     serviceHighlights: "South Morang and northern suburbs residents come to Mobile Armour for iPhone and Samsung screen replacements, battery swaps for all phone models, iPad screen and battery repair, Apple Watch servicing, Google Pixel repairs, charging port fixes, and water damage recovery. We also offer MacBook and laptop repairs — a service that's difficult to find in the outer northern suburbs.",
-    whyChooseUs: "South Morang residents choose Mobile Armour because we offer a level of expertise and warranty that's hard to find locally. Our certified technicians use premium-grade components and back every repair with a 6-month warranty. While the drive is a bit further than your nearest shopping centre, the quality of service and competitive pricing make it well worth the trip. Free parking at Warringal Shopping Centre means no extra hassle."
+    whyChooseUs: "South Morang residents choose Mobile Armour because we offer a level of expertise and warranty that's hard to find locally. Our experienced technicians use premium-grade components and back every repair with a 6-month warranty. While the drive is a bit further than your nearest shopping centre, the quality of service and competitive pricing make it well worth the trip. Free parking at Warringal Shopping Centre means no extra hassle."
   },
   {
     name: "Thomastown",
@@ -313,7 +313,7 @@ export const locationPages: SuburbData[] = [
     faqs: [
       {
         question: "Where can I get my phone repaired near Coburg?",
-        answer: "Mobile Armour at Warringal Shopping Centre, Heidelberg, is about 15-18 minutes from Coburg. While Sydney Road has some repair options, many Coburg residents prefer Mobile Armour for our certified technicians, premium parts, and 6-month warranty."
+        answer: "Mobile Armour at Warringal Shopping Centre, Heidelberg, is about 15-18 minutes from Coburg. While Sydney Road has some repair options, many Coburg residents prefer Mobile Armour for our experienced technicians, premium parts, and 6-month warranty."
       },
       {
         question: "Do you repair phones from all brands near Coburg?",
@@ -352,9 +352,9 @@ export const locationPages: SuburbData[] = [
         answer: "Yes! Mobile Armour stocks a wide range of phone accessories including cases, screen protectors, chargers, cables, car mounts, and power banks. We carry accessories for iPhone, Samsung, and other popular brands. Drop in and browse our collection."
       }
     ],
-    intro: "Need phone repair in Ivanhoe? Mobile Armour at Warringal Shopping Centre in neighbouring Heidelberg is your closest certified repair shop — just 5 minutes away. Ivanhoe residents enjoy the convenience of having expert phone repair right in their backyard. Whether you've cracked your screen near the Darebin Parklands or your battery died while shopping on Upper Heidelberg Road, we'll have your device back in your hands within 30-60 minutes.",
+    intro: "Need phone repair in Ivanhoe? Mobile Armour at Warringal Shopping Centre in neighbouring Heidelberg is your closest certified repair shop — just 5 minutes away. Ivanhoe residents enjoy the convenience of having expert phone repair right in their backyard. Whether you've cracked your screen near the Darebin Parklands or your battery died while shopping on Upper Heidelberg Road, we'll have your device back in your hands within about 1–2 hours.",
     serviceHighlights: "As the closest suburb to our store, Ivanhoe residents make up a significant part of our customer base. Popular services include iPhone screen and battery replacements, Samsung Galaxy repairs, iPad servicing, Apple Watch screen and battery repair, MacBook diagnostics and repair, and a full range of phone accessories for all brands. We also offer screen protector installation while you wait.",
-    whyChooseUs: "Ivanhoe residents are our neighbours, and we treat every device with the care it deserves. Our certified technicians provide fast, reliable repairs using premium components, backed by a 6-month warranty. Being just 5 minutes from Ivanhoe means we're incredibly convenient — you can drop your phone off and grab a coffee at the shopping centre while we work. Many Ivanhoe locals have been coming to us for years because of our consistent quality and honest service."
+    whyChooseUs: "Ivanhoe residents are our neighbours, and we treat every device with the care it deserves. Our experienced technicians provide fast, reliable repairs using premium components, backed by a 6-month warranty. Being just 5 minutes from Ivanhoe means we're incredibly convenient — you can drop your phone off and grab a coffee at the shopping centre while we work. Many Ivanhoe locals have been coming to us for years because of our consistent quality and honest service."
   },
   {
     name: "Rosanna",
@@ -373,16 +373,16 @@ export const locationPages: SuburbData[] = [
       },
       {
         question: "Can I drop off my phone before work in Rosanna?",
-        answer: "Absolutely! We're open from 9am (10am on Sundays) and most repairs take 30-60 minutes. Many Rosanna commuters drop off their phone on the way to work and pick it up on their way home. Call 0405-326-205 to arrange your drop-off."
+        answer: "Absolutely! We're open from 9am (10am on Sundays) and most repairs take about 1–2 hours. Many Rosanna commuters drop off their phone on the way to work and pick it up on their way home. Call 0405-326-205 to arrange your drop-off."
       },
       {
         question: "Do you do back glass replacement for iPhones near Rosanna?",
-        answer: "Yes! We offer iPhone back glass replacement for iPhone 11 and newer models. This is a specialised repair that many shops can't do, but our certified technicians handle it regularly. The repair typically takes 60-90 minutes."
+        answer: "Yes! We offer iPhone back glass replacement for iPhone 11 and newer models. This is a specialised repair that many shops can't do, but our experienced technicians handle it regularly. The repair typically takes 60-90 minutes."
       }
     ],
     intro: "Phone repair in Rosanna couldn't be more convenient — Mobile Armour at Warringal Shopping Centre is just 3 minutes from Rosanna Village. Sharing the same postcode (3084), we're essentially your local phone repair shop. Rosanna residents enjoy the shortest trip of any suburb to our store, making us the obvious choice for quick same-day repairs. From cracked iPhone screens to Samsung battery issues, we handle it all with certified expertise.",
     serviceHighlights: "Rosanna residents enjoy quick access to our full range of services: iPhone screen and battery replacements for all models, Samsung Galaxy repairs, iPad screen and battery servicing, Apple Watch repairs, MacBook diagnostics, charging port fixes, back glass replacement, water damage recovery, and a wide selection of phone accessories and cases.",
-    whyChooseUs: "As Rosanna's nearest repair shop, we've built strong relationships with local residents who appreciate our quality and convenience. Our 6-month warranty, transparent pricing, and certified technicians mean you always know what you're getting. Many Rosanna locals tell us they tried other repair shops before finding us, and haven't looked back since. The 3-minute drive to Warringal Shopping Centre makes us an easy choice."
+    whyChooseUs: "As Rosanna's nearest repair shop, we've built strong relationships with local residents who appreciate our quality and convenience. Our 6-month warranty, transparent pricing, and experienced technicians mean you always know what you're getting. Many Rosanna locals tell us they tried other repair shops before finding us, and haven't looked back since. The 3-minute drive to Warringal Shopping Centre makes us an easy choice."
   },
   {
     name: "Bulleen",
@@ -408,9 +408,9 @@ export const locationPages: SuburbData[] = [
         answer: "Mobile Armour stocks a great range of phone cases, screen protectors, chargers, and accessories for all major brands. Our Heidelberg store is just 8 minutes from Bulleen — come browse our collection."
       }
     ],
-    intro: "Need phone repair near Bulleen? Mobile Armour at Warringal Shopping Centre, Heidelberg, is just 8-10 minutes from Bulleen via Manningham Road. We serve the Bulleen, Templestowe, and Kew East communities with expert mobile device repairs. Whether you've dropped your phone near the Yarra River trail or cracked your screen at Bulleen Plaza, our certified technicians will have your device back to you in under an hour.",
+    intro: "Need phone repair near Bulleen? Mobile Armour at Warringal Shopping Centre, Heidelberg, is just 8-10 minutes from Bulleen via Manningham Road. We serve the Bulleen, Templestowe, and Kew East communities with expert mobile device repairs. Whether you've dropped your phone near the Yarra River trail or cracked your screen at Bulleen Plaza, our experienced technicians will have your device back to you in under an hour.",
     serviceHighlights: "Bulleen residents come to Mobile Armour for iPhone and Samsung screen repairs, battery replacements, iPad servicing, Google Pixel repairs, Apple Watch screen and battery replacement, and a full range of accessories. We also handle specialised repairs like charging port fixes, camera lens replacement, and back glass repair for newer iPhones.",
-    whyChooseUs: "Bulleen residents appreciate that Mobile Armour is so close — just 8 minutes via Banksia Street. Our combination of certified technicians, premium parts, competitive pricing, and a 6-month warranty sets us apart from the larger chain stores. We offer a personalised experience where you can speak directly with the technician working on your device."
+    whyChooseUs: "Bulleen residents appreciate that Mobile Armour is so close — just 8 minutes via Banksia Street. Our combination of experienced technicians, premium parts, competitive pricing, and a 6-month warranty sets us apart from the larger chain stores. We offer a personalised experience where you can speak directly with the technician working on your device."
   },
   {
     name: "Templestowe",
@@ -438,7 +438,7 @@ export const locationPages: SuburbData[] = [
     ],
     intro: "Looking for phone repair near Templestowe? Mobile Armour at Warringal Shopping Centre, Heidelberg, serves the Templestowe, Lower Templestowe, and wider Manningham community. Located about 12-15 minutes away via Manningham Road, we offer expert same-day repairs for iPhones, Samsung devices, iPads, Google Pixels, and Apple Watches. Templestowe residents who value quality and warranty trust us for all their device repair needs.",
     serviceHighlights: "Templestowe and Manningham residents visit Mobile Armour for comprehensive device servicing: iPhone screen and battery repairs, Samsung Galaxy servicing, iPad screen replacements, Google Pixel repairs (including hard-to-find authorised service), Apple Watch repairs, MacBook diagnostics, and a range of accessories. We use premium components and provide detailed diagnostics before every repair.",
-    whyChooseUs: "Templestowe locals choose Mobile Armour for the same reasons as other Manningham residents: we offer a personal, transparent service that the big chains simply can't match. Our 6-month warranty covers all repairs, and our certified technicians use only premium-grade parts. The drive from Templestowe to Warringal Shopping Centre is straightforward via Manningham Road, with free parking waiting for you."
+    whyChooseUs: "Templestowe locals choose Mobile Armour for the same reasons as other Manningham residents: we offer a personal, transparent service that the big chains simply can't match. Our 6-month warranty covers all repairs, and our experienced technicians use only premium-grade parts. The drive from Templestowe to Warringal Shopping Centre is straightforward via Manningham Road, with free parking waiting for you."
   },
 ];
 

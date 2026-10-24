@@ -1,11 +1,12 @@
 import React from 'react';
 import { Metadata } from 'next';
 import ProductsLayoutClient from './ProductsLayoutClient';
+import { OG_IMAGE } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: "Phone Cases & Accessories Heidelberg | Mobile Armour Shop",
   description:
-    "Shop premium phone cases, screen protectors, chargers & mobile accessories in Heidelberg Melbourne. iPhone & Samsung brands available. Visit Mobile Armour at Warringal Shopping Centre or browse online. Quality products, great prices.",
+    "Phone cases, screen protectors and chargers for iPhone and Samsung. Shop online or visit Mobile Armour at Warringal Shopping Centre, Heidelberg.",
   keywords: [
     "phone cases heidelberg",
     "mobile accessories melbourne",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     "phone accessories near me",
   ],
   openGraph: {
+    images: [OG_IMAGE],
     title: "Phone Cases & Accessories - Mobile Armour Heidelberg",
     description:
       "Premium mobile phone accessories at Warringal Shopping Centre, Heidelberg. iPhone & Samsung cases, screen protectors, chargers & more.",

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import ProductView from './ProductView';
 import { productIdFromParam } from '@/lib/products';
 import { getProductById, getAllProducts } from '@/lib/shop-data';
+import { getPhoneHubs } from '@/lib/phones';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -20,7 +21,7 @@ export default async function ProductDetailPage({ params }: Props) {
   const product = await getProductById(id);
   if (!product) notFound();
 
-  const all = await getAllProducts();
+  const [all, hubs] = await Promise.all([getAllProducts(), getPhoneHubs()]);
   const devices = product.deviceCompatibility || [];
   const related = all
     .filter((p) => p._id !== product._id && p.category !== product.category)
@@ -31,5 +32,12 @@ export default async function ProductDetailPage({ params }: Props) {
     .filter((p) => !devices.length || (p.deviceCompatibility || []).some((d) => devices.includes(d)))
     .slice(0, 4);
 
-  return <ProductView product={product} related={related} alternatives={sameCategory} />;
+  return (
+    <ProductView
+      product={product}
+      related={related}
+      alternatives={sameCategory}
+      hubDevices={hubs.map((h) => h.device)}
+    />
+  );
 }

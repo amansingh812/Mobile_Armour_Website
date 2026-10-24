@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { locationPages, getSuburbBySlug, getAllSuburbSlugs } from '@/data/location-pages';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import { OG_IMAGE } from '@/lib/seo';
 
 interface PageProps {
   params: Promise<{ suburb: string }>;
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!suburb) return { title: 'Location Not Found' };
 
   const title = `Phone Repair ${suburb.name} | Mobile Armour - Same Day Service`;
-  const description = `Expert phone repair near ${suburb.name} VIC ${suburb.postcode}. iPhone, Samsung, iPad & Apple Watch repair. ${suburb.driveTime} from ${suburb.name} to our Heidelberg store. 6-month warranty, same-day service.`;
+  const description = `Phone repair near ${suburb.name} VIC ${suburb.postcode}: iPhone, Samsung and iPad, ${suburb.driveTime} away in Heidelberg. Same-day service, 6-month warranty.`;
 
   return {
     title,
@@ -34,6 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       `battery replacement ${suburb.name.toLowerCase()}`,
     ],
     openGraph: {
+      images: [OG_IMAGE],
       title,
       description,
       url: `https://www.mobilearmour.com.au/phone-repair/${slug}`,
@@ -279,7 +281,7 @@ export default async function SuburbPage({ params }: PageProps) {
           <h2 style={{ marginBottom: '1rem' }}>Ready to Get Your Device Fixed?</h2>
           <p style={{ fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
             {suburb.name} residents — call us now for a free quote or drop in to Warringal Shopping Centre.
-            Most repairs completed in 30-60 minutes.
+            Most repairs completed in about 1–2 hours.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="tel:0405326205" style={{
@@ -289,7 +291,7 @@ export default async function SuburbPage({ params }: PageProps) {
             }}>
               Call 0405-326-205
             </Link>
-            <Link href="/price" style={{
+            <Link href="/pricing" style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 28px',
               background: '#1B3A5C', color: '#fff', borderRadius: '6px', textDecoration: 'none',
               fontWeight: 600

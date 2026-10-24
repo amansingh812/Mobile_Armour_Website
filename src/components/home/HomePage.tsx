@@ -10,11 +10,13 @@ import { getPhoneHubs, hubSummary } from '@/lib/phones';
 import { currentPrice } from '@/lib/products';
 import { SHOP_CATEGORIES } from '@/data/shop-categories';
 import { categories as CATEGORY_IMAGES } from '@/data/categories';
-import { BUSINESS, fullAddress, hoursShort, hoursSummary } from '@/data/business';
+import { BUSINESS, SERVICE_AREAS, fullAddress, hoursShort, hoursSummary } from '@/data/business';
+import { blogPosts } from '@/data/blog-posts';
 import { STORE } from '@/data/store-settings';
 import { faqAnswerText, faqsById } from '@/data/faqs';
 import '@/components/site/page.css';
 import '@/components/store/store.css';
+import '@/app/blog/blog.css';
 import './home.css';
 
 const REPAIRS = [
@@ -37,6 +39,9 @@ export default async function HomePage() {
   })).filter((c) => c.count > 0);
   const topHub = hubs[0];
   const topCases = topHub ? topHub.products.filter((p) => p.category === 'Cases') : [];
+  const guides = [...blogPosts]
+    .sort((a, b) => +new Date(b.modifiedDate || b.publishedDate) - +new Date(a.modifiedDate || a.publishedDate))
+    .slice(0, 3);
   const faqs = faqsById(['repair-time', 'appointment', 'accessories', 'warranty-cover', 'where']);
 
   return (
@@ -314,6 +319,36 @@ export default async function HomePage() {
         </ol>
       </section>
 
+      {guides.length > 0 && (
+        <section aria-labelledby="guides-h" className="ma-section">
+          <div className="ma-shead">
+            <div>
+              <h2 id="guides-h" className="ma-h2">
+                Repair guides
+              </h2>
+              <p>Straight answers from our repair bench, so you know your options before you pay.</p>
+            </div>
+            <Link href="/blog" className="ma-link">
+              All guides →
+            </Link>
+          </div>
+          <div className="ma-grid ma-grid--3">
+            {guides.map((p) => (
+              <Link key={p.slug} href={`/blog/${p.slug}`} className="ma-guide">
+                <span className="ma-guide__img">
+                  <Image src={p.image} alt={p.imageAlt} fill sizes="(max-width: 860px) 100vw, 400px" />
+                </span>
+                <span className="ma-guide__body">
+                  <span className="ma-guide__tag">{p.category}</span>
+                  <span className="ma-guide__title">{p.title}</span>
+                  <span className="ma-meta">{p.readingTime} min read</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section aria-labelledby="faq-h" className="ma-section">
         <div className="ma-faq-split">
           <div>
@@ -348,6 +383,16 @@ export default async function HomePage() {
                 Call {BUSINESS.phoneDisplay}
               </a>
             </div>
+            <nav aria-labelledby="areas-h" className="ma-home__areas">
+              <h3 id="areas-h">Phone repair near you</h3>
+              <ul>
+                {SERVICE_AREAS.filter((a) => a.slug).map((a) => (
+                  <li key={a.slug}>
+                    <Link href={`/phone-repair/${a.slug}`}>{a.name}</Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
           <div className="ma-home__map">
             <iframe

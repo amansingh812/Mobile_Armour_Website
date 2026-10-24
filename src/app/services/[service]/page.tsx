@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getServiceBySlug, getAllServiceSlugs } from '@/data/service-pages';
@@ -12,6 +13,8 @@ import RepairQuotePicker from './RepairQuotePicker';
 import '@/components/site/page.css';
 import '@/app/contact/contact.css';
 import './service.css';
+import { OG_IMAGE } from '@/lib/seo';
+import { SERVICE_IMAGES } from '@/data/service-images';
 
 interface PageProps {
   params: Promise<{ service: string }>;
@@ -27,12 +30,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { service: slug } = await params;
   const service = getServiceBySlug(slug);
   if (!service) notFound();
+  const img = SERVICE_IMAGES[slug];
   return {
     title: service.metaTitle,
     description: service.metaDescription,
     keywords: service.keywords,
     alternates: { canonical: `/services/${slug}` },
     openGraph: {
+      images: [img ? { url: img.src, width: 1600, height: 1200, alt: img.alt } : OG_IMAGE],
       title: service.metaTitle,
       description: service.metaDescription,
       url: `/services/${slug}`,
@@ -124,7 +129,21 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         <h2 id="issues" className="ma-h2">
           Signs you need {lowerTitle(service.title)}
         </h2>
-        <p className="ma-lead">{service.intro}</p>
+        {SERVICE_IMAGES[slug] ? (
+          <div className="ma-svc-intro">
+            <p className="ma-lead">{service.intro}</p>
+            <figure className="ma-svc-photo">
+              <Image
+                src={SERVICE_IMAGES[slug].src}
+                alt={SERVICE_IMAGES[slug].alt}
+                fill
+                sizes="(max-width: 860px) 100vw, 460px"
+              />
+            </figure>
+          </div>
+        ) : (
+          <p className="ma-lead">{service.intro}</p>
+        )}
         <ul className="ma-grid ma-grid--3 ma-svc-issues">
           {service.commonIssues.map((i) => (
             <li key={i} className="ma-tile">

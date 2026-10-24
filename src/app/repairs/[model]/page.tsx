@@ -5,6 +5,7 @@ import { modelRepairPages, getModelBySlug, getAllModelSlugs, getModelsByBrand } 
 import { locationPages } from '@/data/location-pages';
 import { servicePages } from '@/data/service-pages';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import { OG_IMAGE } from '@/lib/seo';
 
 interface PageProps {
   params: Promise<{ model: string }>;
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: page.metaDescription,
     keywords: page.keywords,
     openGraph: {
+      images: [OG_IMAGE],
       title: page.metaTitle,
       description: page.metaDescription,
       url: `https://www.mobilearmour.com.au/repairs/${slug}`,

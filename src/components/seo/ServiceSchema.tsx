@@ -13,7 +13,7 @@ const services = [
   },
   {
     name: 'Battery Replacement',
-    description: 'Mobile phone battery replacement in Heidelberg Melbourne. iPhone and Samsung battery swap completed in 30-60 minutes with genuine quality parts.',
+    description: 'Mobile phone battery replacement in Heidelberg Melbourne. iPhone and Samsung battery swap usually done in about 1–2 hours with quality parts.',
     url: `${BASE_URL}/services`,
   },
   {

@@ -7,15 +7,17 @@ import { BUSINESS, fullAddress, hoursSummary } from "@/data/business";
 import { ALL_FAQS, FAQ_GROUPS, faqAnswerText } from "@/data/faqs";
 import "@/components/site/page.css";
 import "./faq.css";
+import { OG_IMAGE } from "@/lib/seo";
 
-const TITLE = "Phone Repair FAQs: Times, Warranty, Prices | Mobile Armour Heidelberg";
-const DESCRIPTION = `Straight answers about phone repair times (${BUSINESS.repairTimes.common} for most), our ${BUSINESS.warranty.short}, parts, prices and visiting our kiosk at Warringal Shopping Centre, Heidelberg.`;
+const TITLE = "Phone Repair FAQs: Times, Warranty, Prices | Mobile Armour";
+const DESCRIPTION = `Answers on repair times (${BUSINESS.repairTimes.common} for most), our ${BUSINESS.warranty.short}, parts, prices and visiting our Warringal Shopping Centre kiosk.`;
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/faq" },
   openGraph: {
+    images: [OG_IMAGE],
     title: TITLE,
     description: DESCRIPTION,
     url: "/faq",

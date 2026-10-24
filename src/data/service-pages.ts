@@ -28,7 +28,7 @@ export const servicePages: ServicePageData[] = [
     keywords: ["iphone screen repair", "iphone screen replacement", "iphone screen repair heidelberg", "iphone 14 screen replacement", "iphone 15 screen replacement", "iphone 17 pro max screen repair cost", "cracked iphone screen repair melbourne", "iphone repair near me", "fix iphone screen", "screen repair iphone 14 pro", "15 pro max screen replacement", "16 pro screen replacement"],
     heroHeading: "iPhone Screen Repair & Replacement",
     heroSubheading: "Same-day screen repair for all iPhone models — done in 30-45 minutes",
-    intro: "Cracked your iPhone screen? Mobile Armour at Warringal Shopping Centre, Heidelberg, offers fast, professional iPhone screen replacement for every model from iPhone 11 through to the latest iPhone 17 Pro Max. Our certified technicians use premium-grade LCD and OLED replacement screens that restore your display to perfect clarity. Every screen repair comes with our 6-month warranty, and most are completed in just 30-45 minutes while you wait.",
+    intro: "Cracked your iPhone screen? Mobile Armour at Warringal Shopping Centre, Heidelberg, offers fast, professional iPhone screen replacement for every model from iPhone 11 through to the latest iPhone 17 Pro Max. Our experienced technicians use premium-grade LCD and OLED replacement screens that restore your display to perfect clarity. Every screen repair comes with our 6-month warranty, and most are completed in just 30-45 minutes while you wait.",
     processSteps: [
       "Free diagnostic assessment — we examine your iPhone and provide an upfront quote with no hidden fees",
       "Premium screen replacement — we use high-quality LCD/OLED screens matched to your specific iPhone model",
@@ -53,7 +53,7 @@ export const servicePages: ServicePageData[] = [
     keywords: ["iphone battery replacement", "iphone battery replacement cost", "iphone battery replacement cost australia", "iphone battery near me", "iphone battery repair", "iphone battery repair near me", "iphone battery replacement preston", "iphone 13 battery replacement", "iphone se battery replacement", "new battery for iphone", "replace iphone battery", "change an iphone battery", "new battery iphone 13 pro max", "new iphone battery", "iphone 11 battery replacement", "iphone 12 battery replacement", "iphone 15 pro battery replacement", "authorised iphone battery replacement", "battery replacement iphone"],
     heroHeading: "iPhone Battery Replacement",
     heroSubheading: "Restore your iPhone's battery life in just 20-30 minutes",
-    intro: "Is your iPhone battery draining faster than it should? Mobile Armour offers professional iPhone battery replacement for all models from iPhone 6 through to iPhone 17. Our certified technicians use high-capacity replacement batteries that restore your phone's original battery performance. The entire process takes just 20-30 minutes, and every battery replacement comes with a 6-month warranty. Stop living tethered to a charger — get your iPhone battery replaced today.",
+    intro: "Is your iPhone battery draining faster than it should? Mobile Armour offers professional iPhone battery replacement for all models from iPhone 6 through to iPhone 17. Our experienced technicians use high-capacity replacement batteries that restore your phone's original battery performance. The entire process takes just 20-30 minutes, and every battery replacement comes with a 6-month warranty. Stop living tethered to a charger — get your iPhone battery replaced today.",
     processSteps: [
       "Battery health diagnostic — we check your current battery health percentage and confirm replacement is needed",
       "Safe battery removal — we carefully remove the old battery following proper procedures to protect your device",
@@ -78,7 +78,7 @@ export const servicePages: ServicePageData[] = [
     keywords: ["ipad screen replacement", "ipad repair near me", "ipad repairs", "ipad repairs near me", "ipad battery replacement near me", "ipad battery repair", "ipad pro battery replacement", "ipad pro screen fix", "ipad air screen repair melbourne", "ipad mini repair melbourne", "ipad repair preston", "replace ipad screen"],
     heroHeading: "iPad Screen & Battery Repair",
     heroSubheading: "Expert iPad repair for all models — screen, battery, and more",
-    intro: "Cracked iPad screen or failing battery? Mobile Armour provides expert iPad repair for all models including iPad Pro, iPad Air, iPad Mini, and standard iPads. Our certified technicians carefully replace iPad screens and batteries using premium-grade components, preserving Apple Pencil support and touch responsiveness. iPad repairs are a specialty service that many repair shops avoid due to their complexity — but our technicians handle them daily with confidence.",
+    intro: "Cracked iPad screen or failing battery? Mobile Armour provides expert iPad repair for all models including iPad Pro, iPad Air, iPad Mini, and standard iPads. Our experienced technicians carefully replace iPad screens and batteries using premium-grade components, preserving Apple Pencil support and touch responsiveness. iPad repairs are a specialty service that many repair shops avoid due to their complexity — but our technicians handle them daily with confidence.",
     processSteps: [
       "Comprehensive iPad diagnostic — we assess the screen damage and test all functions including touch, Apple Pencil, and Face ID",
       "Precision screen removal — iPads require careful heat-and-pry techniques to avoid damaging internal components",
@@ -98,12 +98,12 @@ export const servicePages: ServicePageData[] = [
   {
     title: "Samsung Phone Repair",
     slug: "samsung-repair",
-    metaTitle: "Samsung Phone Repair Heidelberg Melbourne | Galaxy Screen & Battery",
+    metaTitle: "Samsung Galaxy Repair Heidelberg | Screen & Battery",
     metaDescription: "Samsung Galaxy screen repair and battery replacement in Heidelberg. Galaxy S25, S24, Z Fold, Z Flip, A55. Same-day service, 6-month warranty.",
     keywords: ["samsung phone repair melbourne", "samsung screen repair heidelberg", "samsung repair near me", "samsung galaxy repair", "samsung battery replacement", "galaxy watch repair near me"],
     heroHeading: "Samsung Galaxy Phone Repair",
     heroSubheading: "Expert Samsung screen, battery, and component repairs for all Galaxy models",
-    intro: "Samsung Galaxy phone broken? Mobile Armour offers professional Samsung repair services for the full Galaxy range — from the latest Galaxy S25 Ultra to the innovative Z Fold and Z Flip series, plus popular A-series phones. Our certified technicians understand Samsung's unique AMOLED displays and component architecture, ensuring precise repairs that maintain your device's performance and water resistance features.",
+    intro: "Samsung Galaxy phone broken? Mobile Armour offers professional Samsung repair services for the full Galaxy range — from the latest Galaxy S25 Ultra to the innovative Z Fold and Z Flip series, plus popular A-series phones. Our experienced technicians understand Samsung's unique AMOLED displays and component architecture, ensuring precise repairs that maintain your device's performance and water resistance features.",
     processSteps: [
       "Samsung diagnostic — we identify the exact issue and check for any secondary damage",
       "AMOLED screen replacement — we use quality replacement screens that match Samsung's vibrant display standards",
@@ -147,7 +147,7 @@ export const servicePages: ServicePageData[] = [
   {
     title: "Apple Watch Repair",
     slug: "apple-watch-repair",
-    metaTitle: "Apple Watch Repair Heidelberg Melbourne | Screen & Battery Replacement",
+    metaTitle: "Apple Watch Repair Heidelberg | Screen & Battery",
     metaDescription: "Apple Watch screen and battery repair in Heidelberg. All Apple Watch models. Specialist smartwatch repair, 6-month warranty at Warringal Shopping Centre.",
     keywords: ["apple watch repair", "apple watch screen repair heidelberg", "apple watch battery replacement heidelberg", "apple watch screen replacement melbourne", "apple watch battery replacement melbourne", "iwatch screen repair near me", "repair iwatch screen near me", "smart watch repair near me open now"],
     heroHeading: "Apple Watch Screen & Battery Repair",
@@ -270,7 +270,7 @@ export const servicePages: ServicePageData[] = [
   {
     title: "Screen Protector Installation",
     slug: "screen-protector-installation",
-    metaTitle: "Screen Protector Installation Heidelberg | Tempered Glass & Privacy",
+    metaTitle: "Screen Protector Installation Heidelberg | Mobile Armour",
     metaDescription: "Professional screen protector installation in Heidelberg. Tempered glass, privacy, anti-glare for iPhone, Samsung, iPad. Perfect bubble-free fit.",
     keywords: ["screen protector installation", "phone screen protector installation", "phone screen protector near me", "screen protectors near me", "screen protector replacement near me", "tempered glass screen protector"],
     heroHeading: "Screen Protector Installation",

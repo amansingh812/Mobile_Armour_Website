@@ -7,27 +7,27 @@ export interface Category {
 export const categories: Category[] = [
   {
     name: "Cases",
-    image: "/img/categories/case.jpg",
+    image: "/img/categories/cases.webp",
     link: "/shop/cases",
   },
   {
     name: "Power Banks",
-    image: "/img/categories/powerbank.jpg",
+    image: "/img/categories/power-banks.webp",
     link: "/shop/power-banks",
   },
   {
     name: "Car Holders",
-    image: "/img/categories/carholder.jpg",
+    image: "/img/categories/car-holders.webp",
     link: "/shop/car-holders",
   },
   {
     name: "Cables & Adapters",
-    image: "/img/categories/cable.jpg",
+    image: "/img/categories/cables-adapters.webp",
     link: "/shop/cables-adapters",
   },
   {
     name: "Screen Protectors",
-    image: "/img/categories/screenprotector.jpg",
+    image: "/img/categories/screen-protectors.webp",
     link: "/shop/screen-protectors",
   },
 ];

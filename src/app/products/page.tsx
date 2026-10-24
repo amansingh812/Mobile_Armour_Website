@@ -27,7 +27,7 @@ const ProductsPage = () => {
           </div>
           
           {searchQuery && (
-            <h1 className="products-search-title">Results for &ldquo;{searchQuery}&rdquo;</h1>
+            <h2 className="products-search-title">Results for &ldquo;{searchQuery}&rdquo;</h2>
           )}
           <div className="products-layout">
             <aside className="filters-sidebar">
@@ -52,8 +52,14 @@ const ProductsPage = () => {
 // status, so 404s and redirects reached Google as "200 OK".)
 export default function ProductsPageWithSuspense() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center roofix-loader"><span className="loader"></span></div>}>
-      <ProductsPage />
-    </Suspense>
+    <>
+      {/* Outside Suspense so the heading is in the server HTML. */}
+      <div className="container">
+        <h1 className="products-search-title">Phone cases, screen protectors &amp; chargers</h1>
+      </div>
+      <Suspense fallback={<div className="flex items-center justify-center roofix-loader"><span className="loader"></span></div>}>
+        <ProductsPage />
+      </Suspense>
+    </>
   );
 }

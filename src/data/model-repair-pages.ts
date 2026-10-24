@@ -67,7 +67,7 @@ export const modelRepairPages: ModelRepairPage[] = [
       {
         question: "How much does iPhone 16 Pro Max screen repair cost?",
         answer:
-          "iPhone 16 Pro Max screen replacement pricing depends on the type of damage. The 6.9-inch OLED display requires precision repair by certified technicians. Call 0405-326-205 for an instant quote — we're typically more affordable than Apple's official pricing.",
+          "iPhone 16 Pro Max screen replacement pricing depends on the type of damage. The 6.9-inch OLED display requires precision repair by experienced technicians. Call 0405-326-205 for an instant quote — we're typically more affordable than Apple's official pricing.",
       },
       {
         question: "Can you fix iPhone 16 Pro Max Face ID after screen repair?",
@@ -160,7 +160,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     heroSubheading:
       "Titanium-frame flagship repair — screen, battery, camera & more",
     intro:
-      "Apple's iPhone 15 Pro Max was the first iPhone to feature a titanium frame and the A17 Pro chip, with a massive 6.7-inch Super Retina XDR display and a 5x optical zoom periscope camera. When your premium device needs expert attention, Mobile Armour delivers precision repairs at our Warringal Shopping Centre location in Heidelberg. Whether it's a cracked OLED screen, degraded battery, or damaged camera lens, our certified technicians handle every repair with care. We understand the titanium frame's construction and use compatible parts to maintain the device's integrity. Walk-in service available — most repairs completed same-day.",
+      "Apple's iPhone 15 Pro Max was the first iPhone to feature a titanium frame and the A17 Pro chip, with a massive 6.7-inch Super Retina XDR display and a 5x optical zoom periscope camera. When your premium device needs expert attention, Mobile Armour delivers precision repairs at our Warringal Shopping Centre location in Heidelberg. Whether it's a cracked OLED screen, degraded battery, or damaged camera lens, our experienced technicians handle every repair with care. We understand the titanium frame's construction and use compatible parts to maintain the device's integrity. Walk-in service available — most repairs completed same-day.",
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "45-60 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },

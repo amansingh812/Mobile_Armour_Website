@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) notFound();
 
   return {
-    title: `${post.title} | Mobile Armour Heidelberg`,
+    title: post.title.length <= 44 ? `${post.title} | Mobile Armour` : post.title,
     description: post.excerpt,
     keywords: post.keywords,
     authors: [{ name: post.author }],

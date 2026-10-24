@@ -19,10 +19,10 @@ function About1({ type }: About1Props) {
             <div className="about-img-wrap">
               <div className="image-one">
                 <Image
-                  src="/img/about/about-1-11.webp"
-                  width={403}
-                  height={538}
-                  alt="about image"
+                  src="/img/home/repair-hands.webp"
+                  width={880}
+                  height={1092}
+                  alt="Technician's hands replacing a cracked phone screen"
                   style={{
                     width: "100%",
                     height: "auto",

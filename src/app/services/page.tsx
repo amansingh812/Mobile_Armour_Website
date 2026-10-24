@@ -10,7 +10,7 @@ import { blogPosts } from "@/data/blog-posts";
 import "@/components/site/page.css";
 
 const TITLE = "Phone & Apple Watch Repairs Heidelberg | Same Day | Mobile Armour";
-const DESCRIPTION = `iPhone, Samsung, Pixel, iPad and Apple Watch repairs at Warringal Shopping Centre, Heidelberg. Most screens, batteries and charging ports done in ${BUSINESS.repairTimes.common}, with a ${BUSINESS.warranty.short}. Walk-ins welcome.`;
+const DESCRIPTION = `iPhone, Samsung, Pixel, iPad and Apple Watch repairs at Warringal Shopping Centre, Heidelberg. Most repairs done in ${BUSINESS.repairTimes.common} with a ${BUSINESS.warranty.short}.`;
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     siteName: BUSINESS.name,
     locale: "en_AU",
     type: "website",
-    images: [{ url: "/img/about/about-21.webp", width: 1024, height: 1024, alt: "Mobile Armour technician checking a cracked phone screen" }],
+    images: [{ url: "/img/services/iphone-screen-repair.webp", width: 1600, height: 1200, alt: "Technician fitting a new screen to a phone" }],
   },
 };
 
@@ -117,8 +117,8 @@ export default function ServicesPage() {
         </div>
         <div className="ma-hero__media">
           <Image
-            src="/img/about/about-21.webp"
-            alt="Mobile Armour technician checking a customer's cracked phone screen"
+            src="/img/services/iphone-screen-repair.webp"
+            alt="Technician fitting a new screen to a phone, with the cracked old screen beside it"
             fill
             sizes="(max-width: 860px) 100vw, 520px"
             priority

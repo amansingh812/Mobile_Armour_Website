@@ -5,18 +5,19 @@ import { Breadcrumbs, QuickAnswer } from '@/components/site/PageBits';
 import { BUSINESS, fullAddress, hoursShort } from '@/data/business';
 import { STORE, deliveryFeeText } from '@/data/store-settings';
 import '@/components/site/page.css';
+import { OG_IMAGE } from '@/lib/seo';
 
 const TITLE = 'Delivery, Click & Collect and Returns | Mobile Armour Heidelberg';
 const noReturns = STORE.returns.changeOfMindDays <= 0;
-const DESCRIPTION = `Click & collect from Warringal Shopping Centre, delivery across Australia (${deliveryFeeText().toLowerCase()})${
+const DESCRIPTION = `Click & collect from Warringal Shopping Centre or delivery across Australia (${deliveryFeeText().toLowerCase()})${
   STORE.fitGuarantee ? ', a same-day fit guarantee' : ''
-} and our returns policy at Mobile Armour, Heidelberg.`;
+}, plus our returns policy.`;
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/delivery-returns' },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: '/delivery-returns', siteName: BUSINESS.name, locale: 'en_AU', type: 'website' },
+  openGraph: { images: [OG_IMAGE], title: TITLE, description: DESCRIPTION, url: '/delivery-returns', siteName: BUSINESS.name, locale: 'en_AU', type: 'website' },
 };
 
 export default function DeliveryReturnsPage() {

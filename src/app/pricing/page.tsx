@@ -2,11 +2,12 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { modelRepairPages, getModelsByBrand } from '@/data/model-repair-pages';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import { OG_IMAGE } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Phone Repair Prices Melbourne | Mobile Armour Heidelberg',
   description:
-    'Mobile phone repair pricing in Heidelberg Melbourne. iPhone, Samsung, Google Pixel, iPad screen repair & battery replacement costs. Same-day service, 6-month warranty at Warringal Shopping Centre.',
+    'Phone repair prices at Mobile Armour, Heidelberg: iPhone, Samsung, Pixel and iPad screens and batteries. Same-day service and a 6-month warranty.',
   keywords: [
     'phone repair cost melbourne',
     'iphone screen repair price',
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
     'screen replacement cost australia',
   ],
   openGraph: {
+    images: [OG_IMAGE],
     title: 'Phone Repair Prices - Mobile Armour Heidelberg',
     description: 'Transparent phone repair pricing. iPhone, Samsung, iPad, Pixel repair costs.',
     url: 'https://www.mobilearmour.com.au/pricing',

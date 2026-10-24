@@ -9,11 +9,12 @@ import Video2 from "@/components/sections/video/video2";
 import React from "react";
 import { Metadata } from "next";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
+import { OG_IMAGE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "About Mobile Armour | Trusted Phone Repair Experts in Heidelberg",
   description:
-    "Mobile Armour is Heidelberg's trusted mobile phone repair shop located at Warringal Shopping Centre, VIC 3084. Certified technicians, 6-month warranty on all repairs, same-day service for iPhone, Samsung & all major brands. Serving Melbourne's northern suburbs.",
+    "Mobile Armour is a phone repair and accessories kiosk at Warringal Shopping Centre, Heidelberg. Same-day repairs for iPhone, Samsung and iPad with a 6-month warranty.",
   keywords: [
     "about mobile armour",
     "phone repair experts heidelberg",
@@ -23,9 +24,10 @@ export const metadata: Metadata = {
     "mobile armour heidelberg about",
   ],
   openGraph: {
+    images: [OG_IMAGE],
     title: "About Mobile Armour - Heidelberg's Trusted Phone Repair Experts",
     description:
-      "Certified mobile repair technicians at Warringal Shopping Centre, Heidelberg VIC 3084. 6-month warranty, same-day service.",
+      "Experienced phone repair technicians at Warringal Shopping Centre, Heidelberg VIC 3084. 6-month warranty, same-day service.",
     url: "https://www.mobilearmour.com.au/about",
     siteName: "Mobile Armour",
     locale: "en_AU",
@@ -35,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About Mobile Armour - Phone Repair Heidelberg",
     description:
-      "Trusted mobile repair at Warringal Shopping Centre. Certified technicians, 6-month warranty.",
+      "Trusted mobile repair at Warringal Shopping Centre. Experienced technicians, 6-month warranty.",
   },
   alternates: {
     canonical: "https://www.mobilearmour.com.au/about",

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   // Relative canonicals/OG URLs on every page resolve against this.
   metadataBase: new URL(SITE_URL),
   title: "Mobile Phone Repair Heidelberg Melbourne | Mobile Armour - Same Day Service",
-  description: "Expert smartphone repairs in Heidelberg VIC 3084, serving Melbourne's northern suburbs. iPhone, Samsung, iPad & Apple Watch repair. 6-month warranty • Same-day service • Certified technicians • 30-60 min repairs. Located at Warringal Shopping Centre. Call 0405-326-205 for free quote.",
+  description: "Phone repairs and accessories at Warringal Shopping Centre, Heidelberg. Most repairs in about 1–2 hours with a 6-month warranty. Call 0405 326 205.",
   keywords: [
     "mobile phone repair heidelberg",
     "iphone repair heidelberg",

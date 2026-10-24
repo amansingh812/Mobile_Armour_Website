@@ -19,10 +19,13 @@ export default function ProductView({
   product: p,
   related,
   alternatives,
+  hubDevices = [],
 }: {
   product: ShopProduct;
   related: ShopProduct[];
   alternatives: ShopProduct[];
+  /** Phones that have their own /phones page; others aren't linked. */
+  hubDevices?: string[];
 }) {
   const price = currentPrice(p);
   const was = typeof p.oldPrice === 'number' && p.oldPrice > price ? p.oldPrice : null;
@@ -32,6 +35,7 @@ export default function ProductView({
   const cat = getShopCategoryByDb(p.category);
   const devices = p.deviceCompatibility || [];
   const device = devices[0];
+  const hubDevice = devices.find((d) => hubDevices.includes(d));
   const isCase = p.category === 'Cases';
   const isGlass = p.category === 'Screen Protectors';
   const bundleable = STORE.bundle.enabled && (isCase || isGlass) && device;
@@ -106,11 +110,19 @@ export default function ProductView({
         <ProductGallery images={images} name={p.name} />
 
         <div className="ma-product__info">
-          {device && (
-            <Link href={phonePath(device)} className="ma-product__fit">
-              ✓ Fits {devices.length > 2 ? `${devices.slice(0, 2).join(', ')} +${devices.length - 2}` : devices.join(' & ')}
-            </Link>
-          )}
+          {device &&
+            (() => {
+              const label = `✓ Fits ${
+                devices.length > 2 ? `${devices.slice(0, 2).join(', ')} +${devices.length - 2}` : devices.join(' & ')
+              }`;
+              return hubDevice ? (
+                <Link href={phonePath(hubDevice)} className="ma-product__fit">
+                  {label}
+                </Link>
+              ) : (
+                <span className="ma-product__fit">{label}</span>
+              );
+            })()}
           <h1 className="ma-product__title">{p.name}</h1>
           <div className="ma-product__price">
             <strong>{fmt(price)}</strong>
@@ -206,9 +218,7 @@ export default function ProductView({
               <h2 style={{ fontSize: 18 }}>Compatible with</h2>
               <ul className="ma-product__compat">
                 {devices.map((d) => (
-                  <li key={d}>
-                    <Link href={phonePath(d)}>{d}</Link>
-                  </li>
+                  <li key={d}>{hubDevices.includes(d) ? <Link href={phonePath(d)}>{d}</Link> : d}</li>
                 ))}
               </ul>
             </div>
@@ -231,9 +241,9 @@ export default function ProductView({
             <h2 id="pairs" className="ma-h2">
               Pairs well with
             </h2>
-            {device && (
-              <Link href={phonePath(device)} className="ma-link">
-                Everything for {device} →
+            {hubDevice && (
+              <Link href={phonePath(hubDevice)} className="ma-link">
+                Everything for {hubDevice} →
               </Link>
             )}
           </div>

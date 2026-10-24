@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const price = currentPrice(p);
   const path = productPath(p);
-  const title = `${p.name} | $${price} | Mobile Armour Heidelberg`;
-  const description = `${shortDescription(p.description, 110)} $${price} AUD at Mobile Armour, Warringal Shopping Centre, Heidelberg.`;
+  const title = p.name.length <= 44 ? `${p.name} | Mobile Armour` : p.name;
+  const description = `${shortDescription(p.description, 90)} $${price} at Mobile Armour, Warringal Shopping Centre, Heidelberg.`;
   const image = p.imageUrl?.startsWith('http') ? p.imageUrl : p.imageUrl ? `${SITE_URL}${p.imageUrl}` : undefined;
 
   return {

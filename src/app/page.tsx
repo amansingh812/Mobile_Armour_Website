@@ -6,8 +6,8 @@ import { BUSINESS } from "@/data/business";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Phone Repairs & Accessories Heidelberg | Mobile Armour, Warringal Shopping Centre",
-  description: `Phone repairs and accessories at Warringal Shopping Centre, Heidelberg. Screens, batteries and charging ports done in ${BUSINESS.repairTimes.common} with a ${BUSINESS.warranty.short}. Cases, screen protectors and chargers to collect today or delivered.`,
+  title: "Phone Repairs & Accessories Heidelberg | Mobile Armour",
+  description: `Phone repairs and accessories at Warringal Shopping Centre, Heidelberg. Most repairs in ${BUSINESS.repairTimes.common} with a ${BUSINESS.warranty.short}. Cases and glass to take home today.`,
   alternates: { canonical: "/" },
 };
 

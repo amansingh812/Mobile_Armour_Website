@@ -8,15 +8,17 @@ import { BUSINESS, SERVICE_AREAS, fullAddress, hoursShort, hoursSummary } from "
 import { faqAnswerText, faqsById } from "@/data/faqs";
 import "@/components/site/page.css";
 import "./contact.css";
+import { OG_IMAGE } from "@/lib/seo";
 
 const TITLE = "Contact Mobile Armour | Warringal Shopping Centre, Heidelberg";
-const DESCRIPTION = `Call ${BUSINESS.phoneDisplay}, email ${BUSINESS.email} or visit ${BUSINESS.address.unit}, ${BUSINESS.address.centre}, ${BUSINESS.address.streetShort}, Heidelberg VIC 3084. ${hoursSummary()}. Walk-ins welcome.`;
+const DESCRIPTION = `Call ${BUSINESS.phoneDisplay} or visit ${BUSINESS.address.unit}, ${BUSINESS.address.centre}, Heidelberg. ${hoursSummary()}. No appointment needed.`;
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/contact" },
   openGraph: {
+    images: [OG_IMAGE],
     title: TITLE,
     description: DESCRIPTION,
     url: "/contact",

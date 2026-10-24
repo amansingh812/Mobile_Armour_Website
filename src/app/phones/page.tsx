@@ -9,7 +9,7 @@ import '@/components/store/store.css';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Shop by Phone: Cases, Screen Protectors & Chargers | Mobile Armour Heidelberg',
+  title: 'Shop by Phone: Cases, Glass & Chargers | Mobile Armour',
   description:
     'Pick your phone and see every case, screen protector and charger that fits it, plus repairs. Mobile Armour, Warringal Shopping Centre, Heidelberg.',
   alternates: { canonical: '/phones' },

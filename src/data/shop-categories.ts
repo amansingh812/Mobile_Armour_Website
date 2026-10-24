@@ -20,9 +20,9 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
     dbCategory: 'Cases',
     name: 'Phone Cases',
     shortName: 'Cases',
-    title: 'Phone Cases Heidelberg | iPhone 17 & iPhone 16 Cases | Mobile Armour',
+    title: 'iPhone 17 & 16 Cases Heidelberg | Mobile Armour',
     metaDescription:
-      'Shop iPhone 17, 17 Pro, 17 Pro Max and iPhone 16 cases: MagSafe, clear, slim and heavy-duty. See them in person at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
+      'iPhone 17, 17 Pro, 17 Pro Max and iPhone 16 cases: MagSafe, clear, slim and heavy-duty. See them in person at Warringal Shopping Centre, Heidelberg.',
     intro: [
       'Phone cases for the latest iPhones, from slim clear cases to heavy-duty MagSafe armour. Every case on this page is stocked at our kiosk in Warringal Shopping Centre, Heidelberg.',
       'Not sure which one fits? Bring your phone to the kiosk and try a case on before you buy.',
@@ -41,9 +41,9 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
     dbCategory: 'Screen Protectors',
     name: 'Screen Protectors',
     shortName: 'Screen Protectors',
-    title: 'Screen Protectors Heidelberg | Tempered Glass & Privacy | Mobile Armour',
+    title: 'Tempered Glass Screen Protectors | Mobile Armour',
     metaDescription:
-      'Tempered glass, privacy and full-cover screen protectors for iPhone 17, 17 Pro, 17 Pro Max and iPhone 16. Available at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
+      'Tempered glass, privacy and full-cover screen protectors for iPhone 17, 17 Pro, 17 Pro Max and iPhone 16, at Warringal Shopping Centre, Heidelberg.',
     intro: [
       'Tempered glass and privacy screen protectors for current iPhones, including Baseus, Kinglas and Lito brands. All are stocked at our Warringal Shopping Centre kiosk in Heidelberg.',
       'A screen protector costs far less than a screen replacement. If your screen is already cracked, see our screen repair service instead.',

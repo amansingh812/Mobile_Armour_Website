@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const hub = await getPhoneHub(slug);
   if (!hub) notFound();
-  const title = `${hub.device} Cases, Screen Protectors & Repairs | Mobile Armour Heidelberg`;
+  const title = `${hub.device} Cases & Screen Protectors | Mobile Armour`;
   const description = `Everything for the ${hub.device}: ${hubSummary(hub.products)}, plus repairs. Collect today at Warringal Shopping Centre, Heidelberg, or get it delivered.`;
   return {
     title,

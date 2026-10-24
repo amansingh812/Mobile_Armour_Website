@@ -2,10 +2,11 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { locationPages } from '@/data/location-pages';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import { OG_IMAGE } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Phone Repair Service Areas Melbourne | Mobile Armour Heidelberg',
-  description: 'Mobile Armour serves Melbourne northern suburbs for phone repair. Greensborough, Preston, Doncaster, Eltham, Bundoora, Ivanhoe, Rosanna & more. Same-day service, 6-month warranty.',
+  description: 'Phone repair for Melbourne\'s northern suburbs, from Ivanhoe and Rosanna to Bundoora and Doncaster. Same-day service and a 6-month warranty in Heidelberg.',
   keywords: [
     'phone repair melbourne northern suburbs',
     'mobile repair near me melbourne',
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
     'samsung repair melbourne suburbs',
   ],
   openGraph: {
+    images: [OG_IMAGE],
     title: 'Phone Repair Service Areas - Mobile Armour Melbourne',
     description: 'Serving 15+ Melbourne suburbs for expert phone, tablet, and smartwatch repair.',
     url: 'https://www.mobilearmour.com.au/phone-repair',

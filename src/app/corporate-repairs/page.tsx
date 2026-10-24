@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
+import { OG_IMAGE } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Corporate & Business Phone Repair Melbourne | Mobile Armour',
   description:
-    'Corporate mobile device repair services for Melbourne businesses. Bulk iPhone, iPad, Samsung repair. Priority turnaround, volume pricing, fleet management. Warringal Shopping Centre, Heidelberg.',
+    'Phone and iPad repairs for Melbourne businesses: priority turnaround and volume pricing from Mobile Armour at Warringal Shopping Centre, Heidelberg.',
   keywords: [
     'corporate phone repair melbourne',
     'business phone repair',
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
     'bulk device repair australia',
   ],
   openGraph: {
+    images: [OG_IMAGE],
     title: 'Corporate & Business Phone Repair - Mobile Armour Melbourne',
     description: 'Professional device repair for businesses. Bulk pricing, priority service, fleet management.',
     url: 'https://www.mobilearmour.com.au/corporate-repairs',

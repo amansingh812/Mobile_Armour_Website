@@ -8,16 +8,17 @@ import { STORE, deliveryFeeText } from '@/data/store-settings';
 import type { Faq } from '@/data/faqs';
 import '@/components/site/page.css';
 import '@/components/store/store.css';
+import { OG_IMAGE } from '@/lib/seo';
 
 const TITLE = 'Why Buy Phone Accessories from Mobile Armour | Heidelberg Kiosk';
 const DESCRIPTION =
-  'A real shop you can walk into at Warringal Shopping Centre: we check the fit, fit your screen protector, take returns at the counter and repair your phone if the worst happens.';
+  'A real shop you can walk into at Warringal Shopping Centre: we check accessories fit your exact phone, and repair it if the worst happens.';
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/why-mobile-armour' },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: '/why-mobile-armour', siteName: BUSINESS.name, locale: 'en_AU', type: 'website' },
+  openGraph: { images: [OG_IMAGE], title: TITLE, description: DESCRIPTION, url: '/why-mobile-armour', siteName: BUSINESS.name, locale: 'en_AU', type: 'website' },
 };
 
 export default function WhyBuyPage() {
@@ -91,8 +92,8 @@ export default function WhyBuyPage() {
           </div>
           <div className="ma-hero__media">
             <Image
-              src="/img/about/about-21.webp"
-              alt="Mobile Armour technician helping a customer at the kiosk"
+              src="/img/home/new-in-cases.webp"
+              alt="Phone in a slim black protective case with a glass screen protector"
               fill
               sizes="(max-width: 860px) 100vw, 520px"
               priority

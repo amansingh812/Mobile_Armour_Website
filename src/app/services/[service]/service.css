@@ -63,3 +63,31 @@
   justify-content: center;
   margin-bottom: 6px;
 }
+
+.ma-svc-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.ma-svc-intro .ma-lead {
+  margin: 0;
+}
+.ma-svc-photo {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #0e0f12;
+}
+.ma-svc-photo img {
+  object-fit: cover;
+}
+@media (max-width: 860px) {
+  .ma-svc-intro {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}

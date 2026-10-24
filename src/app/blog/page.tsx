@@ -7,16 +7,18 @@ import { Breadcrumbs } from '@/components/site/PageBits';
 import { BUSINESS } from '@/data/business';
 import '@/components/site/page.css';
 import './blog.css';
+import { OG_IMAGE } from '@/lib/seo';
 
 const TITLE = 'Phone Repair Guides & Tips | Mobile Armour Heidelberg';
 const DESCRIPTION =
-  'Honest guides from our Heidelberg repair technicians: cracked screens, battery health, water damage, phone care and repair costs, so you know your options before you pay.';
+  'Honest guides from our Heidelberg repair bench: cracked screens, battery health, water damage and repair costs, so you know your options before you pay.';
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/blog' },
   openGraph: {
+    images: [OG_IMAGE],
     title: TITLE,
     description: DESCRIPTION,
     type: 'website',

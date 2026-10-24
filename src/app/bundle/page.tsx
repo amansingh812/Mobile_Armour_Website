@@ -9,6 +9,7 @@ import { BUSINESS } from '@/data/business';
 import '@/components/site/page.css';
 import '@/components/store/store.css';
 import './bundle.css';
+import { OG_IMAGE } from '@/lib/seo';
 
 export const revalidate = 3600;
 
@@ -22,7 +23,8 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: '/bundle' },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: '/bundle', siteName: BUSINESS.name, locale: 'en_AU', type: 'website' },
+  openGraph: {
+images: [OG_IMAGE], title: TITLE, description: DESCRIPTION, url: '/bundle', siteName: BUSINESS.name, locale: 'en_AU', type: 'website' },
 };
 
 export default async function BundlePage() {
