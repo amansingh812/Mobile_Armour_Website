@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import ProductTile from '@/components/store/ProductTile';
 import PromiseStrip from '@/components/store/PromiseStrip';
-import JsonLd from '@/components/seo/JsonLd';
-import { Breadcrumbs } from '@/components/site/PageBits';
+import JsonLd, { faqPage } from '@/components/seo/JsonLd';
+import { Breadcrumbs, FaqList } from '@/components/site/PageBits';
+import type { Faq } from '@/data/faqs';
 import { SITE_URL } from '@/lib/site';
 import { productPath, currentPrice } from '@/lib/products';
 import type { ShopProduct } from '@/lib/shop-data';
@@ -30,6 +31,11 @@ interface ShopListingProps {
   path: string;
   /** Show the bundle banner (cases and screen protectors). */
   bundleDevice?: string | null;
+  /** Question-and-answer block (also output as FAQPage schema). */
+  faqs?: Faq[];
+  faqHeading?: string;
+  /** Guides worth reading before buying. */
+  guides?: { title: string; href: string }[];
 }
 
 export default function ShopListing({
@@ -42,6 +48,9 @@ export default function ShopListing({
   buyingTips,
   path,
   bundleDevice,
+  faqs,
+  faqHeading,
+  guides,
 }: ShopListingProps) {
   const itemList = {
     '@context': 'https://schema.org',
@@ -61,6 +70,7 @@ export default function ShopListing({
   return (
     <main className="ma-page ma-shop">
       {products.length > 0 && <JsonLd data={itemList} />}
+      {faqs && faqs.length > 0 && <JsonLd data={faqPage(faqs.map((f) => ({ q: f.q, a: f.more ? `${f.short} ${f.more}` : f.short })))} />}
       <Breadcrumbs items={breadcrumbs.map((c) => ({ name: c.name, path: c.url || path }))} />
 
       <header className="ma-wrap ma-shop__hero">
@@ -150,6 +160,30 @@ export default function ShopListing({
                 <span style={{ fontSize: 15, color: 'var(--ma-body)', lineHeight: 1.6 }}>{pt}</span>
               </div>
             ))}
+          </div>
+        </section>
+      )}
+
+      {faqs && faqs.length > 0 && (
+        <section aria-labelledby="shop-faq" className="ma-section">
+          <div className="ma-faq-split">
+            <div>
+              <h2 id="shop-faq" className="ma-h2">
+                {faqHeading || 'Questions'}
+              </h2>
+              {guides && guides.length > 0 && (
+                <ul className="ma-shop__guides">
+                  {guides.map((g) => (
+                    <li key={g.href}>
+                      <Link href={g.href} className="ma-link">
+                        {g.title} →
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <FaqList faqs={faqs} />
           </div>
         </section>
       )}

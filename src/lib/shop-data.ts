@@ -84,8 +84,9 @@ export const MIN_PRODUCTS_FOR_DEVICE_PAGE = 2;
 
 /**
  * Devices with enough products in a category to deserve a /shop/{cat}/{device} page.
- * A device page must be narrower than its category: if every product in the
- * category fits the device, the page would duplicate the category page.
+ * A device page is made even when every product in the category fits it: it
+ * targets a different search ("iphone 17 pro max case" vs "phone cases") and
+ * has its own copy and questions.
  */
 export function devicesWithPages(products: ShopProduct[]): { device: string; slug: string; count: number }[] {
   const counts = new Map<string, number>();
@@ -93,7 +94,7 @@ export function devicesWithPages(products: ShopProduct[]): { device: string; slu
     for (const d of p.deviceCompatibility || []) counts.set(d, (counts.get(d) || 0) + 1);
   }
   return Array.from(counts.entries())
-    .filter(([, n]) => n >= MIN_PRODUCTS_FOR_DEVICE_PAGE && n < products.length)
+    .filter(([, n]) => n >= MIN_PRODUCTS_FOR_DEVICE_PAGE)
     .map(([device, count]) => ({ device, slug: slugify(device), count }))
     .sort((a, b) => b.count - a.count);
 }

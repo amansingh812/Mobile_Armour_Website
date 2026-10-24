@@ -2,6 +2,10 @@ export interface BlogPost {
   slug: string;
   title: string;
   excerpt: string;
+  /** Search title, when the question title runs past ~60 characters. */
+  seoTitle?: string;
+  /** Search description (≤160 chars); the excerpt is used if absent. */
+  metaDescription?: string;
   content: string;
   image: string;
   imageAlt: string;
@@ -15,7 +19,9 @@ export interface BlogPost {
   tags: string[];
 }
 
-export const blogPosts: BlogPost[] = [
+import { guidePosts2026 } from './blog-posts-2026';
+
+const legacyPosts: BlogPost[] = [
   {
     slug: 'screen-repair-vs-replacement',
     title: 'Screen Repair vs. Replacement: Which Does Your Phone Need?',
@@ -282,7 +288,7 @@ export const blogPosts: BlogPost[] = [
       <ul>
         <li>📞 <strong>Call:</strong> <a href="tel:0405326205">0405-326-205</a></li>
         <li>📍 <strong>Visit:</strong> Kiosk 4, Warringal Shopping Centre, 56 Burgundy Street, Heidelberg VIC 3084</li>
-        <li>🕐 <strong>Hours:</strong> Mon-Fri 9AM-6PM, Sat 9AM-5PM, Sun 10AM-4PM</li>
+        <li>🕐 <strong>Hours:</strong> Mon–Sat 9 am – 5 pm, Sun 10 am – 5 pm</li>
         <li>💻 <strong>Book Online:</strong> <a href="/contact">Schedule Your Repair</a></li>
       </ul>
 
@@ -555,7 +561,7 @@ export const blogPosts: BlogPost[] = [
           <tr>
             <td style="padding: 12px; border: 1px solid #dee2e6;">iPhone 15/14/13 Series</td>
             <td style="padding: 12px; border: 1px solid #dee2e6;">$89-$129</td>
-            <td style="padding: 12px; border: 1px solid #dee2e6;">30-60 min</td>
+            <td style="padding: 12px; border: 1px solid #dee2e6;">1–2 hours</td>
           </tr>
           <tr style="background: #f8f9fa;">
             <td style="padding: 12px; border: 1px solid #dee2e6;">iPhone 12/11/XR/SE</td>
@@ -594,7 +600,7 @@ export const blogPosts: BlogPost[] = [
       <ul>
         <li><strong>✅ Premium batteries:</strong> High-capacity cells matching or exceeding OEM specs</li>
         <li><strong>✅ 6-month warranty:</strong> Parts and labor covered</li>
-        <li><strong>✅ Same-day service:</strong> Most replacements done in 30-60 minutes</li>
+        <li><strong>✅ Same-day service:</strong> Most replacements done in about 1–2 hours</li>
         <li><strong>✅ Free diagnostics:</strong> We test charging port and software before replacement</li>
         <li><strong>✅ Safe disposal:</strong> Old batteries disposed of properly per environmental regulations</li>
         <li><strong>✅ Data safety:</strong> Your photos, apps, and data remain untouched</li>
@@ -627,7 +633,7 @@ export const blogPosts: BlogPost[] = [
       <ul>
         <li>📞 <strong>Call now:</strong> <a href="tel:0405326205">0405-326-205</a></li>
         <li>📍 <strong>Visit us:</strong> Kiosk 4, Warringal Shopping Centre, Heidelberg VIC 3084</li>
-        <li>🕐 <strong>Walk-ins welcome:</strong> Mon-Fri 9AM-6PM, Sat 9AM-5PM, Sun 10AM-4PM</li>
+        <li>🕐 <strong>Walk-ins welcome:</strong> Mon–Sat 9 am – 5 pm, Sun 10 am – 5 pm</li>
         <li>💻 <strong>Book online:</strong> <a href="/contact">Schedule Battery Replacement</a></li>
       </ul>
 
@@ -1014,7 +1020,7 @@ export const blogPosts: BlogPost[] = [
       <ul>
         <li>📞 <strong>Emergency hotline:</strong> <a href="tel:0405326205">0405-326-205</a> (call now, we'll advise immediately!)</li>
         <li>📍 <strong>Rush to us:</strong> Kiosk 4, Warringal Shopping Centre, 56 Burgundy Street, Heidelberg VIC 3084</li>
-        <li>🕐 <strong>Open 7 days:</strong> Mon-Fri 9AM-6PM, Sat 9AM-5PM, Sun 10AM-4PM</li>
+        <li>🕐 <strong>Open 7 days:</strong> Mon–Sat 9 am – 5 pm, Sun 10 am – 5 pm</li>
         <li>💻 <strong>For non-emergencies:</strong> <a href="/contact">Book Repair Online</a></li>
       </ul>
 
@@ -1449,7 +1455,7 @@ export const blogPosts: BlogPost[] = [
       <ul>
         <li>📞 <strong>Call:</strong> <a href="tel:0405326205">0405-326-205</a></li>
         <li>📍 <strong>Location:</strong> Kiosk 4, Warringal Shopping Centre, 56 Burgundy Street, Heidelberg VIC 3084</li>
-        <li>🕐 <strong>Hours:</strong> Mon-Fri 9AM-6PM, Sat 9AM-5PM, Sun 10AM-4PM</li>
+        <li>🕐 <strong>Hours:</strong> Mon–Sat 9 am – 5 pm, Sun 10 am – 5 pm</li>
         <li>💻 <strong>Book maintenance service:</strong> <a href="/contact">Schedule Appointment</a></li>
       </ul>
 
@@ -1659,7 +1665,7 @@ export const blogPosts: BlogPost[] = [
       <ul>
         <li>iPhone 15/14/13 series: $89-$129</li>
         <li>iPhone 12/11/XR/SE: $69-$99</li>
-        <li>30-60 minute service, 6-month warranty</li>
+        <li>Most repairs in about 1–2 hours, 6-month warranty</li>
       </ul>
 
       <h2>Problem #4: iPhone Camera Not Working</h2>
@@ -1851,7 +1857,7 @@ export const blogPosts: BlogPost[] = [
       <ul>
         <li>📞 <strong>Call:</strong> <a href="tel:0405326205">0405-326-205</a></li>
         <li>📍 <strong>Visit:</strong> Kiosk 4, Warringal Shopping Centre, 56 Burgundy Street, Heidelberg VIC 3084</li>
-        <li>🕐 <strong>Hours:</strong> Mon-Fri 9AM-6PM, Sat 9AM-5PM, Sun 10AM-4PM</li>
+        <li>🕐 <strong>Hours:</strong> Mon–Sat 9 am – 5 pm, Sun 10 am – 5 pm</li>
         <li>💻 <strong>Book online:</strong> <a href="/contact">Schedule iPhone Repair</a></li>
       </ul>
 
@@ -2078,7 +2084,7 @@ export const blogPosts: BlogPost[] = [
           <tr style="background: #f8f9fa;">
             <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Software/Factory Reset</strong></td>
             <td style="padding: 12px; border: 1px solid #dee2e6;">$49-$69</td>
-            <td style="padding: 12px; border: 1px solid #dee2e6;">30-60 min</td>
+            <td style="padding: 12px; border: 1px solid #dee2e6;">1–2 hours</td>
           </tr>
         </tbody>
       </table>
@@ -2210,7 +2216,7 @@ export const blogPosts: BlogPost[] = [
         <li><strong>Diagnostic Testing:</strong> We test all functions to identify any hidden issues</li>
         <li><strong>Transparent Quote:</strong> Written quote with parts, labor, and warranty details</li>
         <li><strong>No Obligation:</strong> If you decide not to repair, you owe nothing</li>
-        <li><strong>Same Price Guarantee:</strong> Quote = final price, even if repair takes longer</li>
+        <li><strong>Price confirmed first:</strong> we explain the options and price before any work starts</li>
       </ol>
 
       <h2>Heidelberg's Samsung Repair Specialists</h2>
@@ -2221,8 +2227,8 @@ export const blogPosts: BlogPost[] = [
         <li><strong>All Samsung models:</strong> S-series, A-series, Note, Z Fold, Z Flip</li>
         <li><strong>Same-day service:</strong> Most repairs completed in 1-3 hours</li>
         <li><strong>Walk-ins welcome:</strong> No appointment needed (though booking guarantees time slot)</li>
-        <li><strong>6-month warranty:</strong> Longest warranty in the Heidelberg area</li>
-        <li><strong>Genuine Samsung accessories:</strong> Cases, chargers, cables also available</li>
+        <li><strong>6-month warranty:</strong> On parts and labour</li>
+        <li><strong>Accessories:</strong> Cases, chargers and cables also available</li>
       </ul>
 
       <h2>Get Your Samsung Fixed Today</h2>
@@ -2232,7 +2238,7 @@ export const blogPosts: BlogPost[] = [
       <ul>
         <li>📞 <strong>Call for instant quote:</strong> <a href="tel:0405326205">0405-326-205</a></li>
         <li>📍 <strong>Visit us:</strong> Kiosk 4, Warringal Shopping Centre, 56 Burgundy Street, Heidelberg VIC 3084</li>
-        <li>🕐 <strong>Hours:</strong> Mon-Fri 9AM-6PM, Sat 9AM-5PM, Sun 10AM-4PM</li>
+        <li>🕐 <strong>Hours:</strong> Mon–Sat 9 am – 5 pm, Sun 10 am – 5 pm</li>
         <li>💻 <strong>Book online:</strong> <a href="/contact">Schedule Samsung Repair</a></li>
       </ul>
 
@@ -2240,3 +2246,6 @@ export const blogPosts: BlogPost[] = [
     `,
   },
 ];
+
+/** Newest guides first. */
+export const blogPosts: BlogPost[] = [...guidePosts2026, ...legacyPosts];

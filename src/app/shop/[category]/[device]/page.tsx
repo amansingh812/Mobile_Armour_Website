@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import ShopListing from '@/components/shop/ShopListing';
 import { getShopCategory } from '@/data/shop-categories';
 import { getCategoryProducts, devicesWithPages } from '@/lib/shop-data';
+import { deviceListingCopy, fromPrice } from '@/lib/shop-copy';
 
 export const revalidate = 3600;
 // Device pages are created on demand from what is actually in stock.
@@ -35,7 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { cat, device: deviceName, products } = r;
   const path = `/shop/${cat.slug}/${device}`;
   const title = `${deviceName} ${cat.shortName} Heidelberg | Mobile Armour`;
-  const description = `${products.length} ${deviceName} ${cat.shortName.toLowerCase()} in stock at Mobile Armour, Warringal Shopping Centre, Heidelberg. Buy online or try them in store.`;
+  const from = fromPrice(products);
+  const description = `${products.length} ${deviceName} ${cat.shortName.toLowerCase()} in stock at Warringal Shopping Centre, Heidelberg${from ? `, from ${from}` : ''}. Try them in store, click & collect or delivery.`;
   return {
     title,
     description,
@@ -50,18 +52,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/** Guides linked from listing pages (device = only on that phone's page). */
+const GUIDES: Record<string, { title: string; href: string; device?: string }[]> = {
+  cases: [
+    { title: 'Which iPhone 17 Pro Max case should you buy?', href: '/blog/which-iphone-17-pro-max-case', device: 'iPhone 17 Pro Max' },
+  ],
+  'screen-protectors': [
+    { title: 'Privacy, clear or matte: which screen protector?', href: '/blog/privacy-vs-clear-vs-matte-screen-protector' },
+  ],
+};
+
 export default async function ShopDevicePage({ params }: Props) {
   const { category, device } = await params;
   const r = await resolve(category, device);
   if (!r) notFound();
   const { cat, device: deviceName, products, siblings } = r;
+  const copy = deviceListingCopy(cat.slug, deviceName, products);
+  const guides = GUIDES[cat.slug]?.filter((g) => !g.device || g.device === deviceName) || [];
 
   return (
     <ShopListing
       h1={`${deviceName} ${cat.shortName}`}
-      intro={[
-        `${deviceName} ${cat.shortName.toLowerCase()} available from Mobile Armour at Warringal Shopping Centre, Heidelberg. Each one below is listed as compatible with the ${deviceName}.`,
-      ]}
+      intro={copy.intro}
+      faqs={copy.faqs}
+      faqHeading={`${deviceName} ${cat.shortName.toLowerCase()}: questions`}
+      guides={guides}
       products={products}
       path={`/shop/${cat.slug}/${device}`}
       breadcrumbs={[

@@ -17,13 +17,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) notFound();
 
   return {
-    title: post.title.length <= 44 ? `${post.title} | Mobile Armour` : post.title,
-    description: post.excerpt,
+    title: post.seoTitle || (post.title.length <= 44 ? `${post.title} | Mobile Armour` : post.title),
+    description: post.metaDescription || post.excerpt,
     keywords: post.keywords,
     authors: [{ name: post.author }],
     openGraph: {
       title: post.title,
-      description: post.excerpt,
+      description: post.metaDescription || post.excerpt,
       type: 'article',
       url: `/blog/${post.slug}`,
       publishedTime: post.publishedDate,
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     twitter: {
       card: 'summary_large_image',
       title: post.title,
-      description: post.excerpt,
+      description: post.metaDescription || post.excerpt,
       images: [post.image],
     },
     alternates: {

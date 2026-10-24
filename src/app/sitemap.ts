@@ -8,6 +8,8 @@ import { getAllModelSlugs } from '@/data/model-repair-pages'
 import { blogPosts } from '@/data/blog-posts'
 import { getPhoneHubs } from '@/lib/phones'
 import { STORE } from '@/data/store-settings'
+import { BRANDS } from '@/data/brands'
+import { isPrivacy } from '@/lib/shop-copy'
 
 import { SITE_URL } from '@/lib/site'
 
@@ -95,6 +97,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : []),
     { url: `${BASE_URL}/why-mobile-armour`, lastModified: lastmod, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/delivery-returns`, lastModified: lastmod, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/warranty`, lastModified: lastmod, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/phone-accessories-heidelberg`, lastModified: lastmod, changeFrequency: 'weekly', priority: 0.9 },
   ]
 
   // ========================================
@@ -108,6 +112,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     shopPages.push({ url: `${BASE_URL}/shop/${cat.slug}`, lastModified: lastmod, changeFrequency: 'daily', priority: 0.9 })
     for (const d of devicesWithPages(inCat)) {
       shopPages.push({ url: `${BASE_URL}/shop/${cat.slug}/${d.slug}`, lastModified: lastmod, changeFrequency: 'daily', priority: 0.85 })
+    }
+  }
+
+  if (allProducts.some(isPrivacy)) {
+    shopPages.push({ url: `${BASE_URL}/shop/screen-protectors/privacy`, lastModified: lastmod, changeFrequency: 'daily', priority: 0.85 })
+  }
+  for (const [slug, b] of Object.entries(BRANDS)) {
+    if (allProducts.some((p) => b.match.test(p.name))) {
+      shopPages.push({ url: `${BASE_URL}/shop/brand/${slug}`, lastModified: lastmod, changeFrequency: 'weekly', priority: 0.7 })
     }
   }
 

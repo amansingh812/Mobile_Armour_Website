@@ -12,7 +12,8 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Screen protectors", href: "/shop/screen-protectors" },
       { label: "Chargers & cables", href: "/shop/cables-adapters" },
       STORE.bundle.enabled ? { label: "Protection bundle", href: "/bundle" } : { label: "Shop by phone", href: "/phones" },
-      { label: "All products", href: "/products" },
+      { label: "Privacy screen protectors", href: "/shop/screen-protectors/privacy" },
+      { label: "Accessories shop Heidelberg", href: "/phone-accessories-heidelberg" },
     ],
   },
   {
@@ -22,6 +23,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "iPhone screen repair", href: "/services/iphone-screen-repair" },
       { label: "Battery replacement", href: "/services/iphone-battery-replacement" },
       { label: "Repair prices", href: "/pricing" },
+      { label: "Repair warranty", href: "/warranty" },
       { label: "Business repairs", href: "/corporate-repairs" },
     ],
   },
