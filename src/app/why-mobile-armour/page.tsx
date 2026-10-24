@@ -156,7 +156,7 @@ export default function WhyBuyPage() {
             <h2 id="reviews">What do customers say?</h2>
             <p style={{ marginTop: 6 }}>
               {STORE.googleRating
-                ? `Rated ${STORE.googleRating.rating} out of 5 from ${STORE.googleRating.count} Google reviews.`
+                ? `Rated ${STORE.googleRating.rating.toFixed(1)} out of 5 from ${STORE.googleRating.count} Google reviews.`
                 : 'Read honest reviews from Heidelberg customers on Google.'}
             </p>
           </div>

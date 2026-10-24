@@ -4,6 +4,7 @@ import JsonLd, { faqPage } from '@/components/seo/JsonLd';
 import { FaqList } from '@/components/site/PageBits';
 import ProductTile from '@/components/store/ProductTile';
 import PromiseStrip from '@/components/store/PromiseStrip';
+import GoogleReviews from './GoogleReviews';
 import { getAllProducts } from '@/lib/shop-data';
 import { getPhoneHubs, hubSummary } from '@/lib/phones';
 import { currentPrice } from '@/lib/products';
@@ -84,7 +85,7 @@ export default async function HomePage() {
             </li>
             {STORE.googleRating && (
               <li>
-                <strong>★ {STORE.googleRating.rating}</strong>
+                <strong>★ {STORE.googleRating.rating.toFixed(1)}</strong>
                 <span>{STORE.googleRating.count} Google reviews</span>
               </li>
             )}
@@ -325,7 +326,7 @@ export default async function HomePage() {
             </p>
             {STORE.googleRating && (
               <p>
-                ★ {STORE.googleRating.rating} from {STORE.googleRating.count} Google reviews
+                ★ {STORE.googleRating.rating.toFixed(1)} from {STORE.googleRating.count} Google reviews
               </p>
             )}
             <div className="ma-actions">
@@ -366,6 +367,8 @@ export default async function HomePage() {
           <FaqList faqs={faqs} />
         </div>
       </section>
+
+      <GoogleReviews />
     </main>
   );
 }

@@ -48,10 +48,17 @@ export const STORE = {
    * Only fill in from the live Google Business Profile, e.g.
    * { rating: 4.9, count: 138, url: "https://g.page/..." }
    */
-  googleRating: null as null | { rating: number; count: number; url: string },
+  googleRating: {
+    rating: 5.0,
+    count: 142, // from Google Maps, 24 Oct 2026 - update now and then
+    url: "https://search.google.com/local/reviews?placeid=ChIJX3kHl8hH1moRhYBLXid25Sw",
+  } as null | { rating: number; count: number; url: string },
+
+  /** Google Place ID for the kiosk (used for review links). */
+  googlePlaceId: "ChIJX3kHl8hH1moRhYBLXid25Sw",
 
   /** Link to the Google reviews (shown even when the rating is hidden). */
-  googleReviewsUrl: "https://www.google.com/maps/search/?api=1&query=MOBILE+ARMOUR+Phone+Repair+Specialist+Warringal+Shopping+Centre",
+  googleReviewsUrl: "https://search.google.com/local/reviews?placeid=ChIJX3kHl8hH1moRhYBLXid25Sw",
 } as const;
 
 export interface Promise_ {
