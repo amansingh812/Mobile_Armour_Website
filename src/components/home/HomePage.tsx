@@ -314,46 +314,6 @@ export default async function HomePage() {
         </ol>
       </section>
 
-      <section aria-labelledby="visit-h" className="ma-section">
-        <div className="ma-home__visit">
-          <div>
-            <h2 id="visit-h" className="ma-h2" style={{ color: '#fff' }}>
-              Visit the kiosk
-            </h2>
-            <p className="ma-home__addr">{fullAddress}</p>
-            <p>
-              {hoursSummary()} · <a href={BUSINESS.phoneHref}>{BUSINESS.phoneDisplay}</a>
-            </p>
-            {STORE.googleRating && (
-              <p>
-                ★ {STORE.googleRating.rating.toFixed(1)} from {STORE.googleRating.count} Google reviews
-              </p>
-            )}
-            <div className="ma-actions">
-              <a href={BUSINESS.mapsUrl} className="ma-btn ma-btn--primary" target="_blank" rel="noopener">
-                Get directions
-              </a>
-              <a
-                href={STORE.googleRating?.url || STORE.googleReviewsUrl}
-                className="ma-btn ma-btn--ghost"
-                target="_blank"
-                rel="noopener"
-              >
-                Read Google reviews
-              </a>
-            </div>
-          </div>
-          <div className="ma-home__map">
-            <iframe
-              title={`Map showing ${BUSINESS.name} at ${BUSINESS.address.centre}`}
-              src={BUSINESS.mapEmbedUrl}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
-        </div>
-      </section>
-
       <section aria-labelledby="faq-h" className="ma-section">
         <div className="ma-faq-split">
           <div>
@@ -369,6 +329,36 @@ export default async function HomePage() {
       </section>
 
       <GoogleReviews />
+
+      <section aria-labelledby="visit-h" className="ma-section">
+        <div className="ma-home__visit">
+          <div>
+            <h2 id="visit-h" className="ma-h2" style={{ color: '#fff' }}>
+              Visit the kiosk
+            </h2>
+            <p className="ma-home__addr">{fullAddress}</p>
+            <p>
+              {hoursSummary()} · <a href={BUSINESS.phoneHref}>{BUSINESS.phoneDisplay}</a>
+            </p>
+            <div className="ma-actions">
+              <a href={BUSINESS.mapsUrl} className="ma-btn ma-btn--primary" target="_blank" rel="noopener">
+                Get directions
+              </a>
+              <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--ghost">
+                Call {BUSINESS.phoneDisplay}
+              </a>
+            </div>
+          </div>
+          <div className="ma-home__map">
+            <iframe
+              title={`Map showing ${BUSINESS.name} at ${BUSINESS.address.centre}`}
+              src={BUSINESS.mapEmbedUrl}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
