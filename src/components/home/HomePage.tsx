@@ -43,7 +43,7 @@ export default async function HomePage() {
 
       <section className="ma-home__hero">
         <Image
-          src="/img/slider/newImages/slider6.webp"
+          src="/img/hero/home-hero-iphone18.webp"
           alt=""
           fill
           priority

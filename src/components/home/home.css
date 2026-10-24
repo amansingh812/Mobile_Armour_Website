@@ -13,13 +13,13 @@
 .ma-home__hero-bg {
   object-fit: cover;
   object-position: 70% center;
-  opacity: 0.85;
 }
 .ma-home__hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(14, 15, 18, 0.95) 0%, rgba(14, 15, 18, 0.75) 45%, rgba(14, 15, 18, 0.1) 100%);
+  /* The photo is already dark on the left; just deepen it behind the copy. */
+  background: linear-gradient(90deg, rgba(14, 15, 18, 0.85) 0%, rgba(14, 15, 18, 0.55) 40%, rgba(14, 15, 18, 0) 70%);
 }
 .ma-home__hero-inner {
   position: relative;
