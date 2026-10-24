@@ -51,21 +51,21 @@ export default async function HomePage() {
           className="ma-home__hero-bg"
         />
         <div className="ma-home__hero-inner">
-          <p className="ma-home__kicker">Your devices. Our armour.</p>
+          <p className="ma-home__kicker">Cases · Glass · Chargers · Repairs</p>
           <h1>
-            Phone repairs &amp; accessories <span>in Heidelberg.</span>
+            Your new phone deserves <span>Mobile Armour.</span>
           </h1>
           <p className="ma-home__lead">
-            Cracked screen, tired battery, or a new phone to protect. Walk in at {BUSINESS.address.centre}: most repairs
-            are done in {BUSINESS.repairTimes.common} with a {BUSINESS.warranty.short}, and cases and glass are ready to
-            take home today.
+            Cases, tempered glass and fast chargers for the latest iPhone, Samsung and Pixel, ready to take home today.
+            And if it ever cracks, most repairs are done in {BUSINESS.repairTimes.common} at {BUSINESS.address.centre},
+            with a {BUSINESS.warranty.short}.
           </p>
           <div className="ma-actions">
-            <Link href="/contact?topic=repair" className="ma-btn ma-btn--primary">
-              Book a repair →
+            <Link href="/products" className="ma-btn ma-btn--primary">
+              Shop accessories →
             </Link>
-            <Link href="/products" className="ma-btn ma-btn--ghost">
-              Shop accessories
+            <Link href="/contact?topic=repair" className="ma-btn ma-btn--ghost">
+              Book a repair
             </Link>
           </div>
           <ul className="ma-home__trust">
