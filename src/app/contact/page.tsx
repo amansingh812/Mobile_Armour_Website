@@ -9,6 +9,7 @@ import { faqAnswerText, faqsById } from "@/data/faqs";
 import "@/components/site/page.css";
 import "./contact.css";
 import { OG_IMAGE } from "@/lib/seo";
+import Icon, { type IconName } from "@/components/site/Icon";
 
 const TITLE = "Contact Mobile Armour | Warringal Shopping Centre, Heidelberg";
 const DESCRIPTION = `Call ${BUSINESS.phoneDisplay} or visit ${BUSINESS.address.unit}, ${BUSINESS.address.centre}, Heidelberg. ${hoursSummary()}. No appointment needed.`;
@@ -29,10 +30,10 @@ export const metadata: Metadata = {
 };
 
 const WAYS = [
-  { icon: "☏", title: "Call", value: BUSINESS.phoneDisplay, note: "Fastest for quotes during opening hours", href: BUSINESS.phoneHref },
-  { icon: "✉", title: "Email", value: BUSINESS.email, note: "For photos, invoices and business repairs", href: `mailto:${BUSINESS.email}` },
-  { icon: "⌂", title: "Walk in", value: `${BUSINESS.address.unit}, Warringal`, note: "No appointment needed", href: BUSINESS.mapsUrl },
-  { icon: "◷", title: "Repair quote", value: "Send your model", note: "We'll reply with a price and time", href: "#message" },
+  { icon: "call" as IconName, title: "Call", value: BUSINESS.phoneDisplay, note: "Fastest for quotes during opening hours", href: BUSINESS.phoneHref },
+  { icon: "mail" as IconName, title: "Email", value: BUSINESS.email, note: "For photos, invoices and business repairs", href: `mailto:${BUSINESS.email}` },
+  { icon: "pin" as IconName, title: "Walk in", value: `${BUSINESS.address.unit}, Warringal`, note: "No appointment needed", href: BUSINESS.mapsUrl },
+  { icon: "quote" as IconName, title: "Repair quote", value: "Send your model", note: "We'll reply with a price and time", href: "#message" },
 ];
 
 export default function ContactPage() {
@@ -80,7 +81,7 @@ export default function ContactPage() {
           {WAYS.map((w) => (
             <a key={w.title} href={w.href} className="ma-card ma-way" {...(w.href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})}>
               <span className="ma-card__icon" aria-hidden="true">
-                {w.icon}
+                <Icon name={w.icon} />
               </span>
               <strong className="ma-way__title">{w.title}</strong>
               <span className="ma-way__value">{w.value}</span>

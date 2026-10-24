@@ -9,6 +9,7 @@ import type { Faq } from '@/data/faqs';
 import '@/components/site/page.css';
 import '@/components/store/store.css';
 import { OG_IMAGE } from '@/lib/seo';
+import Icon, { type IconName } from '@/components/site/Icon';
 
 const TITLE = 'Why Buy Phone Accessories from Mobile Armour | Heidelberg Kiosk';
 const DESCRIPTION =
@@ -23,12 +24,12 @@ export const metadata: Metadata = {
 
 export default function WhyBuyPage() {
   const promises = [
-    STORE.fitGuarantee && { icon: '✓', title: 'Fit guarantee', body: 'Bought the wrong model? Bring it back unused and swap it the same day.' },
-    STORE.freeFitting && { icon: '◎', title: 'Glass fitted free', body: 'Buy a screen protector and we fit it bubble-free at the kiosk.' },
-    STORE.clickAndCollect.enabled && { icon: '⏱', title: 'Click & collect', body: `Order online and pick up at Warringal, ${STORE.clickAndCollect.readyText}.` },
-    STORE.returns.walkIn && { icon: '↺', title: 'Walk-in returns', body: 'No printing labels or posting back. Talk to a person at the counter.' },
-    { icon: '⚙', title: 'Repair desk on site', body: 'If the worst happens, screens, batteries and charging ports are fixed right here.' },
-  ].filter(Boolean) as { icon: string; title: string; body: string }[];
+    STORE.fitGuarantee && { icon: 'check', title: 'Fit guarantee', body: 'Bought the wrong model? Bring it back unused and swap it the same day.' },
+    STORE.freeFitting && { icon: 'sparkle', title: 'Glass fitted free', body: 'Buy a screen protector and we fit it bubble-free at the kiosk.' },
+    STORE.clickAndCollect.enabled && { icon: 'bag', title: 'Click & collect', body: `Order online and pick up at Warringal, ${STORE.clickAndCollect.readyText}.` },
+    STORE.returns.walkIn && { icon: 'return', title: 'Walk-in returns', body: 'No printing labels or posting back. Talk to a person at the counter.' },
+    { icon: 'wrench', title: 'Repair desk on site', body: 'If the worst happens, screens, batteries and charging ports are fixed right here.' },
+  ].filter(Boolean) as { icon: IconName; title: string; body: string }[];
 
   const rows: [string, string, string][] = [
     ['Checks it fits your phone', 'Yes, at the counter', 'You check the listing yourself'],
@@ -111,7 +112,7 @@ export default function WhyBuyPage() {
           {promises.map((p) => (
             <div key={p.title} className="ma-tile" style={{ padding: 22, gap: 10 }}>
               <span className="ma-pstrip__icon" aria-hidden="true" style={{ background: 'var(--ma-ink)' }}>
-                {p.icon}
+                <Icon name={p.icon} size={27} />
               </span>
               <strong style={{ fontSize: 18 }}>{p.title}</strong>
               <span style={{ fontSize: 14, color: 'var(--ma-body)', lineHeight: 1.55 }}>{p.body}</span>

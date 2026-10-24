@@ -18,14 +18,15 @@ import '@/components/site/page.css';
 import '@/components/store/store.css';
 import '@/app/blog/blog.css';
 import './home.css';
+import Icon, { type IconName } from '@/components/site/Icon';
 
-const REPAIRS = [
-  { icon: '▣', name: 'Screen replacement', href: '/services/iphone-screen-repair', time: '1–2 hours' },
-  { icon: '▮', name: 'Battery replacement', href: '/services/iphone-battery-replacement', time: '1–2 hours' },
-  { icon: 'ϟ', name: 'Charging port repair', href: '/services/charging-port-repair', time: '1–2 hours' },
-  { icon: '◧', name: 'Back glass replacement', href: '/services/back-glass-replacement', time: 'Same day' },
-  { icon: '≈', name: 'Water damage repair', href: '/services/water-damage-repair', time: '24–48 hours' },
-  { icon: '◷', name: 'Apple Watch repair', href: '/services/apple-watch-repair', time: 'Same day' },
+const REPAIRS: { icon: IconName; name: string; href: string; time: string }[] = [
+  { icon: 'screen', name: 'Screen replacement', href: '/services/iphone-screen-repair', time: '1–2 hours' },
+  { icon: 'battery', name: 'Battery replacement', href: '/services/iphone-battery-replacement', time: '1–2 hours' },
+  { icon: 'bolt', name: 'Charging port repair', href: '/services/charging-port-repair', time: '1–2 hours' },
+  { icon: 'phone-back', name: 'Back glass replacement', href: '/services/back-glass-replacement', time: 'same day' },
+  { icon: 'droplet', name: 'Water damage repair', href: '/services/water-damage-repair', time: '24–48 hours' },
+  { icon: 'watch', name: 'Apple Watch repair', href: '/services/apple-watch-repair', time: 'same day' },
 ];
 
 export default async function HomePage() {
@@ -281,7 +282,7 @@ export default async function HomePage() {
             <li key={r.href}>
               <Link href={r.href}>
                 <span className="ma-card__icon" aria-hidden="true">
-                  {r.icon}
+                  <Icon name={r.icon} />
                 </span>
                 <span>
                   <strong>{r.name}</strong>

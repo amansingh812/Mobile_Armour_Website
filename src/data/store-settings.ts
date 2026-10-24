@@ -1,3 +1,4 @@
+import type { IconName } from "@/components/site/Icon";
 // Shop decisions in one place. The policy pages, cart, checkout, home page,
 // product pages and bundle builder all read from here.
 //
@@ -62,7 +63,7 @@ export const STORE = {
 } as const;
 
 export interface Promise_ {
-  icon: string;
+  icon: IconName;
   title: string;
   sub: string;
   href: string;
@@ -72,14 +73,14 @@ export interface Promise_ {
 export function storePromises(): Promise_[] {
   const list: Promise_[] = [];
   if (STORE.fitGuarantee)
-    list.push({ icon: "✓", title: "Fit guarantee", sub: "Wrong model? Swap it same day", href: "/delivery-returns#fit-guarantee" });
+    list.push({ icon: "check", title: "Fit guarantee", sub: "Wrong model? Swap it same day", href: "/delivery-returns#fit-guarantee" });
   if (STORE.freeFitting)
-    list.push({ icon: "◎", title: "Glass fitted free", sub: "Bubble-free, at the kiosk", href: "/delivery-returns#fitting" });
+    list.push({ icon: "sparkle", title: "Glass fitted free", sub: "Bubble-free, at the kiosk", href: "/delivery-returns#fitting" });
   if (STORE.clickAndCollect.enabled)
-    list.push({ icon: "⏱", title: "Click & collect", sub: "Pick up at Warringal", href: "/delivery-returns#click-and-collect" });
+    list.push({ icon: "bag", title: "Click & collect", sub: "Pick up at Warringal", href: "/delivery-returns#click-and-collect" });
   if (STORE.returns.walkIn)
-    list.push({ icon: "↺", title: "Walk-in returns", sub: "No posting back", href: "/delivery-returns#returns" });
-  list.push({ icon: "⚙", title: "Repair desk on site", sub: "Screens, batteries, ports", href: "/services" });
+    list.push({ icon: "return", title: "Walk-in returns", sub: "No posting back", href: "/delivery-returns#returns" });
+  list.push({ icon: "wrench", title: "Repair desk on site", sub: "Screens, batteries, ports", href: "/services" });
   return list.slice(0, 5);
 }
 

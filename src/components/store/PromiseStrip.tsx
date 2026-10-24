@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { storePromises } from "@/data/store-settings";
+import Icon from "@/components/site/Icon";
 
 /** Dark strip of shop promises (fit guarantee, free fitting, collect, returns, repairs). */
 export default function PromiseStrip({ compact }: { compact?: boolean }) {
@@ -11,7 +12,7 @@ export default function PromiseStrip({ compact }: { compact?: boolean }) {
           <li key={p.title}>
             <Link href={p.href}>
               <span className="ma-pstrip__icon" aria-hidden="true">
-                {p.icon}
+                <Icon name={p.icon} size={27} />
               </span>
               <span>
                 <strong>{p.title}</strong>

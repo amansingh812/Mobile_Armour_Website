@@ -133,8 +133,8 @@
 .ma-home__repairs a {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
+  gap: 16px;
+  padding: 18px 20px;
   border-radius: 16px;
   border: 1px solid var(--ma-line);
   color: var(--ma-ink) !important;
@@ -147,8 +147,11 @@
   display: flex;
   flex-direction: column;
 }
+.ma-home__repairs a > span:nth-child(2) strong {
+  font-size: 17px;
+}
 .ma-home__repairs a > span:nth-child(2) span {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--ma-slate);
 }
 .ma-home__chev {

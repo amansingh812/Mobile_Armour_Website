@@ -8,6 +8,7 @@ import { faqAnswerText, faqsById } from "@/data/faqs";
 import { modelRepairPages } from "@/data/model-repair-pages";
 import { blogPosts } from "@/data/blog-posts";
 import "@/components/site/page.css";
+import Icon, { type IconName } from "@/components/site/Icon";
 
 const TITLE = "Phone & Apple Watch Repairs Heidelberg | Same Day | Mobile Armour";
 const DESCRIPTION = `iPhone, Samsung, Pixel, iPad and Apple Watch repairs at Warringal Shopping Centre, Heidelberg. Most repairs done in ${BUSINESS.repairTimes.common} with a ${BUSINESS.warranty.short}.`;
@@ -27,15 +28,15 @@ export const metadata: Metadata = {
   },
 };
 
-const SERVICES = [
-  { icon: "▣", name: "Screen replacement", href: "/services/iphone-screen-repair", body: "Cracked glass, black or flickering display, or touch that stopped working. OLED and LCD screens.", time: "1–2 hours" },
-  { icon: "▮", name: "Battery replacement", href: "/services/iphone-battery-replacement", body: "Battery drains fast, the phone shuts down early, or battery health is below 80%.", time: "1–2 hours" },
-  { icon: "ϟ", name: "Charging port repair", href: "/services/charging-port-repair", body: "The cable feels loose, or the phone charges slowly or not at all.", time: "1–2 hours" },
-  { icon: "≈", name: "Water damage repair", href: "/services/water-damage-repair", body: "Dropped in water, no power or a fogged camera. Bring it in fast and don't charge it.", time: "24–48 hours" },
-  { icon: "◧", name: "Back glass replacement", href: "/services/back-glass-replacement", body: "Shattered rear glass replaced so the phone is sealed and safe to hold again.", time: "Same day" },
-  { icon: "◉", name: "Camera lens repair", href: "/services/camera-lens-repair", body: "Cracked lens cover, blurry photos or a camera that won't focus.", time: "Same day" },
-  { icon: "◷", name: "Apple Watch repair", href: "/services/apple-watch-repair", body: "Screen and battery replacement for Apple Watch Ultra, Series 9, 8, 7, 6 and SE.", time: "Same day" },
-  { icon: "▤", name: "iPad screen repair", href: "/services/ipad-screen-repair", body: "Cracked iPad glass or display replaced, with touch and Touch ID tested afterwards.", time: "Same day" },
+const SERVICES: { icon: IconName; name: string; href: string; body: string; time: string }[] = [
+  { icon: "screen", name: "Screen replacement", href: "/services/iphone-screen-repair", body: "Cracked glass, black or flickering display, or touch that stopped working. OLED and LCD screens.", time: "1–2 hours" },
+  { icon: "battery", name: "Battery replacement", href: "/services/iphone-battery-replacement", body: "Battery drains fast, the phone shuts down early, or battery health is below 80%.", time: "1–2 hours" },
+  { icon: "bolt", name: "Charging port repair", href: "/services/charging-port-repair", body: "The cable feels loose, or the phone charges slowly or not at all.", time: "1–2 hours" },
+  { icon: "droplet", name: "Water damage repair", href: "/services/water-damage-repair", body: "Dropped in water, no power or a fogged camera. Bring it in fast and don't charge it.", time: "24–48 hours" },
+  { icon: "phone-back", name: "Back glass replacement", href: "/services/back-glass-replacement", body: "Shattered rear glass replaced so the phone is sealed and safe to hold again.", time: "Same day" },
+  { icon: "camera", name: "Camera lens repair", href: "/services/camera-lens-repair", body: "Cracked lens cover, blurry photos or a camera that won't focus.", time: "Same day" },
+  { icon: "watch", name: "Apple Watch repair", href: "/services/apple-watch-repair", body: "Screen and battery replacement for Apple Watch Ultra, Series 9, 8, 7, 6 and SE.", time: "Same day" },
+  { icon: "tablet", name: "iPad screen repair", href: "/services/ipad-screen-repair", body: "Cracked iPad glass or display replaced, with touch and Touch ID tested afterwards.", time: "Same day" },
 ];
 
 const BRANDS = [
@@ -129,14 +130,14 @@ export default function ServicesPage() {
       <section aria-label="Why repair with us" className="ma-promises">
         <ul>
           {[
-            { icon: "⏱", title: "Same day", sub: `Most repairs in ${BUSINESS.repairTimes.common}` },
-            { icon: "✓", title: BUSINESS.warranty.short, sub: "Parts and labour" },
-            { icon: "◎", title: "Price before we start", sub: "No surprises" },
-            { icon: "⌂", title: "Walk-ins welcome", sub: "Shop while you wait" },
+            { icon: "clock" as IconName, title: "Same day", sub: `Most repairs in ${BUSINESS.repairTimes.common}` },
+            { icon: "check" as IconName, title: BUSINESS.warranty.short, sub: "Parts and labour" },
+            { icon: "tag" as IconName, title: "Price before we start", sub: "No surprises" },
+            { icon: "store" as IconName, title: "Walk-ins welcome", sub: "Shop while you wait" },
           ].map((p) => (
             <li key={p.title}>
               <span className="ma-promises__icon" aria-hidden="true">
-                {p.icon}
+                <Icon name={p.icon} size={27} />
               </span>
               <span>
                 <strong>{p.title}</strong>
@@ -159,7 +160,7 @@ export default function ServicesPage() {
           {SERVICES.map((s) => (
             <Link key={s.href} href={s.href} className="ma-card">
               <span className="ma-card__icon" aria-hidden="true">
-                {s.icon}
+                <Icon name={s.icon} />
               </span>
               <h3>{s.name}</h3>
               <p>{s.body}</p>
