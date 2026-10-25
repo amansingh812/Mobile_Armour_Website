@@ -82,7 +82,7 @@ export default function ProductTile({
                 _id: product._id,
                 name: product.name,
                 category: product.category,
-                imageUrl: only.images[0] || product.imageUrl,
+                imageUrl: only.images?.[0] || product.imageUrl,
                 price: only.price,
                 oldPrice: only.oldPrice,
                 deviceCompatibility: onlyModel ? [onlyModel] : product.deviceCompatibility,

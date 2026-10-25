@@ -4,10 +4,9 @@ import Product from '@/models/Product';
 import { ALL_FILTER_OPTIONS } from '@/data/filterOptions';
 import { isAdminRequest } from '@/lib/auth';
 import { revalidateProducts } from '@/lib/revalidate-products';
+import { LIST_FIELDS, toListProduct } from '@/lib/shop-data';
 
-// Fields product grids don't show. Left out of public listings to keep the
-// response small (the full catalogue with descriptions was ~1 MB).
-const LIST_EXCLUDE = '-description -specifications -images -tags -variants.images -variants.supplier -supplier';
+
 
 export async function GET(req: NextRequest) {
   await dbConnect();
@@ -106,10 +105,13 @@ export async function GET(req: NextRequest) {
     const limitParam = Number(searchParams.get('limit'));
     const limit = Number.isFinite(limitParam) && limitParam > 0 ? Math.min(Math.floor(limitParam), 500) : 0;
 
-    // .lean() skips Mongoose hydration; the projection drops fields grids don't use.
-    let cursor = Product.find(query, full ? undefined : LIST_EXCLUDE).sort({ createdAt: -1 }).lean();
+    // Public listings: only the fields a product tile needs (no descriptions or
+    // galleries), in the same shape the shop pages use — per-option prices,
+    // availability and first photo. The admin editor (?full=1) gets raw documents.
+    let cursor = Product.find(query, full ? undefined : LIST_FIELDS).sort({ createdAt: -1 }).lean();
     if (limit) cursor = cursor.limit(limit);
-    const products = await cursor;
+    const docs = await cursor;
+    const products = full ? docs : docs.map(toListProduct);
 
     const response = NextResponse.json(products, { status: 200 });
     // Public listings: served from Vercel's edge for 5 minutes, then refreshed

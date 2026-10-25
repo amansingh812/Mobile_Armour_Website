@@ -117,7 +117,7 @@ const PRODUCTS_TTL = 3600;
  * description, specs, tags, supplier links and gallery photos, which only the
  * product page uses — this keeps listing queries and cached payloads small.
  */
-const LIST_FIELDS = {
+export const LIST_FIELDS = {
   name: 1,
   price: 1,
   oldPrice: 1,
@@ -143,7 +143,7 @@ const LIST_FIELDS = {
 } as const;
 
 /** Listing shape: tiles only show the first photo of each option. */
-function toListProduct(doc: any): ShopProduct {
+export function toListProduct(doc: any): ShopProduct {
   const p = toShopProduct(doc);
   if (p.variants) p.variants = p.variants.map((v) => ({ ...v, images: v.images.slice(0, 1) }));
   return p;
