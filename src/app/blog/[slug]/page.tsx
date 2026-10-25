@@ -6,8 +6,17 @@ import JsonLd, { BUSINESS_ID, faqPage } from '@/components/seo/JsonLd';
 import { Breadcrumbs } from '@/components/site/PageBits';
 import { BUSINESS, hoursSummary } from '@/data/business';
 import { extractFaqs, withHeadingIds } from '@/lib/blog-content';
+import { getAllProducts } from '@/lib/shop-data';
+import { productsForGuide } from '@/lib/guide-products';
+import { currentPrice, productPath } from '@/lib/products';
+import ProductTile from '@/components/store/ProductTile';
+import '@/components/store/store.css';
 import '@/components/site/page.css';
 import '../blog.css';
+
+// The "Shop this guide" row shows live stock; refresh it at most hourly
+// (admin product saves refresh it straight away).
+export const revalidate = 3600;
 
 // Server-rendered: the full article, headings, schema and links are in the
 // first HTML response, which is what Google and AI crawlers read.
@@ -47,6 +56,38 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     inLanguage: 'en-AU',
   };
 
+  // Products this guide covers, in stock now. Shown as tiles and listed in
+  // ItemList schema so search engines and AI answers can cite real products.
+  const shopItems = post.shop ? productsForGuide(post, await getAllProducts()) : [];
+  const itemList =
+    shopItems.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          name: post.shop?.title || `Products for: ${post.title}`,
+          itemListElement: shopItems.map((p, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            url: `${BUSINESS.url}${productPath(p)}`,
+            name: p.name,
+            item: {
+              '@type': 'Product',
+              name: p.name,
+              url: `${BUSINESS.url}${productPath(p)}`,
+              image: p.imageUrl,
+              brand: p.brand ? { '@type': 'Brand', name: p.brand } : undefined,
+              offers: {
+                '@type': 'Offer',
+                price: currentPrice(p),
+                priceCurrency: 'AUD',
+                availability: 'https://schema.org/InStock',
+                seller: { '@id': BUSINESS_ID },
+              },
+            },
+          })),
+        }
+      : null;
+
   const related = [
     ...blogPosts.filter((p) => p.slug !== post.slug && p.category === post.category),
     ...blogPosts.filter((p) => p.slug !== post.slug && p.category !== post.category),
@@ -56,6 +97,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     <main className="ma-page ma-post">
       <JsonLd data={article} />
       {faqs.length > 0 && <JsonLd data={faqPage(faqs)} />}
+      {itemList && <JsonLd data={itemList} />}
       <Breadcrumbs
         items={[
           { name: 'Home', path: '/' },
@@ -100,6 +142,27 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           )}
 
           <div className="ma-prose" dangerouslySetInnerHTML={{ __html: html }} />
+
+          {shopItems.length > 0 && (
+            <section aria-labelledby="shop-guide" className="ma-post__shop">
+              <div className="ma-shead">
+                <h2 id="shop-guide" className="ma-h2" style={{ fontSize: 26 }}>
+                  {post.shop?.title || 'Shop this guide'}
+                </h2>
+                {post.shop?.href && (
+                  <Link href={post.shop.href} className="ma-link">
+                    See all →
+                  </Link>
+                )}
+              </div>
+              <p className="ma-meta">Available now: click &amp; collect from our kiosk at Warringal Shopping Centre, Heidelberg, or delivered by Australia Post.</p>
+              <div className="ma-pgrid ma-pgrid--guide">
+                {shopItems.map((p) => (
+                  <ProductTile key={p._id} product={p} />
+                ))}
+              </div>
+            </section>
+          )}
 
           <aside className="ma-post__cta" aria-label="Book a repair">
             <h2>Need it fixed? Bring it to Warringal.</h2>

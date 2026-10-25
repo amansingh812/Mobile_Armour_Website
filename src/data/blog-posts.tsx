@@ -17,9 +17,15 @@ export interface BlogPost {
   readingTime: number;
   keywords: string[];
   tags: string[];
+  /** Products this guide is about: drives the "Shop this guide" row and the
+   *  "Guides" links on those product pages. */
+  shop?: GuideShop;
 }
 
+import type { GuideShop } from '@/lib/guide-products';
+
 import { guidePosts2026 } from './blog-posts-2026';
+import { guidePostsBatchB } from './blog-posts-2026-b';
 
 const legacyPosts: BlogPost[] = [
   {
@@ -2248,4 +2254,4 @@ const legacyPosts: BlogPost[] = [
 ];
 
 /** Newest guides first. */
-export const blogPosts: BlogPost[] = [...guidePosts2026, ...legacyPosts];
+export const blogPosts: BlogPost[] = [...guidePostsBatchB, ...guidePosts2026, ...legacyPosts];

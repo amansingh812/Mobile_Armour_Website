@@ -289,3 +289,40 @@
 .ma-prose ol li {
   list-style: decimal;
 }
+
+/* "Shop this guide": live in-stock products the post covers */
+.ma-post__shop {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--ma-line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ma-post__shop .ma-shead {
+  margin: 0;
+}
+.ma-post__shop .ma-meta {
+  margin: 0 0 6px;
+}
+.ma-pgrid--guide {
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+@media (max-width: 560px) {
+  .ma-pgrid--guide {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+}
+
+/* Guides listed on product and repair pages */
+.ma-guides-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+@media (max-width: 860px) {
+  .ma-guides-row {
+    grid-template-columns: 1fr;
+  }
+}

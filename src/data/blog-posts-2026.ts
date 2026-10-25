@@ -29,6 +29,12 @@ export const guidePosts2026: BlogPost[] = [
       'iphone battery replacement heidelberg',
     ],
     tags: ['Battery', 'iPhone', 'Repair Tips'],
+    shop: {
+      title: 'Keep it charged: power banks and chargers',
+      categories: ['Power Banks', 'Wireless Chargers'],
+      href: '/shop/power-banks',
+      limit: 6,
+    },
     content: `
       <table>
         <thead><tr><th>Question</th><th>Short answer</th></tr></thead>
@@ -105,6 +111,13 @@ export const guidePosts2026: BlogPost[] = [
       'aftermarket oled iphone screen',
     ],
     tags: ['Screen Repair', 'iPhone', 'Repair Tips'],
+    shop: {
+      title: 'Protect the new screen',
+      categories: ['Screen Protectors'],
+      exclude: 'lens|camera',
+      href: '/shop/screen-protectors',
+      limit: 6,
+    },
     content: `
       <table>
         <thead><tr><th></th><th>Standard LCD</th><th>Aftermarket OLED</th><th>Genuine screen</th></tr></thead>
@@ -174,6 +187,12 @@ export const guidePosts2026: BlogPost[] = [
       'best screen protector iphone 17',
     ],
     tags: ['Screen Protectors', 'Accessories', 'iPhone'],
+    shop: {
+      title: 'Privacy, clear and full-coverage glass',
+      categories: ['Screen Protectors'],
+      exclude: 'lens|camera',
+      href: '/shop/screen-protectors',
+    },
     content: `
       <table>
         <thead><tr><th></th><th>Clear</th><th>Privacy</th><th>Matte</th></tr></thead>
@@ -233,6 +252,13 @@ export const guidePosts2026: BlogPost[] = [
       'iphone 17 pro max case heidelberg',
     ],
     tags: ['Cases', 'iPhone 17 Pro Max', 'Accessories'],
+    shop: {
+      title: 'iPhone 17 Pro Max cases',
+      categories: ['Cases'],
+      models: ['iPhone 17 Pro Max'],
+      href: '/shop/cases/iphone-17-pro-max',
+      limit: 9,
+    },
     content: `
       <table>
         <thead><tr><th>Case type</th><th>Choose it if…</th><th>Watch out for</th></tr></thead>
@@ -250,7 +276,7 @@ export const guidePosts2026: BlogPost[] = [
 
       <h2>Should I get a MagSafe case?</h2>
       <p>If you use any magnetic accessory, yes. A MagSafe case has a ring of magnets built in, so chargers, wallets and car mounts snap on through the case.</p>
-      <p>Examples we stock: the <a href="${P}iphone-17-pro-max-redefine-liquid-silicone-magnetic-case-6908d402e85b1a96832b6fc1">REDEFINE Liquid Silicone Magnetic Case</a> (slim, soft-touch) and the <a href="${P}iphone-17-pro-max-rebound-magsafe-kickstand-case-6908c79c9cb2acee49e100d8">Rebound MagSafe Kickstand Case</a> (stands up for video).</p>
+      <p>Examples we stock: the <a href="${P}redefyne-liquid-silicone-case-with-magnetic-ring-6add9c8cb512815c1881f710">REDEFYNE Liquid Silicone Case with Magnetic Ring</a> (slim, soft-touch) and the <a href="${P}iphone-17-pro-max-rebound-magsafe-kickstand-case-6908c79c9cb2acee49e100d8">Rebound MagSafe Kickstand Case</a> (stands up for video).</p>
 
       <h2>Which case is best for drops?</h2>
       <p>A heavy-duty case with raised edges around the screen and camera bar, and thick corners.</p>

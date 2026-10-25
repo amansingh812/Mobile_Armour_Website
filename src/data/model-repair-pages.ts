@@ -21,6 +21,231 @@ export interface ModelRepairPage {
 }
 
 export const modelRepairPages: ModelRepairPage[] = [
+  // ─── Sprint 5, Batch B (25 Oct 2026): current flagships ──────────
+  // Specs from apple.com/au and Samsung's launch details. Prices are quoted per phone.
+  {
+    model: "iPhone 17 Pro Max",
+    slug: "iphone-17-pro-max-repair",
+    brand: "apple",
+    metaTitle: "iPhone 17 Pro Max Screen & Battery Repair Heidelberg",
+    metaDescription:
+      "iPhone 17 Pro Max screen replacement, battery, back glass and charging port repair at Warringal Shopping Centre, Heidelberg. Quote first, 6-month warranty.",
+    keywords: [
+      "iphone 17 pro max screen replacement",
+      "iphone 17 pro max screen repair",
+      "iphone 17 pro max battery replacement",
+      "iphone 17 pro max back glass repair",
+      "iphone 17 pro max repair heidelberg",
+      "iphone 17 pro max repair melbourne",
+    ],
+    heroHeading: "iPhone 17 Pro Max Repair in Heidelberg",
+    heroSubheading:
+      "Screen, battery, back glass, camera lens and charging port repairs for Apple's 6.9-inch flagship, quoted before we start",
+    intro:
+      "The iPhone 17 Pro Max has a 6.9-inch Super Retina XDR OLED display with ProMotion up to 120Hz, a Ceramic Shield 2 front and an aluminium unibody. Most of its repairs are screens cracked in a drop, worn batteries and damaged back glass or camera lenses. At Mobile Armour in Warringal Shopping Centre, Heidelberg, we check the phone in front of you, explain your part options and give you a firm price before any work starts. Every repair comes with a 6-month warranty on parts and labour.",
+    repairTypes: [
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+    ],
+    commonIssues: [
+      "Cracked screen or black display after a drop",
+      "Touch not responding in parts of the screen",
+      "Battery health below 80% or unexpected shutdowns",
+      "Cracked back glass",
+      "Cracked camera lens cover or blurry photos",
+      "USB-C port loose or not charging",
+    ],
+    specs:
+      "6.9-inch Super Retina XDR OLED with ProMotion up to 120Hz, A19 Pro chip, aluminium unibody, Ceramic Shield 2 front, 48MP Pro Fusion camera system, USB-C (USB 3)",
+    warrantyNote: "All iPhone 17 Pro Max repairs come with a 6-month warranty on parts and labour.",
+    faqs: [
+      {
+        question: "How much does an iPhone 17 Pro Max screen replacement cost?",
+        answer:
+          "It depends on the screen you choose, so we quote each phone individually. Call 0405 326 205 or bring it to the kiosk at Warringal Shopping Centre, Heidelberg, and we'll give you a firm price before we start.",
+      },
+      {
+        question: "How long does an iPhone 17 Pro Max repair take?",
+        answer:
+          "Screens, batteries and charging ports usually take about 1–2 hours, so you can shop while you wait. Back glass takes longer, usually 24–48 hours.",
+      },
+      {
+        question: "Will I lose my data?",
+        answer:
+          "Screen, battery and port repairs don't touch your data, but we always recommend an iCloud backup before any repair.",
+      },
+      {
+        question: "Can I protect it after the repair?",
+        answer:
+          "Yes. We stock cases and screen protectors made for the iPhone 17 Pro Max, including magnetic, clear and heavy-duty cases.",
+      },
+    ],
+  },
+  {
+    model: "iPhone 17 Pro",
+    slug: "iphone-17-pro-repair",
+    brand: "apple",
+    metaTitle: "iPhone 17 Pro Screen & Battery Repair Heidelberg",
+    metaDescription:
+      "iPhone 17 Pro screen replacement, battery, back glass and charging port repair at Warringal Shopping Centre, Heidelberg. Quote first, 6-month warranty.",
+    keywords: [
+      "iphone 17 pro screen replacement",
+      "iphone 17 pro screen repair",
+      "iphone 17 pro battery replacement",
+      "iphone 17 pro back glass repair",
+      "iphone 17 pro repair heidelberg",
+      "iphone 17 pro repair melbourne",
+    ],
+    heroHeading: "iPhone 17 Pro Repair in Heidelberg",
+    heroSubheading:
+      "Screen, battery, back glass, camera lens and charging port repairs for the 6.3-inch iPhone 17 Pro, quoted before we start",
+    intro:
+      "The iPhone 17 Pro has a 6.3-inch Super Retina XDR OLED display with ProMotion up to 120Hz, a Ceramic Shield 2 front, an aluminium unibody and three 48MP Fusion cameras. When it's dropped, the screen, back glass and camera lenses take the hit; over time the battery wears. Mobile Armour at Warringal Shopping Centre, Heidelberg, checks the phone with you, explains the part options and confirms the price before we start, with a 6-month warranty on every repair.",
+    repairTypes: [
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+    ],
+    commonIssues: [
+      "Cracked or black screen after a drop",
+      "Lines, flicker or dead touch areas on the display",
+      "Battery draining fast or shutting down",
+      "Cracked back glass",
+      "Cracked camera lens cover",
+      "USB-C port not charging or connecting",
+    ],
+    specs:
+      "6.3-inch Super Retina XDR OLED with ProMotion up to 120Hz, A19 Pro chip, aluminium unibody, Ceramic Shield 2 front, three 48MP Fusion cameras, USB-C (USB 3)",
+    warrantyNote: "All iPhone 17 Pro repairs come with a 6-month warranty on parts and labour.",
+    faqs: [
+      {
+        question: "How much does an iPhone 17 Pro screen replacement cost?",
+        answer:
+          "We quote each phone individually because the price depends on the screen you choose. Call 0405 326 205 or visit the kiosk for a firm price before any work starts.",
+      },
+      {
+        question: "Do iPhone 17 Pro and 17 Pro Max use the same parts?",
+        answer:
+          "No. The 17 Pro has a 6.3-inch screen and the Pro Max a 6.9-inch one, so screens, batteries and back glass are different parts.",
+      },
+      {
+        question: "How long does an iPhone 17 Pro battery replacement take?",
+        answer: "About 1–2 hours at our Warringal Shopping Centre kiosk. Walk-ins are welcome.",
+      },
+    ],
+  },
+  {
+    model: "iPhone 17",
+    slug: "iphone-17-repair",
+    brand: "apple",
+    metaTitle: "iPhone 17 Screen & Battery Repair Heidelberg",
+    metaDescription:
+      "iPhone 17 screen replacement, battery, back glass and charging port repair at Warringal Shopping Centre, Heidelberg. Firm quote first, 6-month warranty.",
+    keywords: [
+      "iphone 17 screen replacement",
+      "iphone 17 screen repair",
+      "iphone 17 battery replacement",
+      "iphone 17 back glass repair",
+      "iphone 17 repair heidelberg",
+      "iphone 17 repair melbourne",
+    ],
+    heroHeading: "iPhone 17 Repair in Heidelberg",
+    heroSubheading: "Screen, battery, back glass and charging port repairs for the iPhone 17, quoted before we start",
+    intro:
+      "The iPhone 17 has a 6.3-inch Super Retina XDR OLED display with ProMotion up to 120Hz, a Ceramic Shield 2 front and the A19 chip. It's tougher than older iPhones, but a hard drop can still crack the screen or back, and every battery wears with use. Bring it to Mobile Armour at Warringal Shopping Centre, Heidelberg: we diagnose it with you, explain the options and confirm the price first. Every repair has a 6-month warranty.",
+    repairTypes: [
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+    ],
+    commonIssues: [
+      "Cracked screen or display not turning on",
+      "Ghost touches or unresponsive areas",
+      "Short battery life or sudden shutdowns",
+      "Cracked back glass",
+      "Charging port loose, dirty or not charging",
+    ],
+    specs:
+      "6.3-inch Super Retina XDR OLED with ProMotion up to 120Hz, A19 chip, aluminium design, Ceramic Shield 2 front, 48MP Fusion Main and 48MP Fusion Ultra Wide cameras, USB-C",
+    warrantyNote: "All iPhone 17 repairs come with a 6-month warranty on parts and labour.",
+    faqs: [
+      {
+        question: "How much does iPhone 17 screen repair cost?",
+        answer:
+          "It depends on the screen option you choose. Call 0405 326 205 or bring the phone in and we'll confirm the price before we start.",
+      },
+      {
+        question: "Is the iPhone 17 screen the same as the iPhone 17 Pro screen?",
+        answer:
+          "Both are 6.3 inches, but they're different phones with different parts, so we fit the screen made for your exact model.",
+      },
+      {
+        question: "Can you fix a charging port that won't charge?",
+        answer:
+          "Often it's lint packed in the port, which we can clean out quickly. If the port itself is damaged, we replace it, usually in about 1–2 hours.",
+      },
+    ],
+  },
+  {
+    model: "Galaxy S25 Ultra",
+    slug: "samsung-s25-ultra-repair",
+    brand: "samsung",
+    metaTitle: "Samsung Galaxy S25 Ultra Screen Repair Heidelberg",
+    metaDescription:
+      "Galaxy S25 Ultra screen replacement, battery, back glass and charging port repair at Warringal Shopping Centre, Heidelberg. Quote first, 6-month warranty.",
+    keywords: [
+      "s25 ultra screen replacement",
+      "samsung s25 ultra screen repair",
+      "s25 ultra battery replacement",
+      "s25 ultra back glass repair",
+      "samsung s25 ultra repair heidelberg",
+      "samsung s25 ultra repair melbourne",
+    ],
+    heroHeading: "Samsung Galaxy S25 Ultra Repair in Heidelberg",
+    heroSubheading:
+      "Screen, battery, back glass, camera lens and charging port repairs for the S25 Ultra, quoted before we start",
+    intro:
+      "The Galaxy S25 Ultra has a 6.9-inch Dynamic AMOLED 2X display up to 120Hz behind Corning Gorilla Armor 2, a titanium frame, a built-in S Pen and a 5,000mAh battery. The large flat screen is the most common repair, followed by back glass, camera lenses and charging ports. Mobile Armour at Warringal Shopping Centre, Heidelberg, confirms the price and part before we start, and every repair carries a 6-month warranty.",
+    repairTypes: [
+      { name: "Screen Replacement (AMOLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+    ],
+    commonIssues: [
+      "Cracked screen, green lines or black display",
+      "Fingerprint sensor not working after a screen crack",
+      "Battery draining quickly",
+      "Cracked back glass or camera lens",
+      "USB-C port not charging or showing a moisture warning",
+    ],
+    specs:
+      "6.9-inch Dynamic AMOLED 2X up to 120Hz, Corning Gorilla Armor 2, titanium frame, built-in S Pen, Snapdragon 8 Elite for Galaxy, 5,000mAh battery, 45W wired charging",
+    warrantyNote: "All Galaxy S25 Ultra repairs come with a 6-month warranty on parts and labour.",
+    faqs: [
+      {
+        question: "How much does a Galaxy S25 Ultra screen replacement cost?",
+        answer:
+          "We quote each phone individually because the price depends on the screen part. Call 0405 326 205 or visit the kiosk for a firm price before we start.",
+      },
+      {
+        question: "Will the in-screen fingerprint sensor work after a screen replacement?",
+        answer: "Yes. We set up and test the fingerprint sensor before you collect the phone.",
+      },
+      {
+        question: "Can you replace the S Pen?",
+        answer: "Ask us at the kiosk and we'll check availability for your colour.",
+      },
+    ],
+  },
   // ─── iPhone Models ────────────────────────────────────────────────
   {
     model: "iPhone 16 Pro Max",

@@ -4,6 +4,8 @@ import { productIdFromParam, productSegment } from '@/lib/products';
 import { getProductById, getAllProducts } from '@/lib/shop-data';
 import { getPhoneHubs } from '@/lib/phones';
 import { isMagnetic } from '@/lib/shop-copy';
+import { blogPosts } from '@/data/blog-posts';
+import { guidesForProduct } from '@/lib/guide-products';
 import type { ShopProduct } from '@/lib/shop-data';
 
 // Which categories make good add-ons, best first.
@@ -79,6 +81,13 @@ export default async function ProductDetailPage({ params }: Props) {
       addOns={addOns}
       alternatives={sameCategory}
       hubDevices={hubs.map((h) => h.device)}
+      guides={guidesForProduct(product, blogPosts).map((g) => ({
+        slug: g.slug,
+        title: g.title,
+        category: g.category,
+        image: g.image,
+        imageAlt: g.imageAlt,
+      }))}
     />
   );
 }

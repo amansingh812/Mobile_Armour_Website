@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import ProductTop from './ProductTop';
 import PairsWith from './PairsWith';
@@ -18,12 +19,15 @@ export default function ProductView({
   addOns,
   alternatives,
   hubDevices = [],
+  guides = [],
 }: {
   product: ShopProduct;
   addOns: ShopProduct[];
   alternatives: ShopProduct[];
   /** Phones that have their own /phones page; others aren't linked. */
   hubDevices?: string[];
+  /** Buying guides that cover this product (linked both ways for search and AI answers). */
+  guides?: { slug: string; title: string; category: string; image: string; imageAlt: string }[];
 }) {
   const orderIn = p.fulfilment === 'order-in';
   const cat = getShopCategoryByDb(p.category);
@@ -153,6 +157,32 @@ export default function ProductView({
           <div className="ma-pgrid ma-pgrid--4">
             {alternatives.map((r) => (
               <ProductTile key={r._id} product={r} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {guides.length > 0 && (
+        <section aria-labelledby="guides" className="ma-section">
+          <div className="ma-shead">
+            <h2 id="guides" className="ma-h2">
+              Guides for this {noun}
+            </h2>
+            <Link href="/blog" className="ma-link">
+              All guides →
+            </Link>
+          </div>
+          <div className="ma-grid ma-grid--3">
+            {guides.map((g) => (
+              <Link key={g.slug} href={`/blog/${g.slug}`} className="ma-guide">
+                <span className="ma-guide__img">
+                  <Image src={g.image} alt={g.imageAlt} fill sizes="(max-width: 860px) 100vw, 400px" />
+                </span>
+                <span className="ma-guide__body">
+                  <span className="ma-guide__tag">{g.category}</span>
+                  <span className="ma-guide__title">{g.title}</span>
+                </span>
+              </Link>
             ))}
           </div>
         </section>

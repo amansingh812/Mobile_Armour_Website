@@ -6,10 +6,18 @@ import { locationPages } from '@/data/location-pages';
 import { servicePages } from '@/data/service-pages';
 import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema';
 import { OG_IMAGE } from '@/lib/seo';
+import { getAllProducts } from '@/lib/shop-data';
+import { blogPosts } from '@/data/blog-posts';
+import { phonePath } from '@/lib/device-links';
+import ProductTile from '@/components/store/ProductTile';
+import '@/components/store/store.css';
 
 interface PageProps {
   params: Promise<{ model: string }>;
 }
+
+// Accessory row shows live stock; refresh hourly.
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   return getAllModelSlugs().map((slug) => ({ model: slug }));
@@ -53,6 +61,24 @@ export default async function ModelRepairPage({ params }: PageProps) {
   const { model: slug } = await params;
   const page = getModelBySlug(slug);
   if (!page) notFound();
+
+  // Cases and glass for this exact model, in stock (protect it after the repair).
+  const all = await getAllProducts();
+  const forModel = all.filter(
+    (p) =>
+      (p.deviceCompatibility || []).includes(page.model) &&
+      ['Cases', 'Screen Protectors'].includes(p.category) &&
+      !(typeof p.stock === 'number' && p.stock <= 0)
+  );
+  const accessories = [
+    ...forModel.filter((p) => p.category === 'Screen Protectors').slice(0, 2),
+    ...forModel.filter((p) => p.category === 'Cases').slice(0, 2),
+  ];
+  const hasHub = forModel.length > 0;
+  // Guides that mention this model by name.
+  const modelGuides = blogPosts
+    .filter((b) => b.title.includes(page.model) || b.tags?.includes(page.model) || b.shop?.models?.includes(page.model))
+    .slice(0, 3);
 
   // Related models from same brand (for internal linking)
   const relatedModels = getModelsByBrand(page.brand).filter((m) => m.slug !== slug);
@@ -259,6 +285,47 @@ export default async function ModelRepairPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      {/* ── Accessories for this model ── */}
+      {accessories.length > 0 && (
+        <section style={{ padding: '3rem 0' }}>
+          <div className="container">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+              <h2 style={{ margin: 0 }}>Protect your {page.model} after the repair</h2>
+              {hasHub && (
+                <Link href={phonePath(page.model)} style={{ color: '#FF5600', fontWeight: 600 }}>
+                  All {page.model} accessories →
+                </Link>
+              )}
+            </div>
+            <p style={{ marginBottom: '1.25rem' }}>
+              Cases and screen protectors made for the {page.model}, available for click &amp; collect at our Warringal kiosk.
+            </p>
+            <div className="ma-pgrid">
+              {accessories.map((p) => (
+                <ProductTile key={p._id} product={p} model={page.model} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {modelGuides.length > 0 && (
+        <section style={{ padding: '0 0 3rem' }}>
+          <div className="container">
+            <h2 style={{ marginBottom: '1rem' }}>{page.model} guides</h2>
+            <ul style={{ paddingLeft: '1.2rem' }}>
+              {modelGuides.map((g) => (
+                <li key={g.slug} style={{ marginBottom: '0.4rem' }}>
+                  <Link href={`/blog/${g.slug}`} style={{ color: '#1B3A5C', fontWeight: 600 }}>
+                    {g.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* ── Related Models (Same Brand) ── */}
       {relatedModels.length > 0 && (
