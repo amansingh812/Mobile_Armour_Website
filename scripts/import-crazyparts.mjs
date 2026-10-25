@@ -125,7 +125,7 @@ const CATEGORY_RULES = [
   [/memory card|micro ?sd|sd card|flash drive|usb drive|thumb drive|card reader/i, 'Memory & Storage'],
   [/bike|bicycle|motorbike|motorcycle|scooter|handlebar/i, 'Bike Mounts'],
   [/power ?bank|battery pack/i, 'Power Banks'],
-  [/car (mount|holder|charger)|\bair ?vent\b|\bvent (mount|clip|holder)|dashboard|fm transmitter/i, 'Car Holders'],
+  [/\bcar\b[\w\s-]{0,20}\b(mount|holder|charger|bracket|cradle)|vehicle mount|gravity (car )?(mount|holder)|ventilation|\bair ?(vent|outlet)\b|\bvent (mount|clip|holder)|dashboard|fm transmitter/i, 'Car Holders'],
   // Cases and glass before stands and chargers: "Magnetic Ring Holder Case" is a case.
   [/screen protector|tempered glass|\bglass\b|lens protector|privacy film|protector/i, 'Screen Protectors'],
   [/\bcase\b|cover|bumper|folio|wallet/i, 'Cases'],
@@ -217,6 +217,9 @@ function detectBrand(name, description) {
 
 function tidyName(name) {
   return name
+    .replace(/\s*\((?=[A-Z0-9-]*\d)[A-Z0-9-]{8,}\)/g, '') // supplier part codes like (C40467600111-01)
+    .replace(/-(Cluster|Cosmic)(\s+\w+)?$/i, '') // trailing colour fragments: "...15W-Cluster"
+
     .replace(/\bCase Cover\b/i, 'Case')
     .replace(/\bProtective Transparent\b/i, 'Clear')
     .replace(/\s{2,}/g, ' ')

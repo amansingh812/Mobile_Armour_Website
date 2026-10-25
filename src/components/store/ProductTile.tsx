@@ -26,6 +26,9 @@ export default function ProductTile({
   const variants = product.variants;
   const forModel = variants && model ? variants.filter((v) => v.models.includes(model)) : variants;
   const options = forModel && forModel.length ? forModel : undefined;
+  // One option and nothing to pick (one phone or none, one colour): add straight from the tile.
+  const only = options && options.length === 1 && (model || options[0].models.length <= 1) ? options[0] : null;
+  const onlyModel = only ? model || only.models[0] : undefined;
   const price = options ? Math.min(...options.map((v) => v.price)) : currentPrice(product);
   const was = typeof product.oldPrice === "number" && product.oldPrice > price ? product.oldPrice : null;
   const inStock = options ? options.some((v) => v.available) : typeof product.stock === "number" ? product.stock > 0 : true;
@@ -72,7 +75,23 @@ export default function ProductTile({
             ${price % 1 === 0 ? price : price.toFixed(2)}
             {was && <s>${was % 1 === 0 ? was : was.toFixed(2)}</s>}
           </span>
-          {variants ? (
+          {only ? (
+            <AddToCartButton
+              disabled={!only.available}
+              product={{
+                _id: product._id,
+                name: product.name,
+                category: product.category,
+                imageUrl: only.images[0] || product.imageUrl,
+                price: only.price,
+                oldPrice: only.oldPrice,
+                deviceCompatibility: onlyModel ? [onlyModel] : product.deviceCompatibility,
+                variantSku: only.sku,
+                variantLabel: [onlyModel, only.colour].filter(Boolean).join(' · ') || undefined,
+                model: onlyModel,
+              }}
+            />
+          ) : variants ? (
             <Link href={href} className="ma-add-icon ma-add-icon--choose" aria-label={`Choose options for ${product.name}`}>
               <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
                 <path d="M9 6l6 6-6 6" />
