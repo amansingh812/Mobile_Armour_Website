@@ -11,14 +11,10 @@ const nextConfig = {
   // No need to set it explicitly
 
   images: {
-    // Allow Cloudinary-hosted product/service images
-    domains: ["res.cloudinary.com"],
-
-    // Serve AVIF first (smaller than WebP), then WebP for older browsers
-    formats: ["image/avif", "image/webp"],
-
-    // Cache optimised images for 1 year — they have content hashes in the URL
-    minimumCacheTTL: 60 * 60 * 24 * 365,
+    // Cloudinary resizes product photos (f_auto/q_auto/w_), not Vercel's
+    // image optimiser, which has a monthly limit. See src/lib/image-loader.ts.
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
 
     // Breakpoints for <Image> srcset — tuned for mobile-first
     deviceSizes: [390, 640, 750, 828, 1080, 1200, 1920],

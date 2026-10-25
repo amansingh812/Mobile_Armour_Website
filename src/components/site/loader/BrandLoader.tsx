@@ -9,7 +9,7 @@ export function BrandMark({ size = 'md' }: { size?: 'md' | 'lg' }) {
   return (
     <span className={`ma-loader__mark ma-loader__mark--${size}`} aria-hidden="true">
       <span className="ma-loader__ring" />
-      <Image src="/img/logo-22.png" alt="" width={40} height={63} priority className="ma-loader__logo" />
+      <Image src="/img/logo-mark.webp" alt="" width={40} height={63} priority className="ma-loader__logo" />
     </span>
   );
 }

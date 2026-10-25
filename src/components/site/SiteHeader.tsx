@@ -75,7 +75,7 @@ export default function SiteHeader() {
       </a>
       <div className="ma-header__top">
         <Link href="/" className="ma-logo" aria-label="Mobile Armour home">
-          <Image src="/img/logo-22.png" width={26} height={40} alt="Mobile Armour" priority />
+          <Image src="/img/logo-mark.webp" width={26} height={40} alt="Mobile Armour" priority />
           <span className="ma-logo__text">
             Mobile <span>Armour</span>
           </span>

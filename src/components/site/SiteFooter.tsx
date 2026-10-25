@@ -51,7 +51,7 @@ export default function SiteFooter() {
       <div className="ma-footer__grid">
         <div className="ma-footer__brand">
           <Link href="/" className="ma-logo" aria-label="Mobile Armour home">
-            <Image src="/img/logo-22.png" width={24} height={38} alt="" />
+            <Image src="/img/logo-mark.webp" width={24} height={38} alt="" />
             <span className="ma-logo__text">
               Mobile <span>Armour</span>
             </span>
