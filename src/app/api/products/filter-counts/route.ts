@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
       cableTypes: 1,
       screenProtectorTypes: 1,
       category: 1
-    });
+    }).lean();
 
     // Initialize counters
     const filterCounts = {
@@ -96,7 +96,9 @@ export async function GET(req: NextRequest) {
       }
     });
 
-    return NextResponse.json(filterCounts, { status: 200 });
+    const res = NextResponse.json(filterCounts, { status: 200 });
+    res.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=86400');
+    return res;
   } catch (error) {
     console.error('Filter counts API error:', error);
     return NextResponse.json({ error: 'Failed to fetch filter counts' }, { status: 500 });

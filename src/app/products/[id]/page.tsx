@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import ProductView from './ProductView';
-import { productIdFromParam } from '@/lib/products';
+import { productIdFromParam, productSegment } from '@/lib/products';
 import { getProductById, getAllProducts } from '@/lib/shop-data';
 import { getPhoneHubs } from '@/lib/phones';
 import { isMagnetic } from '@/lib/shop-copy';
@@ -44,8 +44,16 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
-// Re-check stock and prices at most once an hour.
+// Re-check stock and prices at most once an hour (admin saves refresh it sooner).
 export const revalidate = 3600;
+
+// Build every product page at deploy time and serve it from Vercel's cache.
+// Products added later are rendered on their first visit, then cached too.
+// (Without this, Next renders each product page on every request.)
+export async function generateStaticParams() {
+  const all = await getAllProducts();
+  return all.map((p) => ({ id: productSegment(p) }));
+}
 
 // Server-rendered product page: name, price, description, compatibility and
 // related products are all in the HTML Google and AI crawlers read.

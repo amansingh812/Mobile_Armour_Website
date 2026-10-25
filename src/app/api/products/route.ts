@@ -3,6 +3,11 @@ import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import { ALL_FILTER_OPTIONS } from '@/data/filterOptions';
 import { isAdminRequest } from '@/lib/auth';
+import { revalidateProducts } from '@/lib/revalidate-products';
+
+// Fields product grids don't show. Left out of public listings to keep the
+// response small (the full catalogue with descriptions was ~1 MB).
+const LIST_EXCLUDE = '-description -specifications -images -tags -variants.images -variants.supplier -supplier';
 
 export async function GET(req: NextRequest) {
   await dbConnect();
@@ -93,15 +98,26 @@ export async function GET(req: NextRequest) {
       if (protectors.length) query.screenProtectorTypes = { $in: protectors };
     }
     
-    // Use .lean() for plain JS objects (skip Mongoose hydration = ~3x faster)
-    // Select only fields needed for product listing (exclude heavy specs/descriptions for list view)
-    const products = await Product.find(query)
-      .lean()
-      .sort({ createdAt: -1 });
+    // ?full=1 (admin editor) gets every field and is never cached.
+    const full = searchParams.get('full') === '1';
+    if (full && !(await isAdminRequest())) {
+      return NextResponse.json({ error: 'Admin sign-in required' }, { status: 401 });
+    }
+    const limitParam = Number(searchParams.get('limit'));
+    const limit = Number.isFinite(limitParam) && limitParam > 0 ? Math.min(Math.floor(limitParam), 500) : 0;
+
+    // .lean() skips Mongoose hydration; the projection drops fields grids don't use.
+    let cursor = Product.find(query, full ? undefined : LIST_EXCLUDE).sort({ createdAt: -1 }).lean();
+    if (limit) cursor = cursor.limit(limit);
+    const products = await cursor;
 
     const response = NextResponse.json(products, { status: 200 });
-    // Cache product listings for 60 seconds, stale-while-revalidate for 5 minutes
-    response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+    // Public listings: served from Vercel's edge for 5 minutes, then refreshed
+    // in the background for up to a day, so the database sees few requests.
+    response.headers.set(
+      'Cache-Control',
+      full ? 'private, no-store' : 'public, s-maxage=300, stale-while-revalidate=86400'
+    );
     return response;
   } catch (error) {
     console.error('Products API error:', error);
@@ -122,6 +138,7 @@ export async function POST(req: NextRequest) {
       delete body.newPrice;
     }
     const product = await Product.create(body);
+    revalidateProducts();
     return NextResponse.json(product, { status: 201 });
   } catch (error: any) {
     // Map Mongoose ValidationError to fieldErrors for client highlighting
@@ -171,6 +188,7 @@ export async function PUT(req: NextRequest) {
     if (Array.isArray((product as any).variants) && (product as any).variants.length && newPrice > 0) {
       await Product.updateOne({ _id }, { $set: { 'variants.$[].price': newPrice } });
     }
+    revalidateProducts();
 
     return NextResponse.json(product, { status: 200 });
   } catch (error) {

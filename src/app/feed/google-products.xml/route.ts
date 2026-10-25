@@ -3,7 +3,7 @@
 //   https://www.mobilearmour.com.au/feed/google-products.xml
 // Shipping, returns and tax are set up in Merchant Center itself.
 
-import { getAllProducts } from '@/lib/shop-data';
+import { getAllProductsFull } from '@/lib/shop-data';
 import { SITE_URL } from '@/lib/site';
 import { productPath, currentPrice } from '@/lib/products';
 
@@ -34,7 +34,7 @@ function abs(src: string): string {
 }
 
 export async function GET() {
-  const products = await getAllProducts();
+  const products = await getAllProductsFull();
 
   const items = products
     .filter((p) => p.imageUrl && p.price > 0)

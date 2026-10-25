@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import mongoose from 'mongoose';
 import { isAdminRequest } from '@/lib/auth';
+import { revalidateProducts } from '@/lib/revalidate-products';
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     await dbConnect();
@@ -13,7 +14,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     }
 
     try {
-        const product = await Product.findById(id);
+        const product = await Product.findById(id).lean();
         if (!product) {
             return NextResponse.json({ error: 'Product not found' }, { status: 404 });
         }
@@ -37,6 +38,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
         if (!result) {
             return NextResponse.json({ error: 'Product not found' }, { status: 404 });
         }
+        revalidateProducts();
         return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 });

@@ -682,7 +682,26 @@ async function main() {
     if (jobs.length > 1) await new Promise((r) => setTimeout(r, 800)); // be polite to the supplier's site
   }
   if (mongoose) await mongoose.disconnect();
-  console.log(`\n${ok}/${jobs.length} done.${opt.apply ? ' Pages update within the hour (or on the next deploy).' : ''}\n`);
+  let note = '';
+  if (opt.apply && ok) note = await refreshLiveSite();
+  console.log(`\n${ok}/${jobs.length} done.${note}\n`);
+}
+
+/**
+ * Ask the live site to drop its cached product pages so imports show straight
+ * away. Needs REVALIDATE_SECRET in .env.local (the same value as on Vercel);
+ * without it pages refresh within the hour.
+ */
+async function refreshLiveSite() {
+  const secret = process.env.REVALIDATE_SECRET;
+  const base = (process.env.REVALIDATE_URL || 'https://mobilearmour.com.au').replace(/\/$/, '');
+  if (!secret) return ' Live pages refresh within the hour (set REVALIDATE_SECRET to refresh now).';
+  try {
+    const res = await fetch(`${base}/api/revalidate`, { method: 'POST', headers: { 'x-revalidate-secret': secret } });
+    return res.ok ? ` Live site cache refreshed (${base}).` : ` Live refresh failed (HTTP ${res.status}); pages refresh within the hour.`;
+  } catch (e) {
+    return ` Live refresh failed (${e.message}); pages refresh within the hour.`;
+  }
 }
 
 main().catch((e) => die(e.stack || e.message));

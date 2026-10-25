@@ -1,5 +1,6 @@
 // Server-only module (imports mongoose); never import it from a client component.
 import { cache } from 'react';
+import { unstable_cache } from 'next/cache';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import { slugify } from '@/lib/products';
@@ -106,38 +107,129 @@ function toShopProduct(p: any): ShopProduct {
   };
 }
 
-/** All products, newest first. Returns [] if the database is unreachable. */
-export async function getAllProducts(): Promise<ShopProduct[]> {
-  try {
+/** Cache tag for every product query; admin saves and imports revalidate it. */
+export const PRODUCTS_TAG = 'products';
+/** Shared (cross-request) cache lifetime for product data, in seconds. */
+const PRODUCTS_TTL = 3600;
+
+/**
+ * Fields a product tile, add-on card or listing needs. Leaves out the long
+ * description, specs, tags, supplier links and gallery photos, which only the
+ * product page uses — this keeps listing queries and cached payloads small.
+ */
+const LIST_FIELDS = {
+  name: 1,
+  price: 1,
+  oldPrice: 1,
+  newPrice: 1,
+  imageUrl: 1,
+  category: 1,
+  stock: 1,
+  brand: 1,
+  features: 1,
+  deviceCompatibility: 1,
+  fulfilment: 1,
+  'supplier.inStock': 1,
+  createdAt: 1,
+  updatedAt: 1,
+  'variants.sku': 1,
+  'variants.models': 1,
+  'variants.colour': 1,
+  'variants.price': 1,
+  'variants.oldPrice': 1,
+  'variants.stock': 1,
+  'variants.images': 1,
+  'variants.supplier.inStock': 1,
+} as const;
+
+/** Listing shape: tiles only show the first photo of each option. */
+function toListProduct(doc: any): ShopProduct {
+  const p = toShopProduct(doc);
+  if (p.variants) p.variants = p.variants.map((v) => ({ ...v, images: v.images.slice(0, 1) }));
+  return p;
+}
+
+const loadAllProducts = unstable_cache(
+  async (): Promise<ShopProduct[]> => {
     await dbConnect();
-    const docs = await Product.find({}).sort({ createdAt: -1 }).lean();
-    return docs.map(toShopProduct);
+    const docs = await Product.find({}, LIST_FIELDS).sort({ createdAt: -1 }).lean();
+    return docs.map(toListProduct);
+  },
+  ['shop-all-products-v2'],
+  { tags: [PRODUCTS_TAG], revalidate: PRODUCTS_TTL }
+);
+
+/**
+ * All products, newest first, in listing shape (no description or gallery).
+ * Shared across requests and visitors, so most page renders don't touch the
+ * database. Returns [] if the database is unreachable.
+ */
+export const getAllProducts = cache(async function getAllProducts(): Promise<ShopProduct[]> {
+  try {
+    return await loadAllProducts();
   } catch (err) {
     console.error('[shop-data] getAllProducts failed:', err);
     return [];
   }
+});
+
+const loadAllProductsFull = unstable_cache(
+  async (): Promise<ShopProduct[]> => {
+    await dbConnect();
+    const docs = await Product.find({}).sort({ createdAt: -1 }).lean();
+    return docs.map(toShopProduct);
+  },
+  ['shop-all-products-full-v1'],
+  { tags: [PRODUCTS_TAG], revalidate: PRODUCTS_TTL }
+);
+
+/** All products with descriptions and photos (Google product feed). Errors aren't cached. */
+export async function getAllProductsFull(): Promise<ShopProduct[]> {
+  try {
+    return await loadAllProductsFull();
+  } catch (err) {
+    console.error('[shop-data] getAllProductsFull failed:', err);
+    return [];
+  }
 }
+
+const loadCategoryProducts = unstable_cache(
+  async (dbCategory: string, device?: string): Promise<ShopProduct[]> => {
+    await dbConnect();
+    const query: Record<string, unknown> = { category: dbCategory };
+    if (device) query.deviceCompatibility = device;
+    const docs = await Product.find(query, LIST_FIELDS).sort({ createdAt: -1 }).lean();
+    return docs.map(toListProduct);
+  },
+  ['shop-category-products-v2'],
+  { tags: [PRODUCTS_TAG], revalidate: PRODUCTS_TTL }
+);
 
 /** Products in one category, optionally for one device. Newest first. */
 export const getCategoryProducts = cache(async function getCategoryProducts(dbCategory: string, device?: string): Promise<ShopProduct[]> {
   try {
-    await dbConnect();
-    const query: Record<string, unknown> = { category: dbCategory };
-    if (device) query.deviceCompatibility = device;
-    const docs = await Product.find(query).sort({ createdAt: -1 }).lean();
-    return docs.map(toShopProduct);
+    return await loadCategoryProducts(dbCategory, device);
   } catch (err) {
     console.error('[shop-data] getCategoryProducts failed:', err);
     return [];
   }
 });
 
-/** One product by Mongo id, or null. Cached per request (metadata, layout and page all need it). */
-export const getProductById = cache(async function getProductById(id: string): Promise<ShopProduct | null> {
-  try {
+const loadProductById = unstable_cache(
+  async (id: string): Promise<ShopProduct | null> => {
     await dbConnect();
     const doc = await Product.findById(id).lean();
     return doc ? toShopProduct(doc) : null;
+  },
+  ['shop-product-by-id-v2'],
+  { tags: [PRODUCTS_TAG], revalidate: PRODUCTS_TTL }
+);
+
+/** One product by Mongo id, or null. Cached per request (metadata, layout and page all need it) and across requests. */
+export const getProductById = cache(async function getProductById(id: string): Promise<ShopProduct | null> {
+  if (!/^[a-f0-9]{24}$/i.test(id)) return null;
+  try {
+    return await loadProductById(id);
   } catch (err) {
     console.error('[shop-data] getProductById failed:', err);
     return null;

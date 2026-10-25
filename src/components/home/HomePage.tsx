@@ -19,6 +19,7 @@ import '@/components/store/store.css';
 import '@/app/blog/blog.css';
 import './home.css';
 import Icon, { type IconName } from '@/components/site/Icon';
+import HomeSplash from '@/components/site/loader/HomeSplash';
 
 const REPAIRS: { icon: IconName; name: string; href: string; time: string }[] = [
   { icon: 'screen', name: 'Screen replacement', href: '/services/iphone-screen-repair', time: '1–2 hours' },
@@ -60,6 +61,7 @@ export default async function HomePage() {
 
   return (
     <main className="ma-page ma-home">
+      <HomeSplash />
       <JsonLd data={faqPage(faqs.map((f) => ({ q: f.q, a: faqAnswerText(f) })))} />
 
       <section className="ma-home__hero">

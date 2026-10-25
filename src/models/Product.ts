@@ -196,7 +196,14 @@ ProductSchema.index({ category: 1, brand: 1 });
 ProductSchema.index({ category: 1, price: 1 });
 ProductSchema.index({ category: 1, createdAt: -1 });
 ProductSchema.index({ 'variants.sku': 1 });
+// Newest-first listings (all products) and one category for one phone.
+ProductSchema.index({ createdAt: -1 });
+ProductSchema.index({ category: 1, deviceCompatibility: 1, createdAt: -1 });
 ProductSchema.index({ name: 'text', description: 'text', tags: 'text' }); // Full-text search
+
+// In production, don't ask MongoDB to build indexes on every serverless cold
+// start; they're created once with `node scripts/db-indexes.mjs --apply`.
+ProductSchema.set('autoIndex', process.env.NODE_ENV !== 'production');
 
 // Check if the model already exists to prevent overwriting during hot reloads
 export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);

@@ -1,0 +1,113 @@
+/* Mobile Armour logo loader: route loading screens and the Home splash. */
+.ma-loader {
+  min-height: 62vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 48px 16px;
+  animation: ma-loader-in 0.25s ease-out 0.12s both; /* skip a flash on fast loads */
+}
+.ma-loader__mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+}
+.ma-loader__mark--lg {
+  width: 116px;
+  height: 116px;
+}
+.ma-loader__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 86, 0, 0.14);
+  border-top-color: var(--ma-orange, #ff5600);
+  border-right-color: var(--ma-orange, #ff5600);
+  animation: ma-loader-spin 0.9s linear infinite;
+}
+.ma-loader__logo {
+  width: 36px;
+  height: auto;
+  animation: ma-loader-pulse 1.4s ease-in-out infinite;
+}
+.ma-loader__mark--lg .ma-loader__logo {
+  width: 44px;
+}
+.ma-loader__word {
+  font-family: var(--audiowide-font, inherit);
+  font-size: 17px;
+  letter-spacing: 0.5px;
+  color: var(--ma-ink, #15171c);
+}
+.ma-loader__word b {
+  color: var(--ma-orange, #ff5600);
+  font-weight: 400;
+}
+.ma-loader__word--light {
+  color: #fff;
+}
+.ma-loader__label {
+  font-size: 13px;
+  color: var(--ma-slate, #6b7080);
+}
+
+/* Home splash: covers the page briefly on first visit, then fades away. */
+.ma-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: var(--ma-night, #0e0f12);
+  pointer-events: none;
+  animation: ma-splash-out 0.35s ease-in 0.75s forwards;
+}
+
+@keyframes ma-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ma-loader-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.9);
+    opacity: 0.75;
+  }
+}
+@keyframes ma-loader-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ma-splash-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ma-loader__ring {
+    animation-duration: 2.4s;
+  }
+  .ma-loader__logo {
+    animation: none;
+  }
+  .ma-splash {
+    animation-delay: 0.3s;
+  }
+}
