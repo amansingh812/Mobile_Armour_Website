@@ -64,8 +64,8 @@
 .ma-crumbs {
   max-width: var(--ma-max);
   margin: 0 auto;
-  padding: 20px 24px 0;
-  font-size: 13px;
+  padding: 28px 24px 8px;
+  font-size: 14px;
   color: var(--ma-slate);
 }
 .ma-crumbs ol {
@@ -74,11 +74,12 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 6px 10px;
 }
 .ma-crumbs li + li::before {
   content: "/";
-  margin-right: 6px;
+  margin-right: 10px;
+  color: var(--ma-line-strong);
 }
 .ma-crumbs a {
   color: var(--ma-slate) !important;

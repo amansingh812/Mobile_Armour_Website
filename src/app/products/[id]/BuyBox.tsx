@@ -1,28 +1,25 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import AddToCartButton, { type CartProduct } from '@/components/store/AddToCartButton';
 
 export default function BuyBox({
   product,
   price,
   inStock,
-  phoneDisplay,
-  phoneHref,
 }: {
   product: CartProduct;
   price: number;
   inStock: boolean;
-  phoneDisplay: string;
-  phoneHref: string;
 }) {
   const [qty, setQty] = useState(1);
   if (!inStock) {
     return (
       <div className="ma-buy">
-        <a href={phoneHref} className="ma-btn ma-btn--dark ma-add-full">
-          Call {phoneDisplay} to order
-        </a>
+        <Link href="/contact" className="ma-btn ma-btn--dark ma-add-full">
+          Contact us to order
+        </Link>
       </div>
     );
   }

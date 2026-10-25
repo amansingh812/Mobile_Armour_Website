@@ -138,7 +138,7 @@ export default function ProductView({
           <p className={`ma-product__stock${inStock ? '' : ' is-out'}`}>
             {!inStock
               ? orderIn
-                ? `● Out of stock at our supplier. Call ${BUSINESS.phoneDisplay} to check`
+                ? '● Out of stock at our supplier'
                 : '● Out of stock'
               : orderIn
                 ? `● Ordered in for you, ${STORE.orderIn.readyText}`
@@ -151,11 +151,7 @@ export default function ProductView({
             product={cartProduct}
             price={price}
             inStock={inStock}
-            phoneDisplay={BUSINESS.phoneDisplay}
-            phoneHref={BUSINESS.phoneHref}
           />
-
-          <PairsWith items={addOns} />
 
           <ul className="ma-product__promises">
             {STORE.clickAndCollect.enabled && (
@@ -254,6 +250,8 @@ export default function ProductView({
         </aside>
       </div>
 
+      <PairsWith items={addOns} device={device} />
+
       {alternatives.length > 0 && (
         <section aria-labelledby="alts" className="ma-section">
           <div className="ma-shead">
@@ -281,17 +279,14 @@ export default function ProductView({
             <div>
               <h2>Already cracked your {device}?</h2>
               <p>
-                Our repair desk is right here at Warringal. Most screens and batteries are done in{' '}
-                {BUSINESS.repairTimes.common}, with a {BUSINESS.warranty.short}.
+                Screen and battery repairs at the kiosk in {BUSINESS.repairTimes.common}, with a{' '}
+                {BUSINESS.warranty.short}.
               </p>
             </div>
             <div className="ma-actions">
               <Link href={repair.href} className="ma-btn ma-btn--primary">
-                {repair.label}
+                Get a repair quote
               </Link>
-              <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--ghost">
-                Call {BUSINESS.phoneDisplay}
-              </a>
             </div>
           </div>
         </section>
