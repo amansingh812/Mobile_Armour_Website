@@ -35,7 +35,16 @@ function toShopProduct(p: any): ShopProduct {
     imageUrl: p.imageUrl,
     images: Array.isArray(p.images) ? p.images.filter(Boolean) : undefined,
     category: p.category,
-    stock: typeof p.stock === 'number' ? p.stock : undefined,
+    // Order-in items are bought from the supplier after the sale, so the kiosk count
+    // doesn't limit them; they're unavailable only when the supplier is out.
+    stock:
+      p.fulfilment === 'order-in'
+        ? p.supplier?.inStock === false
+          ? 0
+          : undefined
+        : typeof p.stock === 'number'
+          ? p.stock
+          : undefined,
     brand: p.brand ?? undefined,
     features: Array.isArray(p.features) ? p.features : undefined,
     deviceCompatibility: Array.isArray(p.deviceCompatibility) ? p.deviceCompatibility : undefined,

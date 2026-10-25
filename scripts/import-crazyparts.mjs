@@ -351,7 +351,7 @@ function report(p) {
   console.log(`  SKU ${p.sku || '—'} · barcode ${p.gtin || '—'} · brand ${p.manufacturer || '—'}`);
   console.log(`  Category: ${p.category || '?'} · Fits: ${p.devices.join(', ') || '?'}`);
   console.log(
-    `  Price: ${p.price !== null ? `$${p.price}` : '—'}${p.cost !== null ? ` (cost $${p.cost} × ${opt.markup})` : ''} · Crazy Parts retail $${p.rrp ?? '—'}`
+    `  Price: ${p.price !== null ? `$${p.price}` : '—'}${p.cost !== null ? (p.price === retailFromCost(p.cost, opt.markup) ? ` (cost $${p.cost} × ${opt.markup})` : ` (set by hand; cost $${p.cost})`) : ''} · Crazy Parts retail $${p.rrp ?? '—'}`
   );
   console.log(`  Stock: ${p.fulfilment === 'order-in' ? 'ordered in' : 'at the kiosk'}, ${p.stock} units · ${p.images.length} photos`);
   console.log(`  Description (${p.description.source}): ${p.description.text}`);

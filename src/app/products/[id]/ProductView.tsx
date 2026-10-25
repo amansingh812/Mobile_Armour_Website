@@ -136,7 +136,9 @@ export default function ProductView({
           </div>
           <p className={`ma-product__stock${inStock ? '' : ' is-out'}`}>
             {!inStock
-              ? '● Out of stock'
+              ? orderIn
+                ? `● Out of stock at our supplier. Call ${BUSINESS.phoneDisplay} to check`
+                : '● Out of stock'
               : orderIn
                 ? `● Ordered in for you, ${STORE.orderIn.readyText}`
                 : lowStock

@@ -43,7 +43,11 @@ export async function POST(request: Request) {
     if (docs.length !== wanted.size) {
       return NextResponse.json({ error: 'Some items are no longer available. Please refresh your cart.' }, { status: 409 });
     }
-    const outOfStock = docs.filter((d) => typeof d.stock === 'number' && d.stock < (wanted.get(String(d._id)) || 0));
+    const outOfStock = docs.filter((d) =>
+      d.fulfilment === 'order-in'
+        ? d.supplier?.inStock === false
+        : typeof d.stock === 'number' && d.stock < (wanted.get(String(d._id)) || 0)
+    );
     if (outOfStock.length) {
       return NextResponse.json(
         { error: `Not enough stock for: ${outOfStock.map((d) => d.name).join(', ')}` },
