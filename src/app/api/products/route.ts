@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import { ALL_FILTER_OPTIONS } from '@/data/filterOptions';
+import { isAdminRequest } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   await dbConnect();
@@ -109,6 +110,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  if (!(await isAdminRequest())) return NextResponse.json({ error: 'Admin sign-in required' }, { status: 401 });
   await dbConnect();
   try {
     const body = await req.json();
@@ -136,6 +138,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  if (!(await isAdminRequest())) return NextResponse.json({ error: 'Admin sign-in required' }, { status: 401 });
   await dbConnect();
   try {
     const body = await req.json();
@@ -161,7 +164,14 @@ export async function PUT(req: NextRequest) {
     if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
-    
+
+    // Products with phone/colour options are priced per option; a price set in
+    // the admin applies to every option of the product.
+    const newPrice = Number((updateData as any).price);
+    if (Array.isArray((product as any).variants) && (product as any).variants.length && newPrice > 0) {
+      await Product.updateOne({ _id }, { $set: { 'variants.$[].price': newPrice } });
+    }
+
     return NextResponse.json(product, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update product' }, { status: 500 });

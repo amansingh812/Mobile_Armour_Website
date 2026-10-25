@@ -55,6 +55,25 @@ export function isAuthenticated(session: Session | null): boolean {
 }
 
 /**
+ * Emails allowed to change products. Set ADMIN_EMAILS (comma-separated) to
+ * replace the defaults, which are the two admin emails used in the code so far.
+ */
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || 'Niraj3438@gmail.com,dromperfectly125@gmail.com')
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+
+export function isAdminEmail(email?: string | null): boolean {
+    return !!email && ADMIN_EMAILS.includes(email.toLowerCase());
+}
+
+/** For API routes: true when the signed-in user may change products. */
+export async function isAdminRequest(): Promise<boolean> {
+    const user = await getCurrentUser();
+    return isAdminEmail(user?.email);
+}
+
+/**
  * Check if the user is an admin (only for Niraj3438@gmail.com)
  */
 export async function isAdmin(): Promise<boolean> {
