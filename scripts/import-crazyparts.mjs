@@ -24,6 +24,8 @@
  *   --cost 12.50       our cost ex GST (from your Crazy Parts account or price list)
  *   --markup 2         price = cost x markup, rounded up to end in 9 (default 2)
  *   --price 39         set the selling price directly instead of cost x markup
+ *   --from-rrp 1       price = Crazy Parts retail (inc GST) x this, rounded up to end in 9,
+ *                      worked out per option (placeholder until you set your own)
  *   --order-in         ordered from Crazy Parts when bought (default for captures)
  *   --stock 3          units of EACH option held at the kiosk (makes it a kiosk product)
  *   --apply            upload photos to Cloudinary and save to MongoDB
@@ -64,6 +66,7 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--cost') opt.cost = Number(next());
   else if (a === '--price') opt.price = Number(next());
   else if (a === '--markup') opt.markup = Number(next());
+  else if (a === '--from-rrp') opt.fromRrp = Number(next());
   else if (a === '--stock') opt.stock = Number(next());
   else if (a === '--file') opt.file = next();
   else if (a === '--name') opt.name = next();
@@ -390,7 +393,14 @@ async function prepare(captures, row = {}) {
 
   const cost = row.cost !== undefined && row.cost !== '' ? Number(row.cost) : opt.cost;
   const fixed = row.price !== undefined && row.price !== '' ? Number(row.price) : opt.price;
-  const price = Number.isFinite(fixed) ? fixed : Number.isFinite(cost) ? retailFromCost(cost, opt.markup) : null;
+  const fromRrp = Number.isFinite(opt.fromRrp) ? opt.fromRrp : null;
+  const price = Number.isFinite(fixed)
+    ? fixed
+    : Number.isFinite(cost)
+      ? retailFromCost(cost, opt.markup)
+      : fromRrp !== null
+        ? retailFromCost(captures[0].rrp || 0, fromRrp)
+        : null;
   const kioskStock = row.stock !== undefined && row.stock !== '' ? Number(row.stock) : opt.stock;
   const fulfilment = row.fulfilment || opt.fulfilment || (kioskStock !== undefined ? 'kiosk' : 'order-in');
 
@@ -417,11 +427,14 @@ async function prepare(captures, row = {}) {
         if (others === 0 && list.length < c.images.length) own.set(i, v.sku);
       }
     }
+    const claimed = new Set(options.flatMap((o) => o.img || []));
     for (const v of options) {
       if (!v.sku) continue;
       const list = v.img && v.img.length ? v.img : c.images.map((_, i) => i);
       const mine = list.filter((i) => own.get(i) === v.sku);
       const shared = list.filter((i) => !own.has(i));
+      // photos no option lists (general gallery shots) go after each option's own
+      for (let i = 0; i < c.images.length; i++) if (!own.has(i) && !claimed.has(i) && !shared.includes(i)) shared.push(i);
       const img = [...mine, ...shared].map((i) => c.images[i]).filter(Boolean);
       const code = colourCode(v.sku);
       let colour = tidyColour(v.colour);
@@ -456,6 +469,7 @@ async function prepare(captures, row = {}) {
     images: [...new Set(variants.flatMap((v) => v.images))],
     cost: Number.isFinite(cost) ? cost : null,
     price,
+    priceFromRrp: !Number.isFinite(fixed) && !Number.isFinite(cost) ? fromRrp : null,
     fulfilment,
     kioskStock,
     variants,
@@ -476,7 +490,13 @@ function report(p) {
   console.log(`  From: ${p.supplierNames.join('  +  ')}`);
   console.log(`  Category: ${p.category || '?'} · brand ${p.manufacturer || '—'} · ${p.images.length} photos`);
   console.log(
-    `  Price: ${p.price !== null ? `$${p.price}` : '—'}${
+    `  Price: ${
+      p.priceFromRrp
+        ? [...new Set(p.variants.map((v) => `$${retailFromCost(v.rrp || 0, p.priceFromRrp)}`))].join(' / ') + ` (retail × ${p.priceFromRrp})`
+        : p.price !== null
+          ? `$${p.price}`
+          : '—'
+    }${
       p.cost !== null ? (p.price === retailFromCost(p.cost, opt.markup) ? ` (cost $${p.cost} × ${opt.markup})` : ` (set by hand; cost $${p.cost})`) : ''
     } · Crazy Parts retail ${[...new Set(p.variants.map((v) => (v.rrp ? `$${v.rrp}` : '—')))].join(' / ')}`
   );
@@ -518,7 +538,8 @@ async function save(p, db) {
     gtin: v.gtin,
     models: v.models,
     colour: v.colour,
-    price: p.price,
+    // --from-rrp prices each option from its own retail price; otherwise one price for all
+    price: p.priceFromRrp && v.rrp ? retailFromCost(v.rrp, p.priceFromRrp) : p.price,
     costPrice: p.cost ?? undefined,
     ...(kiosk ? { stock: p.kioskStock ?? 1 } : {}),
     images: v.images.map((u) => uploadedByUrl.get(u)).filter(Boolean),
