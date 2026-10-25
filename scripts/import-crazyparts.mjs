@@ -28,6 +28,7 @@
  *                      worked out per option (placeholder until you set your own)
  *   --order-in         ordered from Crazy Parts when bought (default for captures)
  *   --stock 3          units of EACH option held at the kiosk (makes it a kiosk product)
+ *   --category "Tech Gadgets"  put everything in this shop category (skip name rules)
  *   --dir imports/x    import every capture in a folder, grouping the pages of one design
  *                      (e.g. its 17 Pro / 18 Pro and 17 Pro Max / 18 Pro Max pages)
  *   --all-available    treat every option as available (ignore Crazy Parts stock)
@@ -74,6 +75,7 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--stock') opt.stock = Number(next());
   else if (a === '--file') opt.file = next();
   else if (a === '--name') opt.name = next();
+  else if (a === '--category') opt.category = next(); // force the shop category, e.g. "Tech Gadgets"
   else if (a === '--dir') opt.dir = next();
   else if (a === '--jobs') opt.jobs = next(); // e.g. 0-9: import only these designs (by list number)
   else if (a === '--all-available') opt.allAvailable = true;
@@ -217,7 +219,7 @@ function detectBrand(name, description) {
 
 function tidyName(name) {
   return name
-    .replace(/\s*\((?=[A-Z0-9-]*\d)[A-Z0-9-]{8,}\)/g, '') // supplier part codes like (C40467600111-01)
+    .replace(/\s*\((?=[A-Z0-9\/-]*\d{6})[A-Z0-9\/ -]{8,}(\)|$)/g, '') // supplier part codes: (C40467600111-01), (A0005…-00/A0005…-00)
     .replace(/-(Cluster|Cosmic)(\s+\w+)?$/i, '') // trailing colour fragments: "...15W-Cluster"
 
     .replace(/\bCase Cover\b/i, 'Case')
@@ -400,7 +402,7 @@ async function prepare(captures, row = {}) {
   const description = String(first.description || '');
   const { material, bullets } = parseFeatures(description);
   const name = row.name || opt.name || designName(String(first.name));
-  const category = (CATEGORY_RULES.find(([re]) => re.test(first.name)) || [])[1];
+  const category = opt.category || (CATEGORY_RULES.find(([re]) => re.test(first.name)) || [])[1];
 
   const cost = row.cost !== undefined && row.cost !== '' ? Number(row.cost) : opt.cost;
   const fixed = row.price !== undefined && row.price !== '' ? Number(row.price) : opt.price;
