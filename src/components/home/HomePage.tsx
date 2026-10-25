@@ -213,8 +213,8 @@ export default async function HomePage() {
                 Screens, batteries, charging ports and back glass for iPhone, Samsung, Pixel and iPad. Price confirmed
                 before we start.
               </p>
-              <Link href="/pricing" className="ma-btn ma-btn--primary" style={{ alignSelf: 'flex-start' }}>
-                See repair prices
+              <Link href="/contact?topic=repair" className="ma-btn ma-btn--primary" style={{ alignSelf: 'flex-start' }}>
+                Get a repair quote
               </Link>
             </div>
             <div className="ma-home__promo-img ma-home__promo-img--photo">
@@ -305,8 +305,8 @@ export default async function HomePage() {
               iPhone, Samsung, Google Pixel, iPad and Apple Watch. Upfront quote, {BUSINESS.warranty.short}.
             </p>
           </div>
-          <Link href="/pricing" className="ma-link">
-            Repair prices →
+          <Link href="/services" className="ma-link">
+            All repairs →
           </Link>
         </div>
         <ul className="ma-home__repairs">

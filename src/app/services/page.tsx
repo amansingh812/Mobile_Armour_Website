@@ -111,9 +111,6 @@ export default function ServicesPage() {
             <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--outline">
               Call {BUSINESS.phoneDisplay}
             </a>
-            <Link href="/pricing" className="ma-btn ma-btn--outline">
-              Repair prices
-            </Link>
           </div>
         </div>
         <div className="ma-hero__media">
@@ -229,7 +226,7 @@ export default function ServicesPage() {
         </div>
         <p className="ma-note">
           For screens you can choose an original part (when available) or a premium aftermarket screen. We explain the
-          difference and the price before you decide. <Link href="/pricing" className="ma-link">See repair prices →</Link>
+          difference and the price before you decide. <Link href="/contact?topic=repair" className="ma-link">Ask for a quote →</Link>
         </p>
       </section>
 

@@ -291,12 +291,12 @@ export default async function SuburbPage({ params }: PageProps) {
             }}>
               Call 0405-326-205
             </Link>
-            <Link href="/pricing" style={{
+            <Link href="/contact?topic=repair" style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 28px',
               background: '#1B3A5C', color: '#fff', borderRadius: '6px', textDecoration: 'none',
               fontWeight: 600
             }}>
-              View Pricing
+              Get a Quote
             </Link>
           </div>
         </div>

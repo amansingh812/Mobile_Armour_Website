@@ -17,7 +17,7 @@ import { SITE_URL } from "@/lib/site";
 const KEY = process.env.INDEXNOW_KEY || "37b276ce24ddacd0a3ba98ac65371766";
 const HOST = new URL(SITE_URL).host;
 
-const DEFAULT_PATHS = ["/", "/services", "/faq", "/contact", "/products", "/pricing", "/blog"];
+const DEFAULT_PATHS = ["/", "/services", "/faq", "/contact", "/products", "/blog"];
 
 export async function POST(req: NextRequest) {
   const secret = process.env.INDEXNOW_SECRET;

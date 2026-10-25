@@ -28,7 +28,9 @@ const nextConfig = {
   // them (they even show as sitelinks), so they 301 to the closest real page.
   async redirects() {
     return [
-      { source: "/price", destination: "/pricing", permanent: true },
+      { source: "/price", destination: "/services", permanent: true },
+      // Repair prices page retired: quotes are given per phone.
+      { source: "/pricing", destination: "/services", permanent: true },
       // Old placeholder category pages (they rendered fake products) and bare /shop
       { source: "/category/:path*", destination: "/products", permanent: true },
       { source: "/shop", destination: "/products", permanent: true },

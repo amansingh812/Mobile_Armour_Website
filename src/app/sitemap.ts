@@ -77,13 +77,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.85,
     },
-    // Pricing page
-    {
-      url: `${BASE_URL}/pricing`,
-      lastModified: lastmod,
-      changeFrequency: 'weekly',
-      priority: 0.85,
-    },
     // Corporate repairs page
     {
       url: `${BASE_URL}/corporate-repairs`,

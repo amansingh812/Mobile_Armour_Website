@@ -104,7 +104,7 @@ export const FAQ_GROUPS: FaqGroup[] = [
         q: "How much does a phone screen repair cost?",
         short: "It depends on your model and the screen you choose, so we quote each phone individually.",
         more: `Call ${BUSINESS.phoneDisplay} with your exact model for a quote. Every price includes fitting and the ${W.short}.`,
-        link: { label: "Repair prices by model", href: "/pricing" },
+        link: { label: "Ask for a quote", href: "/contact?topic=repair" },
       },
       {
         id: "quote",

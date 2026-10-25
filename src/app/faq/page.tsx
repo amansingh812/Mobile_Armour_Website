@@ -71,7 +71,7 @@ export default function FaqPage() {
           <div className="ma-panel ma-panel--peach" style={{ padding: 22, gap: 8, fontSize: 15 }}>
             <strong>Popular pages</strong>
             <Link href="/services">All repair services</Link>
-            <Link href="/pricing">Repair prices</Link>
+            <Link href="/phone-accessories-heidelberg">Accessories</Link>
             <Link href="/shop/cases">Phone cases</Link>
             <Link href="/shop/screen-protectors">Screen protectors</Link>
           </div>
