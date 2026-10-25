@@ -42,7 +42,15 @@ export default async function HomePage() {
   const FEATURE = 'iPhone Duo';
   const featureHub = hubs.find((h) => h.device === FEATURE);
   const featureItems = featureHub ? featureHub.products : [];
-  const featureFrom = featureItems.length ? Math.min(...featureItems.map((p) => currentPrice(p))) : null;
+  const featureCases = featureItems.filter((p) => p.category === 'Cases');
+  const featureFrom = featureCases.length ? Math.min(...featureCases.map((p) => currentPrice(p))) : null;
+  // iPhone 18 Pro / Pro Max range: cases first, then glass and the rest.
+  const IPHONE18 = ['iPhone 18 Pro Max', 'iPhone 18 Pro'];
+  const iphone18 = all
+    .filter((p) => (p.deviceCompatibility || []).some((d) => IPHONE18.includes(d)))
+    .filter((p) => !(typeof p.stock === 'number' && p.stock <= 0))
+    .sort((a, b) => (a.category === 'Cases' ? 0 : 1) - (b.category === 'Cases' ? 0 : 1));
+  const iphone18Hubs = IPHONE18.map((d) => hubs.find((h) => h.device === d)).filter(Boolean) as typeof hubs;
   const topHub = hubs[0];
   const topCases = topHub ? topHub.products.filter((p) => p.category === 'Cases') : [];
   const guides = [...blogPosts]
@@ -137,6 +145,31 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
+          </div>
+        </section>
+      )}
+
+      {iphone18.length > 0 && (
+        <section aria-labelledby="i18-h" className="ma-section">
+          <div className="ma-shead">
+            <div>
+              <h2 id="i18-h" className="ma-h2">
+                iPhone 18 Pro &amp; Pro Max
+              </h2>
+              <p>Cases, glass and lens protectors for the new iPhone 18 Pro and Pro Max. Pick your model on each product.</p>
+            </div>
+            <div className="ma-home__i18-links">
+              {iphone18Hubs.map((h) => (
+                <Link key={h.slug} href={`/phones/${h.slug}`} className="ma-link">
+                  All {h.device.replace('iPhone ', '')} →
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div className="ma-pgrid">
+            {iphone18.slice(0, 10).map((p, i) => (
+              <ProductTile key={p._id} product={p} priority={i < 2} />
+            ))}
           </div>
         </section>
       )}

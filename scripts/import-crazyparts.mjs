@@ -28,6 +28,10 @@
  *                      worked out per option (placeholder until you set your own)
  *   --order-in         ordered from Crazy Parts when bought (default for captures)
  *   --stock 3          units of EACH option held at the kiosk (makes it a kiosk product)
+ *   --dir imports/x    import every capture in a folder, grouping the pages of one design
+ *                      (e.g. its 17 Pro / 18 Pro and 17 Pro Max / 18 Pro Max pages)
+ *   --all-available    treat every option as available (ignore Crazy Parts stock)
+ *   --floor "waterproof|ip68=99"  minimum price for products whose name matches
  *   --apply            upload photos to Cloudinary and save to MongoDB
  *
  * Re-importing updates the same product (matched by option SKUs or name) and
@@ -70,6 +74,10 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--stock') opt.stock = Number(next());
   else if (a === '--file') opt.file = next();
   else if (a === '--name') opt.name = next();
+  else if (a === '--dir') opt.dir = next();
+  else if (a === '--jobs') opt.jobs = next(); // e.g. 0-9: import only these designs (by list number)
+  else if (a === '--all-available') opt.allAvailable = true;
+  else if (a === '--floor') opt.floors = [...(opt.floors || []), next()];
   else if (a === '--capture') {
     while (argv[i + 1] && !argv[i + 1].startsWith('--')) opt.captures.push(argv[++i]);
   }
@@ -435,7 +443,8 @@ async function prepare(captures, row = {}) {
       const shared = list.filter((i) => !own.has(i));
       // photos no option lists (general gallery shots) go after each option's own
       for (let i = 0; i < c.images.length; i++) if (!own.has(i) && !claimed.has(i) && !shared.includes(i)) shared.push(i);
-      const img = [...mine, ...shared].map((i) => c.images[i]).filter(Boolean);
+      // Up to 5 photos per option: its own first, then shared gallery shots.
+      const img = [...mine, ...shared].slice(0, 5).map((i) => c.images[i]).filter(Boolean);
       const code = colourCode(v.sku);
       let colour = tidyColour(v.colour);
       if (colour && colourByCode.has(code)) colour = colourByCode.get(code);
@@ -446,11 +455,20 @@ async function prepare(captures, row = {}) {
         models,
         colour,
         rrp: v.rrp ?? c.rrp ?? null,
-        inStock: v.inStock !== false,
+        inStock: opt.allAvailable ? true : v.inStock !== false,
         images: [...new Set(img)],
         url: c.url,
         productId: c.productId || null,
       });
+    }
+  }
+  // Two Crazy Parts pages can list the same phone + colour: keep one option each.
+  {
+    const seen = new Set();
+    for (let i = 0; i < variants.length; i++) {
+      const k = `${[...variants[i].models].sort().join('/')}|${(variants[i].colour || '').toLowerCase()}`;
+      if (seen.has(k)) variants.splice(i--, 1);
+      else seen.add(k);
     }
   }
   // A design for a single phone keeps the phone in its name (good for search).
@@ -470,6 +488,10 @@ async function prepare(captures, row = {}) {
     cost: Number.isFinite(cost) ? cost : null,
     price,
     priceFromRrp: !Number.isFinite(fixed) && !Number.isFinite(cost) ? fromRrp : null,
+    floor: (opt.floors || []).reduce((m, f) => {
+      const [re, min] = String(f).split('=');
+      return new RegExp(re, 'i').test(captures.map((c) => c.name).join(' ')) ? Math.max(m, Number(min) || 0) : m;
+    }, 0),
     fulfilment,
     kioskStock,
     variants,
@@ -492,7 +514,7 @@ function report(p) {
   console.log(
     `  Price: ${
       p.priceFromRrp
-        ? [...new Set(p.variants.map((v) => `$${retailFromCost(v.rrp || 0, p.priceFromRrp)}`))].join(' / ') + ` (retail × ${p.priceFromRrp})`
+        ? [...new Set(p.variants.map((v) => `$${Math.max(p.floor || 0, retailFromCost(v.rrp || 0, p.priceFromRrp))}`))].join(' / ') + ` (retail × ${p.priceFromRrp}${p.floor ? `, min $${p.floor}` : ''})`
         : p.price !== null
           ? `$${p.price}`
           : '—'
@@ -539,7 +561,7 @@ async function save(p, db) {
     models: v.models,
     colour: v.colour,
     // --from-rrp prices each option from its own retail price; otherwise one price for all
-    price: p.priceFromRrp && v.rrp ? retailFromCost(v.rrp, p.priceFromRrp) : p.price,
+    price: Math.max(p.floor || 0, p.priceFromRrp && v.rrp ? retailFromCost(v.rrp, p.priceFromRrp) : p.price),
     costPrice: p.cost ?? undefined,
     ...(kiosk ? { stock: p.kioskStock ?? 1 } : {}),
     images: v.images.map((u) => uploadedByUrl.get(u)).filter(Boolean),
@@ -591,6 +613,33 @@ async function save(p, db) {
 async function main() {
   // Each job is one design: all --capture files together, or one product per link/CSV row.
   const jobs = [];
+  if (opt.dir) {
+    // One job per design: pages whose titles reduce to the same design name.
+    const files = fs.readdirSync(opt.dir).filter((f) => f.endsWith('.json')).sort();
+    const groups = new Map();
+    for (const f of files) {
+      const c = readCapture(path.join(opt.dir, f));
+      // Wholesale multi-packs (2 / 10 packs) aren't sold to walk-in customers.
+      if (/\b\d+\s*packs?\b/i.test(String(c.name))) {
+        console.log(`  skipped (multi-pack): ${c.name}`);
+        continue;
+      }
+      const key = designName(String(c.name))
+        .toLowerCase()
+        .replace(/\bredefine\b/g, 'redefyne')
+        .replace(/\bcase cover\b/g, 'case')
+        .replace(/[^a-z0-9]+/g, ' ')
+        .trim();
+      groups.set(key, [...(groups.get(key) || []), c]);
+    }
+    for (const [key, caps] of groups) jobs.push({ label: key, load: async () => caps, row: {} });
+    if (opt.jobs) {
+      const [a, b] = String(opt.jobs).split('-').map(Number);
+      const keep = jobs.slice(a, (Number.isFinite(b) ? b : a) + 1);
+      jobs.length = 0;
+      jobs.push(...keep);
+    }
+  }
   if (opt.captures.length) {
     jobs.push({ label: opt.captures.join(' + '), load: async () => opt.captures.map(readCapture), row: {} });
   }

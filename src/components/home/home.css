@@ -312,3 +312,8 @@
     padding: 20px;
   }
 }
+.ma-home__i18-links {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
