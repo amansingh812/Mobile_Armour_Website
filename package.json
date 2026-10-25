@@ -8,7 +8,8 @@
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
-    "export": "next export"
+    "export": "next export",
+    "import:crazyparts": "node scripts/import-crazyparts.mjs"
   },
   "optionalDependencies": {
     "@next/swc-darwin-arm64": "^16.2.1"

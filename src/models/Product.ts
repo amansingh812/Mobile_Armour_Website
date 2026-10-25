@@ -32,6 +32,14 @@ export interface IProduct extends Document {
   tags: string[];
   specifications: Record<string, string>;
   
+  // Supplier data
+  sku?: string;
+  gtin?: string;
+  manufacturer?: string;
+  supplier?: { name?: string; url?: string; productId?: string; inStock?: boolean; checkedAt?: Date };
+  costPrice?: number;
+  fulfilment?: 'kiosk' | 'order-in';
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -131,6 +139,22 @@ const ProductSchema: Schema = new Schema(
     // Additional metadata
     tags: [{ type: String, index: true }],
     specifications: { type: Map, of: String, default: {} },
+
+    // Supplier data (set by scripts/import-crazyparts.mjs)
+    sku: { type: String, trim: true, index: true },
+    gtin: { type: String, trim: true },
+    manufacturer: { type: String, trim: true }, // accessory brand, e.g. REDEFYNE
+    supplier: {
+      name: { type: String },
+      url: { type: String },
+      productId: { type: String },
+      inStock: { type: Boolean },
+      checkedAt: { type: Date },
+    },
+    /** Our cost ex GST. Never sent to shoppers: excluded from every query unless asked for. */
+    costPrice: { type: Number, min: 0, select: false },
+    /** 'kiosk' = held in stock at Warringal; 'order-in' = ordered from the supplier when bought. */
+    fulfilment: { type: String, enum: ['kiosk', 'order-in'], default: 'kiosk' },
   },
   { timestamps: true }
 );

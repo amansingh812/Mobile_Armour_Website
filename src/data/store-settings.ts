@@ -22,6 +22,11 @@ export const STORE = {
     readyText: "usually ready within 1 hour during opening hours",
   },
 
+  /** Products marked "order-in" are ordered from Crazy Parts when bought. CONFIRM the lead time. */
+  orderIn: {
+    readyText: "usually ready in 2–3 business days",
+  },
+
   /** Delivery: $9.95, free on orders of $100 or more. */
   delivery: {
     enabled: true as boolean,

@@ -19,6 +19,8 @@ export interface ShopProduct {
   brand?: string;
   features?: string[];
   deviceCompatibility?: string[];
+  /** 'order-in' = ordered from the supplier when bought. */
+  fulfilment?: 'kiosk' | 'order-in';
   updatedAt?: string;
 }
 
@@ -37,6 +39,7 @@ function toShopProduct(p: any): ShopProduct {
     brand: p.brand ?? undefined,
     features: Array.isArray(p.features) ? p.features : undefined,
     deviceCompatibility: Array.isArray(p.deviceCompatibility) ? p.deviceCompatibility : undefined,
+    fulfilment: p.fulfilment === 'order-in' ? 'order-in' : undefined,
     updatedAt: p.updatedAt ? new Date(p.updatedAt).toISOString() : undefined,
   };
 }

@@ -30,6 +30,7 @@ export default function ProductView({
   const price = currentPrice(p);
   const was = typeof p.oldPrice === 'number' && p.oldPrice > price ? p.oldPrice : null;
   const inStock = typeof p.stock === 'number' ? p.stock > 0 : true;
+  const orderIn = p.fulfilment === 'order-in';
   const lowStock = typeof p.stock === 'number' && p.stock > 0 && p.stock <= 3;
   const images = Array.from(new Set([p.imageUrl, ...(p.images || [])].filter(Boolean)));
   const cat = getShopCategoryByDb(p.category);
@@ -51,7 +52,7 @@ export default function ProductView({
     },
     STORE.clickAndCollect.enabled && {
       q: 'Can I pick it up today?',
-      a: `Yes. Choose click & collect at checkout and pick it up from ${BUSINESS.address.unit}, ${BUSINESS.address.centre}, Heidelberg (${STORE.clickAndCollect.readyText}).`,
+      a: `Yes. Choose click & collect at checkout and pick it up from ${BUSINESS.address.unit}, ${BUSINESS.address.centre}, Heidelberg (${orderIn ? STORE.orderIn.readyText : STORE.clickAndCollect.readyText}).`,
     },
     isGlass &&
       STORE.freeFitting && {
@@ -134,7 +135,13 @@ export default function ProductView({
             )}
           </div>
           <p className={`ma-product__stock${inStock ? '' : ' is-out'}`}>
-            {inStock ? (lowStock ? `● Only ${p.stock} left` : '● In stock at Warringal') : '● Out of stock'}
+            {!inStock
+              ? '● Out of stock'
+              : orderIn
+                ? `● Ordered in for you, ${STORE.orderIn.readyText}`
+                : lowStock
+                  ? `● Only ${p.stock} left`
+                  : '● In stock at Warringal'}
           </p>
 
           <BuyBox product={cartProduct} price={price} inStock={inStock} />
@@ -142,7 +149,8 @@ export default function ProductView({
           <ul className="ma-product__promises">
             {STORE.clickAndCollect.enabled && (
               <li>
-                <strong>Click & collect</strong> from {BUSINESS.address.unit}, Warringal, {STORE.clickAndCollect.readyText}
+                <strong>Click & collect</strong> from {BUSINESS.address.unit}, Warringal,{' '}
+                {orderIn ? STORE.orderIn.readyText : STORE.clickAndCollect.readyText}
               </li>
             )}
             {STORE.delivery.enabled && (
