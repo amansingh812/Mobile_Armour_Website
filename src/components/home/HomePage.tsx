@@ -6,7 +6,7 @@ import ProductTile from '@/components/store/ProductTile';
 import PromiseStrip from '@/components/store/PromiseStrip';
 import GoogleReviews from './GoogleReviews';
 import { getAllProducts } from '@/lib/shop-data';
-import { getPhoneHubs, hubSummary } from '@/lib/phones';
+import { getPhoneHubs } from '@/lib/phones';
 import { currentPrice, productPath, slugify } from '@/lib/products';
 import { SHOP_CATEGORIES } from '@/data/shop-categories';
 import { categories as CATEGORY_IMAGES } from '@/data/categories';
@@ -52,7 +52,12 @@ export default async function HomePage() {
     .sort((a, b) => (a.category === 'Cases' ? 0 : 1) - (b.category === 'Cases' ? 0 : 1));
   const iphone18Hubs = IPHONE18.map((d) => hubs.find((h) => h.device === d)).filter(Boolean) as typeof hubs;
   const topHub = hubs[0];
-  const topCases = topHub ? topHub.products.filter((p) => p.category === 'Cases') : [];
+  // Apple Watch straps promo (most-searched accessory after phone cases).
+  const straps = all
+    .filter((p) => p.category === 'Apple Watch Straps')
+    .filter((p) => !(typeof p.stock === 'number' && p.stock <= 0));
+  const strapColours = new Set(straps.flatMap((p) => (p.variants || []).map((v) => v.colour).filter(Boolean))).size;
+  const strapFrom = straps.length ? Math.min(...straps.map((p) => currentPrice(p))) : null;
   const guides = [...blogPosts]
     .sort((a, b) => +new Date(b.modifiedDate || b.publishedDate) - +new Date(a.modifiedDate || a.publishedDate))
     .slice(0, 3);
@@ -245,34 +250,26 @@ export default async function HomePage() {
               </Link>
             </div>
           ) : (
-            topHub && (
+            straps.length > 0 && (
               <div className="ma-panel ma-panel--peach ma-home__promo">
                 <div className="ma-home__promo-copy">
-                  <span className="ma-eyebrow">New in</span>
-                  <h2>
-                    {topHub.device} {topCases.length > 0 ? 'cases' : 'accessories'}
-                  </h2>
+                  <span className="ma-eyebrow">New category</span>
+                  <h2>Apple Watch straps</h2>
                   <p>
-                    {topCases.length > 0
-                      ? `${topCases.length} ${topCases.length === 1 ? 'case' : 'cases'} in stock.`
-                      : `${hubSummary(topHub.products)} in stock.`}{' '}
-                    Try them on at the kiosk.
+                    {straps.length} styles in {strapColours} colours, small and large sizes
+                    {strapFrom ? `, from $${strapFrom}` : ''}. Silicone sport, stretchy nylon, braided and Alpine loops.
                   </p>
-                  <Link
-                    href={`/phones/${topHub.slug}`}
-                    className="ma-btn ma-btn--dark"
-                    style={{ alignSelf: 'flex-start' }}
-                  >
-                    {topCases.length > 0 ? 'Shop cases' : `Shop ${topHub.device}`}
+                  <Link href="/shop/apple-watch-straps" className="ma-btn ma-btn--dark" style={{ alignSelf: 'flex-start' }}>
+                    Shop watch straps
                   </Link>
                 </div>
                 <Link
-                  href={`/phones/${topHub.slug}`}
+                  href="/shop/apple-watch-straps"
                   className="ma-home__promo-img ma-home__promo-img--photo"
                   tabIndex={-1}
                   aria-hidden="true"
                 >
-                  <Image src="/img/home/new-in-cases.webp" alt="" fill sizes="(max-width: 560px) 112px, 220px" />
+                  <Image src="/img/home/watch-straps.webp" alt="" fill sizes="(max-width: 560px) 112px, 220px" />
                 </Link>
               </div>
             )

@@ -79,6 +79,9 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--dir') opt.dir = next();
   else if (a === '--jobs') opt.jobs = next(); // e.g. 0-9: import only these designs (by list number)
   else if (a === '--all-available') opt.allAvailable = true;
+  // Add this capture's options to an existing product (matched by --name) without
+  // touching its name, description or features; never creates a new product.
+  else if (a === '--merge-only') opt.mergeOnly = true;
   else if (a === '--floor') opt.floors = [...(opt.floors || []), next()];
   else if (a === '--capture') {
     while (argv[i + 1] && !argv[i + 1].startsWith('--')) opt.captures.push(argv[++i]);
@@ -122,10 +125,11 @@ for (const [alias, name] of [
 
 // First match wins, so the more specific kinds come first.
 const CATEGORY_RULES = [
+  [/watch\s*(band|strap)|(sport|alpine|milanese|solo)\s*loop.*watch|apple watch.*\b(band|strap|loop)\b/i, 'Apple Watch Straps'],
   [/earbud|earphone|headphone|headset|airpods/i, 'Headphones'],
   [/speaker|soundbar/i, 'Speakers'],
   [/memory card|micro ?sd|sd card|flash drive|usb drive|thumb drive|card reader/i, 'Memory & Storage'],
-  [/bike|bicycle|motorbike|motorcycle|scooter|handlebar/i, 'Bike Mounts'],
+  [/bike|bicycle|motorbike|motorcycle|scooter|handlebar/i, 'Mounts & Stands'],
   [/power ?bank|battery pack/i, 'Power Banks'],
   [/\bcar\b[\w\s-]{0,20}\b(mount|holder|charger|bracket|cradle)|vehicle mount|gravity (car )?(mount|holder)|ventilation|\bair ?(vent|outlet)\b|\bvent (mount|clip|holder)|dashboard|fm transmitter/i, 'Car Holders'],
   // Cases and glass before stands and chargers: "Magnetic Ring Holder Case" is a case.
@@ -133,7 +137,7 @@ const CATEGORY_RULES = [
   [/\bcase\b|cover|bumper|folio|wallet/i, 'Cases'],
   [/selfie|tripod|gimbal|tracker|air ?tag|ring light|stylus/i, 'Tech Gadgets'],
   [/wireless charg|magsafe charg|qi2?\b|charging pad|charging stand|3[- ]in[- ]1 (?:wireless|charg)/i, 'Wireless Chargers'],
-  [/desk stand|phone stand|tablet stand|ring holder|grip|kickstand holder|lazy holder/i, 'Stands & Holders'],
+  [/desk stand|phone stand|tablet stand|ring holder|grip|kickstand holder|lazy holder/i, 'Mounts & Stands'],
   [/charger|cable|adapter|adaptor|usb|lightning|hub/i, 'Cables & Adapters'],
 ];
 
@@ -169,6 +173,12 @@ function productLd(html) {
 /** "Case for iPhone 17 Pro Max / 18 Pro Max" -> ['iPhone 17 Pro Max', 'iPhone 18 Pro Max'] */
 function parseDevices(title) {
   const found = new Set();
+  // Apple Watch bands come in two fits (see WATCH_SIZES in src/data/phone-models.ts).
+  if (/apple watch/i.test(title)) {
+    if (/\b(38|40|41)\s*mm/i.test(title)) found.add('Apple Watch Small (38–42mm)');
+    if (/\b(44|45|46|49)\s*mm/i.test(title)) found.add('Apple Watch Large (42–49mm)');
+    if (found.size) return [...found];
+  }
   const families = [
     ['iPhone', /iphone/i],
     ['Galaxy', /(samsung\s+)?galaxy|samsung/i],
@@ -237,7 +247,7 @@ function tidyName(name) {
 function designName(name) {
   let n = tidyName(name);
   // trailing "for iPhone ..." / "For Samsung Galaxy ..."
-  n = n.replace(/\s+for\s+(?:the\s+)?(?:apple\s+)?(?:iphone|samsung|galaxy|google|pixel|ipad)\b.*$/i, '');
+  n = n.replace(/\s+for\s+(?:the\s+)?(?:apple\s+)?(?:iphone|samsung|galaxy|google|pixel|ipad|watch)\b.*$/i, '');
   // leading "iPhone 17 Pro Max / 18 Pro Max ..."
   const words = n.split(/\s+/);
   if (/^(iphone|samsung|galaxy|google|pixel)$/i.test(words[0] || '')) {
@@ -501,7 +511,7 @@ async function prepare(captures, row = {}) {
     kioskStock,
     variants,
   };
-  p.description = await writeDescription(p);
+  p.description = opt.mergeOnly ? { text: '', source: 'kept' } : await writeDescription(p);
   return p;
 }
 
@@ -575,6 +585,31 @@ async function save(p, db) {
 
   const products = db.collection('products');
   const skus = variants.map((v) => v.sku);
+  if (opt.mergeOnly) {
+    const target = await products.findOne({ name: p.name, category: p.category });
+    if (!target) throw new Error(`--merge-only: no existing "${p.name}" in ${p.category}`);
+    const keep = (target.variants || []).filter((v) => !skus.includes(v.sku));
+    // New phone's options take the design's existing price, so one design has one price.
+    const designPrice = keep.length ? Math.min(...keep.map((v) => v.price)) : null;
+    const added = variants.map((v) => (designPrice ? { ...v, price: Math.max(p.floor || 0, designPrice) } : v));
+    const all = [...keep, ...added];
+    const anyAvailable = all.some((v) => (kiosk ? (v.stock ?? 0) > 0 : v.supplier?.inStock !== false));
+    await products.updateOne(
+      { _id: target._id },
+      {
+        $set: {
+          variants: all,
+          deviceCompatibility: [...new Set(all.flatMap((v) => v.models || []))],
+          price: Math.min(...all.map((v) => v.price)),
+          images: [...new Set([...(target.images || []), ...added.flatMap((v) => v.images || [])])].slice(0, 30),
+          stock: kiosk ? all.reduce((t, v) => t + (v.stock ?? 0), 0) : anyAvailable ? 99 : 0,
+          'supplier.inStock': anyAvailable,
+          updatedAt: now,
+        },
+      }
+    );
+    return { action: `merged (+${added.length} options)`, id: String(target._id) };
+  }
   const existing = await products.findOne(
     { $or: [{ 'variants.sku': { $in: skus } }, { sku: { $in: skus } }, { name: p.name, category: p.category }] },
     { projection: { _id: 1, variants: 1 } }

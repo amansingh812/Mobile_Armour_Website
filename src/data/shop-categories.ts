@@ -139,6 +139,26 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
     },
   },
   {
+    slug: 'apple-watch-straps',
+    dbCategory: 'Apple Watch Straps',
+    name: 'Apple Watch Straps & Bands',
+    shortName: 'Watch Straps',
+    title: 'Apple Watch Straps & Bands Heidelberg | Mobile Armour',
+    metaDescription:
+      'Apple Watch straps and bands at Mobile Armour, Warringal Shopping Centre, Heidelberg: silicone sport bands, stretchy nylon, braided and Alpine loops in small and large sizes.',
+    intro: [
+      'Silicone sport bands, stretchy nylon and braided loops, classic nylon and Alpine-style loops for Apple Watch, in small (38–42mm) and large (42–49mm) fits, from our kiosk at Warringal Shopping Centre, Heidelberg.',
+    ],
+    buyingTips: {
+      heading: 'Which size do I need?',
+      points: [
+        'Small fits 38mm, 40mm and 41mm watches, and the 42mm Series 10 and 11.',
+        'Large fits 44mm, 45mm and 49mm (Ultra) watches, and the 42mm Series 1–3.',
+        'Not sure? The size is engraved on the back of the watch case, or bring your watch to the kiosk.',
+      ],
+    },
+  },
+  {
     slug: 'headphones',
     dbCategory: 'Headphones',
     name: 'Earbuds & Headphones',
@@ -175,38 +195,22 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
     },
   },
   {
-    slug: 'stands-holders',
-    dbCategory: 'Stands & Holders',
-    name: 'Phone Stands & Holders',
-    shortName: 'Stands & Holders',
-    title: 'Phone & Tablet Stands, Ring Holders Heidelberg | Mobile Armour',
+    slug: 'mounts-stands',
+    dbCategory: 'Mounts & Stands',
+    name: 'Bike Mounts, Phone Stands & Holders',
+    shortName: 'Mounts & Stands',
+    title: 'Bike Phone Mounts, Phone Stands & Holders Heidelberg | Mobile Armour',
     metaDescription:
-      'Desk stands for phones and tablets, MagSafe ring holders and grips at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
+      'Bike and scooter phone mounts, desk stands for phones and tablets, magnetic holders and selfie sticks at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
     intro: [
-      'Desk stands for phones and tablets, MagSafe ring holders and grips, available from our kiosk at Warringal Shopping Centre, Heidelberg.',
+      'Handlebar mounts for bikes, e-scooters and motorbikes, desk stands for phones and tablets, magnetic holders and selfie sticks, from our kiosk at Warringal Shopping Centre, Heidelberg.',
     ],
     buyingTips: {
-      heading: 'Choosing a stand or holder',
+      heading: 'Choosing a mount or stand',
       points: [
-        'Adjustable stands suit video calls and watching; check they fold flat if you travel.',
-        'MagSafe ring holders need iPhone 12 or later, or a MagSafe case.',
-      ],
-    },
-  },
-  {
-    slug: 'bike-mounts',
-    dbCategory: 'Bike Mounts',
-    name: 'Bike & Motorbike Phone Mounts',
-    shortName: 'Bike Mounts',
-    title: 'Bike & Motorbike Phone Mounts Heidelberg | Mobile Armour',
-    metaDescription:
-      'Phone mounts for bikes, e-scooters and motorbikes at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
-    intro: ['Handlebar phone mounts for bikes, e-scooters and motorbikes, available from our kiosk at Warringal Shopping Centre, Heidelberg.'],
-    buyingTips: {
-      heading: 'Choosing a bike mount',
-      points: [
-        'Check the mount fits your handlebar diameter and your phone’s size with its case on.',
+        'For a bike, check the mount fits your handlebar and your phone with its case on.',
         'For motorbikes, a vibration dampener helps protect the phone’s camera.',
+        'Adjustable desk stands suit video calls and watching; check they fold flat if you travel.',
       ],
     },
   },

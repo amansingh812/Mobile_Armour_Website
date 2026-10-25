@@ -46,14 +46,14 @@ export const categories: Category[] = [
     link: "/shop/speakers",
   },
   {
-    name: "Phone Stands & Holders",
-    image: "/img/categories/stands-holders.webp",
-    link: "/shop/stands-holders",
+    name: "Bike Mounts, Stands & Holders",
+    image: "/img/categories/bike-mounts.webp",
+    link: "/shop/mounts-stands",
   },
   {
-    name: "Bike Mounts",
-    image: "/img/categories/bike-mounts.webp",
-    link: "/shop/bike-mounts",
+    name: "Apple Watch Straps",
+    image: "/img/categories/apple-watch-straps.webp",
+    link: "/shop/apple-watch-straps",
   },
   {
     name: "Memory Cards & USB Drives",

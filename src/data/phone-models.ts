@@ -41,7 +41,12 @@ export const PHONE_MODELS: PhoneModel[] = [
   { name: 'Google Pixel 10 Pro Fold', short: 'Pixel 10 Pro Fold', brand: 'Google', series: 'Pixel 10', launch: false },
 ];
 
-const ORDER = new Map(PHONE_MODELS.map((m, i) => [m.name, i]));
+// Phones in shop order, then watch sizes (small before large).
+const ORDER = new Map<string, number>([
+  ...PHONE_MODELS.map((m, i) => [m.name, i] as [string, number]),
+  ['Apple Watch Small (38–42mm)', 500],
+  ['Apple Watch Large (42–49mm)', 501],
+]);
 
 /** Sorts model names into shop order; unknown (older) models go last, A–Z. */
 export function sortModels(names: string[]): string[] {
@@ -56,9 +61,34 @@ export function phoneModel(name: string): PhoneModel | undefined {
   return PHONE_MODELS.find((m) => m.name === name);
 }
 
+/**
+ * Apple Watch band sizes. Straps come in two fits; the names are stored in
+ * Product.deviceCompatibility and variant.models like phone models are.
+ */
+export const WATCH_SIZES = [
+  {
+    name: 'Apple Watch Small (38–42mm)',
+    short: 'Small · 38–42mm',
+    fits: 'Series 1–3 38mm, Series 4–6 & SE 40mm, Series 7–9 41mm, Series 10–11 42mm',
+  },
+  {
+    name: 'Apple Watch Large (42–49mm)',
+    short: 'Large · 42–49mm',
+    fits: 'Series 1–3 42mm, Series 4–6 & SE 44mm, Series 7–9 45mm, Ultra 1–3 49mm',
+  },
+] as const;
+
+export function isWatchSize(name: string): boolean {
+  return name.startsWith('Apple Watch');
+}
+
+export function watchSize(name: string) {
+  return WATCH_SIZES.find((w) => w.name === name);
+}
+
 /** Button label: "17 Pro Max" for known models, the full name otherwise. */
 export function shortModel(name: string): string {
-  return phoneModel(name)?.short || name.replace(/^(Samsung Galaxy|Google) /, '');
+  return phoneModel(name)?.short || watchSize(name)?.short || name.replace(/^(Samsung Galaxy|Google) /, '');
 }
 
 /** Swatch colours for the colour names suppliers use. Unknown names get a neutral grey. */

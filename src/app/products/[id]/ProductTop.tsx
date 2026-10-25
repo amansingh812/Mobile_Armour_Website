@@ -6,7 +6,7 @@ import ProductGallery from './ProductGallery';
 import BuyBox from './BuyBox';
 import { currentPrice, slugify } from '@/lib/products';
 import type { ShopProduct, ShopVariant } from '@/lib/shop-data';
-import { shortModel, sortModels, swatchFor } from '@/data/phone-models';
+import { isWatchSize, shortModel, sortModels, swatchFor, watchSize } from '@/data/phone-models';
 import { STORE } from '@/data/store-settings';
 import { BUSINESS } from '@/data/business';
 import { phonePath } from '@/lib/device-links';
@@ -19,6 +19,7 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
   const variants = p.variants;
   const models = useMemo(() => (variants ? sortModels(variants.flatMap((v) => v.models)) : []), [variants]);
   const [model, setModel] = useState<string | undefined>(models[0]);
+  const isWatch = models.length > 0 && models.every(isWatchSize);
   const [colour, setColour] = useState<string | undefined>();
 
   // Preselect the phone from ?model=… or the one picked last time.
@@ -43,7 +44,8 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
   const pickModel = (m: string) => {
     setModel(m);
     try {
-      localStorage.setItem(PHONE_KEY, slugify(m));
+      // Remember the phone for other pages (not watch sizes).
+      if (!isWatchSize(m)) localStorage.setItem(PHONE_KEY, slugify(m));
       const url = new URL(window.location.href);
       url.searchParams.set('model', slugify(m));
       window.history.replaceState(null, '', url.toString());
@@ -123,9 +125,10 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
         {models.length > 0 && (
           <fieldset className="ma-pick">
             <legend>
-              Your phone{model ? <span>: {model}</span> : null}
+              {isWatch ? 'Your watch size' : 'Your phone'}
+              {model ? <span>: {isWatch ? shortModel(model) : model}</span> : null}
             </legend>
-            <div className="ma-pick__models" role="radiogroup" aria-label="Phone model">
+            <div className="ma-pick__models" role="radiogroup" aria-label={isWatch ? 'Watch size' : 'Phone model'}>
               {models.map((m) => (
                 <button
                   key={m}
@@ -139,6 +142,9 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
                 </button>
               ))}
             </div>
+            {isWatch && model && watchSize(model) && (
+              <p className="ma-pick__note">Fits {watchSize(model)!.fits}.</p>
+            )}
           </fieldset>
         )}
 

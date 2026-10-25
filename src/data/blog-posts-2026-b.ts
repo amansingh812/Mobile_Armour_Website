@@ -782,8 +782,8 @@ export const guidePostsBatchB: BlogPost[] = [
     tags: ['Bike Mounts', 'Accessories'],
     shop: {
       title: 'Bike mounts and stands',
-      categories: ['Bike Mounts', 'Stands & Holders'],
-      href: '/shop/bike-mounts',
+      categories: ['Mounts & Stands'],
+      href: '/shop/mounts-stands',
     },
     content: `
       <table>
@@ -816,7 +816,7 @@ export const guidePostsBatchB: BlogPost[] = [
       <h3>Q: Do you sell bike mounts in Heidelberg?</h3>
       <p>Yes, at Mobile Armour in Warringal Shopping Centre, for click &amp; collect or delivery.</p>
 
-      <p><em>Products named were available when this guide was written; see the <a href="/shop/bike-mounts">current range</a>.</em></p>
+      <p><em>Products named were available when this guide was written; see the <a href="/shop/mounts-stands">current range</a>.</em></p>
     `,
   },
 
@@ -916,7 +916,7 @@ export const guidePostsBatchB: BlogPost[] = [
     tags: ['Gifts', 'Tech Gadgets', 'Accessories'],
     shop: {
       title: 'Gifts under $100',
-      categories: ['Tech Gadgets', 'Speakers', 'Headphones', 'Wireless Chargers', 'Stands & Holders', 'Power Banks'],
+      categories: ['Tech Gadgets', 'Speakers', 'Headphones', 'Wireless Chargers', 'Mounts & Stands', 'Apple Watch Straps', 'Power Banks'],
       maxPrice: 100,
       href: '/shop/tech-gadgets',
       limit: 9,

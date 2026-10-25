@@ -16,6 +16,8 @@ export const DEVICES = Array.from(
     'Google Pixel 10', 'Google Pixel 10 Pro', 'Google Pixel 10 Pro XL',
     'Google Pixel 9', 'Google Pixel 9 Pro', 'Google Pixel 9 Pro Fold',
     'OnePlus 12', 'Xiaomi 14', 'OPPO Find X7',
+    // Apple Watch band fits (see WATCH_SIZES in phone-models.ts)
+    'Apple Watch Small (38–42mm)', 'Apple Watch Large (42–49mm)',
   ])
 );
 

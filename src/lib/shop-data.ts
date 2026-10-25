@@ -155,7 +155,7 @@ const loadAllProducts = unstable_cache(
     const docs = await Product.find({}, LIST_FIELDS).sort({ createdAt: -1 }).lean();
     return docs.map(toListProduct);
   },
-  ['shop-all-products-v2'],
+  ['shop-all-products-v3'],
   { tags: [PRODUCTS_TAG], revalidate: PRODUCTS_TTL }
 );
 
@@ -201,7 +201,7 @@ const loadCategoryProducts = unstable_cache(
     const docs = await Product.find(query, LIST_FIELDS).sort({ createdAt: -1 }).lean();
     return docs.map(toListProduct);
   },
-  ['shop-category-products-v2'],
+  ['shop-category-products-v3'],
   { tags: [PRODUCTS_TAG], revalidate: PRODUCTS_TTL }
 );
 
@@ -221,7 +221,7 @@ const loadProductById = unstable_cache(
     const doc = await Product.findById(id).lean();
     return doc ? toShopProduct(doc) : null;
   },
-  ['shop-product-by-id-v2'],
+  ['shop-product-by-id-v3'],
   { tags: [PRODUCTS_TAG], revalidate: PRODUCTS_TTL }
 );
 

@@ -2,7 +2,7 @@
 import { cache } from 'react';
 import { getAllProducts, type ShopProduct } from '@/lib/shop-data';
 import { slugify } from '@/lib/products';
-import { PHONE_MODELS, phoneModel } from '@/data/phone-models';
+import { PHONE_MODELS, phoneModel, isWatchSize } from '@/data/phone-models';
 
 const PHONE_ORDER = new Map(PHONE_MODELS.map((m, i) => [m.name, i]));
 
@@ -20,7 +20,7 @@ export const getPhoneHubs = cache(async function getPhoneHubs(): Promise<PhoneHu
   const map = new Map<string, ShopProduct[]>();
   for (const p of all) for (const d of p.deviceCompatibility || []) map.set(d, [...(map.get(d) || []), p]);
   return Array.from(map.entries())
-    .filter(([d, list]) => list.length >= (phoneModel(d)?.launch ? 1 : MIN_PRODUCTS_FOR_PHONE_PAGE))
+    .filter(([d, list]) => !isWatchSize(d) && list.length >= (phoneModel(d)?.launch ? 1 : MIN_PRODUCTS_FOR_PHONE_PAGE))
     .map(([device, products]) => ({ device, slug: slugify(device), products }))
     // Newest phones first (shop order), then older models by how much we stock.
     .sort((a, b) => {

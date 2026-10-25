@@ -30,6 +30,9 @@ const nextConfig = {
       // Old placeholder category pages (they rendered fake products) and bare /shop
       { source: "/category/:path*", destination: "/products", permanent: true },
       { source: "/shop", destination: "/products", permanent: true },
+      // Bike mounts and stands merged into one category (25 Oct 2026)
+      { source: "/shop/bike-mounts/:path*", destination: "/shop/mounts-stands", permanent: true },
+      { source: "/shop/stands-holders/:path*", destination: "/shop/mounts-stands", permanent: true },
       { source: "/home1", destination: "/", permanent: true },
       { source: "/home2", destination: "/", permanent: true },
       { source: "/home3", destination: "/", permanent: true },
