@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import ProductTile from '@/components/store/ProductTile';
 import PromiseStrip from '@/components/store/PromiseStrip';
+import PhonePicker, { type PhoneLink } from './PhonePicker';
 import JsonLd, { faqPage } from '@/components/seo/JsonLd';
 import { Breadcrumbs, FaqList } from '@/components/site/PageBits';
 import type { Faq } from '@/data/faqs';
@@ -36,6 +37,11 @@ interface ShopListingProps {
   faqHeading?: string;
   /** Guides worth reading before buying. */
   guides?: { title: string; href: string }[];
+  /** Shop by phone: one link per phone with products here. */
+  phones?: PhoneLink[];
+  allPhonesHref?: string;
+  /** This page is for one phone: product links open with it chosen. */
+  model?: string;
 }
 
 export default function ShopListing({
@@ -51,6 +57,9 @@ export default function ShopListing({
   faqs,
   faqHeading,
   guides,
+  phones,
+  allPhonesHref,
+  model,
 }: ShopListingProps) {
   const itemList = {
     '@context': 'https://schema.org',
@@ -90,6 +99,8 @@ export default function ShopListing({
         )}
       </header>
 
+      {phones && phones.length > 0 && <PhonePicker phones={phones} allHref={allPhonesHref} />}
+
       {subLinks && subLinks.length > 0 && (
         <nav className="ma-wrap ma-shop__models" aria-label={subLinksHeading || 'Shop by model'}>
           <span className="ma-shop__models-label">{subLinksHeading || 'Shop by model'}:</span>
@@ -109,7 +120,7 @@ export default function ShopListing({
         {products.length > 0 ? (
           <section aria-label="Products" className="ma-pgrid">
             {products.map((p, i) => (
-              <ProductTile key={p._id} product={p} priority={i < 4} />
+              <ProductTile key={p._id} product={p} priority={i < 4} model={model} />
             ))}
           </section>
         ) : (

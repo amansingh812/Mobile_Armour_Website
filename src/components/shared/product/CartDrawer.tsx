@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/useCart';
+import { lineKey } from '@/types/product';
 import './CartDrawer.css';
 
 interface CartDrawerProps {
@@ -44,7 +45,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             <>
               <div className="cart-items">
                 {state.items.map((item) => (
-                  <div key={item.product._id} className="cart-item">
+                  <div key={lineKey(item.product)} className="cart-item">
                     <img
                       src={item.product.imageUrl}
                       alt={item.product.name}
@@ -52,19 +53,20 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     />
                     <div className="cart-item-details">
                       <h4>{item.product.name}</h4>
+                      {item.product.variantLabel && <p className="cart-item-variant">{item.product.variantLabel}</p>}
                       <p className="cart-item-price">${(item.product.newPrice && item.product.newPrice > 0 ? item.product.newPrice : item.product.price).toFixed(2)}</p>
 
                       <div className="cart-item-controls">
                         <div className="quantity-controls">
                           <button
-                            onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)}
+                            onClick={() => handleQuantityChange(lineKey(item.product), item.quantity - 1)}
                             className="quantity-btn"
                           >
                             -
                           </button>
                           <span className="quantity-display">{item.quantity}</span>
                           <button
-                            onClick={() => handleQuantityChange(item.product._id, item.quantity + 1)}
+                            onClick={() => handleQuantityChange(lineKey(item.product), item.quantity + 1)}
                             className="quantity-btn"
                           >
                             +
@@ -72,7 +74,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                         </div>
 
                         <button
-                          onClick={() => removeItem(item.product._id)}
+                          onClick={() => removeItem(lineKey(item.product))}
                           className="remove-btn"
                         >
                           Remove

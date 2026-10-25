@@ -252,3 +252,95 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Feature phone banner (iPhone Duo) */
+.ma-duo {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 32px;
+  align-items: center;
+  padding: 44px 48px;
+  border-radius: 28px;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgba(255, 106, 36, 0.38) 0%, rgba(255, 106, 36, 0) 55%),
+    linear-gradient(135deg, #15171c 0%, #23262e 100%);
+}
+.ma-duo__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ma-duo__eyebrow {
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #ffb48a;
+}
+.ma-duo h2 {
+  margin: 0;
+  font-size: clamp(30px, 3.6vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -1.2px;
+  color: #fff;
+}
+.ma-duo p {
+  margin: 0;
+  max-width: 460px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+.ma-duo .ma-actions {
+  margin-top: 6px;
+}
+.ma-duo__shots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 14px;
+  min-height: 340px;
+}
+.ma-duo__shots li {
+  position: relative;
+  border-radius: 20px;
+  background: #fff;
+  overflow: hidden;
+}
+.ma-duo__shots li.is-main {
+  grid-row: span 2;
+}
+.ma-duo__shots li:only-child {
+  grid-column: span 2;
+}
+.ma-duo__shots a {
+  position: absolute;
+  inset: 0;
+}
+.ma-duo__shots img {
+  object-fit: contain;
+  padding: 14px;
+  transition: transform 0.3s;
+}
+.ma-duo__shots a:hover img {
+  transform: scale(1.04);
+}
+@media (max-width: 900px) {
+  .ma-duo {
+    grid-template-columns: 1fr;
+    padding: 30px 24px;
+  }
+  .ma-duo__shots {
+    min-height: 260px;
+  }
+}

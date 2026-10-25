@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
+import { lineKey } from '@/types/product';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -14,7 +15,7 @@ import '@/app/cart/cart-page.css';
 interface PendingOrder {
   sessionId: string;
   fulfilment?: 'collect' | 'delivery';
-  items: { product: { _id: string; name: string; imageUrl: string }; quantity: number }[];
+  items: { product: { _id: string; name: string; imageUrl: string; variantSku?: string; variantLabel?: string; model?: string }; quantity: number }[];
   total: number;
 }
 
@@ -66,11 +67,14 @@ function PaymentSuccess() {
           {order && order.items.length > 0 && (
             <ul className="ma-cart__items" aria-label="Items in this order">
               {order.items.map((i) => (
-                <li key={i.product._id} className="ma-cart__item" style={{ gridTemplateColumns: '64px 1fr auto' }}>
+                <li key={lineKey(i.product)} className="ma-cart__item" style={{ gridTemplateColumns: '64px 1fr auto' }}>
                   <span className="ma-cart__thumb" style={{ width: 64, height: 64 }}>
                     {i.product.imageUrl && <Image src={i.product.imageUrl} alt="" fill sizes="64px" />}
                   </span>
-                  <span className="ma-cart__name">{i.product.name}</span>
+                  <span style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <span className="ma-cart__name">{i.product.name}</span>
+                    {i.product.variantLabel && <span className="ma-cart__fit">{i.product.variantLabel}</span>}
+                  </span>
                   <span>× {i.quantity}</span>
                 </li>
               ))}

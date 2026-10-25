@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useReducer, useRef, ReactNode } from 'react';
-import { Product, CartItem } from '@/types/product';
+import { Product, CartItem, lineKey } from '@/types/product';
 
 interface CartState {
   items: CartItem[];
@@ -18,8 +18,9 @@ type CartAction =
 interface CartContextType {
   state: CartState;
   addItem: (product: Product, quantity: number) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  /** Takes the line key (lineKey(product)). */
+  removeItem: (lineId: string) => void;
+  updateQuantity: (lineId: string, quantity: number) => void;
   clearCart: () => void;
   getItemCount: () => number;
 }
@@ -33,7 +34,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_ITEM': {
       const existingItemIndex = state.items.findIndex(
-        item => item.product._id === action.payload.product._id
+        item => lineKey(item.product) === lineKey(action.payload.product)
       );
 
       if (existingItemIndex >= 0) {
@@ -50,7 +51,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     }
 
     case 'REMOVE_ITEM': {
-      const filteredItems = state.items.filter(item => item.product._id !== action.payload);
+      const filteredItems = state.items.filter(item => lineKey(item.product) !== action.payload);
       const total = filteredItems.reduce((sum, item) => sum + priceOf(item.product) * item.quantity, 0);
       return { items: filteredItems, total };
     }
@@ -61,7 +62,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       }
 
       const updatedItems = state.items.map(item =>
-        item.product._id === action.payload.productId
+        lineKey(item.product) === action.payload.productId
           ? { ...item, quantity: action.payload.quantity }
           : item
       );
@@ -118,6 +119,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           newPrice: p.newPrice,
           oldPrice: p.oldPrice,
           deviceCompatibility: p.deviceCompatibility,
+          variantSku: p.variantSku,
+          variantLabel: p.variantLabel,
+          model: p.model,
         },
       }));
       localStorage.setItem(CART_KEY, JSON.stringify(slim));

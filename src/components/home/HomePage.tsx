@@ -7,7 +7,7 @@ import PromiseStrip from '@/components/store/PromiseStrip';
 import GoogleReviews from './GoogleReviews';
 import { getAllProducts } from '@/lib/shop-data';
 import { getPhoneHubs, hubSummary } from '@/lib/phones';
-import { currentPrice } from '@/lib/products';
+import { currentPrice, productPath, slugify } from '@/lib/products';
 import { SHOP_CATEGORIES } from '@/data/shop-categories';
 import { categories as CATEGORY_IMAGES } from '@/data/categories';
 import { BUSINESS, SERVICE_AREAS, fullAddress, hoursShort, hoursSummary } from '@/data/business';
@@ -38,6 +38,12 @@ export default async function HomePage() {
     count: all.filter((p) => p.category === c.dbCategory).length,
     image: CATEGORY_IMAGES.find((x) => x.link === `/shop/${c.slug}`)?.image,
   })).filter((c) => c.count > 0);
+  // Feature phone: the iPhone Duo (first foldable iPhone stock), shown once we have products for it.
+  const FEATURE = 'iPhone Duo';
+  const featureHub = hubs.find((h) => h.device === FEATURE);
+  const featureItems = featureHub ? featureHub.products : [];
+  const featureFrom = featureItems.length ? Math.min(...featureItems.map((p) => currentPrice(p))) : null;
+  const featureCats = new Set(featureItems.map((p) => p.category));
   const topHub = hubs[0];
   const topCases = topHub ? topHub.products.filter((p) => p.category === 'Cases') : [];
   const guides = [...blogPosts]
@@ -100,6 +106,42 @@ export default async function HomePage() {
       </section>
 
       <PromiseStrip />
+
+      {featureHub && (
+        <section aria-labelledby="duo-h" className="ma-section">
+          <div className="ma-duo">
+            <div className="ma-duo__copy">
+              <span className="ma-duo__eyebrow">New in · {FEATURE}</span>
+              <h2 id="duo-h">Made for the foldable {FEATURE}</h2>
+              <p>
+                {featureItems.length === 1
+                  ? `A ${featureCats.has('Cases') ? 'case' : 'accessory'} cut`
+                  : `${featureItems.length} ${featureCats.has('Cases') ? 'cases and accessories' : 'accessories'} cut`}{' '}
+                for the Duo&apos;s hinge and cameras
+                {featureFrom !== null ? `, from $${featureFrom % 1 === 0 ? featureFrom : featureFrom.toFixed(2)}` : ''}.
+                Try them on at the kiosk, or order online and collect.
+              </p>
+              <div className="ma-actions">
+                <Link href={`/phones/${featureHub.slug}`} className="ma-btn ma-btn--primary">
+                  Shop {FEATURE}
+                </Link>
+                <Link href="/contact" className="ma-btn ma-btn--ghost">
+                  Ask about stock
+                </Link>
+              </div>
+            </div>
+            <ul className="ma-duo__shots" aria-label={`${FEATURE} products`}>
+              {featureItems.slice(0, 3).map((p, i) => (
+                <li key={p._id} className={i === 0 ? 'is-main' : undefined}>
+                  <Link href={p.variants ? `${productPath(p)}?model=${slugify(FEATURE)}` : productPath(p)} aria-label={p.name}>
+                    {p.imageUrl && <Image src={p.imageUrl} alt="" fill sizes="(max-width: 900px) 45vw, 300px" />}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {hubs.length > 0 && (
         <section aria-labelledby="phones-h" className="ma-section">

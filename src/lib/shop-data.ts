@@ -3,6 +3,18 @@ import { cache } from 'react';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import { slugify } from '@/lib/products';
+import { cleanColour, phoneModel, sortModels } from '@/data/phone-models';
+
+/** One buyable option: the phones it fits, a colour, its price and whether it can be bought now. */
+export interface ShopVariant {
+  sku: string;
+  models: string[];
+  colour?: string;
+  price: number;
+  oldPrice?: number;
+  images: string[];
+  available: boolean;
+}
 
 // Plain, serialisable product shape passed to pages and client components.
 export interface ShopProduct {
@@ -21,10 +33,51 @@ export interface ShopProduct {
   deviceCompatibility?: string[];
   /** 'order-in' = ordered from the supplier when bought. */
   fulfilment?: 'kiosk' | 'order-in';
+  /** Model/colour options; absent for single-option products. */
+  variants?: ShopVariant[];
   updatedAt?: string;
 }
 
+function toShopVariant(v: any, orderIn: boolean): ShopVariant {
+  return {
+    sku: String(v.sku),
+    models: sortModels(Array.isArray(v.models) ? v.models : []),
+    colour: cleanColour(v.colour),
+    price: v.price,
+    oldPrice: v.oldPrice ?? undefined,
+    images: Array.isArray(v.images) ? v.images.filter(Boolean) : [],
+    // Order-in options depend on the supplier; kiosk options on our own count.
+    available: orderIn ? v.supplier?.inStock !== false : typeof v.stock === 'number' ? v.stock > 0 : true,
+  };
+}
+
 function toShopProduct(p: any): ShopProduct {
+  const orderIn = p.fulfilment === 'order-in';
+  const variants: ShopVariant[] | undefined =
+    Array.isArray(p.variants) && p.variants.length ? p.variants.map((v: any) => toShopVariant(v, orderIn)) : undefined;
+  if (variants) {
+    // The design as a whole: cheapest option's price, every phone it fits,
+    // and "in stock" while any option can be bought.
+    const cheapest = variants.reduce((a, b) => (b.price < a.price ? b : a));
+    return {
+      _id: String(p._id),
+      name: p.name,
+      description: p.description || '',
+      price: cheapest.price,
+      oldPrice: cheapest.oldPrice,
+      newPrice: undefined,
+      imageUrl: p.imageUrl || cheapest.images[0],
+      images: Array.isArray(p.images) ? p.images.filter(Boolean) : undefined,
+      category: p.category,
+      stock: variants.some((v) => v.available) ? undefined : 0,
+      brand: p.brand ?? undefined,
+      features: Array.isArray(p.features) ? p.features : undefined,
+      deviceCompatibility: sortModels(variants.flatMap((v) => v.models)),
+      fulfilment: orderIn ? 'order-in' : undefined,
+      variants,
+      updatedAt: p.updatedAt ? new Date(p.updatedAt).toISOString() : undefined,
+    };
+  }
   return {
     _id: String(p._id),
     name: p.name,
@@ -106,7 +159,11 @@ export function devicesWithPages(products: ShopProduct[]): { device: string; slu
     for (const d of p.deviceCompatibility || []) counts.set(d, (counts.get(d) || 0) + 1);
   }
   return Array.from(counts.entries())
-    .filter(([, n]) => n >= MIN_PRODUCTS_FOR_DEVICE_PAGE)
+    // Current models get a page from their first product; older ones need a few.
+    .filter(([d, n]) => n >= (phoneModel(d)?.launch ? 1 : MIN_PRODUCTS_FOR_DEVICE_PAGE))
     .map(([device, count]) => ({ device, slug: slugify(device), count }))
-    .sort((a, b) => b.count - a.count);
+    .sort((a, b) => {
+      const order = sortModels([a.device, b.device]);
+      return order[0] === a.device ? -1 : 1;
+    });
 }

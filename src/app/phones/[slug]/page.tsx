@@ -158,7 +158,7 @@ export default async function PhoneHubPage({ params }: Props) {
             </div>
             <div className="ma-pgrid">
               {list.slice(0, 8).map((p) => (
-                <ProductTile key={p._id} product={p} />
+                <ProductTile key={p._id} product={p} model={hub.device} />
               ))}
             </div>
           </section>

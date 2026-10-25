@@ -7,7 +7,8 @@ import type { Product } from "@/types/product";
 export type CartProduct = Pick<
   Product,
   "_id" | "name" | "category" | "imageUrl" | "price" | "newPrice" | "oldPrice" | "deviceCompatibility"
->;
+> &
+  Partial<Pick<Product, "variantSku" | "variantLabel" | "model">>;
 
 export function toCartProduct(p: CartProduct): Product {
   return {
@@ -20,6 +21,9 @@ export function toCartProduct(p: CartProduct): Product {
     newPrice: p.newPrice,
     oldPrice: p.oldPrice,
     deviceCompatibility: p.deviceCompatibility,
+    variantSku: p.variantSku,
+    variantLabel: p.variantLabel,
+    model: p.model,
   };
 }
 
@@ -46,7 +50,7 @@ export default function AddToCartButton({
 
   const add = () => {
     addItem(toCartProduct(product), quantity);
-    announceAdded(product.name, quantity);
+    announceAdded(product.variantLabel ? `${product.name} (${product.variantLabel})` : product.name, quantity);
     setDone(true);
     setTimeout(() => setDone(false), 1600);
   };

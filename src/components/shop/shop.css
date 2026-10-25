@@ -71,3 +71,95 @@
   flex-direction: column;
   gap: 10px;
 }
+
+/* Shop by phone */
+.ma-phonepick {
+  margin-top: 22px;
+  padding: 20px 22px;
+  border: 1.5px solid var(--ma-line);
+  border-radius: 20px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ma-phonepick__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ma-phonepick__head h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.ma-phonepick__mine {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--ma-peach);
+  color: var(--ma-ink) !important;
+  font-size: 14px;
+}
+.ma-phonepick__groups {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ma-phonepick__group {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+.ma-phonepick__series {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--ma-slate);
+}
+.ma-phonepick__group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ma-phonepick__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1.5px solid var(--ma-line-strong);
+  border-radius: 12px;
+  color: var(--ma-ink) !important;
+  font-size: 15px;
+  font-weight: 700;
+  background: #fff;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ma-phonepick__chip span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ma-slate);
+}
+.ma-phonepick__chip:hover {
+  border-color: var(--ma-ink);
+}
+.ma-phonepick__chip.is-on {
+  background: var(--ma-ink);
+  border-color: var(--ma-ink);
+  color: #fff !important;
+}
+.ma-phonepick__chip.is-on span {
+  color: rgba(255, 255, 255, 0.7);
+}
+@media (max-width: 640px) {
+  .ma-phonepick__group {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}

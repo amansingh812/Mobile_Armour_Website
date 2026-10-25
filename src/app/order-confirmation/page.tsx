@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { lineKey } from '@/types/product';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Order } from '@/types/product';
@@ -127,7 +128,7 @@ const OrderConfirmationPage = () => {
                 <h3>Order Summary</h3>
                 <div className="order-items">
                   {order.items.map((item) => (
-                    <div key={item.product._id} className="order-item">
+                    <div key={lineKey(item.product)} className="order-item">
                       <img
                         src={item.product.imageUrl}
                         alt={item.product.name}

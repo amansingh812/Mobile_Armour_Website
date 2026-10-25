@@ -56,12 +56,7 @@ export default async function ShopCategoryPage({ params }: Props) {
         { name: 'Shop', url: '/products' },
         { name: cat.name },
       ]}
-      subLinksHeading="Phone model"
-      subLinks={devices.map((d) => ({
-        label: d.device,
-        href: `/shop/${cat.slug}/${d.slug}`,
-        count: d.count,
-      }))}
+      phones={devices.map((d) => ({ device: d.device, href: `/shop/${cat.slug}/${d.slug}`, count: d.count }))}
       buyingTips={cat.buyingTips}
       bundleDevice={cat.slug === 'cases' || cat.slug === 'screen-protectors' ? null : undefined}
     />

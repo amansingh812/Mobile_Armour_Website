@@ -1,4 +1,37 @@
 import mongoose, { Schema, Document } from 'mongoose';
+import { PHONE_MODELS } from '@/data/phone-models';
+
+// Every phone a product can fit: the shop's current models plus older ones still in stock.
+export const DEVICES = Array.from(
+  new Set([
+    ...PHONE_MODELS.map((m) => m.name),
+    'iPhone 17 Plus', 'iPhone 16e', 'iPhone 17e',
+    'iPhone 15', 'iPhone 15 Plus', 'iPhone 15 Pro', 'iPhone 15 Pro Max',
+    'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 13 Mini',
+    'iPad Pro M4 (13-inch)', 'iPad Pro M4 (11-inch)', 'iPad Air M2 (13-inch)', 'iPad Air M2 (11-inch)',
+    'iPad 10th Gen (10.9-inch)', 'iPad Mini 6 (8.3-inch)',
+    'Samsung Galaxy S25', 'Samsung Galaxy S25 Plus', 'Samsung Galaxy S25 Ultra',
+    'Samsung Galaxy Z Fold7', 'Samsung Galaxy Z Flip7', 'Samsung Galaxy A55', 'Samsung Galaxy A35',
+    'Samsung Galaxy S24', 'Samsung Galaxy S23',
+    'Google Pixel 10', 'Google Pixel 10 Pro', 'Google Pixel 10 Pro XL',
+    'Google Pixel 9', 'Google Pixel 9 Pro', 'Google Pixel 9 Pro Fold',
+    'OnePlus 12', 'Xiaomi 14', 'OPPO Find X7',
+  ])
+);
+
+/** One buyable option of a design: a supplier SKU for a set of phones in one colour. */
+export interface IVariant {
+  sku: string;
+  gtin?: string;
+  models: string[];
+  colour?: string;
+  price: number;
+  oldPrice?: number;
+  costPrice?: number;
+  stock?: number;
+  images?: string[];
+  supplier?: { url?: string; productId?: string; inStock?: boolean; checkedAt?: Date };
+}
 
 export interface IProduct extends Document {
   name: string;
@@ -39,10 +72,35 @@ export interface IProduct extends Document {
   supplier?: { name?: string; url?: string; productId?: string; inStock?: boolean; checkedAt?: Date };
   costPrice?: number;
   fulfilment?: 'kiosk' | 'order-in';
+  /** Model and colour options. Empty for single-option products. */
+  variants?: IVariant[];
 
   createdAt: Date;
   updatedAt: Date;
 }
+
+const VariantSchema = new Schema(
+  {
+    sku: { type: String, required: true, trim: true },
+    gtin: { type: String, trim: true },
+    models: [{ type: String, enum: DEVICES }],
+    colour: { type: String, trim: true },
+    price: { type: Number, required: true, min: 0 },
+    oldPrice: { type: Number, min: 0 },
+    /** Our cost ex GST. Never sent to shoppers. */
+    costPrice: { type: Number, min: 0, select: false },
+    /** Units at the kiosk (kiosk products only). */
+    stock: { type: Number, min: 0 },
+    images: [{ type: String }],
+    supplier: {
+      url: { type: String },
+      productId: { type: String },
+      inStock: { type: Boolean },
+      checkedAt: { type: Date },
+    },
+  },
+  { _id: false }
+);
 
 const ProductSchema: Schema = new Schema(
   {
@@ -58,34 +116,7 @@ const ProductSchema: Schema = new Schema(
     images: [{ type: String, default: undefined }],
     
     // Device Compatibility
-    deviceCompatibility: [{ 
-      type: String, 
-      enum: [
-        // iPhone 18 series (Sept 2026) and iPhone Duo foldable
-        'iPhone 18', 'iPhone 18 Pro', 'iPhone 18 Pro Max', 'iPhone Duo',
-        // iPhone 17 series and Apple new
-        'iPhone 17', 'iPhone 17 Plus', 'iPhone 17 Pro', 'iPhone 17 Pro Max', 'iPhone Air',
-        // iPhone 16 series
-        'iPhone 16', 'iPhone 16 Plus', 'iPhone 16 Pro', 'iPhone 16 Pro Max',
-        // iPhone 15 series
-        'iPhone 15', 'iPhone 15 Plus', 'iPhone 15 Pro', 'iPhone 15 Pro Max',
-        // iPhone 14 series and earlier example
-        'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 13 Mini',
-        // iPad models
-        'iPad Pro M4 (13-inch)', 'iPad Pro M4 (11-inch)', 'iPad Air M2 (13-inch)', 'iPad Air M2 (11-inch)', 'iPad 10th Gen (10.9-inch)', 'iPad Mini 6 (8.3-inch)',
-        // Samsung Galaxy 25 series and others
-        'Samsung Galaxy S25', 'Samsung Galaxy S25 Plus', 'Samsung Galaxy S25 Ultra',
-        'Samsung Galaxy Z Fold7', 'Samsung Galaxy Z Flip7', 'Samsung Galaxy A55', 'Samsung Galaxy A35',
-        // Previous Samsung examples kept
-        'Samsung Galaxy S24', 'Samsung Galaxy S23',
-        // Google Pixel 10/9 series
-        'Google Pixel 10', 'Google Pixel 10 Pro', 'Google Pixel 10 Pro XL',
-        'Google Pixel 9', 'Google Pixel 9 Pro', 'Google Pixel 9 Pro Fold',
-        // Other examples
-        'OnePlus 12', 'Xiaomi 14', 'OPPO Find X7'
-      ],
-      index: true 
-    }],
+    deviceCompatibility: [{ type: String, enum: DEVICES, index: true }],
     
     // Brand
     brand: { 
@@ -155,6 +186,7 @@ const ProductSchema: Schema = new Schema(
     costPrice: { type: Number, min: 0, select: false },
     /** 'kiosk' = held in stock at Warringal; 'order-in' = ordered from the supplier when bought. */
     fulfilment: { type: String, enum: ['kiosk', 'order-in'], default: 'kiosk' },
+    variants: { type: [VariantSchema], default: undefined },
   },
   { timestamps: true }
 );
@@ -163,6 +195,7 @@ const ProductSchema: Schema = new Schema(
 ProductSchema.index({ category: 1, brand: 1 });
 ProductSchema.index({ category: 1, price: 1 });
 ProductSchema.index({ category: 1, createdAt: -1 });
+ProductSchema.index({ 'variants.sku': 1 });
 ProductSchema.index({ name: 'text', description: 'text', tags: 'text' }); // Full-text search
 
 // Check if the model already exists to prevent overwriting during hot reloads

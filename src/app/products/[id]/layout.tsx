@@ -26,7 +26,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const price = currentPrice(p);
   const path = productPath(p);
-  const title = p.name.length <= 44 ? `${p.name} | Mobile Armour` : p.name;
+  // Designs with phone options: say which phones in the title (people search by model).
+  const models = p.variants?.length ? p.deviceCompatibility || [] : [];
+  const fullName =
+    models.length && !models.some((m) => p.name.includes(m))
+      ? `${p.name} for ${models.length <= 2 ? models.join(' & ') : `${models.slice(0, 2).join(', ')} +${models.length - 2}`}`
+      : p.name;
+  const title = fullName.length <= 44 ? `${fullName} | Mobile Armour` : fullName;
   const description = `${shortDescription(p.description, 90)} $${price} at Mobile Armour, Warringal Shopping Centre, Heidelberg.`;
   const image = p.imageUrl?.startsWith('http') ? p.imageUrl : p.imageUrl ? `${SITE_URL}${p.imageUrl}` : undefined;
 
@@ -35,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical: path },
     openGraph: {
-      title: `${p.name} - Mobile Armour Heidelberg`,
+      title: `${fullName} - Mobile Armour Heidelberg`,
       description,
       url: path,
       siteName: 'Mobile Armour',
@@ -81,7 +87,19 @@ export default async function ProductDetailLayout({ params, children }: Props) {
     sku: p._id,
     // No `brand`: Product.brand is the phone brand (e.g. Apple), not the accessory maker.
     category: p.category,
-    offers: {
+    offers: p.variants?.length
+      ? {
+          // One design, several phone/colour options.
+          '@type': 'AggregateOffer',
+          url,
+          priceCurrency: 'AUD',
+          lowPrice: Math.min(...p.variants.map((v) => v.price)).toFixed(2),
+          highPrice: Math.max(...p.variants.map((v) => v.price)).toFixed(2),
+          offerCount: p.variants.length,
+          availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          seller: { '@id': `${SITE_URL}/#business` },
+        }
+      : {
       '@type': 'Offer',
       url,
       priceCurrency: 'AUD',

@@ -340,3 +340,79 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* model + colour picker */
+.ma-pick {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.ma-pick legend {
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ma-ink);
+}
+.ma-pick legend span {
+  font-weight: 500;
+  color: var(--ma-body);
+}
+.ma-pick__models {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ma-pick__model {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1.5px solid var(--ma-line-strong);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ma-ink);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ma-pick__model:hover {
+  border-color: var(--ma-ink);
+}
+.ma-pick__model.is-on {
+  border-color: var(--ma-ink);
+  background: var(--ma-ink);
+  color: #fff;
+}
+.ma-pick__colours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ma-pick__swatch {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--ma-line-strong);
+  box-shadow: inset 0 0 0 3px #fff;
+  cursor: pointer;
+}
+.ma-pick__swatch.is-on {
+  border: 2px solid var(--ma-orange);
+}
+.ma-pick__swatch.is-out::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: #8a1c12;
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 2px;
+}

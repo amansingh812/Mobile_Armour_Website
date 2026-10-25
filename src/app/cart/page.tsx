@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/hooks/useCart';
+import { lineKey } from '@/types/product';
+import { slugify } from '@/lib/products';
 import { priceCart, money, type Fulfilment, type PricedItem } from '@/lib/pricing';
 import { productPath, currentPrice } from '@/lib/products';
 import { STORE, deliveryFeeText } from '@/data/store-settings';
@@ -36,7 +38,7 @@ export default function CartPage() {
   const priced: PricedItem[] = useMemo(
     () =>
       state.items.map((i) => ({
-        id: i.product._id,
+        id: lineKey(i.product),
         name: i.product.name,
         unitPrice: currentPrice(i.product),
         quantity: i.quantity,
@@ -69,7 +71,12 @@ export default function CartPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           fulfilment,
-          items: state.items.map((i) => ({ id: i.product._id, quantity: i.quantity })),
+          items: state.items.map((i) => ({
+            id: i.product._id,
+            sku: i.product.variantSku,
+            model: i.product.model,
+            quantity: i.quantity,
+          })),
         }),
       });
       const data = await res.json();
@@ -125,24 +132,28 @@ export default function CartPage() {
                 {state.items.map((item) => {
                   const p = item.product;
                   const unit = currentPrice(p);
+                  const key = lineKey(p);
+                  const href = p.model ? `${productPath(p)}?model=${slugify(p.model)}` : productPath(p);
                   return (
-                    <li key={p._id} className="ma-cart__item">
-                      <Link href={productPath(p)} className="ma-cart__thumb">
+                    <li key={key} className="ma-cart__item">
+                      <Link href={href} className="ma-cart__thumb">
                         {p.imageUrl && <Image src={p.imageUrl} alt="" fill sizes="88px" />}
                       </Link>
                       <div className="ma-cart__info">
-                        <Link href={productPath(p)} className="ma-cart__name">
+                        <Link href={href} className="ma-cart__name">
                           {p.name}
                         </Link>
-                        {p.deviceCompatibility?.length ? (
+                        {p.variantLabel ? (
+                          <span className="ma-cart__fit">✓ {p.variantLabel}</span>
+                        ) : p.deviceCompatibility?.length ? (
                           <span className="ma-cart__fit">✓ Fits {p.deviceCompatibility.slice(0, 2).join(', ')}</span>
                         ) : null}
-                        {bundledIds.has(p._id) && (
+                        {bundledIds.has(key) && (
                           <span className="ma-cart__bundle">
                             {STORE.bundle.label}: {STORE.bundle.discountPercent}% off
                           </span>
                         )}
-                        <button type="button" className="ma-cart__remove" onClick={() => removeItem(p._id)}>
+                        <button type="button" className="ma-cart__remove" onClick={() => removeItem(key)}>
                           Remove
                         </button>
                       </div>
@@ -150,7 +161,7 @@ export default function CartPage() {
                         <button
                           type="button"
                           aria-label="Decrease quantity"
-                          onClick={() => (item.quantity <= 1 ? removeItem(p._id) : updateQuantity(p._id, item.quantity - 1))}
+                          onClick={() => (item.quantity <= 1 ? removeItem(key) : updateQuantity(key, item.quantity - 1))}
                         >
                           −
                         </button>
@@ -158,7 +169,7 @@ export default function CartPage() {
                         <button
                           type="button"
                           aria-label="Increase quantity"
-                          onClick={() => updateQuantity(p._id, Math.min(20, item.quantity + 1))}
+                          onClick={() => updateQuantity(key, Math.min(20, item.quantity + 1))}
                         >
                           +
                         </button>

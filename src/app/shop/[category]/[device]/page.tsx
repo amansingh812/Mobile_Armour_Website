@@ -85,13 +85,14 @@ export default async function ShopDevicePage({ params }: Props) {
         { name: cat.name, url: `/shop/${cat.slug}` },
         { name: deviceName },
       ]}
-      subLinksHeading="Phone model"
-      subLinks={siblings.map((s) => ({
-        label: s.device,
+      phones={siblings.map((s) => ({
+        device: s.device,
         href: `/shop/${cat.slug}/${s.slug}`,
         count: s.count,
         active: s.slug === device,
       }))}
+      allPhonesHref={`/shop/${cat.slug}`}
+      model={deviceName}
       buyingTips={cat.buyingTips}
       bundleDevice={cat.slug === 'cases' || cat.slug === 'screen-protectors' ? deviceName : undefined}
     />

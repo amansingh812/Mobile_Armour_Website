@@ -2,6 +2,9 @@
 import { cache } from 'react';
 import { getAllProducts, type ShopProduct } from '@/lib/shop-data';
 import { slugify } from '@/lib/products';
+import { PHONE_MODELS, phoneModel } from '@/data/phone-models';
+
+const PHONE_ORDER = new Map(PHONE_MODELS.map((m, i) => [m.name, i]));
 
 export const MIN_PRODUCTS_FOR_PHONE_PAGE = 2;
 
@@ -11,15 +14,20 @@ export interface PhoneHub {
   products: ShopProduct[];
 }
 
-/** Every phone with enough products for its own page, most products first. */
+/** Every phone with enough products for its own page, newest phones first. */
 export const getPhoneHubs = cache(async function getPhoneHubs(): Promise<PhoneHub[]> {
   const all = await getAllProducts();
   const map = new Map<string, ShopProduct[]>();
   for (const p of all) for (const d of p.deviceCompatibility || []) map.set(d, [...(map.get(d) || []), p]);
   return Array.from(map.entries())
-    .filter(([, list]) => list.length >= MIN_PRODUCTS_FOR_PHONE_PAGE)
+    .filter(([d, list]) => list.length >= (phoneModel(d)?.launch ? 1 : MIN_PRODUCTS_FOR_PHONE_PAGE))
     .map(([device, products]) => ({ device, slug: slugify(device), products }))
-    .sort((a, b) => b.products.length - a.products.length);
+    // Newest phones first (shop order), then older models by how much we stock.
+    .sort((a, b) => {
+      const ia = PHONE_ORDER.get(a.device) ?? 999;
+      const ib = PHONE_ORDER.get(b.device) ?? 999;
+      return ia !== ib ? ia - ib : b.products.length - a.products.length;
+    });
 });
 
 export async function getPhoneHub(slug: string): Promise<PhoneHub | null> {

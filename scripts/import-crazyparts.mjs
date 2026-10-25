@@ -2,28 +2,39 @@
 /**
  * Import products from Crazy Parts (our wholesaler) into the shop.
  *
- *   npm run import:crazyparts -- <product url> [more urls] [options]
+ * One shop product = one DESIGN (e.g. "REDEFYNE Liquid Silicone Case") with
+ * options for each phone and colour. Crazy Parts sells a design as one page per
+ * size group (17 Pro / 18 Pro, 17 Pro Max / 18 Pro Max) with colours on the page.
+ *
+ * 1. Capture each Crazy Parts page in your browser (Cloudflare blocks scripts):
+ *    open the product page, run scripts/crazyparts-capture.js in the console,
+ *    save the clipboard as imports/<name>.json.
+ * 2. Import the captures for one design together:
+ *
+ *   npm run import:crazyparts -- --capture imports/a.json imports/b.json [options]
+ *
+ * Older modes still work for single products:
+ *   npm run import:crazyparts -- <product url> --html saved-page.html [options]
  *   npm run import:crazyparts -- --file products.csv [options]
  *
- * By default it only PREVIEWS: reads each product and prints what it would
- * save. Nothing is uploaded or written until you add --apply.
+ * By default it only PREVIEWS. Nothing is uploaded or written until --apply.
  *
- * Options (apply to every URL on the command line; a CSV can set them per row):
+ * Options:
+ *   --name "..."       shop name for the design (default: worked out from the title)
  *   --cost 12.50       our cost ex GST (from your Crazy Parts account or price list)
  *   --markup 2         price = cost x markup, rounded up to end in 9 (default 2)
  *   --price 39         set the selling price directly instead of cost x markup
- *   --order-in         ordered from Crazy Parts when bought (default: held at the kiosk)
- *   --stock 3          units at the kiosk (default 1; order-in items use 99 while
- *                      Crazy Parts has stock, else 0)
+ *   --order-in         ordered from Crazy Parts when bought (default for captures)
+ *   --stock 3          units of EACH option held at the kiosk (makes it a kiosk product)
  *   --apply            upload photos to Cloudinary and save to MongoDB
  *
- * CSV columns (header row required): url,cost,price,fulfilment,stock
- *   fulfilment is "kiosk" or "order-in"; empty cells fall back to the options.
+ * Re-importing updates the same product (matched by option SKUs or name) and
+ * keeps options that aren't in this import.
  *
  * Reads MONGODB_URI, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY,
- * CLOUDINARY_API_SECRET and (optional) OPENAI_API_KEY from .env.local / .env.
- * Uses only the public product data on the page (schema.org Product); never
- * logs in and never reads trade prices.
+ * CLOUDINARY_API_SECRET and (optional) OPENAI_API_KEY / AI_PROVIDER from
+ * .env.local / .env. Uses only public product data; never logs in and never
+ * reads trade prices.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -44,7 +55,7 @@ for (const f of ['.env.local', '.env']) {
 }
 
 const argv = process.argv.slice(2);
-const opt = { urls: [], markup: 2, apply: false, fulfilment: 'kiosk' };
+const opt = { urls: [], captures: [], markup: 2, apply: false, fulfilment: null };
 for (let i = 0; i < argv.length; i++) {
   const a = argv[i];
   const next = () => argv[++i];
@@ -55,6 +66,10 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--markup') opt.markup = Number(next());
   else if (a === '--stock') opt.stock = Number(next());
   else if (a === '--file') opt.file = next();
+  else if (a === '--name') opt.name = next();
+  else if (a === '--capture') {
+    while (argv[i + 1] && !argv[i + 1].startsWith('--')) opt.captures.push(argv[++i]);
+  }
   else if (a === '--html') opt.html = next(); // offline testing: parse a saved page
   else if (a.startsWith('http')) opt.urls.push(a);
   else if (a === '--help' || a === '-h') {
@@ -69,15 +84,28 @@ function die(msg) {
 }
 
 // ------------------------------------------------------------- reference data
-/** Device names the Product model accepts, read from src/models/Product.ts. */
+/** Device names the Product model accepts: src/data/phone-models.ts + the DEVICES list in Product.ts. */
 function loadDeviceEnum() {
-  const src = fs.readFileSync(path.join(ROOT, 'src/models/Product.ts'), 'utf8');
-  const block = src.slice(src.indexOf('deviceCompatibility: [{'), src.indexOf('index: true', src.indexOf('deviceCompatibility: [{')));
-  return [...block.matchAll(/'([^']+)'/g)].map((m) => m[1]);
+  const models = fs.readFileSync(path.join(ROOT, 'src/data/phone-models.ts'), 'utf8');
+  const product = fs.readFileSync(path.join(ROOT, 'src/models/Product.ts'), 'utf8');
+  const start = product.indexOf('export const DEVICES');
+  const block = product.slice(start, product.indexOf('\n);', start));
+  return [
+    ...new Set([...[...models.matchAll(/name: '([^']+)'/g)].map((m) => m[1]), ...[...block.matchAll(/'([^']+)'/g)].map((m) => m[1])]),
+  ];
 }
 const DEVICES = loadDeviceEnum();
 const norm = (s) => s.toLowerCase().replace(/samsung\s+/g, '').replace(/\s+/g, ' ').trim();
 const DEVICE_BY_NORM = new Map(DEVICES.map((d) => [norm(d), d]));
+// Crazy Parts names that differ from ours.
+for (const [alias, name] of [
+  ['iphone 17 air', 'iPhone Air'],
+  ['iphone air', 'iPhone Air'],
+  ['galaxy s26+', 'Samsung Galaxy S26 Plus'],
+  ['galaxy s25+', 'Samsung Galaxy S25 Plus'],
+]) {
+  if (DEVICES.includes(name)) DEVICE_BY_NORM.set(alias, name);
+}
 
 const CATEGORY_RULES = [
   [/power ?bank|battery pack/i, 'Power Banks'],
@@ -175,6 +203,26 @@ function tidyName(name) {
     .trim();
 }
 
+/**
+ * The design's name without the phones, since one product covers several:
+ * "iPhone 17 Pro Max / 18 Pro Max Mercury Silicone Case Cover" -> "Mercury Silicone Case"
+ * "REDEFYNE Liquid Silicone Case Cover with Magnetic Ring for iPhone 17 Pro Max / 18 Pro Max"
+ *   -> "REDEFYNE Liquid Silicone Case with Magnetic Ring"
+ */
+function designName(name) {
+  let n = tidyName(name);
+  // trailing "for iPhone ..." / "For Samsung Galaxy ..."
+  n = n.replace(/\s+for\s+(?:the\s+)?(?:apple\s+)?(?:iphone|samsung|galaxy|google|pixel|ipad)\b.*$/i, '');
+  // leading "iPhone 17 Pro Max / 18 Pro Max ..."
+  const words = n.split(/\s+/);
+  if (/^(iphone|samsung|galaxy|google|pixel)$/i.test(words[0] || '')) {
+    let i = 0;
+    while (i < words.length && /^(iphone|samsung|galaxy|google|pixel|\d+[a-z+]*|s\d+\+?|z|pro|max|plus|air|mini|ultra|fold\d*|flip\d*|duo|e|se|xl|fe|\/|&|,)$/i.test(words[i])) i++;
+    n = words.slice(i).join(' ');
+  }
+  return n.replace(/\s+-\s*$/, '').replace(/\s{2,}/g, ' ').trim() || tidyName(name);
+}
+
 function typeTags(name, features) {
   const t = `${name} ${features.join(' ')}`;
   const caseTypes = [];
@@ -246,11 +294,11 @@ async function writeDescription(p) {
           {
             role: 'system',
             content:
-              'You write product descriptions for Mobile Armour, a phone accessories kiosk in Heidelberg, Melbourne. Australian English. 60-100 words, plain text, no headings, no emoji. Use ONLY the facts given; never invent specs, ratings, certifications, drop heights or warranties. Do not copy sentences from the supplier text; write in your own words. Mention the exact phone models it fits.',
+              'You write product descriptions for Mobile Armour, a phone accessories kiosk in Heidelberg, Melbourne. Australian English. 60-100 words, plain text, no headings, no emoji. Use ONLY the facts given; never invent specs, ratings, certifications, drop heights or warranties. Do not copy sentences from the supplier text; write in your own words. Mention the exact phone models it fits. If colours are given, say how many colours it comes in; do not list them all.',
           },
           {
             role: 'user',
-            content: JSON.stringify({ name: p.name, fits: p.devices, material: p.material, features: p.features }),
+            content: JSON.stringify({ name: p.name, fits: p.devices, colours: [...new Set((p.variants || []).map((v) => v.colour).filter(Boolean))], material: p.material, features: p.features }),
           },
         ],
       }),
@@ -270,7 +318,7 @@ async function uploadImage(srcUrl, publicId) {
   const { CLOUDINARY_CLOUD_NAME: cloud, CLOUDINARY_API_KEY: key, CLOUDINARY_API_SECRET: secret } = process.env;
   if (!cloud || !key || !secret) die('Cloudinary keys missing: set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET');
   const timestamp = Math.floor(Date.now() / 1000);
-  const params = { overwrite: 'true', public_id: publicId, timestamp: String(timestamp) };
+  const params = { overwrite: 'false', public_id: publicId, timestamp: String(timestamp) };
   const toSign = Object.keys(params)
     .sort()
     .map((k) => `${k}=${params[k]}`)
@@ -297,53 +345,111 @@ function readCsv(file) {
   });
 }
 
-async function prepare(row) {
-  const html = await getHtml(row.url);
+/** A page read the old way (link or saved HTML) in the same shape as a browser capture. */
+async function captureFromPage(url) {
+  const html = await getHtml(url);
   const ld = productLd(html);
   if (!ld) throw new Error('No product data found on the page (schema.org Product missing)');
-  const description = String(ld.description || '');
-  const { material, bullets } = parseFeatures(description);
-  const name = tidyName(String(ld.name));
-  const devices = parseDevices(String(ld.name));
-  const category = (CATEGORY_RULES.find(([re]) => re.test(ld.name)) || [])[1];
-  const supplierInStock = /InStock/i.test(ld.offers?.availability || '');
-  const rrp = Number(ld.offers?.price) || null;
   const images = (Array.isArray(ld.image) ? ld.image : [ld.image]).filter(Boolean).map((u) => u.split('?')[0]);
+  return {
+    url,
+    productId: (url.match(/-(\d+)(?:[/?#]|$)/) || [])[1] || null,
+    name: String(ld.name),
+    description: String(ld.description || ''),
+    rrp: Number(ld.offers?.price) || null,
+    inStock: /InStock/i.test(ld.offers?.availability || ''),
+    sku: ld.sku ? String(ld.sku) : null,
+    gtin: ld.gtin ? String(ld.gtin) : null,
+    images,
+    variants: [],
+  };
+}
+
+function readCapture(file) {
+  const c = JSON.parse(fs.readFileSync(file, 'utf8'));
+  if (!c || !c.name || !Array.isArray(c.images)) throw new Error(`${file} is not a Crazy Parts capture`);
+  return c;
+}
+
+/** Turns one or more captures of the same design into one shop product. */
+async function prepare(captures, row = {}) {
+  const first = captures[0];
+  const description = String(first.description || '');
+  const { material, bullets } = parseFeatures(description);
+  const name = row.name || opt.name || designName(String(first.name));
+  const category = (CATEGORY_RULES.find(([re]) => re.test(first.name)) || [])[1];
 
   const cost = row.cost !== undefined && row.cost !== '' ? Number(row.cost) : opt.cost;
   const fixed = row.price !== undefined && row.price !== '' ? Number(row.price) : opt.price;
   const price = Number.isFinite(fixed) ? fixed : Number.isFinite(cost) ? retailFromCost(cost, opt.markup) : null;
-  const fulfilment = row.fulfilment || opt.fulfilment;
-  const stock =
-    row.stock !== undefined && row.stock !== ''
-      ? Number(row.stock)
-      : opt.stock !== undefined
-        ? opt.stock
-        : fulfilment === 'order-in'
-          ? supplierInStock
-            ? 99
-            : 0
-          : 1;
+  const kioskStock = row.stock !== undefined && row.stock !== '' ? Number(row.stock) : opt.stock;
+  const fulfilment = row.fulfilment || opt.fulfilment || (kioskStock !== undefined ? 'kiosk' : 'order-in');
+
+  // Same colour, same name: Crazy Parts sometimes names one colour differently on
+  // each page of a design ("Blue" vs "Lcyblue"), so the SKU's colour code decides.
+  const colourByCode = new Map();
+  const colourCode = (sku) => String(sku || '').split('-').pop().toUpperCase();
+  const tidyColour = (c) =>
+    c ? String(c).replace(/^colou?r:\s*/i, '').trim().replace(/^lcy/i, 'Icy ').replace(/\b\w/g, (m) => m.toUpperCase()) : undefined;
+
+  const variants = [];
+  for (const c of captures) {
+    const models = parseDevices(String(c.name));
+    const options = c.variants && c.variants.length
+      ? c.variants
+      : [{ sku: c.sku, gtin: c.gtin, colour: null, rrp: c.rrp, inStock: c.inStock, img: [] }];
+    // Photos that belong to one colour only (its main shot) go first for that colour
+    // and are left out of the other colours' galleries.
+    const own = new Map();
+    for (const v of options) {
+      const list = v.img || [];
+      for (const i of list) {
+        const others = options.filter((o) => o !== v && (o.img || []).includes(i)).length;
+        if (others === 0 && list.length < c.images.length) own.set(i, v.sku);
+      }
+    }
+    for (const v of options) {
+      if (!v.sku) continue;
+      const list = v.img && v.img.length ? v.img : c.images.map((_, i) => i);
+      const mine = list.filter((i) => own.get(i) === v.sku);
+      const shared = list.filter((i) => !own.has(i));
+      const img = [...mine, ...shared].map((i) => c.images[i]).filter(Boolean);
+      const code = colourCode(v.sku);
+      let colour = tidyColour(v.colour);
+      if (colour && colourByCode.has(code)) colour = colourByCode.get(code);
+      else if (colour) colourByCode.set(code, colour);
+      variants.push({
+        sku: String(v.sku),
+        gtin: v.gtin ? String(v.gtin) : undefined,
+        models,
+        colour,
+        rrp: v.rrp ?? c.rrp ?? null,
+        inStock: v.inStock !== false,
+        images: [...new Set(img)],
+        url: c.url,
+        productId: c.productId || null,
+      });
+    }
+  }
+  // A design for a single phone keeps the phone in its name (good for search).
+  const allModels = [...new Set(variants.flatMap((v) => v.models))];
+  const finalName = !row.name && !opt.name && allModels.length === 1 && !name.includes(allModels[0]) ? `${name} for ${allModels[0]}` : name;
 
   const p = {
-    url: row.url,
-    supplierName: String(ld.name),
-    name,
-    sku: ld.sku ? String(ld.sku) : null,
-    gtin: ld.gtin ? String(ld.gtin) : null,
-    manufacturer: detectBrand(String(ld.name), description),
-    devices,
+    name: finalName,
+    supplierNames: captures.map((c) => c.name),
+    urls: captures.map((c) => c.url),
+    manufacturer: detectBrand(String(first.name), description),
+    devices: [...new Set(variants.flatMap((v) => v.models))],
     category,
     material,
     features: bullets,
-    images,
-    rrp,
+    images: [...new Set(variants.flatMap((v) => v.images))],
     cost: Number.isFinite(cost) ? cost : null,
     price,
     fulfilment,
-    stock,
-    supplierInStock,
-    productId: (row.url.match(/-(\d+)(?:[/?#]|$)/) || [])[1] || null,
+    kioskStock,
+    variants,
   };
   p.description = await writeDescription(p);
   return p;
@@ -353,56 +459,99 @@ function report(p) {
   const warn = [];
   if (!p.category) warn.push('category not recognised: set it in the admin after import');
   if (!p.devices.length) warn.push('no fitting phone recognised in the title');
-  if (!p.sku) warn.push('no SKU on the page: re-running may create a duplicate');
+  if (p.variants.some((v) => !v.models.length)) warn.push('an option has no phone: check the Crazy Parts title');
   if (p.price === null) warn.push('no price: pass --cost (or --price) before --apply');
-  if (!p.supplierInStock) warn.push('Crazy Parts shows this OUT OF STOCK');
+  const out = p.variants.filter((v) => !v.inStock);
+  if (out.length) warn.push(`${out.length} of ${p.variants.length} option(s) OUT OF STOCK at Crazy Parts`);
   console.log(`\n• ${p.name}`);
-  console.log(`  SKU ${p.sku || '—'} · barcode ${p.gtin || '—'} · brand ${p.manufacturer || '—'}`);
-  console.log(`  Category: ${p.category || '?'} · Fits: ${p.devices.join(', ') || '?'}`);
+  console.log(`  From: ${p.supplierNames.join('  +  ')}`);
+  console.log(`  Category: ${p.category || '?'} · brand ${p.manufacturer || '—'} · ${p.images.length} photos`);
   console.log(
-    `  Price: ${p.price !== null ? `$${p.price}` : '—'}${p.cost !== null ? (p.price === retailFromCost(p.cost, opt.markup) ? ` (cost $${p.cost} × ${opt.markup})` : ` (set by hand; cost $${p.cost})`) : ''} · Crazy Parts retail $${p.rrp ?? '—'}`
+    `  Price: ${p.price !== null ? `$${p.price}` : '—'}${
+      p.cost !== null ? (p.price === retailFromCost(p.cost, opt.markup) ? ` (cost $${p.cost} × ${opt.markup})` : ` (set by hand; cost $${p.cost})`) : ''
+    } · Crazy Parts retail ${[...new Set(p.variants.map((v) => (v.rrp ? `$${v.rrp}` : '—')))].join(' / ')}`
   );
-  console.log(`  Stock: ${p.fulfilment === 'order-in' ? 'ordered in' : 'at the kiosk'}, ${p.stock} units · ${p.images.length} photos`);
+  console.log(
+    `  ${p.fulfilment === 'order-in' ? 'Ordered in when bought' : `At the kiosk, ${p.kioskStock ?? 1} of each`} · ${p.variants.length} option(s):`
+  );
+  for (const v of p.variants) {
+    console.log(`    - ${v.models.join(' / ') || '?'}${v.colour ? ` · ${v.colour}` : ''}  [${v.sku}]${v.inStock ? '' : '  OUT OF STOCK'}`);
+  }
   console.log(`  Description (${p.description.source}): ${p.description.text}`);
   for (const w of warn) console.log(`  ! ${w}`);
 }
 
+const brandOf = (devices) =>
+  devices.some((d) => d.startsWith('iPhone') || d.startsWith('iPad'))
+    ? 'Apple'
+    : devices.some((d) => d.startsWith('Samsung'))
+      ? 'Samsung'
+      : devices.some((d) => d.startsWith('Google'))
+        ? 'Google'
+        : 'Generic';
+
 async function save(p, db) {
   if (p.price === null) throw new Error('no price (use --cost or --price)');
   if (!p.category) throw new Error('category not recognised');
-  const key = slug(p.sku || p.gtin || p.name).slice(0, 60);
-  const uploaded = [];
-  for (let i = 0; i < p.images.length; i++) {
-    process.stdout.write(`  uploading photo ${i + 1}/${p.images.length}\r`);
-    uploaded.push(await uploadImage(p.images[i], `products/${key}/${i + 1}`));
+  const folder = slug(p.name).slice(0, 60);
+  const uploadedByUrl = new Map();
+  let n = 0;
+  for (const src of p.images) {
+    n++;
+    process.stdout.write(`  uploading photo ${n}/${p.images.length}\r`);
+    const stem = path.basename(src).replace(/\.[a-z0-9]+$/i, '').slice(0, 40);
+    uploadedByUrl.set(src, await uploadImage(src, `products/${folder}/${stem}`));
   }
-  const products = db.collection('products');
-  const match = p.sku ? { sku: p.sku } : p.gtin ? { gtin: p.gtin } : { name: p.name };
-  const existing = await products.findOne(match, { projection: { _id: 1, createdAt: 1 } });
   const now = new Date();
+  const kiosk = p.fulfilment === 'kiosk';
+  const variants = p.variants.map((v) => ({
+    sku: v.sku,
+    gtin: v.gtin,
+    models: v.models,
+    colour: v.colour,
+    price: p.price,
+    costPrice: p.cost ?? undefined,
+    ...(kiosk ? { stock: p.kioskStock ?? 1 } : {}),
+    images: v.images.map((u) => uploadedByUrl.get(u)).filter(Boolean),
+    supplier: { url: v.url, productId: v.productId, inStock: v.inStock, checkedAt: now },
+  }));
+
+  const products = db.collection('products');
+  const skus = variants.map((v) => v.sku);
+  const existing = await products.findOne(
+    { $or: [{ 'variants.sku': { $in: skus } }, { sku: { $in: skus } }, { name: p.name, category: p.category }] },
+    { projection: { _id: 1, variants: 1 } }
+  );
+  // Keep options from earlier imports that aren't in this one (e.g. the other size group).
+  const kept = (existing?.variants || []).filter((v) => !skus.includes(v.sku));
+  const allVariants = [...kept, ...variants];
+  const devices = [...new Set(allVariants.flatMap((v) => v.models || []))];
+  const images = [...new Set(allVariants.flatMap((v) => v.images || []))];
   const tags = typeTags(p.name, p.features);
+  const anyAvailable = allVariants.some((v) => (kiosk ? (v.stock ?? 0) > 0 : v.supplier?.inStock !== false));
+
   const doc = {
     name: p.name,
     description: p.description.text,
-    price: p.price,
-    imageUrl: uploaded[0],
-    images: uploaded,
+    price: Math.min(...allVariants.map((v) => v.price)),
+    imageUrl: images[0],
+    images: images.slice(0, 24),
     category: p.category,
-    stock: p.stock,
+    stock: kiosk ? allVariants.reduce((t, v) => t + (v.stock ?? 0), 0) : anyAvailable ? 99 : 0,
     features: p.features,
-    deviceCompatibility: p.devices,
-    brand: p.devices.some((d) => d.startsWith('iPhone') || d.startsWith('iPad')) ? 'Apple' : p.devices.some((d) => d.startsWith('Samsung')) ? 'Samsung' : p.devices.some((d) => d.startsWith('Google')) ? 'Google' : 'Generic',
+    deviceCompatibility: devices,
+    brand: brandOf(devices),
     ...tags,
-    sku: p.sku,
-    gtin: p.gtin,
     manufacturer: p.manufacturer || undefined,
-    supplier: { name: 'Crazy Parts', url: p.url, productId: p.productId, inStock: p.supplierInStock, checkedAt: now },
-    costPrice: p.cost ?? undefined,
+    supplier: { name: 'Crazy Parts', url: p.urls[0], inStock: anyAvailable, checkedAt: now },
     fulfilment: p.fulfilment,
+    variants: allVariants,
+    sku: null,
+    gtin: null,
     updatedAt: now,
   };
   if (existing) {
-    await products.updateOne({ _id: existing._id }, { $set: doc });
+    await products.updateOne({ _id: existing._id }, { $set: doc, $unset: { costPrice: '' } });
     return { action: 'updated', id: String(existing._id) };
   }
   const r = await products.insertOne({ ...doc, mountTypes: [], chargerTypes: [], cableTypes: [], tags: [], specifications: {}, createdAt: now });
@@ -410,11 +559,19 @@ async function save(p, db) {
 }
 
 async function main() {
+  // Each job is one design: all --capture files together, or one product per link/CSV row.
+  const jobs = [];
+  if (opt.captures.length) {
+    jobs.push({ label: opt.captures.join(' + '), load: async () => opt.captures.map(readCapture), row: {} });
+  }
   const rows = opt.file ? readCsv(opt.file) : opt.urls.map((url) => ({ url }));
-  if (!rows.length) die('Give at least one Crazy Parts product URL, or --file products.csv. Use --help for options.');
-  for (const r of rows) if (!/^https:\/\/(www\.)?crazyparts\.com\.au\/product\//.test(r.url)) die(`Not a Crazy Parts product URL: ${r.url}`);
+  for (const r of rows) {
+    if (!/^https:\/\/(www\.)?crazyparts\.com\.au\/product\//.test(r.url)) die(`Not a Crazy Parts product URL: ${r.url}`);
+    jobs.push({ label: r.url, load: async () => [await captureFromPage(r.url)], row: r });
+  }
+  if (!jobs.length) die('Give --capture file(s), a Crazy Parts product URL, or --file products.csv. Use --help for options.');
 
-  console.log(`${opt.apply ? 'IMPORTING' : 'PREVIEW (nothing is saved; add --apply to import)'} · ${rows.length} product(s) · markup ×${opt.markup}`);
+  console.log(`${opt.apply ? 'IMPORTING' : 'PREVIEW (nothing is saved; add --apply to import)'} · ${jobs.length} design(s) · markup ×${opt.markup}`);
 
   let db = null;
   let mongoose = null;
@@ -426,9 +583,9 @@ async function main() {
   }
 
   let ok = 0;
-  for (const row of rows) {
+  for (const job of jobs) {
     try {
-      const p = await prepare(row);
+      const p = await prepare(await job.load(), job.row);
       report(p);
       if (opt.apply) {
         const r = await save(p, db);
@@ -436,12 +593,12 @@ async function main() {
       }
       ok++;
     } catch (e) {
-      console.log(`\n✗ ${row.url}\n  ${e.message}`);
+      console.log(`\n✗ ${job.label}\n  ${e.message}`);
     }
-    await new Promise((r) => setTimeout(r, 800)); // be polite to the supplier's site
+    if (jobs.length > 1) await new Promise((r) => setTimeout(r, 800)); // be polite to the supplier's site
   }
   if (mongoose) await mongoose.disconnect();
-  console.log(`\n${ok}/${rows.length} done.${opt.apply ? ' Pages update within the hour (or on the next deploy).' : ''}\n`);
+  console.log(`\n${ok}/${jobs.length} done.${opt.apply ? ' Pages update within the hour (or on the next deploy).' : ''}\n`);
 }
 
 main().catch((e) => die(e.stack || e.message));

@@ -1,10 +1,8 @@
 import Link from 'next/link';
-import ProductGallery from './ProductGallery';
-import BuyBox from './BuyBox';
+import ProductTop from './ProductTop';
 import PairsWith from './PairsWith';
 import ProductTile from '@/components/store/ProductTile';
 import JsonLd, { faqPage } from '@/components/seo/JsonLd';
-import { currentPrice } from '@/lib/products';
 import type { ShopProduct } from '@/lib/shop-data';
 import { getShopCategoryByDb } from '@/data/shop-categories';
 import { STORE } from '@/data/store-settings';
@@ -14,7 +12,6 @@ import '@/components/site/page.css';
 import '@/components/store/store.css';
 import './product.css';
 
-const fmt = (n: number) => (n % 1 === 0 ? `$${n}` : `$${n.toFixed(2)}`);
 
 export default function ProductView({
   product: p,
@@ -28,19 +25,11 @@ export default function ProductView({
   /** Phones that have their own /phones page; others aren't linked. */
   hubDevices?: string[];
 }) {
-  const price = currentPrice(p);
-  const was = typeof p.oldPrice === 'number' && p.oldPrice > price ? p.oldPrice : null;
-  const inStock = typeof p.stock === 'number' ? p.stock > 0 : true;
   const orderIn = p.fulfilment === 'order-in';
-  const lowStock = typeof p.stock === 'number' && p.stock > 0 && p.stock <= 3;
-  const images = Array.from(new Set([p.imageUrl, ...(p.images || [])].filter(Boolean)));
   const cat = getShopCategoryByDb(p.category);
   const devices = p.deviceCompatibility || [];
   const device = devices[0];
-  const hubDevice = devices.find((d) => hubDevices.includes(d));
-  const isCase = p.category === 'Cases';
   const isGlass = p.category === 'Screen Protectors';
-  const bundleable = STORE.bundle.enabled && (isCase || isGlass) && device;
   const repair = device ? repairLinkFor(device) : null;
   const noun = cat ? cat.shortName.toLowerCase().replace(/s$/, '') : 'product';
 
@@ -75,17 +64,6 @@ export default function ProductView({
         },
   ].filter(Boolean) as { q: string; a: string }[];
 
-  const cartProduct = {
-    _id: p._id,
-    name: p.name,
-    category: p.category,
-    imageUrl: p.imageUrl,
-    price: p.price,
-    newPrice: p.newPrice,
-    oldPrice: p.oldPrice,
-    deviceCompatibility: p.deviceCompatibility,
-  };
-
   return (
     <main className="ma-page ma-product">
       <JsonLd data={faqPage(faqs)} />
@@ -108,100 +86,7 @@ export default function ProductView({
         </ol>
       </nav>
 
-      <div className="ma-wrap ma-product__top">
-        <ProductGallery images={images} name={p.name} />
-
-        <div className="ma-product__info">
-          {device &&
-            (() => {
-              const label = `✓ Fits ${
-                devices.length > 2 ? `${devices.slice(0, 2).join(', ')} +${devices.length - 2}` : devices.join(' & ')
-              }`;
-              return hubDevice ? (
-                <Link href={phonePath(hubDevice)} className="ma-product__fit">
-                  {label}
-                </Link>
-              ) : (
-                <span className="ma-product__fit">{label}</span>
-              );
-            })()}
-          <h1 className="ma-product__title">{p.name}</h1>
-          <div className="ma-product__price">
-            <strong>{fmt(price)}</strong>
-            {was && (
-              <>
-                <s>{fmt(was)}</s>
-                <span className="ma-product__save">Save {fmt(was - price)}</span>
-              </>
-            )}
-          </div>
-          <p className={`ma-product__stock${inStock ? '' : ' is-out'}`}>
-            {!inStock
-              ? orderIn
-                ? '● Out of stock at our supplier'
-                : '● Out of stock'
-              : orderIn
-                ? `● Ordered in for you, ${STORE.orderIn.readyText}`
-                : lowStock
-                  ? `● Only ${p.stock} left`
-                  : '● In stock at Warringal'}
-          </p>
-
-          <BuyBox
-            product={cartProduct}
-            price={price}
-            inStock={inStock}
-          />
-
-          <ul className="ma-product__promises">
-            {STORE.clickAndCollect.enabled && (
-              <li>
-                <strong>Click & collect</strong> from {BUSINESS.address.unit}, Warringal,{' '}
-                {orderIn ? STORE.orderIn.readyText : STORE.clickAndCollect.readyText}
-              </li>
-            )}
-            {STORE.delivery.enabled && (
-              <li>
-                <strong>
-                  {STORE.delivery.fee === 0
-                    ? 'Free delivery'
-                    : STORE.delivery.freeOver !== null
-                      ? `Free delivery over $${STORE.delivery.freeOver}`
-                      : 'Delivery'}
-                </strong>{' '}
-                by {STORE.delivery.carrier}, {STORE.delivery.timeText}
-              </li>
-            )}
-            {STORE.fitGuarantee && (
-              <li>
-                <strong>Fit guarantee</strong>: wrong model? Swap it the same day
-              </li>
-            )}
-            {isGlass && STORE.freeFitting && (
-              <li>
-                <strong>Fitted free</strong> at the kiosk, bubble-free
-              </li>
-            )}
-          </ul>
-
-          {bundleable && (
-            <div className="ma-product__bundle">
-              <div>
-                <strong>
-                  Add a {isCase ? 'screen protector' : 'case'} and save {STORE.bundle.discountPercent}% on both
-                </strong>
-                <span>
-                  {STORE.bundle.label} for {device}
-                  {STORE.freeFitting ? ', glass fitted free' : ''}.
-                </span>
-              </div>
-              <Link href={`/bundle?device=${encodeURIComponent(device)}`} className="ma-btn ma-btn--dark">
-                Build the bundle
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
+      <ProductTop product={p} hubDevices={hubDevices} />
 
       <div className="ma-wrap ma-product__details">
         <section aria-labelledby="about">
