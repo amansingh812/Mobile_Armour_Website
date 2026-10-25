@@ -32,7 +32,6 @@ const REPAIRS: { icon: IconName; name: string; href: string; time: string }[] = 
 
 export default async function HomePage() {
   const [all, hubs] = await Promise.all([getAllProducts(), getPhoneHubs()]);
-  const newest = all.filter((p) => !(typeof p.stock === 'number' && p.stock <= 0)).slice(0, 10);
   const onSale = all.filter((p) => typeof p.oldPrice === 'number' && p.oldPrice > currentPrice(p)).slice(0, 5);
   // Every category, stocked or not: new ranges fill up as products are imported.
   const cats = SHOP_CATEGORIES.map((c) => ({
@@ -281,24 +280,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {newest.length > 0 && (
-        <section aria-labelledby="new-h" className="ma-section">
-          <div className="ma-shead">
-            <h2 id="new-h" className="ma-h2">
-              New in
-            </h2>
-            <Link href="/products" className="ma-link">
-              View all →
-            </Link>
-          </div>
-          <div className="ma-pgrid ma-pgrid--rail">
-            {newest.map((p) => (
-              <ProductTile key={p._id} product={p} />
-            ))}
-          </div>
-        </section>
-      )}
-
       {onSale.length > 0 && (
         <section aria-labelledby="sale-h" className="ma-section">
           <div className="ma-shead">
@@ -371,6 +352,22 @@ export default async function HomePage() {
         </ol>
       </section>
 
+      <section aria-labelledby="faq-h" className="ma-section">
+        <div className="ma-faq-split">
+          <div>
+            <h2 id="faq-h" className="ma-h2">
+              Questions
+            </h2>
+            <Link href="/faq" className="ma-link">
+              All FAQs →
+            </Link>
+          </div>
+          <FaqList faqs={faqs} />
+        </div>
+      </section>
+
+      <GoogleReviews />
+
       {guides.length > 0 && (
         <section aria-labelledby="guides-h" className="ma-section">
           <div className="ma-shead">
@@ -400,22 +397,6 @@ export default async function HomePage() {
           </div>
         </section>
       )}
-
-      <section aria-labelledby="faq-h" className="ma-section">
-        <div className="ma-faq-split">
-          <div>
-            <h2 id="faq-h" className="ma-h2">
-              Questions
-            </h2>
-            <Link href="/faq" className="ma-link">
-              All FAQs →
-            </Link>
-          </div>
-          <FaqList faqs={faqs} />
-        </div>
-      </section>
-
-      <GoogleReviews />
 
       <section aria-labelledby="visit-h" className="ma-section">
         <div className="ma-home__visit">

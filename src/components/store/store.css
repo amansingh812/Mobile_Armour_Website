@@ -26,11 +26,13 @@
   position: relative;
   display: block;
   aspect-ratio: 1 / 1;
-  background: var(--ma-stone);
+  background: #fff;
+  overflow: hidden;
 }
+/* Photo fills the whole tile, edge to edge. */
 .ma-tile-p__img img {
-  object-fit: contain;
-  padding: 14px;
+  object-fit: cover;
+  padding: 0;
 }
 .ma-tile-p__badge {
   position: absolute;
