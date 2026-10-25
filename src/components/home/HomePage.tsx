@@ -33,17 +33,16 @@ export default async function HomePage() {
   const [all, hubs] = await Promise.all([getAllProducts(), getPhoneHubs()]);
   const newest = all.filter((p) => !(typeof p.stock === 'number' && p.stock <= 0)).slice(0, 10);
   const onSale = all.filter((p) => typeof p.oldPrice === 'number' && p.oldPrice > currentPrice(p)).slice(0, 5);
+  // Every category, stocked or not: new ranges fill up as products are imported.
   const cats = SHOP_CATEGORIES.map((c) => ({
     ...c,
-    count: all.filter((p) => p.category === c.dbCategory).length,
     image: CATEGORY_IMAGES.find((x) => x.link === `/shop/${c.slug}`)?.image,
-  })).filter((c) => c.count > 0);
+  }));
   // Feature phone: the iPhone Duo (first foldable iPhone stock), shown once we have products for it.
   const FEATURE = 'iPhone Duo';
   const featureHub = hubs.find((h) => h.device === FEATURE);
   const featureItems = featureHub ? featureHub.products : [];
   const featureFrom = featureItems.length ? Math.min(...featureItems.map((p) => currentPrice(p))) : null;
-  const featureCats = new Set(featureItems.map((p) => p.category));
   const topHub = hubs[0];
   const topCases = topHub ? topHub.products.filter((p) => p.category === 'Cases') : [];
   const guides = [...blogPosts]
@@ -110,17 +109,25 @@ export default async function HomePage() {
       {featureHub && (
         <section aria-labelledby="duo-h" className="ma-section">
           <div className="ma-duo">
-            <div className="ma-duo__copy">
-              <span className="ma-duo__eyebrow">New in · {FEATURE}</span>
-              <h2 id="duo-h">Made for the foldable {FEATURE}</h2>
-              <p>
-                {featureItems.length === 1
-                  ? `A ${featureCats.has('Cases') ? 'case' : 'accessory'} cut`
-                  : `${featureItems.length} ${featureCats.has('Cases') ? 'cases and accessories' : 'accessories'} cut`}{' '}
-                for the Duo&apos;s hinge and cameras
-                {featureFrom !== null ? `, from $${featureFrom % 1 === 0 ? featureFrom : featureFrom.toFixed(2)}` : ''}.
-                Try them on at the kiosk, or order online and collect.
-              </p>
+            <Link href={`/phones/${featureHub.slug}`} className="ma-duo__banner" aria-label={`Shop ${FEATURE} cases`}>
+              <Image
+                src="/img/home/iphone-duo-banner.webp"
+                alt={`Clear magnetic case on the foldable ${FEATURE}`}
+                fill
+                sizes="(max-width: 1320px) 100vw, 1272px"
+              />
+            </Link>
+            <div className="ma-duo__bar">
+              <div>
+                <h2 id="duo-h">
+                  {FEATURE} cases <span>in stock</span>
+                </h2>
+                <p>
+                  Cut for the Duo&apos;s hinge and cameras
+                  {featureFrom !== null ? `, from $${featureFrom % 1 === 0 ? featureFrom : featureFrom.toFixed(2)}` : ''}.
+                  Try them on at the kiosk, or order online and collect.
+                </p>
+              </div>
               <div className="ma-actions">
                 <Link href={`/phones/${featureHub.slug}`} className="ma-btn ma-btn--primary">
                   Shop {FEATURE}
@@ -130,39 +137,6 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
-            <ul className="ma-duo__shots" aria-label={`${FEATURE} products`}>
-              {featureItems.slice(0, 3).map((p, i) => (
-                <li key={p._id} className={i === 0 ? 'is-main' : undefined}>
-                  <Link href={p.variants ? `${productPath(p)}?model=${slugify(FEATURE)}` : productPath(p)} aria-label={p.name}>
-                    {p.imageUrl && <Image src={p.imageUrl} alt="" fill sizes="(max-width: 900px) 45vw, 300px" />}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
-
-      {hubs.length > 0 && (
-        <section aria-labelledby="phones-h" className="ma-section">
-          <div className="ma-shead">
-            <div>
-              <h2 id="phones-h" className="ma-h2">
-                Shop by your phone
-              </h2>
-              <p>Everything that fits, in one place: cases, glass, chargers and repairs.</p>
-            </div>
-            <Link href="/phones" className="ma-link">
-              All phones →
-            </Link>
-          </div>
-          <div className="ma-phones">
-            {hubs.slice(0, 8).map((h) => (
-              <Link key={h.slug} href={`/phones/${h.slug}`} className="ma-phone">
-                <strong>{h.device}</strong>
-                <span>{hubSummary(h.products)}</span>
-              </Link>
-            ))}
           </div>
         </section>
       )}
@@ -185,7 +159,7 @@ export default async function HomePage() {
                 </span>
                 <span className="ma-cat__body">
                   <strong>{c.name}</strong>
-                  <span>{c.count} in stock</span>
+                  <span>Shop now →</span>
                 </span>
               </Link>
             ))}

@@ -107,12 +107,21 @@ for (const [alias, name] of [
   if (DEVICES.includes(name)) DEVICE_BY_NORM.set(alias, name);
 }
 
+// First match wins, so the more specific kinds come first.
 const CATEGORY_RULES = [
+  [/earbud|earphone|headphone|headset|airpods/i, 'Headphones'],
+  [/speaker|soundbar/i, 'Speakers'],
+  [/memory card|micro ?sd|sd card|flash drive|usb drive|thumb drive|card reader/i, 'Memory & Storage'],
+  [/bike|bicycle|motorbike|motorcycle|scooter|handlebar/i, 'Bike Mounts'],
   [/power ?bank|battery pack/i, 'Power Banks'],
-  [/car (mount|holder|charger)|vent|dashboard|fm transmitter/i, 'Car Holders'],
+  [/car (mount|holder|charger)|\bair ?vent\b|\bvent (mount|clip|holder)|dashboard|fm transmitter/i, 'Car Holders'],
+  // Cases and glass before stands and chargers: "Magnetic Ring Holder Case" is a case.
   [/screen protector|tempered glass|\bglass\b|lens protector|privacy film|protector/i, 'Screen Protectors'],
   [/\bcase\b|cover|bumper|folio|wallet/i, 'Cases'],
-  [/charger|cable|adapter|adaptor|usb|lightning|magsafe charg/i, 'Cables & Adapters'],
+  [/selfie|tripod|gimbal|tracker|air ?tag|ring light|stylus/i, 'Tech Gadgets'],
+  [/wireless charg|magsafe charg|qi2?\b|charging pad|charging stand|3[- ]in[- ]1 (?:wireless|charg)/i, 'Wireless Chargers'],
+  [/desk stand|phone stand|tablet stand|ring holder|grip|kickstand holder|lazy holder/i, 'Stands & Holders'],
+  [/charger|cable|adapter|adaptor|usb|lightning|hub/i, 'Cables & Adapters'],
 ];
 
 const KNOWN_BRANDS = ['REDEFYNE', 'Mercury', 'Goospery', 'Kinglas', 'Baseus', 'LITO', 'iQuick', 'Ugreen', 'Anker', 'Spigen', 'UAG', 'OtterBox'];

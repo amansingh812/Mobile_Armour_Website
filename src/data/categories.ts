@@ -30,5 +30,40 @@ export const categories: Category[] = [
     image: "/img/categories/screen-protectors.webp",
     link: "/shop/screen-protectors",
   },
+  {
+    name: "Wireless & MagSafe Chargers",
+    image: "/img/categories/wireless-chargers.webp",
+    link: "/shop/wireless-chargers",
+  },
+  {
+    name: "Earbuds & Headphones",
+    image: "/img/categories/headphones.webp",
+    link: "/shop/headphones",
+  },
+  {
+    name: "Bluetooth Speakers",
+    image: "/img/categories/speakers.webp",
+    link: "/shop/speakers",
+  },
+  {
+    name: "Phone Stands & Holders",
+    image: "/img/categories/stands-holders.webp",
+    link: "/shop/stands-holders",
+  },
+  {
+    name: "Bike Mounts",
+    image: "/img/categories/bike-mounts.webp",
+    link: "/shop/bike-mounts",
+  },
+  {
+    name: "Memory Cards & USB Drives",
+    image: "/img/categories/memory-storage.webp",
+    link: "/shop/memory-storage",
+  },
+  {
+    name: "Tech Gadgets",
+    image: "/img/categories/tech-gadgets.webp",
+    link: "/shop/tech-gadgets",
+  },
 ];
 

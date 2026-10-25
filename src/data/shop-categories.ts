@@ -24,7 +24,7 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
     metaDescription:
       'iPhone 17, 17 Pro, 17 Pro Max and iPhone 16 cases: MagSafe, clear, slim and heavy-duty. See them in person at Warringal Shopping Centre, Heidelberg.',
     intro: [
-      'Phone cases for the latest iPhones, from slim clear cases to heavy-duty MagSafe armour. Every case on this page is stocked at our kiosk in Warringal Shopping Centre, Heidelberg.',
+      'Phone cases for the latest iPhones, from slim clear cases to heavy-duty MagSafe armour. Pick your phone and colour, then collect from our kiosk in Warringal Shopping Centre, Heidelberg, or get it delivered.',
       'Not sure which one fits? Bring your phone to the kiosk and try a case on before you buy.',
     ],
     buyingTips: {
@@ -116,6 +116,129 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
         'MagSafe power banks snap onto the back of an iPhone 12 or later, or a MagSafe case.',
         'Look for USB-C PD output of 20W or more for fast charging.',
       ],
+    },
+  },
+  {
+    slug: 'wireless-chargers',
+    dbCategory: 'Wireless Chargers',
+    name: 'Wireless & MagSafe Chargers',
+    shortName: 'Wireless Chargers',
+    title: 'Wireless & MagSafe Chargers Heidelberg | Mobile Armour',
+    metaDescription:
+      'MagSafe and Qi wireless chargers, pads and 3-in-1 stands for iPhone, AirPods and Apple Watch. Mobile Armour, Warringal Shopping Centre, Heidelberg.',
+    intro: [
+      'MagSafe and Qi wireless chargers, from single pads to 3-in-1 stands for iPhone, AirPods and Apple Watch, at our kiosk in Warringal Shopping Centre, Heidelberg.',
+    ],
+    buyingTips: {
+      heading: 'Choosing a wireless charger',
+      points: [
+        'MagSafe chargers snap onto iPhone 12 and later; with a case, the case needs a MagSafe magnet ring.',
+        'Qi and Qi2 pads work with most recent iPhones and Android phones.',
+        'A 3-in-1 stand charges a phone, earbuds and watch from one plug.',
+      ],
+    },
+  },
+  {
+    slug: 'headphones',
+    dbCategory: 'Headphones',
+    name: 'Earbuds & Headphones',
+    shortName: 'Earbuds & Headphones',
+    title: 'Wireless Earbuds & Headphones Heidelberg | Mobile Armour',
+    metaDescription:
+      'Bluetooth earbuds, wired USB-C earphones and headphones at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
+    intro: [
+      'Bluetooth earbuds, wired USB-C earphones and over-ear headphones, available from our kiosk at Warringal Shopping Centre, Heidelberg.',
+    ],
+    buyingTips: {
+      heading: 'Choosing earbuds or headphones',
+      points: [
+        'iPhone 15 and later have a USB-C port, so wired earphones need a USB-C plug (or an adapter).',
+        'Check the battery life with the case, not just the earbuds on their own.',
+        'Over-ear headphones block more outside noise; earbuds are easier to carry.',
+      ],
+    },
+  },
+  {
+    slug: 'speakers',
+    dbCategory: 'Speakers',
+    name: 'Bluetooth Speakers',
+    shortName: 'Speakers',
+    title: 'Bluetooth Speakers Heidelberg | Mobile Armour',
+    metaDescription: 'Portable Bluetooth speakers at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
+    intro: ['Portable Bluetooth speakers for home, the car park or the beach, from our kiosk at Warringal Shopping Centre, Heidelberg.'],
+    buyingTips: {
+      heading: 'Choosing a Bluetooth speaker',
+      points: [
+        'Check the water-resistance rating if it’s going outdoors.',
+        'Bigger speakers usually mean more bass and longer battery life, but less portability.',
+      ],
+    },
+  },
+  {
+    slug: 'stands-holders',
+    dbCategory: 'Stands & Holders',
+    name: 'Phone Stands & Holders',
+    shortName: 'Stands & Holders',
+    title: 'Phone & Tablet Stands, Ring Holders Heidelberg | Mobile Armour',
+    metaDescription:
+      'Desk stands for phones and tablets, MagSafe ring holders and grips at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
+    intro: [
+      'Desk stands for phones and tablets, MagSafe ring holders and grips, available from our kiosk at Warringal Shopping Centre, Heidelberg.',
+    ],
+    buyingTips: {
+      heading: 'Choosing a stand or holder',
+      points: [
+        'Adjustable stands suit video calls and watching; check they fold flat if you travel.',
+        'MagSafe ring holders need iPhone 12 or later, or a MagSafe case.',
+      ],
+    },
+  },
+  {
+    slug: 'bike-mounts',
+    dbCategory: 'Bike Mounts',
+    name: 'Bike & Motorbike Phone Mounts',
+    shortName: 'Bike Mounts',
+    title: 'Bike & Motorbike Phone Mounts Heidelberg | Mobile Armour',
+    metaDescription:
+      'Phone mounts for bikes, e-scooters and motorbikes at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
+    intro: ['Handlebar phone mounts for bikes, e-scooters and motorbikes, available from our kiosk at Warringal Shopping Centre, Heidelberg.'],
+    buyingTips: {
+      heading: 'Choosing a bike mount',
+      points: [
+        'Check the mount fits your handlebar diameter and your phone’s size with its case on.',
+        'For motorbikes, a vibration dampener helps protect the phone’s camera.',
+      ],
+    },
+  },
+  {
+    slug: 'memory-storage',
+    dbCategory: 'Memory & Storage',
+    name: 'Memory Cards & USB Drives',
+    shortName: 'Memory & Storage',
+    title: 'Memory Cards, USB Drives & Card Readers Heidelberg | Mobile Armour',
+    metaDescription:
+      'microSD cards, USB-C flash drives and card readers at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
+    intro: ['microSD cards, USB-C flash drives and card readers to back up photos and free up space, from our kiosk at Warringal Shopping Centre, Heidelberg.'],
+    buyingTips: {
+      heading: 'Choosing storage',
+      points: [
+        'iPhones have no memory card slot; use a USB-C flash drive or card reader instead.',
+        'For 4K video, choose a card rated V30 or U3 or faster.',
+      ],
+    },
+  },
+  {
+    slug: 'tech-gadgets',
+    dbCategory: 'Tech Gadgets',
+    name: 'Tech Gadgets',
+    shortName: 'Gadgets',
+    title: 'Tech Gadgets & Phone Accessories Heidelberg | Mobile Armour',
+    metaDescription:
+      'Selfie sticks, tripods, trackers and handy phone gadgets at Mobile Armour, Warringal Shopping Centre, Heidelberg.',
+    intro: ['Selfie sticks, tripods, item trackers and other handy gadgets for your phone, from our kiosk at Warringal Shopping Centre, Heidelberg.'],
+    buyingTips: {
+      heading: 'Good to know',
+      points: ['Bring your phone in and we’ll check a gadget works with it before you buy.'],
     },
   },
 ];
