@@ -227,11 +227,20 @@ async function writeDescription(p) {
     .join(' ');
   if (!process.env.OPENAI_API_KEY) return { text: fallback, source: 'template' };
   try {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    // Same rules as src/lib/ai.ts: OpenRouter when AI_PROVIDER=openrouter or the key is sk-or-...
+    const key = process.env.OPENAI_API_KEY;
+    const openrouter = (process.env.AI_PROVIDER || '').toLowerCase() === 'openrouter' || key.startsWith('sk-or-');
+    const base = openrouter ? 'https://openrouter.ai/api/v1' : 'https://api.openai.com/v1';
+    const model = process.env.AI_MODEL || (openrouter ? 'openai/gpt-4o-mini' : 'gpt-4o-mini');
+    const res = await fetch(`${base}/chat/completions`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${key}`,
+        ...(openrouter ? { 'HTTP-Referer': 'https://www.mobilearmour.com.au', 'X-Title': 'Mobile Armour' } : {}),
+      },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model,
         temperature: 0.4,
         messages: [
           {
@@ -246,10 +255,10 @@ async function writeDescription(p) {
         ],
       }),
     });
-    if (!res.ok) throw new Error(`OpenAI HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`${openrouter ? 'OpenRouter' : 'OpenAI'} HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
     const j = await res.json();
     const text = j.choices?.[0]?.message?.content?.trim();
-    return text ? { text, source: 'openai' } : { text: fallback, source: 'template' };
+    return text ? { text, source: openrouter ? 'OpenRouter' : 'OpenAI' } : { text: fallback, source: 'template' };
   } catch (e) {
     console.warn(`  ! description draft fell back to template (${e.message})`);
     return { text: fallback, source: 'template' };

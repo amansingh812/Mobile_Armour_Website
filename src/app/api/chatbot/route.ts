@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import { aiConfig } from '@/lib/ai';
 
+const ai = aiConfig();
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: ai.apiKey,
+  baseURL: ai.baseURL,
+  defaultHeaders: ai.headers,
 });
 
 const MOBILE_ARMOUR_SYSTEM_PROMPT = `You are a friendly AI assistant for Mobile Armour, a mobile repair and accessories shop based in Australia. 
@@ -79,7 +83,7 @@ export async function POST(request: NextRequest) {
     ];
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: ai.model,
       messages: messages as any,
       max_tokens: 150,
       temperature: 0.7,

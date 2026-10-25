@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import ProductGallery from './ProductGallery';
 import BuyBox from './BuyBox';
+import PairsWith from './PairsWith';
 import ProductTile from '@/components/store/ProductTile';
 import JsonLd, { faqPage } from '@/components/seo/JsonLd';
 import { currentPrice } from '@/lib/products';
@@ -17,12 +18,12 @@ const fmt = (n: number) => (n % 1 === 0 ? `$${n}` : `$${n.toFixed(2)}`);
 
 export default function ProductView({
   product: p,
-  related,
+  addOns,
   alternatives,
   hubDevices = [],
 }: {
   product: ShopProduct;
-  related: ShopProduct[];
+  addOns: ShopProduct[];
   alternatives: ShopProduct[];
   /** Phones that have their own /phones page; others aren't linked. */
   hubDevices?: string[];
@@ -146,7 +147,15 @@ export default function ProductView({
                   : '● In stock at Warringal'}
           </p>
 
-          <BuyBox product={cartProduct} price={price} inStock={inStock} />
+          <BuyBox
+            product={cartProduct}
+            price={price}
+            inStock={inStock}
+            phoneDisplay={BUSINESS.phoneDisplay}
+            phoneHref={BUSINESS.phoneHref}
+          />
+
+          <PairsWith items={addOns} />
 
           <ul className="ma-product__promises">
             {STORE.clickAndCollect.enabled && (
@@ -244,26 +253,6 @@ export default function ProductView({
           </div>
         </aside>
       </div>
-
-      {related.length > 0 && (
-        <section aria-labelledby="pairs" className="ma-section">
-          <div className="ma-shead">
-            <h2 id="pairs" className="ma-h2">
-              Pairs well with
-            </h2>
-            {hubDevice && (
-              <Link href={phonePath(hubDevice)} className="ma-link">
-                Everything for {hubDevice} →
-              </Link>
-            )}
-          </div>
-          <div className="ma-pgrid ma-pgrid--4">
-            {related.map((r) => (
-              <ProductTile key={r._id} product={r} />
-            ))}
-          </div>
-        </section>
-      )}
 
       {alternatives.length > 0 && (
         <section aria-labelledby="alts" className="ma-section">
