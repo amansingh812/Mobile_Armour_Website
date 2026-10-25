@@ -93,6 +93,12 @@ const KNOWN_BRANDS = ['REDEFYNE', 'Mercury', 'Goospery', 'Kinglas', 'Baseus', 'L
 async function getHtml(url) {
   if (opt.html) return fs.readFileSync(opt.html, 'utf8');
   const res = await fetch(url, { headers: { 'User-Agent': 'MobileArmourImporter/1.0 (+https://www.mobilearmour.com.au)' } });
+  if (res.status === 403 && res.headers.get('cf-mitigated')) {
+    throw new Error(
+      'Crazy Parts blocked the request (Cloudflare bot check). Save the page from your browser ' +
+        '(File > Save Page As, "Webpage, Complete") and re-run with --html <saved-file.html>.'
+    );
+  }
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
   return res.text();
 }
