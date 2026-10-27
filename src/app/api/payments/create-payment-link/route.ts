@@ -65,7 +65,8 @@ export async function POST(request: Request) {
       const orderIn = d.fulfilment === 'order-in';
       const variants: any[] = Array.isArray(d.variants) ? d.variants : [];
       if (variants.length) {
-        const v = variants.find((x) => x.sku === l.sku);
+        // No option sent (a cart saved before options existed): a single-option product has only one choice.
+        const v = variants.find((x) => x.sku === l.sku) || (!l.sku && variants.length === 1 ? variants[0] : undefined);
         // The option must exist and fit the phone the customer picked.
         if (!v || (l.model && !(v.models || []).includes(l.model))) {
           problems.push(d.name);

@@ -1,4 +1,7 @@
 import nodemailer from "nodemailer";
+import type { IOrder } from "@/models/Order";
+import { STORE } from "@/data/store-settings";
+import { BUSINESS, fullAddress } from "@/data/business";
 
 const SMTP_HOST = process.env.SMTP_HOST as string;
 const SMTP_PORT = Number(process.env.SMTP_PORT || 587);
@@ -175,4 +178,119 @@ export async function sendLeadNotificationEmail(rawData: LeadNotificationData) {
     });
     return false;
   }
+}
+
+// ------------------------------------------------------------ customer order email
+
+/** Order confirmation for the customer. Returns true when sent. */
+export async function sendOrderConfirmationEmail(order: IOrder): Promise<boolean> {
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !SMTP_FROM) {
+    console.warn("[mailer] SMTP not configured. Skipping order confirmation email.");
+    return false;
+  }
+  const to = order.customer?.email;
+  if (!to) return false;
+
+  const e = (v: unknown) => escapeHtml(String(v ?? ""));
+  const collect = order.fulfilment !== "delivery";
+  const anyOrderIn = order.items.some((i) => i.orderIn);
+  const firstName = (order.customer?.name || "").trim().split(/\s+/)[0];
+
+  const when = collect
+    ? anyOrderIn
+      ? `Some items are ordered in for you (${STORE.orderIn.readyText}). We'll text you as soon as everything is ready to collect.`
+      : `We'll text you when it's ready to collect (${STORE.clickAndCollect.readyText}).`
+    : `We'll send it by ${STORE.delivery.carrier} (${STORE.delivery.timeText}) and email you when it's on its way.${
+        anyOrderIn ? ` Some items are ordered in first (${STORE.orderIn.readyText}).` : ""
+      }`;
+
+  const rows = order.items
+    .map(
+      (i) => `<tr>
+        <td style="padding:10px 0;border-bottom:1px solid #eee;color:#222">${e(i.name)}<br><span style="color:#888;font-size:13px">Qty ${i.quantity}</span></td>
+        <td style="padding:10px 0;border-bottom:1px solid #eee;text-align:right;color:#222;white-space:nowrap">$${(i.unitPrice * i.quantity).toFixed(2)}</td>
+      </tr>`
+    )
+    .join("");
+  const extra = [
+    order.bundleSaving > 0 ? `<tr><td style="padding:6px 0;color:#666">Bundle saving</td><td style="padding:6px 0;text-align:right;color:#666">−$${order.bundleSaving.toFixed(2)}</td></tr>` : "",
+    !collect ? `<tr><td style="padding:6px 0;color:#666">Delivery</td><td style="padding:6px 0;text-align:right;color:#666">${order.shipping > 0 ? `$${order.shipping.toFixed(2)}` : "Free"}</td></tr>` : "",
+  ].join("");
+  const addr = order.shippingAddress;
+  const addrText = addr ? [addr.line1, addr.line2, addr.city, addr.state, addr.postcode].filter(Boolean).join(", ") : "";
+
+  const html = `
+  <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden">
+    <div style="background:#111;color:#fff;padding:22px 24px">
+      <div style="font-size:13px;opacity:.75">Mobile Armour · Order ${e(order.orderNumber)}</div>
+      <h2 style="margin:6px 0 0;font-size:22px">Thanks${firstName ? `, ${e(firstName)}` : ""}. Your order is paid.</h2>
+    </div>
+    <div style="padding:24px">
+      <p style="margin:0 0 16px;color:#333;line-height:1.55">${e(when)}</p>
+      ${collect ? `<p style="margin:0 0 20px;color:#333;line-height:1.55"><strong>Collect from:</strong> ${e(fullAddress)}<br>Bring this email or your order number <strong>${e(order.orderNumber)}</strong>.</p>` : `<p style="margin:0 0 20px;color:#333;line-height:1.55"><strong>Delivering to:</strong> ${e(addrText)}</p>`}
+      <table style="width:100%;border-collapse:collapse;font-size:15px">${rows}${extra}
+        <tr><td style="padding:12px 0 0;font-weight:700;color:#111">Total paid</td><td style="padding:12px 0 0;text-align:right;font-weight:700;color:#111">$${order.total.toFixed(2)} AUD</td></tr>
+      </table>
+      <p style="margin:24px 0 0;color:#555;font-size:14px;line-height:1.55">Wrong model? We'll swap it at the kiosk. Questions about your order: call <a href="${BUSINESS.phoneHref}" style="color:#e85d1f">${BUSINESS.phoneDisplay}</a> or reply to this email.</p>
+    </div>
+    <div style="background:#f6f6f6;padding:14px 24px;font-size:12px;color:#888">${e(BUSINESS.name)} · ${e(fullAddress)}</div>
+  </div>`;
+
+  const text = `Thanks${firstName ? `, ${firstName}` : ""}. Your Mobile Armour order ${order.orderNumber} is paid.
+
+${when}
+${collect ? `Collect from: ${fullAddress}` : `Delivering to: ${addrText}`}
+
+${order.items.map((i) => `${i.quantity} x ${i.name}  $${(i.unitPrice * i.quantity).toFixed(2)}`).join("\n")}
+Total paid: $${order.total.toFixed(2)} AUD
+
+Questions: ${BUSINESS.phoneDisplay}`;
+
+  await transporter.sendMail({
+    from: SMTP_FROM,
+    to,
+    replyTo: process.env.LEAD_NOTIFICATION_EMAIL || SMTP_FROM,
+    subject: `Your Mobile Armour order ${order.orderNumber}`,
+    html,
+    text,
+  });
+  return true;
+}
+
+/** "Ready to collect" / "On its way" email when the shop updates an order. */
+export async function sendOrderStatusEmail(order: IOrder): Promise<boolean> {
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !SMTP_FROM) return false;
+  const to = order.customer?.email;
+  if (!to || (order.status !== "ready" && order.status !== "shipped")) return false;
+  const e = (v: unknown) => escapeHtml(String(v ?? ""));
+  const ready = order.status === "ready";
+  const firstName = (order.customer?.name || "").trim().split(/\s+/)[0];
+  const heading = ready ? "Your order is ready to collect" : "Your order is on its way";
+  const tracking = order.trackingNumber
+    ? `Tracking number: ${order.trackingNumber} (track at auspost.com.au/mypost/track)`
+    : "";
+  const body = ready
+    ? `Pick it up from ${fullAddress}. Open 9am–5pm Monday to Saturday, 10am–5pm Sunday. Bring your order number ${order.orderNumber}.`
+    : `We've sent it by ${STORE.delivery.carrier}. ${tracking}`;
+  const html = `
+  <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden">
+    <div style="background:#111;color:#fff;padding:22px 24px">
+      <div style="font-size:13px;opacity:.75">Mobile Armour · Order ${e(order.orderNumber)}</div>
+      <h2 style="margin:6px 0 0;font-size:22px">${e(heading)}${firstName ? `, ${e(firstName)}` : ""}</h2>
+    </div>
+    <div style="padding:24px;color:#333;line-height:1.55">
+      <p style="margin:0 0 16px">${e(body)}</p>
+      <ul style="margin:0 0 16px;padding-left:18px">${order.items.map((i) => `<li>${i.quantity} × ${e(i.name)}</li>`).join("")}</ul>
+      <p style="margin:0;font-size:14px;color:#555">Questions: <a href="${BUSINESS.phoneHref}" style="color:#e85d1f">${BUSINESS.phoneDisplay}</a></p>
+    </div>
+  </div>`;
+  await transporter.sendMail({
+    from: SMTP_FROM,
+    to,
+    replyTo: process.env.LEAD_NOTIFICATION_EMAIL || SMTP_FROM,
+    subject: `${heading} (${order.orderNumber})`,
+    html,
+    text: `${heading}. ${body}`,
+  });
+  return true;
 }

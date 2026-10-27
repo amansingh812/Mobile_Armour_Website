@@ -351,6 +351,9 @@ export default function AdminProductsPage() {
             <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 16 }}>
                 Admin • Products
             </h1>
+            <p style={{ marginTop: -8, marginBottom: 16 }}>
+                <a href="/admin/orders" style={{ color: "#1f6feb" }}>View orders →</a>
+            </p>
 
             {/* Alerts */}
             {error && (

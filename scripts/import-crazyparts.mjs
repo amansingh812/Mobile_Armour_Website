@@ -229,6 +229,7 @@ function detectBrand(name, description) {
 
 function tidyName(name) {
   return name
+    .replace(/\bRe-?Define\b/gi, 'REDEFYNE') // the brand's current name
     .replace(/\s*\((?=[A-Z0-9\/-]*\d{6})[A-Z0-9\/ -]{8,}(\)|$)/g, '') // supplier part codes: (C40467600111-01), (A0005…-00/A0005…-00)
     .replace(/-(Cluster|Cosmic)(\s+\w+)?$/i, '') // trailing colour fragments: "...15W-Cluster"
 
@@ -462,8 +463,10 @@ async function prepare(captures, row = {}) {
       const img = [...mine, ...shared].slice(0, 5).map((i) => c.images[i]).filter(Boolean);
       const code = colourCode(v.sku);
       let colour = tidyColour(v.colour);
-      if (colour && colourByCode.has(code)) colour = colourByCode.get(code);
-      else if (colour) colourByCode.set(code, colour);
+      // Only letter codes (BLK, LCYBLUE) name a colour; numeric endings (-00, -01) don't.
+      const named = /[A-Z]/.test(code);
+      if (colour && named && colourByCode.has(code)) colour = colourByCode.get(code);
+      else if (colour && named) colourByCode.set(code, colour);
       variants.push({
         sku: String(v.sku),
         gtin: v.gtin ? String(v.gtin) : undefined,

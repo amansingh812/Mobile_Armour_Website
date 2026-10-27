@@ -10,6 +10,7 @@ import { isWatchSize, shortModel, sortModels, swatchFor, watchSize } from '@/dat
 import { STORE } from '@/data/store-settings';
 import { BUSINESS } from '@/data/business';
 import { phonePath } from '@/lib/device-links';
+import { track } from '@/lib/analytics';
 
 const fmt = (n: number) => (n % 1 === 0 ? `$${n}` : `$${n.toFixed(2)}`);
 /** The phone a shopper last picked, shared with Shop by phone. */
@@ -21,6 +22,13 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
   const [model, setModel] = useState<string | undefined>(models[0]);
   const isWatch = models.length > 0 && models.every(isWatchSize);
   const [colour, setColour] = useState<string | undefined>();
+
+  useEffect(() => {
+    track('view_item', {
+      value: currentPrice(p),
+      items: [{ item_id: p._id, item_name: p.name, item_category: p.category, price: currentPrice(p), quantity: 1 }],
+    });
+  }, [p._id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Preselect the phone from ?model=… or the one picked last time.
   useEffect(() => {
@@ -34,9 +42,18 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
     if (match) setModel(match);
   }, [models]);
 
+  // Options for the chosen phone. Products that don't depend on a phone (chargers,
+  // cables, mounts, headphones) have options with no models: all of them apply.
   const forModel: ShopVariant[] = useMemo(
-    () => (variants && model ? variants.filter((v) => v.models.includes(model)) : []),
-    [variants, model]
+    () =>
+      !variants
+        ? []
+        : models.length === 0
+          ? variants
+          : model
+            ? variants.filter((v) => v.models.includes(model))
+            : [],
+    [variants, model, models.length]
   );
   const variant: ShopVariant | undefined =
     forModel.find((v) => v.colour === colour) || forModel.find((v) => v.available) || forModel[0];

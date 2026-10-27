@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useReducer, useRef, ReactNode } from 'react';
 import { Product, CartItem, lineKey } from '@/types/product';
+import { track, gaItem } from '@/lib/analytics';
 
 interface CartState {
   items: CartItem[];
@@ -132,6 +133,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const addItem = (product: Product, quantity: number) => {
     dispatch({ type: 'ADD_ITEM', payload: { product, quantity } });
+    const item = gaItem(product, quantity);
+    track('add_to_cart', { value: (item.price || 0) * quantity, items: [item] });
   };
 
   const removeItem = (productId: string) => {

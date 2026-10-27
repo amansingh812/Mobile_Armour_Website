@@ -30,6 +30,14 @@ const nextConfig = {
       // Old placeholder category pages (they rendered fake products) and bare /shop
       { source: "/category/:path*", destination: "/products", permanent: true },
       { source: "/shop", destination: "/products", permanent: true },
+      // REDEFINE renamed REDEFYNE (27 Oct 2026)
+      { source: "/shop/brand/redefine", destination: "/shop/brand/redefyne", permanent: true },
+      // Kinglas Pro Max glass merged into one design with the Pro size (27 Oct 2026)
+      {
+        source: "/products/:slug(.*6addbb1aed988e14320c4946)",
+        destination: "/products/6addbb11ed988e14320c4945",
+        permanent: true,
+      },
       // Bike mounts and stands merged into one category (25 Oct 2026)
       { source: "/shop/bike-mounts/:path*", destination: "/shop/mounts-stands", permanent: true },
       { source: "/shop/stands-holders/:path*", destination: "/shop/mounts-stands", permanent: true },

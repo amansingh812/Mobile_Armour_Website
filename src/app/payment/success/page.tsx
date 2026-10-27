@@ -11,6 +11,7 @@ import { STORE } from '@/data/store-settings';
 import '@/components/site/page.css';
 import '@/components/store/store.css';
 import '@/app/cart/cart-page.css';
+import { track } from '@/lib/analytics';
 
 interface PendingOrder {
   sessionId: string;
@@ -19,10 +20,66 @@ interface PendingOrder {
   total: number;
 }
 
+interface SavedOrder {
+  orderNumber: string;
+  fulfilment: 'collect' | 'delivery';
+  total: number;
+  shipping: number;
+  items: { name: string; quantity: number; unitPrice: number; image?: string; sku?: string; productId?: string; orderIn?: boolean }[];
+}
+
 function PaymentSuccess() {
   const params = useSearchParams();
   const { clearCart } = useCart();
   const [order, setOrder] = useState<PendingOrder | null>(null);
+  const [saved, setSaved] = useState<SavedOrder | null>(null);
+
+  // The saved order (order number) from our server. Stripe's webhook usually
+  // lands within a second or two; ask a few times before giving up quietly.
+  useEffect(() => {
+    const sessionId = params.get('session_id');
+    if (!sessionId) return;
+    let stop = false;
+    (async () => {
+      for (let attempt = 0; attempt < 6 && !stop; attempt++) {
+        try {
+          const r = await fetch(`/api/orders?session_id=${encodeURIComponent(sessionId)}`, { cache: 'no-store' });
+          if (r.ok) {
+            const o = (await r.json()) as SavedOrder;
+            if (stop) return;
+            setSaved(o);
+            // GA4 purchase, once per order (refreshing the page doesn't count it again).
+            const key = `ma-ga-purchase-${o.orderNumber}`;
+            let seen = false;
+            try {
+              seen = !!localStorage.getItem(key);
+              localStorage.setItem(key, '1');
+            } catch {}
+            if (!seen) {
+              track('purchase', {
+                transaction_id: o.orderNumber,
+                value: o.total,
+                shipping: o.shipping,
+                items: o.items.map((i) => ({
+                  item_id: i.sku || i.productId || i.name,
+                  item_name: i.name,
+                  price: i.unitPrice,
+                  quantity: i.quantity,
+                })),
+              });
+            }
+            return;
+          }
+          if (r.status !== 202) return;
+        } catch {}
+        await new Promise((res) => setTimeout(res, 1500));
+      }
+    })();
+    return () => {
+      stop = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const sessionId = params.get('session_id');
@@ -38,7 +95,8 @@ function PaymentSuccess() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const collect = (order?.fulfilment || 'collect') === 'collect';
+  const collect = (saved?.fulfilment || order?.fulfilment || 'collect') === 'collect';
+  const anyOrderIn = !!saved?.items.some((i) => i.orderIn);
 
   return (
     <main className="ma-page ma-cart">
@@ -50,10 +108,15 @@ function PaymentSuccess() {
           <h1 className="ma-h1" style={{ fontSize: 34 }}>
             Thanks, your order is paid
           </h1>
+          {saved && (
+            <p style={{ fontSize: 17, margin: 0 }}>
+              Order number <strong>{saved.orderNumber}</strong>
+            </p>
+          )}
           {collect ? (
             <p style={{ fontSize: 17 }}>
               We&apos;ll text you when it&apos;s ready to collect from <strong>{fullAddress}</strong> (
-              {STORE.clickAndCollect.readyText}).{' '}
+              {anyOrderIn ? `some items are ordered in for you, ${STORE.orderIn.readyText}` : STORE.clickAndCollect.readyText}).{' '}
               {STORE.freeFitting ? 'Bring your phone and we’ll fit any screen protector for you.' : ''}
             </p>
           ) : (
@@ -62,7 +125,7 @@ function PaymentSuccess() {
               way.
             </p>
           )}
-          <p style={{ color: 'var(--ma-body)' }}>A receipt has been emailed to you by Stripe.</p>
+          <p style={{ color: 'var(--ma-body)' }}>We&apos;ve emailed you a confirmation{saved ? ` for order ${saved.orderNumber}` : ''}.</p>
 
           {order && order.items.length > 0 && (
             <ul className="ma-cart__items" aria-label="Items in this order">

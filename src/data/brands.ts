@@ -16,9 +16,10 @@ export const BRANDS: Record<string, ShopBrand> = {
     what: 'screen protectors',
     guide: { title: 'Privacy, clear or matte: which screen protector?', href: '/blog/privacy-vs-clear-vs-matte-screen-protector' },
   },
-  redefine: {
-    name: 'REDEFINE',
-    match: /\bredefine\b/i,
+  // Formerly REDEFINE; /shop/brand/redefine redirects here.
+  redefyne: {
+    name: 'REDEFYNE',
+    match: /\bre-?def[iy]ne\b/i,
     what: 'phone cases',
     guide: { title: 'Which iPhone 17 Pro Max case should you buy?', href: '/blog/which-iphone-17-pro-max-case' },
   },

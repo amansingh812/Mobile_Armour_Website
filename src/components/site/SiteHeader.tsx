@@ -66,7 +66,7 @@ export default function SiteHeader() {
     };
   }, [open]);
 
-  const links = isAdmin ? [...NAV_LINKS, { label: "Admin", href: "/admin/products" }] : NAV_LINKS;
+  const links = isAdmin ? [...NAV_LINKS, { label: "Orders", href: "/admin/orders" }, { label: "Admin", href: "/admin/products" }] : NAV_LINKS;
 
   return (
     <header className="ma-header">

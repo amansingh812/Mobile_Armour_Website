@@ -280,11 +280,11 @@ export const guidePosts2026: BlogPost[] = [
 
       <h2>Which case is best for drops?</h2>
       <p>A heavy-duty case with raised edges around the screen and camera bar, and thick corners.</p>
-      <p>Look at the <a href="${P}iphone-17-pro-max-redefine-shield-heavy-duty-magnetic-case-690a3f86e85b1a96832b6fd5">REDEFINE Shield Heavy Duty</a> or the <a href="${P}iphone-17-pro-max-armor-xtreme-kevlar-magnetic-case-690894dae3235c120d5c8c5b">Armor Xtreme Kevlar</a>; both are also magnetic. Pair it with <a href="/shop/screen-protectors/iphone-17-pro-max">glass for the 17 Pro Max</a>: a case can't protect the front from a face-down drop.</p>
+      <p>Look at the <a href="${P}iphone-17-pro-max-redefyne-shield-heavy-duty-magnetic-case-690a3f86e85b1a96832b6fd5">REDEFYNE Shield Heavy Duty</a> or the <a href="${P}iphone-17-pro-max-armor-xtreme-kevlar-magnetic-case-690894dae3235c120d5c8c5b">Armor Xtreme Kevlar</a>; both are also magnetic. Pair it with <a href="/shop/screen-protectors/iphone-17-pro-max">glass for the 17 Pro Max</a>: a case can't protect the front from a face-down drop.</p>
 
       <h2>Which clear case should I get?</h2>
       <p>Pick a clear case with a hard back and soft edges for the best mix of protection and clarity.</p>
-      <p>Options include the <a href="${P}iphone-17-pro-max-redefine-metal-lens-transparent-magnetic-case-6908d579e85b1a96832b6fc4">REDEFINE Metal Lens Transparent</a> (magnetic), the <a href="${P}iphone-17-pro-max-hybrid-clear-acrylic-tpu-case-6908cf6f9cb2acee49e100e9">Hybrid Clear Acrylic</a> and the softer <a href="${P}iphone-17-pro-max-mercury-soft-feeling-jelly-case-690a462ee85b1a96832b6ff4">Mercury Jelly</a>.</p>
+      <p>Options include the <a href="${P}iphone-17-pro-max-redefyne-metal-lens-transparent-magnetic-case-6908d579e85b1a96832b6fc4">REDEFYNE Metal Lens Transparent</a> (magnetic), the <a href="${P}iphone-17-pro-max-hybrid-clear-acrylic-tpu-case-6908cf6f9cb2acee49e100e9">Hybrid Clear Acrylic</a> and the softer <a href="${P}iphone-17-pro-max-mercury-soft-feeling-jelly-case-690a462ee85b1a96832b6ff4">Mercury Jelly</a>.</p>
 
       <h2>Is a wallet case worth it?</h2>
       <p>If you want to leave your wallet at home, yes. The trade-off is thickness.</p>

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/hooks/useCart';
+import { track, gaItem } from '@/lib/analytics';
 import { lineKey } from '@/types/product';
 import { slugify } from '@/lib/products';
 import { priceCart, money, type Fulfilment, type PricedItem } from '@/lib/pricing';
@@ -65,6 +66,10 @@ export default function CartPage() {
   const pay = async () => {
     setBusy(true);
     setError(null);
+    track('begin_checkout', {
+      value: totals.total,
+      items: state.items.map((i) => gaItem(i.product, i.quantity)),
+    });
     try {
       const res = await fetch('/api/payments/create-payment-link', {
         method: 'POST',
