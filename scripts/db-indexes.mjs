@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Show or create the MongoDB indexes the products collection needs.
+ * Show or create the MongoDB indexes the products and orders collections need.
  *
  *   node scripts/db-indexes.mjs            # list current indexes + what's missing
  *   node scripts/db-indexes.mjs --apply    # create the missing ones (never drops any)
@@ -61,6 +61,22 @@ for (const w of missing) {
   }
 }
 if (missing.length && !apply) console.log('\nRun with --apply to create them.');
+
+// Orders (src/models/Order.ts). Unique session index is what stops a retried
+// Stripe webhook from saving the same order twice. Sparse: the one legacy order
+// from 2025 has no session id.
+const ORDER_WANTED = [
+  { key: { stripeSessionId: 1 }, opts: { unique: true, sparse: true } },
+  { key: { orderNumber: 1 }, opts: { unique: true, sparse: true } },
+  { key: { status: 1 } },
+  { key: { createdAt: -1 } },
+];
+const orders = mongoose.connection.db.collection('orders');
+const haveOrders = new Set((await orders.indexes()).map((i) => sig(i.key)));
+for (const w of ORDER_WANTED.filter((w) => !haveOrders.has(sig(w.key)))) {
+  if (apply) console.log(`  + orders: created ${await orders.createIndex(w.key, w.opts || {})}`);
+  else console.log(`  - orders: missing ${sig(w.key)}`);
+}
 
 // How the busiest queries run now.
 const plan = async (label, cursor) => {
