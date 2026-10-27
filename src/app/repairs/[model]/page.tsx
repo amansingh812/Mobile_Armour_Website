@@ -140,8 +140,18 @@ export default async function ModelRepairPage({ params }: PageProps) {
         items={[
           { name: 'Home', url: '/' },
           { name: 'Services', url: '/services' },
-          { name: `${brandLabel} Repair` },
-          { name: page.model },
+          {
+            name: `${brandLabel} Repair`,
+            url:
+              page.brand === 'apple'
+                ? '/services/iphone-screen-repair'
+                : page.brand === 'samsung'
+                  ? '/services/samsung-repair'
+                  : page.brand === 'google'
+                    ? '/services/google-pixel-repair'
+                    : '/services/ipad-screen-repair',
+          },
+          { name: page.model, url: `/repairs/${slug}` },
         ]}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />

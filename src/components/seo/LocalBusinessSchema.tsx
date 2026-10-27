@@ -146,15 +146,9 @@ export default function LocalBusinessSchema() {
             "name": "Battery Replacement",
             "description": "Fast battery replacement service for all mobile devices"
           }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Product",
-            "name": "Phone Accessories",
-            "description": "Wide range of phone cases, screen protectors, chargers, and cables"
-          }
         }
+        // (No "Product" offer here: a Product without a price is an invalid
+        // Product snippet on every page. Real products carry their own schema.)
       ]
     },
     "sameAs": [...BUSINESS.sameAs]
