@@ -18,6 +18,9 @@ interface PageProps {
 
 // Accessory row shows live stock; refresh hourly.
 export const revalidate = 3600;
+// Only the models in model-repair-pages.ts exist; anything else is a real 404
+// (not a 200 "soft 404" from the streamed not-found page).
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   return getAllModelSlugs().map((slug) => ({ model: slug }));
