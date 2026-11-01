@@ -13,9 +13,9 @@ export const guidePostsBatchB: BlogPost[] = [
   // B6
   {
     slug: 'what-charger-does-iphone-17-need',
-    seoTitle: 'What Charger Does the iPhone 17 Need? | Mobile Armour',
+    seoTitle: 'What Charger for iPhone 17? Use 40W USB-C for the Fastest',
     metaDescription:
-      'Any USB-C Power Delivery charger works. For the fastest charge (50% in 20 min) Apple says use 40W or more; MagSafe and Qi2 go up to 25W.',
+      'Any USB-C PD charger works, and there is no plug in the box. Use 40W or more for 50% in about 20 min; MagSafe and Qi2 go up to 25W. Which charger to buy.',
     title: 'What Charger Does the iPhone 17 Need?',
     excerpt:
       'Any USB-C charger that supports USB Power Delivery (USB PD) will charge an iPhone 17, and the box only includes a USB-C cable, not a plug. For the fastest charge, up to 50% in about 20 minutes, Apple says to use a 40W or higher adapter. Wirelessly, MagSafe and Qi2 chargers reach up to 25W with a 30W or higher adapter.',
@@ -94,9 +94,9 @@ export const guidePostsBatchB: BlogPost[] = [
   // B7
   {
     slug: 'do-you-need-a-screen-protector-iphone-17',
-    seoTitle: 'Do You Need a Screen Protector on an iPhone 17?',
+    seoTitle: "Does the iPhone 17 Need a Screen Protector? Yes, Here's Why",
     metaDescription:
-      "The iPhone 17's Ceramic Shield 2 resists scratches better, but it can still crack in a drop. When a protector is worth it, and which glass fits.",
+      'For most people, yes. Ceramic Shield 2 resists scratches, but a drop can still crack it and a new screen costs far more than glass. Which protector to get.',
     title: 'Do You Need a Screen Protector on an iPhone 17?',
     excerpt:
       "Not strictly, but most people should use one. Every iPhone 17 model has a Ceramic Shield 2 front with an anti-reflective coating, which resists everyday scratches better than older iPhones. It can still crack in a hard drop, and a replacement screen costs far more than a protector. The trade-off: a glass protector covers Apple's anti-reflective coating, so you'll see a little more glare.",
@@ -634,9 +634,9 @@ export const guidePostsBatchB: BlogPost[] = [
   // B16 (new: headphones)
   {
     slug: 'earbuds-or-over-ear-headphones',
-    seoTitle: 'Earbuds or Over-Ear Headphones? | Mobile Armour',
+    seoTitle: 'Earbuds or Over-Ear Headphones: Which Is More Comfortable?',
     metaDescription:
-      'Earbuds for the gym and commute, over-ear for long flights and the best noise cancelling, open-ear to hear traffic. How to choose wireless headphones.',
+      'Over-ear is more comfortable for hours and blocks more noise, so it wins for flights and the office. Earbuds win for the gym, commute and pocket.',
     title: 'Earbuds or Over-Ear Headphones: Which Should You Buy?',
     excerpt:
       "Earbuds are best for the gym, the commute and your pocket. Over-ear headphones are more comfortable for hours at a time and usually block more noise, which makes them the pick for flights and open-plan offices. Open-ear earbuds leave your ears free to hear traffic, so they suit runners and cyclists. If noise is your problem, choose a model with active noise cancelling (ANC).",

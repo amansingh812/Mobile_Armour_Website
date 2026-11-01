@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import ShopListing from '@/components/shop/ShopListing';
 import { getAllProducts } from '@/lib/shop-data';
-import { collectFaq, fromPrice, isPrivacy, seeFaq } from '@/lib/shop-copy';
+import { availability, collectFaq, fromPrice, isPrivacy, seeFaq } from '@/lib/shop-copy';
 import { BUSINESS } from '@/data/business';
 import { OG_IMAGE } from '@/lib/seo';
 
@@ -34,7 +34,7 @@ export default async function PrivacyScreenProtectorsPage() {
       h1="Privacy screen protectors"
       intro={[
         `Privacy glass darkens your screen when it's viewed from the side, so the person next to you on the train can't read your messages. Looking straight on, you see the screen as normal.`,
-        `${products.length} in stock at ${BUSINESS.address.centre}, Heidelberg${from ? `, from ${from}` : ''}${
+        `${products.length} ${availability(products)}${from ? `, from ${from}` : ''}${
           devices.length ? `, for ${devices.slice(0, 4).join(', ')}${devices.length > 4 ? ' and more' : ''}` : ''
         }.`,
       ]}
@@ -68,8 +68,8 @@ export default async function PrivacyScreenProtectorsPage() {
           short: 'Yes. The glass is cut around the front camera and Face ID sensors.',
           more: 'Make sure you buy the one made for your exact iPhone model so the cut-out lines up.',
         },
-        seeFaq('see', 'privacy glass'),
-        collectFaq('collect'),
+        seeFaq('see', 'privacy glass', products),
+        collectFaq('collect', products),
       ]}
     />
   );

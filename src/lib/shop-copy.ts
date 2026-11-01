@@ -29,7 +29,34 @@ function listParts(parts: [number, string][]): string {
   return p.length === 1 ? p[0] : `${p.slice(0, -1).join(', ')} and ${p[p.length - 1]}`;
 }
 
-function collectFaq(id: string): Faq {
+const isOrderIn = (p: ShopProduct) => p.fulfilment === 'order-in';
+
+/**
+ * Where the products are, honestly: kiosk stock vs ordered in from our supplier.
+ * Reads after a count, e.g. "12 iPhone 18 cases " + availability(products).
+ */
+export function availability(products: ShopProduct[]): string {
+  const o = products.filter(isOrderIn).length;
+  const k = products.length - o;
+  const at = `${BUSINESS.address.centre}, Heidelberg`;
+  if (!o) return `in stock at Mobile Armour, ${at}`;
+  if (!k) return `at Mobile Armour, ${at}, ordered in for you (${STORE.orderIn.readyText})`;
+  return `at Mobile Armour, ${at}: ${k} in stock at the kiosk, ${o} ordered in for you`;
+}
+
+function collectFaq(id: string, products: ShopProduct[] = []): Faq {
+  const o = products.filter(isOrderIn).length;
+  const k = products.length - o;
+  if (STORE.clickAndCollect.enabled && o > 0) {
+    return {
+      id,
+      q: 'Can I pick it up from the kiosk?',
+      short: k
+        ? `Yes. Choose click & collect at checkout: kiosk stock is ${STORE.clickAndCollect.readyText}; ordered-in items are ${STORE.orderIn.readyText}, and we email you when it's ready.`
+        : `Yes. Choose click & collect at checkout: we order it in for you (${STORE.orderIn.readyText}) and email you when it's ready.`,
+      more: `Collect from ${BUSINESS.address.unit}, ${BUSINESS.address.centre} (${hoursShort()}). Delivery across Australia is ${deliveryFeeText().toLowerCase()}.`,
+    };
+  }
   return {
     id,
     q: 'Can I pick it up today?',
@@ -40,11 +67,23 @@ function collectFaq(id: string): Faq {
   };
 }
 
-function seeFaq(id: string, what: string): Faq {
+function seeFaq(id: string, what: string, products: ShopProduct[] = []): Faq {
+  const o = products.filter(isOrderIn).length;
+  const k = products.length - o;
+  if (o > 0 && k === 0)
+    return {
+      id,
+      q: `Can I see the ${what} before I buy?`,
+      short: `These are ordered in for you when you buy, so they aren't on display at the kiosk.`,
+      more: `Call ${BUSINESS.phoneDisplay} and we'll tell you which similar ${what} we have at ${BUSINESS.address.centre} to try.`,
+    };
   return {
     id,
     q: `Can I see the ${what} before I buy?`,
-    short: `Yes. Everything on this page is stocked at our kiosk in ${BUSINESS.address.centre}, Heidelberg.`,
+    short:
+      o > 0
+        ? `${k} of these are stocked at our kiosk in ${BUSINESS.address.centre}, Heidelberg; the other ${o} are ordered in when you buy.`
+        : `Yes. Everything on this page is stocked at our kiosk in ${BUSINESS.address.centre}, Heidelberg.`,
     more: 'Bring your phone and try a case on, or compare glass side by side.',
   };
 }
@@ -80,11 +119,11 @@ export function deviceListingCopy(catSlug: string, device: string, products: Sho
         short: `${mag} of the ${n} have magnets built in, so MagSafe chargers, wallets and car mounts snap on.`,
         more: 'Cases without magnets still charge on a wireless pad, but MagSafe accessories won’t hold.',
       });
-    faqs.push(seeFaq('see', 'cases'), collectFaq('collect'));
+    faqs.push(seeFaq('see', 'cases', products), collectFaq('collect', products));
     return {
       intro: [
-        `${count(n, `${device} case`, `${device} cases`)} in stock at Mobile Armour, ${BUSINESS.address.centre}, Heidelberg${from ? `, from ${from}` : ''}.${parts ? ` Of these, ${parts}.` : ''}`,
-        `Each case is made for the ${device} only: phones from the same year differ in size and camera layout, so a case for another model won't fit properly.`,
+        `${count(n, `${device} case`, `${device} cases`)} ${availability(products)}${from ? `, from ${from}` : ''}.${parts ? ` Of these, ${parts}.` : ''}`,
+        `Every case here is listed for the ${device}. Phones from the same year differ in size and camera layout, so check the fit on each case: where one also fits another model with the same body, we say so.`,
       ],
       faqs,
     };
@@ -99,10 +138,10 @@ export function deviceListingCopy(catSlug: string, device: string, products: Sho
         short: 'It darkens the screen when viewed from the side, so people next to you can’t read it.',
         more: 'Looking straight on, you see the screen normally, slightly dimmer than with clear glass.',
       });
-    faqs.push(seeFaq('see', 'screen protectors'), collectFaq('collect'));
+    faqs.push(seeFaq('see', 'screen protectors', products), collectFaq('collect', products));
     return {
       intro: [
-        `${count(n, `${device} screen protector`, `${device} screen protectors`)} in stock at ${BUSINESS.address.centre}, Heidelberg${from ? `, from ${from}` : ''}${priv ? `, including ${priv} privacy glass` : ''}.`,
+        `${count(n, `${device} screen protector`, `${device} screen protectors`)} ${availability(products)}${from ? `, from ${from}` : ''}${priv ? `, including ${priv} privacy glass` : ''}.`,
         `Each one is cut for the ${device}'s screen and front camera, so it covers edge to edge without lifting.`,
       ],
       faqs,
@@ -110,9 +149,9 @@ export function deviceListingCopy(catSlug: string, device: string, products: Sho
   }
   return {
     intro: [
-      `${count(n, 'product', 'products')} for the ${device} in stock at ${BUSINESS.address.centre}, Heidelberg${from ? `, from ${from}` : ''}.`,
+      `${count(n, 'product', 'products')} for the ${device} ${availability(products)}${from ? `, from ${from}` : ''}.`,
     ],
-    faqs: [fitFaq('fit', device, 'accessories'), collectFaq('collect')],
+    faqs: [fitFaq('fit', device, 'accessories'), collectFaq('collect', products)],
   };
 }
 

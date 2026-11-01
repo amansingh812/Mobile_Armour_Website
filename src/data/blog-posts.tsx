@@ -30,6 +30,9 @@ import { guidePostsBatchB } from './blog-posts-2026-b';
 const legacyPosts: BlogPost[] = [
   {
     slug: 'screen-repair-vs-replacement',
+    seoTitle: 'Cracked Screen: Repair the Glass or Replace the Screen?',
+    metaDescription:
+      'Glass cracked but the picture and touch still work? A glass repair is usually enough. Lines, black spots or dead touch mean the screen needs replacing.',
     title: 'Screen Repair vs. Replacement: Which Does Your Phone Need?',
     excerpt:
       'Cracked screen? Learn the difference between screen repair and full replacement, cost comparisons, and which option saves you money in Heidelberg.',
@@ -50,9 +53,9 @@ const legacyPosts: BlogPost[] = [
     ],
     tags: ['Screen Repair', 'Cost Guide', 'iPhone', 'Samsung', 'Repair Tips'],
     content: `
-      <p>A cracked or damaged phone screen is one of the most common mobile phone issues Australian smartphone users face. If you're in Heidelberg and dealing with screen damage, you're probably wondering: <strong>should I repair my screen or replace it entirely?</strong></p>
+      <p><strong>Quick answer:</strong> if the glass is cracked but the picture looks normal and touch still works, a <strong>glass repair</strong> is usually enough and costs less. If you see lines, black spots or colour bleed, or parts of the screen don't respond to touch, the display underneath is damaged and the <strong>whole screen needs replacing</strong>.</p>
 
-      <p>This comprehensive guide will help you understand the differences, costs, and best options for your specific situation.</p>
+      <p>Not sure which you have? Bring it to our kiosk at Warringal Shopping Centre, Heidelberg, and we'll check it and quote before any work starts. Below: how to tell the damage apart, what each option costs, and how long it takes.</p>
 
       <h2>Understanding Screen Damage: Types and Severity</h2>
 

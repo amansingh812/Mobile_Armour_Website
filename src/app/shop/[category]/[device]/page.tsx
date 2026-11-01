@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import ShopListing from '@/components/shop/ShopListing';
 import { getShopCategory } from '@/data/shop-categories';
 import { getCategoryProducts, devicesWithPages } from '@/lib/shop-data';
-import { deviceListingCopy, fromPrice } from '@/lib/shop-copy';
+import { availability, deviceListingCopy, fromPrice } from '@/lib/shop-copy';
 
 export const revalidate = 3600;
 // Device pages are created on demand from what is actually in stock.
@@ -35,9 +35,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!r) notFound();
   const { cat, device: deviceName, products } = r;
   const path = `/shop/${cat.slug}/${device}`;
-  const title = `${deviceName} ${cat.shortName} Heidelberg | Mobile Armour`;
+  // Cases: "& Covers" matches how people search ("iphone 18 pro max back cover").
+  const title =
+    cat.slug === 'cases'
+      ? `${deviceName} Cases & Covers | Mobile Armour Heidelberg`
+      : `${deviceName} ${cat.shortName} Heidelberg | Mobile Armour`;
   const from = fromPrice(products);
-  const description = `${products.length} ${deviceName} ${cat.shortName.toLowerCase()} in stock at Warringal Shopping Centre, Heidelberg${from ? `, from ${from}` : ''}. Try them in store, click & collect or delivery.`;
+  const description = `${products.length} ${deviceName} ${cat.shortName.toLowerCase()} ${availability(products)}${from ? `, from ${from}` : ''}. Click & collect or delivery.`;
   return {
     title,
     description,
@@ -56,6 +60,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const GUIDES: Record<string, { title: string; href: string; device?: string }[]> = {
   cases: [
     { title: 'Which iPhone 17 Pro Max case should you buy?', href: '/blog/which-iphone-17-pro-max-case', device: 'iPhone 17 Pro Max' },
+    ...['iPhone 18', 'iPhone 18 Pro', 'iPhone 18 Pro Max', 'iPhone 17', 'iPhone 17 Pro', 'iPhone 17 Pro Max'].map((device) => ({
+      title: 'Will iPhone 17 cases fit the iPhone 18?',
+      href: '/blog/will-iphone-17-cases-fit-iphone-18',
+      device,
+    })),
+    ...['iPhone 18', 'iPhone 18 Pro', 'iPhone 18 Pro Max', 'iPhone 17', 'iPhone 17 Pro', 'iPhone 17 Pro Max'].map((device) => ({
+      title: `Do you need a screen protector on a new iPhone?`,
+      href: '/blog/do-you-need-a-screen-protector-iphone-17',
+      device,
+    })),
   ],
   'screen-protectors': [
     { title: 'Privacy, clear or matte: which screen protector?', href: '/blog/privacy-vs-clear-vs-matte-screen-protector' },

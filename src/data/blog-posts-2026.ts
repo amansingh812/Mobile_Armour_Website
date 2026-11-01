@@ -10,8 +10,9 @@ const P = '/products/';
 export const guidePosts2026: BlogPost[] = [
   {
     slug: 'is-it-worth-replacing-iphone-battery',
+    seoTitle: 'Is It Worth Replacing an iPhone Battery? Yes, Below 80%',
     metaDescription:
-      "Replace your iPhone battery below 80% Battery Health: it's far cheaper than a new phone. About 1–2 hours in Heidelberg, 6-month warranty.",
+      'Usually yes. Below 80% Battery Health (or "Service"), a new battery costs far less than a new phone. About 1–2 hours in Heidelberg, 6-month warranty.',
     title: 'Is It Worth Replacing Your iPhone Battery?',
     excerpt:
       'Usually, yes. If your iPhone works well apart from the battery and Battery Health shows below 80% (or says "Service"), a new battery costs far less than a new phone and brings back full-day battery life. At Mobile Armour in Heidelberg it takes about 1–2 hours, with a 6-month warranty.',
@@ -91,9 +92,9 @@ export const guidePosts2026: BlogPost[] = [
   },
   {
     slug: 'lcd-vs-oled-vs-genuine-iphone-screen',
-    seoTitle: 'LCD vs OLED vs Genuine iPhone Screen: Which to Choose?',
+    seoTitle: 'OLED vs Original iPhone Screen (vs LCD): Which to Choose?',
     metaDescription:
-      "Standard LCD, aftermarket OLED or genuine: how the three iPhone replacement screens differ in picture, price and trade-in, and which to choose.",
+      "Aftermarket OLED is the best value for a phone you're keeping, genuine keeps the original picture for trade-in, and LCD suits a phone you'll replace soon.",
     title: 'LCD, OLED or Genuine: Which Replacement iPhone Screen Should You Choose?',
     excerpt:
       'Choose an aftermarket OLED for the best value on a phone you’re keeping, a genuine screen if you want the original picture and plan to trade in, and a standard LCD only for a phone you’ll replace soon. At Mobile Armour all three come with a 6-month warranty.',
@@ -168,8 +169,9 @@ export const guidePosts2026: BlogPost[] = [
   },
   {
     slug: 'privacy-vs-clear-vs-matte-screen-protector',
+    seoTitle: 'Privacy vs Clear vs Matte Screen Protector: Which to Get?',
     metaDescription:
-      "Clear glass for the sharpest picture, privacy glass for public transport, matte for glare. How each screen protector type works and which to get.",
+      'Clear for the sharpest picture, privacy if you read messages on the train, matte for glare and fingerprints. All three protect equally; only the look differs.',
     title: 'Privacy, Clear or Matte: Which Screen Protector Should You Get?',
     excerpt:
       'Get clear glass for the sharpest picture, privacy glass if you read messages on public transport, and matte if glare and fingerprints bother you most. All three protect against scratches and cracks equally; what differs is how the screen looks.',

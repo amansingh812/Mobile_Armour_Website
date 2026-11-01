@@ -485,58 +485,68 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "iPhone 14",
     slug: "iphone-14-repair",
     brand: "apple",
-    metaTitle: "iPhone 14 Repair Heidelberg Melbourne | Screen & Battery Fix",
+    metaTitle: "iPhone 14 Screen Repair Heidelberg | 14, Plus, Pro, Pro Max",
     metaDescription:
-      "iPhone 14 screen repair and battery replacement in Heidelberg. All iPhone 14 models including Pro & Pro Max. Same-day service, 6-month warranty.",
+      "iPhone 14, 14 Plus, 14 Pro and 14 Pro Max screen, battery, back glass and charging port repair at Warringal, Heidelberg. Quote first, 6-month warranty.",
     keywords: [
       "iphone 14 screen repair",
       "iphone 14 screen replacement",
-      "iphone 14 battery replacement",
-      "iphone 14 pro screen repair",
+      "repair iphone 14 pro screen",
       "iphone 14 pro max screen repair",
+      "iphone 14 plus screen repair",
+      "iphone 14 battery replacement",
+      "iphone 14 back glass repair",
       "iphone 14 repair heidelberg",
       "iphone 14 repair melbourne",
-      "fix iphone 14 screen cost",
     ],
-    heroHeading: "iPhone 14 Series Repair",
+    heroHeading: "iPhone 14 Repair in Heidelberg",
     heroSubheading:
-      "iPhone 14, 14 Plus, 14 Pro & 14 Pro Max — all models repaired",
+      "Screen, battery, back glass and charging port repairs for the iPhone 14, 14 Plus, 14 Pro and 14 Pro Max, quoted before we start",
     intro:
-      "The iPhone 14 series includes the iPhone 14, 14 Plus, 14 Pro, and 14 Pro Max. Whether you have the standard model with its improved camera or the Pro version with the Dynamic Island, Mobile Armour in Heidelberg repairs them all. Our technicians are experienced with the iPhone 14's updated internal design, which Apple engineered for easier repairability. We handle screen replacements, battery swaps, camera repairs, and more. Located at Warringal Shopping Centre, we provide same-day repair with a 6-month warranty on every job.",
+      "Every iPhone 14 model has a Super Retina XDR OLED display behind a Ceramic Shield front: 6.1 inches on the iPhone 14 and 14 Pro, 6.7 inches on the 14 Plus and 14 Pro Max. The Pro models add ProMotion up to 120Hz, the Always-On display and the Dynamic Island, so their screens are different parts from the standard models. Bring yours to Mobile Armour at Warringal Shopping Centre, Heidelberg: we check it with you, explain the options and confirm the price before we start. Every repair has a 6-month warranty.",
     repairTypes: [
-      { name: "Screen Replacement", time: "30-50 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "20-30 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "50-70 min", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "25-35 min", priceRange: "Call for quote" },
-      { name: "Charging Port Repair", time: "25-35 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (Lightning) Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
-      "Cracked screen (OLED on Pro, LCD on standard)",
-      "Battery health degraded below 80%",
-      "Rear glass panel cracked",
-      "Camera lens scratches or cracks",
-      "Lightning port not charging",
-      "Face ID issues after drop damage",
+      "Cracked screen, lines or a black display after a drop",
+      "Ghost touches or parts of the screen not responding",
+      "Battery Health below 80% or sudden shutdowns",
+      "Cracked back glass",
+      "Lightning port loose, full of lint or not charging",
+      "Cracked camera lens cover causing blurry photos",
     ],
     specs:
-      "6.1-inch/6.7-inch display, A15/A16 chip, 12MP/48MP camera, Lightning connector, Ceramic Shield, Crash Detection",
-    warrantyNote:
-      "All iPhone 14 series repairs include our 6-month warranty on parts and workmanship.",
+      "iPhone 14 and 14 Plus: 6.1-inch / 6.7-inch OLED, A15 Bionic, 12MP main camera. iPhone 14 Pro and Pro Max: 6.1-inch / 6.7-inch OLED with ProMotion, Always-On and Dynamic Island, A16 Bionic, 48MP main camera. All: Ceramic Shield front, Lightning port, Crash Detection",
+    warrantyNote: "All iPhone 14 series repairs come with a 6-month warranty on parts and labour.",
     faqs: [
+      {
+        question: "How much does iPhone 14 Pro screen repair cost?",
+        answer:
+          "It depends on the model and the screen option you choose; the 14 Pro and Pro Max screens cost more than the standard iPhone 14 because of ProMotion and the Always-On display. Call 0405 326 205 or bring the phone in and we'll confirm the price before we start.",
+      },
+      {
+        question: "Is the iPhone 14 screen the same as the iPhone 14 Pro screen?",
+        answer:
+          "No. Both are 6.1 inches, but the 14 Pro screen has ProMotion, the Always-On display and a cut-out for the Dynamic Island, so it's a different part. We fit the screen made for your exact model.",
+      },
+      {
+        question: "Can the iPhone 14 back glass be replaced on its own?",
+        answer:
+          "On the iPhone 14 and 14 Plus, yes: Apple redesigned their insides so the back glass comes off separately. The 14 Pro and 14 Pro Max are built differently. Bring it in and we'll explain the options for your model.",
+      },
+      {
+        question: "Does the iPhone 14 charge with USB-C?",
+        answer:
+          "No, every iPhone 14 model uses a Lightning port. If it won't charge, it's often lint packed in the port, which we can clean out quickly; if the port is damaged we replace it.",
+      },
       {
         question: "Do you repair all iPhone 14 models?",
         answer:
-          "Yes — we repair iPhone 14, iPhone 14 Plus, iPhone 14 Pro, and iPhone 14 Pro Max. Each model has different screen technology (OLED vs standard), and we stock parts for all variants.",
-      },
-      {
-        question: "How much does iPhone 14 Pro Max screen repair cost?",
-        answer:
-          "The Pro Max OLED screen costs more than the standard iPhone 14 display. Call 0405-326-205 for pricing specific to your model and damage type. We offer competitive rates below Apple's official pricing.",
-      },
-      {
-        question: "Is iPhone 14 easier to repair than older models?",
-        answer:
-          "Yes — Apple redesigned the iPhone 14's internals for improved repairability, with both the front and back glass being independently replaceable. This can result in faster repair times and lower costs.",
+          "Yes: iPhone 14, 14 Plus, 14 Pro and 14 Pro Max, at our kiosk in Warringal Shopping Centre, Heidelberg.",
       },
     ],
   },
@@ -544,58 +554,68 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "iPhone 13",
     slug: "iphone-13-repair",
     brand: "apple",
-    metaTitle: "iPhone 13 Repair Heidelberg Melbourne | Affordable Same-Day Fix",
+    metaTitle: "iPhone 13 Screen Repair Heidelberg | 13, mini, Pro, Pro Max",
     metaDescription:
-      "iPhone 13 screen repair & battery replacement Heidelberg. iPhone 13, Mini, Pro & Pro Max. Fast 30-min service, 6-month warranty. Warringal Shopping Centre.",
+      "iPhone 13, 13 mini, 13 Pro and 13 Pro Max screen, battery, back glass and charging port repair at Warringal, Heidelberg. Quote first, 6-month warranty.",
     keywords: [
       "iphone 13 screen repair",
+      "repair iphone 13 screen",
       "iphone 13 screen replacement",
-      "iphone 13 battery replacement",
       "iphone 13 pro screen repair",
+      "screen repair for iphone 13 pro max",
       "iphone 13 mini screen repair",
-      "iphone 13 repair near me",
+      "iphone 13 front screen repair",
+      "iphone 13 battery replacement",
       "iphone 13 repair heidelberg",
-      "iphone 13 screen repair cost melbourne",
     ],
-    heroHeading: "iPhone 13 Series Repair",
+    heroHeading: "iPhone 13 Repair in Heidelberg",
     heroSubheading:
-      "iPhone 13, Mini, Pro & Pro Max — affordable repair for all variants",
+      "Screen, battery, back glass and charging port repairs for the iPhone 13, 13 mini, 13 Pro and 13 Pro Max, quoted before we start",
     intro:
-      "The iPhone 13 series remains one of the most popular iPhones in Australia, and we see plenty of them at our Warringal Shopping Centre repair counter. Whether your iPhone 13 Mini's screen has cracked, your iPhone 13 Pro's battery is degraded, or your iPhone 13 Pro Max's camera needs attention, Mobile Armour delivers fast, affordable repairs. We stock quality replacement parts for every iPhone 13 variant and can complete most repairs in just 30 minutes. Every repair comes backed by our 6-month warranty.",
+      "The iPhone 13 family is still one of the most common phones we see at our Warringal Shopping Centre kiosk. All four models have a Super Retina XDR OLED display behind a Ceramic Shield front: 5.4 inches on the 13 mini, 6.1 inches on the iPhone 13 and 13 Pro, and 6.7 inches on the 13 Pro Max, with ProMotion up to 120Hz on the Pro models. Bring yours to Mobile Armour in Heidelberg: we check it with you, explain the options and confirm the price before we start. Every repair has a 6-month warranty.",
     repairTypes: [
-      { name: "Screen Replacement (OLED)", time: "30-45 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "20-25 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "50-70 min", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "25-30 min", priceRange: "Call for quote" },
-      { name: "Charging Port Repair", time: "25-30 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (Lightning) Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
-      "Cracked or unresponsive OLED screen",
-      "Battery draining quickly or swelling",
-      "Back glass shattered",
-      "Camera lens crack causing blurry photos",
-      "Lightning port not charging",
-      "Ear speaker quiet or muffled",
+      "Cracked front glass, lines or a black display",
+      "Ghost touches or parts of the screen not responding",
+      "Battery draining fast, Battery Health below 80% or 'Service'",
+      "Cracked back glass",
+      "Lightning port loose, full of lint or not charging",
+      "Quiet or muffled ear speaker",
     ],
     specs:
-      "6.1-inch/5.4-inch/6.7-inch OLED, A15 Bionic, 12MP dual/triple camera, Lightning, Ceramic Shield",
-    warrantyNote:
-      "All iPhone 13 series repairs are covered by our 6-month warranty.",
+      "iPhone 13 mini / 13: 5.4-inch / 6.1-inch OLED, dual 12MP cameras. iPhone 13 Pro / Pro Max: 6.1-inch / 6.7-inch OLED with ProMotion up to 120Hz, triple 12MP cameras. All: A15 Bionic, Ceramic Shield front, Lightning port",
+    warrantyNote: "All iPhone 13 series repairs come with a 6-month warranty on parts and labour.",
     faqs: [
       {
-        question: "Is iPhone 13 screen repair affordable?",
+        question: "How much does iPhone 13 screen repair cost?",
         answer:
-          "iPhone 13 screen repair is one of our most popular services and is very competitively priced. Parts for the iPhone 13 series are well-established, keeping costs reasonable. Call 0405-326-205 for your exact quote.",
+          "It depends on the model and the screen option you choose. Call 0405 326 205 or bring the phone in and we'll confirm the price before we start.",
       },
       {
-        question: "How long does iPhone 13 battery replacement take?",
+        question: "Can you replace just the cracked front glass on an iPhone 13?",
         answer:
-          "iPhone 13 battery replacement is one of the quickest repairs we do — typically 20-25 minutes. Your new battery restores the original battery life performance.",
+          "On the iPhone 13 the front glass and the OLED display are bonded together, so a cracked front is normally fixed by fitting a complete new screen. That also fixes any lines, spots or touch problems underneath.",
       },
       {
-        question: "Do you repair iPhone 13 Mini?",
+        question: "Is the iPhone 13 Pro screen the same as the iPhone 13 screen?",
         answer:
-          "Yes! We repair all iPhone 13 variants: iPhone 13, 13 Mini, 13 Pro, and 13 Pro Max. Each model uses similar internal components, so we can service them all efficiently.",
+          "No. Both are 6.1 inches, but the 13 Pro screen has ProMotion up to 120Hz, so it's a different part. We fit the screen made for your exact model, including the 13 mini and 13 Pro Max.",
+      },
+      {
+        question: "Is it worth replacing the battery in an iPhone 13?",
+        answer:
+          "Usually, yes. If Battery Health in Settings shows below 80% or says 'Service', a new battery brings back full-day battery life for far less than a new phone. It takes about 1–2 hours.",
+      },
+      {
+        question: "Do you repair the iPhone 13 mini?",
+        answer:
+          "Yes: iPhone 13, 13 mini, 13 Pro and 13 Pro Max, at our kiosk in Warringal Shopping Centre, Heidelberg.",
       },
     ],
   },

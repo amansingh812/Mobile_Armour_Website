@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ShopListing from '@/components/shop/ShopListing';
 import { getAllProducts, type ShopProduct } from '@/lib/shop-data';
-import { collectFaq, fromPrice, isMagnetic, isPrivacy, listParts, seeFaq } from '@/lib/shop-copy';
+import { availability, collectFaq, fromPrice, isMagnetic, isPrivacy, listParts, seeFaq } from '@/lib/shop-copy';
 import { BUSINESS } from '@/data/business';
 import { OG_IMAGE } from '@/lib/seo';
 import { BRANDS } from '@/data/brands';
@@ -42,9 +42,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { b, products } = r;
   const from = fromPrice(products);
   const title = `${b.name} ${b.what.replace(/^./, (c) => c.toUpperCase())} Heidelberg | Mobile Armour`;
-  const description = `${products.length} ${b.name} ${b.what} in stock at Warringal Shopping Centre, Heidelberg${
+  const description = `${products.length} ${b.name} ${b.what} ${availability(products)}${
     from ? `, from ${from}` : ''
-  }. See them in store, click & collect or delivery.`;
+  }. Click & collect or delivery.`;
   const path = `/shop/brand/${(await params).brand}`;
   return {
     title,
@@ -88,10 +88,12 @@ export default async function BrandPage({ params }: Props) {
           id: 'stock',
           q: `Where can I buy ${b.name} ${b.what} in Melbourne?`,
           short: `At Mobile Armour, ${BUSINESS.address.unit}, ${BUSINESS.address.centre}, Heidelberg, or online here.`,
-          more: `Everything on this page was in stock when the page last updated; call ${BUSINESS.phoneDisplay} to check a specific item.`,
+          more: products.some((p) => p.fulfilment === 'order-in')
+            ? `Some items are held at the kiosk and others are ordered in from our supplier when you buy; each product page says which. Call ${BUSINESS.phoneDisplay} to check a specific item.`
+            : `Everything on this page was in stock when the page last updated; call ${BUSINESS.phoneDisplay} to check a specific item.`,
         },
-        seeFaq('see', `${b.name} range`),
-        collectFaq('collect'),
+        seeFaq('see', `${b.name} range`, products),
+        collectFaq('collect', products),
       ]}
     />
   );
