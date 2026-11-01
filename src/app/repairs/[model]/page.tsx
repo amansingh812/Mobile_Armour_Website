@@ -10,6 +10,7 @@ import { getAllProducts } from '@/lib/shop-data';
 import { blogPosts } from '@/data/blog-posts';
 import { phonePath } from '@/lib/device-links';
 import ProductTile from '@/components/store/ProductTile';
+import { refurbFamilyForDevice, refurbPath } from '@/data/refurbished';
 import '@/components/store/store.css';
 
 interface PageProps {
@@ -64,6 +65,7 @@ export default async function ModelRepairPage({ params }: PageProps) {
   const { model: slug } = await params;
   const page = getModelBySlug(slug);
   if (!page) notFound();
+  const refurb = refurbFamilyForDevice(page.model);
 
   // Cases and glass for this exact model, in stock (protect it after the repair).
   const all = await getAllProducts();
@@ -336,6 +338,24 @@ export default async function ModelRepairPage({ params }: PageProps) {
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+      )}
+
+      {refurb && (
+        <section style={{ padding: '0 0 3rem' }}>
+          <div className="container">
+            <div style={{ background: '#fff1e9', borderRadius: 16, padding: '1.5rem 1.75rem', display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <h2 style={{ margin: 0, fontSize: '1.35rem' }}>Rather replace it? Refurbished {refurb.title} available</h2>
+                <p style={{ margin: '0.35rem 0 0', color: '#4a4e5a' }}>
+                  Graded, fully checked, with a 6-month warranty. Ask what&apos;s in stock at our Warringal kiosk.
+                </p>
+              </div>
+              <Link href={refurbPath(refurb)} style={{ background: '#15171c', color: '#fff', padding: '0.7rem 1.2rem', borderRadius: 10, fontWeight: 700, textDecoration: 'none' }}>
+                Refurbished {refurb.title} →
+              </Link>
+            </div>
           </div>
         </section>
       )}

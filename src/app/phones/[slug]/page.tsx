@@ -8,6 +8,7 @@ import PromiseStrip from '@/components/store/PromiseStrip';
 import { getPhoneHub, getPhoneHubs, hubSummary } from '@/lib/phones';
 import { repairLinkFor } from '@/lib/device-links';
 import { modelRepairPages } from '@/data/model-repair-pages';
+import { refurbFamilyForDevice, refurbPath } from '@/data/refurbished';
 import { STORE } from '@/data/store-settings';
 import { BUSINESS } from '@/data/business';
 import { SITE_URL } from '@/lib/site';
@@ -64,6 +65,7 @@ export default async function PhoneHubPage({ params }: Props) {
   if (!hub) notFound();
   const { device, products } = hub;
   const repair = repairLinkFor(device);
+  const refurb = refurbFamilyForDevice(device);
   const model = modelRepairPages.find((m) => m.model.toLowerCase() === device.toLowerCase());
   const nCases = products.filter((p) => p.category === 'Cases').length;
   const nGlass = products.filter((p) => p.category === 'Screen Protectors').length;
@@ -221,6 +223,11 @@ export default async function PhoneHubPage({ params }: Props) {
           <Link href={`/contact?topic=repair`} className="ma-btn ma-btn--outline">
             Get a repair quote
           </Link>
+          {refurb && (
+            <Link href={refurbPath(refurb)} className="ma-btn ma-btn--outline">
+              Refurbished {refurb.title}
+            </Link>
+          )}
         </div>
       </section>
 

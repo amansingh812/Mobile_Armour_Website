@@ -1,0 +1,339 @@
+/* Refurbished phones: main page, model pages, finder and enquiry. */
+
+.ma-refurb-trust {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.ma-refurb-trust li {
+  border-radius: 18px;
+  background: var(--ma-stone);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ma-refurb-trust strong {
+  font-size: 17px;
+}
+.ma-refurb-trust span {
+  font-size: 14px;
+  color: var(--ma-slate);
+}
+
+/* finder */
+.ma-refurb-finder__bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  align-items: center;
+  margin: 18px 0 20px;
+}
+.ma-refurb-finder__search {
+  flex: 1 1 320px;
+}
+.ma-refurb-finder__search input {
+  width: 100%;
+  height: 50px;
+  border-radius: 14px;
+  border: 1.5px solid var(--ma-line-strong);
+  padding: 0 18px;
+  font-size: 16px;
+  background: #fff;
+}
+.ma-refurb-finder__search input:focus {
+  outline: none;
+  border-color: var(--ma-orange);
+}
+.ma-refurb-finder button.ma-chip {
+  border: 1.5px solid var(--ma-line);
+  background: #fff;
+  color: var(--ma-ink);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+.ma-refurb-finder button.ma-chip.is-on {
+  background: var(--ma-ink);
+  border-color: var(--ma-ink);
+  color: #fff !important;
+}
+.ma-refurb-finder__none {
+  border-radius: 18px;
+  background: var(--ma-peach);
+  padding: 22px;
+}
+.ma-page button.ma-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.ma-refurb-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.ma-refurb-card {
+  border: 1px solid var(--ma-line);
+  border-radius: 20px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scroll-margin-top: 90px;
+}
+.ma-refurb-card header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ma-refurb-card h3 {
+  font-size: 21px;
+  margin: 0;
+}
+.ma-refurb-card h3 a {
+  color: var(--ma-ink) !important;
+  font: inherit;
+  letter-spacing: inherit;
+}
+.ma-refurb-card h3 a:hover {
+  color: var(--ma-orange-text) !important;
+}
+.ma-refurb-card header p {
+  font-size: 14px;
+  color: var(--ma-slate);
+}
+.ma-refurb-card__models {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.ma-refurb-card__models button {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ma-stone);
+  padding: 10px 12px;
+  cursor: pointer;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: background 0.15s ease;
+}
+.ma-refurb-card__models button:hover {
+  background: var(--ma-peach);
+}
+.ma-refurb-card__models strong {
+  font-size: 15px;
+  color: var(--ma-ink);
+}
+.ma-refurb-card__models span {
+  font-size: 13px;
+  color: var(--ma-slate);
+  line-height: 1.4;
+}
+.ma-refurb-card footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ma-btn.ma-btn--sm {
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+
+/* checks */
+.ma-refurb-checks {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.ma-refurb-checks li {
+  border: 1px solid var(--ma-line);
+  border-radius: 18px;
+  padding: 18px 20px;
+}
+.ma-refurb-checks h3 {
+  font-size: 16px;
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ma-refurb-checks h3::before {
+  content: "✓";
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ma-green-bg);
+  color: var(--ma-green);
+  font-size: 13px;
+}
+.ma-refurb-checks p {
+  font-size: 14px;
+  color: var(--ma-slate);
+}
+
+/* enquiry */
+.ma-refurb-ask {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 36px;
+  align-items: start;
+  scroll-margin-top: 90px;
+}
+.ma-refurb-ask__btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ma-refurb-ask__visit {
+  margin-top: 16px !important;
+  font-size: 14px;
+  color: var(--ma-slate);
+}
+
+/* model page */
+.ma-refurb-specs {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-size: 15px;
+}
+.ma-refurb-specs th,
+.ma-refurb-specs td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--ma-line);
+  vertical-align: top;
+}
+.ma-refurb-specs th {
+  white-space: nowrap;
+  font-weight: 800;
+}
+.ma-refurb-specs td {
+  color: var(--ma-body);
+}
+.ma-refurb-specs button {
+  margin-left: 8px;
+}
+.ma-refurb-lists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.ma-refurb-lists ul {
+  margin: 10px 0 0;
+  padding-left: 20px;
+}
+.ma-refurb-lists li + li {
+  margin-top: 6px;
+}
+
+/* homepage banner */
+.ma-refurb-banner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--ma-night);
+  color: #c9cbd1;
+}
+.ma-refurb-banner__copy {
+  padding: 36px 0 36px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ma-refurb-banner h2 {
+  color: #fff !important;
+  margin: 0;
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.1;
+}
+.ma-refurb-banner p {
+  max-width: 520px;
+}
+.ma-refurb-banner__pts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: 14px;
+  color: #e4e5e9;
+}
+.ma-refurb-banner__pts li::before {
+  content: "✓ ";
+  color: #6be09a;
+  font-weight: 800;
+}
+.ma-refurb-banner__img {
+  position: relative;
+  align-self: stretch;
+  min-height: 260px;
+}
+.ma-refurb-banner__img img {
+  object-fit: cover;
+}
+
+@media (max-width: 960px) {
+  .ma-refurb-grid,
+  .ma-refurb-checks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ma-refurb-trust {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ma-refurb-ask {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .ma-refurb-grid,
+  .ma-refurb-checks,
+  .ma-refurb-lists {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ma-refurb-banner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ma-refurb-banner__copy {
+    padding: 28px 22px 0;
+  }
+  .ma-refurb-banner__img {
+    min-height: 200px;
+  }
+  .ma-refurb-specs th {
+    white-space: normal;
+  }
+}
+
+/* Selected reply chip: same look as the contact form, whatever order the
+   shared stylesheets load in. */
+.ma-refurb-ask .ma-chip.ma-chip--sm.is-on {
+  background: var(--ma-peach) !important;
+  border-color: var(--ma-orange) !important;
+  color: var(--ma-ink) !important;
+}

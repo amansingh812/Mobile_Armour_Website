@@ -20,6 +20,7 @@ import '@/app/blog/blog.css';
 import './home.css';
 import Icon, { type IconName } from '@/components/site/Icon';
 import HomeSplash from '@/components/site/loader/HomeSplash';
+import '@/components/refurb/refurb.css';
 
 const REPAIRS: { icon: IconName; name: string; href: string; time: string }[] = [
   { icon: 'screen', name: 'Screen replacement', href: '/services/iphone-screen-repair', time: '1–2 hours' },
@@ -274,6 +275,37 @@ export default async function HomePage() {
               </div>
             )
           )}
+        </div>
+      </section>
+
+      <section aria-labelledby="refurb-h" className="ma-section">
+        <div className="ma-refurb-banner">
+          <div className="ma-refurb-banner__copy">
+            <span className="ma-eyebrow" style={{ color: '#ff7a3d' }}>
+              Now at our kiosk
+            </span>
+            <h2 id="refurb-h">Refurbished iPhones &amp; Android phones</h2>
+            <p>
+              iPhone 11 to iPhone 17, Samsung Galaxy and Google Pixel, to suit your budget. Ask what&apos;s in stock, or
+              come in and see them.
+            </p>
+            <ul className="ma-refurb-banner__pts">
+              <li>Fully checked</li>
+              <li>Graded</li>
+              <li>{BUSINESS.warranty.short}</li>
+            </ul>
+            <div className="ma-actions">
+              <Link href="/refurbished-phones" className="ma-btn ma-btn--primary">
+                See refurbished phones
+              </Link>
+              <Link href="/refurbished-phones#enquire" className="ma-btn ma-btn--ghost">
+                Ask what&apos;s in stock
+              </Link>
+            </div>
+          </div>
+          <Link href="/refurbished-phones" className="ma-refurb-banner__img" tabIndex={-1} aria-hidden="true">
+            <Image src="/img/home/refurb-banner.webp" alt="" fill sizes="(max-width: 640px) 100vw, 600px" />
+          </Link>
         </div>
       </section>
 

@@ -25,6 +25,8 @@ const nextConfig = {
   async redirects() {
     return [
       { source: "/price", destination: "/services", permanent: true },
+      { source: "/refurbished-phones-heidelberg", destination: "/refurbished-phones", permanent: true },
+      { source: "/refurbished", destination: "/refurbished-phones", permanent: true },
       // Repair prices page retired: quotes are given per phone.
       { source: "/pricing", destination: "/services", permanent: true },
       // Old placeholder category pages (they rendered fake products) and bare /shop

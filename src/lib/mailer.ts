@@ -113,6 +113,10 @@ export async function sendLeadNotificationEmail(rawData: LeadNotificationData) {
       typeLabel = '📩 New Website Message';
       typeColor = '#FF5600';
       break;
+    case 'REFURB_ENQUIRY':
+      typeLabel = '📱 Refurbished Phone Enquiry';
+      typeColor = '#1E7B45';
+      break;
   }
 
   const html = `

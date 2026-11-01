@@ -20,6 +20,7 @@ export const NAV_LINKS: { label: string; href: string }[] = [
   { label: "Chargers & cables", href: "/shop/cables-adapters" },
   STORE.bundle.enabled ? { label: "Protection bundle", href: "/bundle" } : { label: "Shop by phone", href: "/phones" },
   { label: "Repairs", href: "/services" },
+  { label: "Refurbished", href: "/refurbished-phones" },
   { label: "Accessories", href: "/phone-accessories-heidelberg" },
   { label: "Guides", href: "/blog" },
   { label: "Contact", href: "/contact" },

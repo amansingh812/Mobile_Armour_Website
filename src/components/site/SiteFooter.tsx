@@ -25,6 +25,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     title: "Repairs",
     links: [
       { label: "All repair services", href: "/services" },
+      { label: "Refurbished phones", href: "/refurbished-phones" },
       { label: "iPhone screen repair", href: "/services/iphone-screen-repair" },
       { label: "Battery replacement", href: "/services/iphone-battery-replacement" },
       { label: "Repair warranty", href: "/warranty" },

@@ -26,6 +26,7 @@ import type { GuideShop } from '@/lib/guide-products';
 
 import { guidePosts2026 } from './blog-posts-2026';
 import { guidePostsBatchB } from './blog-posts-2026-b';
+import { guidePostsBatchC } from './blog-posts-2026-c';
 
 const legacyPosts: BlogPost[] = [
   {
@@ -2257,4 +2258,4 @@ const legacyPosts: BlogPost[] = [
 ];
 
 /** Newest guides first. */
-export const blogPosts: BlogPost[] = [...guidePostsBatchB, ...guidePosts2026, ...legacyPosts];
+export const blogPosts: BlogPost[] = [...guidePostsBatchC, ...guidePostsBatchB, ...guidePosts2026, ...legacyPosts];

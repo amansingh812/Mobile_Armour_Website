@@ -10,6 +10,7 @@ import { getPhoneHubs } from '@/lib/phones'
 import { STORE } from '@/data/store-settings'
 import { BRANDS } from '@/data/brands'
 import { isPrivacy } from '@/lib/shop-copy'
+import { REFURB, REFURB_PAGES, refurbPath } from '@/data/refurbished'
 
 import { SITE_URL } from '@/lib/site'
 
@@ -92,6 +93,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/delivery-returns`, lastModified: lastmod, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/warranty`, lastModified: lastmod, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/phone-accessories-heidelberg`, lastModified: lastmod, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}${REFURB.path}`, lastModified: lastmod, changeFrequency: 'weekly', priority: 0.9 },
+    ...REFURB_PAGES.map((f) => ({
+      url: `${BASE_URL}${refurbPath(f)}`,
+      lastModified: lastmod,
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+    })),
   ]
 
   // ========================================

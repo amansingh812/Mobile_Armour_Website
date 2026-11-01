@@ -161,7 +161,7 @@ const FloatingEnquiryForm: React.FC = () => {
               <p>Your enquiry has been submitted successfully. We&apos;ll contact you shortly.</p>
               <p className="whatsapp-link">
                 For faster response, message us on{' '}
-                <a href="https://wa.me/610405326205" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/61405326205" target="_blank" rel="noopener noreferrer">
                   WhatsApp
                 </a>
               </p>
