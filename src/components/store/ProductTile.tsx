@@ -5,12 +5,13 @@ import { shortModel, swatchFor } from "@/data/phone-models";
 import type { ShopProduct } from "@/lib/shop-data";
 import AddToCartButton from "./AddToCartButton";
 
-/** Short "fits" label, e.g. "Fits iPhone 17 Pro Max" or "Fits 3 iPhone models". */
+/** Short "fits" label for one or two phones, e.g. "Fits iPhone 17 Pro Max".
+ *  Three or more: no label (the option row below already lists the models). */
 export function fitLabel(devices?: string[]): string | null {
   if (!devices || devices.length === 0) return null;
   if (devices.length === 1) return `Fits ${devices[0]}`;
   if (devices.length === 2) return `Fits ${devices[0]} & ${devices[1].replace(/^iPhone /, "")}`;
-  return `Fits ${devices.length} models`;
+  return null;
 }
 
 export default function ProductTile({
