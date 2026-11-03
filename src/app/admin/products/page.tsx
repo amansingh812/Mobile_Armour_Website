@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { categories } from "@/data/categories";
@@ -64,6 +64,12 @@ const initialForm: Product = {
     specifications: {},
 };
 
+// Sort options for the product list
+type SortOption = 'name-asc' | 'name-desc' | 'price-asc' | 'price-desc' | 'stock-asc' | 'stock-desc' | 'date-newest' | 'date-oldest';
+
+// View modes for the product list
+type ViewMode = 'grouped' | 'flat';
+
 export default function AdminProductsPage() {
     const router = useRouter();
     const { data: session, status } = useSession();
@@ -81,6 +87,13 @@ export default function AdminProductsPage() {
     // State for new filter fields (as text for multi-select)
     const [tagsText, setTagsText] = useState("");
     const [specificationsText, setSpecificationsText] = useState("");
+
+    // ─── Sorting / Filtering / Grouping state ───────────────────────────
+    const [selectedCategory, setSelectedCategory] = useState<string>("all");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [sortBy, setSortBy] = useState<SortOption>("name-asc");
+    const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set());
+    const [viewMode, setViewMode] = useState<ViewMode>("grouped");
 
     // Check if user is admin and redirect if not
     useEffect(() => {
@@ -149,6 +162,108 @@ export default function AdminProductsPage() {
         };
         fetchProducts();
     }, [refreshKey]);
+
+    // ─── Filtered, sorted, and grouped products ─────────────────────────
+    const getProductPrice = useCallback((p: Product) => {
+        return p.newPrice && p.newPrice > 0 ? p.newPrice : p.price;
+    }, []);
+
+    const filteredAndSortedProducts = useMemo(() => {
+        let filtered = [...products];
+
+        // Filter by category
+        if (selectedCategory !== "all") {
+            filtered = filtered.filter(p => p.category === selectedCategory);
+        }
+
+        // Filter by search query
+        if (searchQuery.trim()) {
+            const q = searchQuery.toLowerCase().trim();
+            filtered = filtered.filter(p =>
+                p.name.toLowerCase().includes(q) ||
+                p.category.toLowerCase().includes(q) ||
+                p.brand?.toLowerCase().includes(q) ||
+                p.description?.toLowerCase().includes(q)
+            );
+        }
+
+        // Sort
+        filtered.sort((a, b) => {
+            switch (sortBy) {
+                case 'name-asc':
+                    return a.name.localeCompare(b.name);
+                case 'name-desc':
+                    return b.name.localeCompare(a.name);
+                case 'price-asc':
+                    return getProductPrice(a) - getProductPrice(b);
+                case 'price-desc':
+                    return getProductPrice(b) - getProductPrice(a);
+                case 'stock-asc':
+                    return a.stock - b.stock;
+                case 'stock-desc':
+                    return b.stock - a.stock;
+                case 'date-newest':
+                    return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+                case 'date-oldest':
+                    return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
+                default:
+                    return 0;
+            }
+        });
+
+        return filtered;
+    }, [products, selectedCategory, searchQuery, sortBy, getProductPrice]);
+
+    // Group products by category (for grouped view)
+    const groupedProducts = useMemo(() => {
+        const groups: Record<string, Product[]> = {};
+        filteredAndSortedProducts.forEach(p => {
+            const cat = p.category || "Uncategorized";
+            if (!groups[cat]) groups[cat] = [];
+            groups[cat].push(p);
+        });
+        // Sort the group keys: known categories first (in order), then unknowns alphabetically
+        const categoryOrder = categories.map(c => c.name);
+        const sortedKeys = Object.keys(groups).sort((a, b) => {
+            const idxA = categoryOrder.indexOf(a);
+            const idxB = categoryOrder.indexOf(b);
+            if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+            if (idxA !== -1) return -1;
+            if (idxB !== -1) return 1;
+            return a.localeCompare(b);
+        });
+        return sortedKeys.map(key => ({ category: key, products: groups[key] }));
+    }, [filteredAndSortedProducts]);
+
+    // Category counts for the sidebar/filter
+    const categoryCounts = useMemo(() => {
+        const counts: Record<string, number> = {};
+        products.forEach(p => {
+            const cat = p.category || "Uncategorized";
+            counts[cat] = (counts[cat] || 0) + 1;
+        });
+        return counts;
+    }, [products]);
+
+    const toggleCategoryCollapse = (category: string) => {
+        setCollapsedCategories(prev => {
+            const next = new Set(prev);
+            if (next.has(category)) {
+                next.delete(category);
+            } else {
+                next.add(category);
+            }
+            return next;
+        });
+    };
+
+    const collapseAll = () => {
+        setCollapsedCategories(new Set(groupedProducts.map(g => g.category)));
+    };
+
+    const expandAll = () => {
+        setCollapsedCategories(new Set());
+    };
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -353,6 +468,119 @@ export default function AdminProductsPage() {
     if (!session?.user || !isAdminEmail(session.user.email)) {
         return null;
     }
+
+    // ─── Render a single product card (reused in both views) ────────────
+    const renderProductCard = (p: Product) => (
+        <article
+            key={p._id}
+            style={{
+                border: "1px solid #e5e7eb",
+                borderRadius: 12,
+                overflow: "hidden",
+                background: "#fff",
+                transition: "box-shadow 0.2s ease, transform 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(0,0,0,0.08)";
+                (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+            }}
+            onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+            }}
+        >
+            <div style={{ height: 160, overflow: "hidden", background: "#f3f4f6" }}>
+                {p.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                        src={p.imageUrl}
+                        alt={p.name}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                ) : null}
+            </div>
+            <div style={{ padding: 12 }}>
+                <div style={{ fontWeight: 700, fontSize: 14, lineHeight: 1.3 }}>{p.name}</div>
+                <div style={{ color: "#6b7280", fontSize: 12, marginTop: 2 }}>{p.category}</div>
+                {p.brand && (
+                    <div style={{
+                        display: "inline-block",
+                        background: "#f0f4ff",
+                        color: "#3b5998",
+                        fontSize: 10,
+                        fontWeight: 600,
+                        padding: "2px 6px",
+                        borderRadius: 4,
+                        marginTop: 4,
+                    }}>
+                        {p.brand}
+                    </div>
+                )}
+                <div style={{ marginTop: 6, fontWeight: 600 }}>
+                    {p.newPrice && p.newPrice > 0 ? (
+                        <>
+                            <span>${p.newPrice}</span>
+                            {p.oldPrice && p.oldPrice > 0 && (
+                                <span style={{ color: "#6b7280", marginLeft: 8, textDecoration: "line-through", fontWeight: 400 }}>
+                                    ${p.oldPrice}
+                                </span>
+                            )}
+                        </>
+                    ) : (
+                        <span>${p.price}</span>
+                    )}
+                </div>
+                <div style={{
+                    marginTop: 4,
+                    fontSize: 11,
+                    color: p.stock > 0 ? "#059669" : "#dc2626",
+                    fontWeight: 500,
+                }}>
+                    {p.stock > 0 ? `${p.stock} in stock` : "Out of stock"}
+                </div>
+                {p.features?.length ? (
+                    <ul style={{ marginTop: 6, color: "#374151", fontSize: 12, paddingLeft: 0, listStyle: "none" }}>
+                        {p.features.slice(0, 3).map((f, idx) => (
+                            <li key={idx}>• {f}</li>
+                        ))}
+                        {p.features.length > 3 && <li style={{ color: "#9ca3af" }}>… +{p.features.length - 3} more</li>}
+                    </ul>
+                ) : null}
+                <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
+                    <button
+                        onClick={() => handleEdit(p)}
+                        style={{
+                            background: "#3b82f6",
+                            color: "#fff",
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            border: "none",
+                            cursor: "pointer",
+                            fontSize: 12,
+                            fontWeight: 500,
+                        }}
+                    >
+                        Edit
+                    </button>
+                    <button
+                        onClick={() => handleDelete(p._id)}
+                        style={{
+                            background: "#ef4444",
+                            color: "#fff",
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            border: "none",
+                            cursor: "pointer",
+                            fontSize: 12,
+                            fontWeight: 500,
+                        }}
+                    >
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </article>
+    );
 
     return (
         <div style={{ padding: "24px", maxWidth: 1000, margin: "0 auto" }}>
@@ -855,14 +1083,207 @@ export default function AdminProductsPage() {
                 </div>
             </form>
 
-            {/* List */}
+            {/* ─── Product List with Sorting & Category Grouping ──────────── */}
             <section>
-                <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>
+                <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>
                     Existing Products
+                    <span style={{ fontWeight: 400, fontSize: 14, color: "#6b7280", marginLeft: 8 }}>
+                        ({filteredAndSortedProducts.length} of {products.length})
+                    </span>
                 </h2>
-                {products.length === 0 ? (
-                    <p style={{ color: "#6b7280" }}>No products yet.</p>
-                ) : (
+
+                {/* ─── Filter / Sort / Search Toolbar ─────────────────────── */}
+                <div style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 12,
+                    alignItems: "center",
+                    marginBottom: 20,
+                    background: "#f9fafb",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: 12,
+                    padding: "12px 16px",
+                }}>
+                    {/* Search */}
+                    <div style={{ flex: "1 1 220px", minWidth: 180 }}>
+                        <input
+                            type="text"
+                            placeholder="🔍 Search products by name, category, brand…"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            style={{
+                                ...inputStyle,
+                                background: "#fff",
+                                fontSize: 13,
+                            }}
+                        />
+                    </div>
+
+                    {/* Category Filter */}
+                    <div style={{ flex: "0 0 auto" }}>
+                        <select
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            style={{
+                                ...inputStyle,
+                                background: "#fff",
+                                fontSize: 13,
+                                width: "auto",
+                                minWidth: 160,
+                                cursor: "pointer",
+                            }}
+                        >
+                            <option value="all">All Categories ({products.length})</option>
+                            {categories.map((cat) => (
+                                <option key={cat.name} value={cat.name}>
+                                    {cat.name} ({categoryCounts[cat.name] || 0})
+                                </option>
+                            ))}
+                            {/* Show any categories in data that aren't in the known list */}
+                            {Object.keys(categoryCounts)
+                                .filter(c => !categories.find(k => k.name === c))
+                                .map(c => (
+                                    <option key={c} value={c}>
+                                        {c} ({categoryCounts[c]})
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
+
+                    {/* Sort */}
+                    <div style={{ flex: "0 0 auto" }}>
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value as SortOption)}
+                            style={{
+                                ...inputStyle,
+                                background: "#fff",
+                                fontSize: 13,
+                                width: "auto",
+                                minWidth: 150,
+                                cursor: "pointer",
+                            }}
+                        >
+                            <option value="name-asc">Name A → Z</option>
+                            <option value="name-desc">Name Z → A</option>
+                            <option value="price-asc">Price: Low → High</option>
+                            <option value="price-desc">Price: High → Low</option>
+                            <option value="stock-asc">Stock: Low → High</option>
+                            <option value="stock-desc">Stock: High → Low</option>
+                            <option value="date-newest">Newest First</option>
+                            <option value="date-oldest">Oldest First</option>
+                        </select>
+                    </div>
+
+                    {/* View Mode Toggle */}
+                    <div style={{ flex: "0 0 auto", display: "flex", gap: 4 }}>
+                        <button
+                            onClick={() => setViewMode("grouped")}
+                            style={{
+                                padding: "8px 12px",
+                                borderRadius: "8px 0 0 8px",
+                                border: "1px solid #e5e7eb",
+                                background: viewMode === "grouped" ? "#111827" : "#fff",
+                                color: viewMode === "grouped" ? "#fff" : "#374151",
+                                cursor: "pointer",
+                                fontSize: 12,
+                                fontWeight: 500,
+                            }}
+                            title="Group by Category"
+                        >
+                            📂 Grouped
+                        </button>
+                        <button
+                            onClick={() => setViewMode("flat")}
+                            style={{
+                                padding: "8px 12px",
+                                borderRadius: "0 8px 8px 0",
+                                border: "1px solid #e5e7eb",
+                                borderLeft: "none",
+                                background: viewMode === "flat" ? "#111827" : "#fff",
+                                color: viewMode === "flat" ? "#fff" : "#374151",
+                                cursor: "pointer",
+                                fontSize: 12,
+                                fontWeight: 500,
+                            }}
+                            title="Flat List"
+                        >
+                            📋 Flat
+                        </button>
+                    </div>
+                </div>
+
+                {/* ─── Collapse/Expand All (only in grouped mode) ─────────── */}
+                {viewMode === "grouped" && groupedProducts.length > 1 && (
+                    <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                        <button
+                            onClick={expandAll}
+                            style={{
+                                padding: "6px 12px",
+                                borderRadius: 6,
+                                border: "1px solid #e5e7eb",
+                                background: "#fff",
+                                color: "#374151",
+                                cursor: "pointer",
+                                fontSize: 12,
+                                fontWeight: 500,
+                            }}
+                        >
+                            ▼ Expand All
+                        </button>
+                        <button
+                            onClick={collapseAll}
+                            style={{
+                                padding: "6px 12px",
+                                borderRadius: 6,
+                                border: "1px solid #e5e7eb",
+                                background: "#fff",
+                                color: "#374151",
+                                cursor: "pointer",
+                                fontSize: 12,
+                                fontWeight: 500,
+                            }}
+                        >
+                            ▶ Collapse All
+                        </button>
+                    </div>
+                )}
+
+                {/* ─── Product Display ────────────────────────────────────── */}
+                {filteredAndSortedProducts.length === 0 ? (
+                    <div style={{
+                        textAlign: "center",
+                        padding: "40px 20px",
+                        color: "#6b7280",
+                        background: "#f9fafb",
+                        borderRadius: 12,
+                        border: "1px dashed #d1d5db",
+                    }}>
+                        <div style={{ fontSize: 48, marginBottom: 12 }}>📦</div>
+                        <p style={{ fontSize: 16, fontWeight: 500 }}>No products found</p>
+                        <p style={{ fontSize: 13, marginTop: 4 }}>
+                            {searchQuery ? `No results for "${searchQuery}"` : "No products in this category yet."}
+                        </p>
+                        {(searchQuery || selectedCategory !== "all") && (
+                            <button
+                                onClick={() => { setSearchQuery(""); setSelectedCategory("all"); }}
+                                style={{
+                                    marginTop: 12,
+                                    padding: "8px 16px",
+                                    borderRadius: 8,
+                                    border: "1px solid #e5e7eb",
+                                    background: "#fff",
+                                    color: "#374151",
+                                    cursor: "pointer",
+                                    fontSize: 13,
+                                }}
+                            >
+                                Clear filters
+                            </button>
+                        )}
+                    </div>
+                ) : viewMode === "flat" ? (
+                    /* ─── Flat View ───────────────────────────────────────── */
                     <div
                         style={{
                             display: "grid",
@@ -870,86 +1291,91 @@ export default function AdminProductsPage() {
                             gap: 16,
                         }}
                     >
-                        {products.map((p) => (
-                            <article
-                                key={p._id}
-                                style={{
-                                    border: "1px solid #e5e7eb",
-                                    borderRadius: 12,
-                                    overflow: "hidden",
-                                    background: "#fff",
-                                }}
-                            >
-                                <div style={{ height: 160, overflow: "hidden", background: "#f3f4f6" }}>
-                                    {p.imageUrl ? (
-                                        // eslint-disable-next-line @next/next/no-img-element
-                                        <img
-                                            src={p.imageUrl}
-                                            alt={p.name}
-                                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                        />
-                                    ) : null}
-                                </div>
-                                <div style={{ padding: 12 }}>
-                                    <div style={{ fontWeight: 700 }}>{p.name}</div>
-                                    <div style={{ color: "#6b7280", fontSize: 12 }}>{p.category}</div>
-                                    <div style={{ marginTop: 6, fontWeight: 600 }}>
-                                        {p.newPrice && p.newPrice > 0 ? (
-                                            <>
-                                                <span>${p.newPrice}</span>
-                                                {p.oldPrice && p.oldPrice > 0 && (
-                                                    <span style={{ color: "#6b7280", marginLeft: 8, textDecoration: "line-through", fontWeight: 400 }}>
-                                                        ${p.oldPrice}
-                                                    </span>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <span>${p.price}</span>
-                                        )}
-                                    </div>
-                                    {p.features?.length ? (
-                                        <ul style={{ marginTop: 6, color: "#374151", fontSize: 12 }}>
-                                            {p.features.slice(0, 3).map((f, idx) => (
-                                                <li key={idx}>• {f}</li>
-                                            ))}
-                                            {p.features.length > 3 && <li>…</li>}
-                                        </ul>
-                                    ) : null}
-                                    <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
-                                        <button
-                                            onClick={() => handleEdit(p)}
-                                            style={{
-                                                background: "#3b82f6",
-                                                color: "#fff",
-                                                padding: "6px 12px",
-                                                borderRadius: 6,
-                                                border: "none",
-                                                cursor: "pointer",
+                        {filteredAndSortedProducts.map(renderProductCard)}
+                    </div>
+                ) : (
+                    /* ─── Grouped View ────────────────────────────────────── */
+                    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                        {groupedProducts.map(({ category, products: catProducts }) => {
+                            const isCollapsed = collapsedCategories.has(category);
+                            return (
+                                <div
+                                    key={category}
+                                    style={{
+                                        border: "1px solid #e5e7eb",
+                                        borderRadius: 12,
+                                        overflow: "hidden",
+                                        background: "#fff",
+                                    }}
+                                >
+                                    {/* Category Header (clickable to collapse/expand) */}
+                                    <button
+                                        onClick={() => toggleCategoryCollapse(category)}
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            width: "100%",
+                                            padding: "14px 20px",
+                                            border: "none",
+                                            background: isCollapsed ? "#f9fafb" : "#f0f4ff",
+                                            cursor: "pointer",
+                                            textAlign: "left",
+                                            transition: "background 0.2s ease",
+                                        }}
+                                    >
+                                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                                            <span style={{
+                                                fontSize: 13,
+                                                color: "#6b7280",
+                                                transition: "transform 0.2s ease",
+                                                display: "inline-block",
+                                                transform: isCollapsed ? "rotate(-90deg)" : "rotate(0deg)",
+                                            }}>
+                                                ▼
+                                            </span>
+                                            <span style={{
+                                                fontSize: 16,
+                                                fontWeight: 700,
+                                                color: "#111827",
+                                            }}>
+                                                {category}
+                                            </span>
+                                            <span style={{
+                                                background: "#e0e7ff",
+                                                color: "#3730a3",
                                                 fontSize: 12,
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(p._id)}
-                                            style={{
-                                                background: "#ef4444",
-                                                color: "#fff",
-                                                padding: "6px 12px",
-                                                borderRadius: 6,
-                                                border: "none",
-                                                cursor: "pointer",
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
+                                                fontWeight: 600,
+                                                padding: "2px 8px",
+                                                borderRadius: 10,
+                                            }}>
+                                                {catProducts.length} {catProducts.length === 1 ? 'product' : 'products'}
+                                            </span>
+                                        </div>
+                                        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                                            <span style={{ fontSize: 12, color: "#6b7280" }}>
+                                                Total value: ${catProducts.reduce((sum, p) => sum + getProductPrice(p), 0).toFixed(2)}
+                                            </span>
+                                        </div>
+                                    </button>
+
+                                    {/* Products Grid (collapsible) */}
+                                    {!isCollapsed && (
+                                        <div style={{ padding: 16 }}>
+                                            <div
+                                                style={{
+                                                    display: "grid",
+                                                    gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+                                                    gap: 16,
+                                                }}
+                                            >
+                                                {catProducts.map(renderProductCard)}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
-                            </article>
-                        ))}
+                            );
+                        })}
                     </div>
                 )}
             </section>
