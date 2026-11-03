@@ -11,7 +11,7 @@ import { STORE } from "@/data/store-settings";
 import "./site.css";
 import "@/components/store/store.css";
 
-const ADMIN_EMAIL = "dromperfectly125@gmail.com";
+const ADMIN_EMAILS = ["dromperfectly125@gmail.com", "niraj3438@gmail.com"];
 
 export const NAV_LINKS: { label: string; href: string }[] = [
   { label: "Shop all", href: "/products" },
@@ -37,7 +37,7 @@ export default function SiteHeader() {
   const { data: session } = useSession();
   const { getItemCount } = useCart();
   const [count, setCount] = useState(0);
-  const isAdmin = session?.user?.email === ADMIN_EMAIL;
+  const isAdmin = !!session?.user?.email && ADMIN_EMAILS.includes(session.user.email.toLowerCase());
 
   // Cart lives in localStorage: read the count after mount so server and
   // client HTML match.

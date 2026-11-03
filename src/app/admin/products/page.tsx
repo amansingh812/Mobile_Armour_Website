@@ -6,6 +6,11 @@ import { useSession } from "next-auth/react";
 import { categories } from "@/data/categories";
 import { ALL_FILTER_OPTIONS } from "@/data/filterOptions";
 
+// Who can open this page. The API routes enforce the real check (ADMIN_EMAILS
+// in src/lib/auth.ts); this only decides whether to show the editor.
+const ADMIN_EMAILS = ['dromperfectly125@gmail.com', 'niraj3438@gmail.com'];
+const isAdminEmail = (email?: string | null) => !!email && ADMIN_EMAILS.includes(email.toLowerCase());
+
 type Product = {
     _id?: string;
     name: string;
@@ -86,25 +91,12 @@ export default function AdminProductsPage() {
             return;
         }
 
-        if (session.user.email !== 'dromperfectly125@gmail.com') {
+        if (!isAdminEmail(session.user.email)) {
             router.push("/");
             return;
         }
     }, [session, status, router]);
 
-    // Don't render anything until auth is checked
-    if (status === "loading") {
-        return (
-            <div style={{ padding: "24px", maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
-                <p>Loading...</p>
-            </div>
-        );
-    }
-
-    // Don't render if not admin
-    if (!session?.user || session.user.email !== 'dromperfectly125@gmail.com') {
-        return null;
-    }
 
     // Derive features array from text (comma or newline separated)
     const parsedFeatures = useMemo(() => {
@@ -345,6 +337,22 @@ export default function AdminProductsPage() {
         setError(null);
         setSuccess(null);
     };
+
+    // Auth gates come after every hook above: returning early before a hook
+    // changes the hook count between renders and crashes the page.
+    // Don't render anything until auth is checked
+    if (status === "loading") {
+        return (
+            <div style={{ padding: "24px", maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
+    // Don't render if not admin
+    if (!session?.user || !isAdminEmail(session.user.email)) {
+        return null;
+    }
 
     return (
         <div style={{ padding: "24px", maxWidth: 1000, margin: "0 auto" }}>
