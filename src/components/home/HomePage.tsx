@@ -45,6 +45,17 @@ export default async function HomePage() {
   const featureItems = featureHub ? featureHub.products : [];
   const featureCases = featureItems.filter((p) => p.category === 'Cases');
   const featureFrom = featureCases.length ? Math.min(...featureCases.map((p) => currentPrice(p))) : null;
+  const featureOrderIn = featureCases.length > 0 && featureCases.every((p) => p.fulfilment === 'order-in');
+  // Three Duo cases on the home page, one of each style: wallet, rugged, clear
+  // (the first two are the most viewed Duo cases in Analytics). Falls back to
+  // other available Duo cases if any of these goes out of stock or is removed.
+  const DUO_PICKS = ['6adda99b617dbb3ce80cc0f5', '6adda9d49c5b435d55b7cf5b', '6adda9f8087744a1fc264b48'];
+  const duoAvailable = (p: (typeof featureCases)[number]) =>
+    p.variants?.length ? p.variants.some((v) => v.available) : !(typeof p.stock === 'number' && p.stock <= 0);
+  const duoCases = [
+    ...DUO_PICKS.map((id) => featureCases.find((p) => p._id === id)).filter((p): p is (typeof featureCases)[number] => !!p && duoAvailable(p)),
+    ...featureCases.filter((p) => !DUO_PICKS.includes(p._id) && duoAvailable(p)),
+  ].slice(0, 3);
   // iPhone 18 Pro / Pro Max range: cases first, then glass and the rest.
   const IPHONE18 = ['iPhone 18 Pro Max', 'iPhone 18 Pro'];
   const iphone18 = all
@@ -135,12 +146,14 @@ export default async function HomePage() {
             <div className="ma-duo__bar">
               <div>
                 <h2 id="duo-h">
-                  {FEATURE} cases <span>in stock</span>
+                  {FEATURE} cases <span>{featureOrderIn ? 'now available' : 'in stock'}</span>
                 </h2>
                 <p>
                   Cut for the Duo&apos;s hinge and cameras
                   {featureFrom !== null ? `, from $${featureFrom % 1 === 0 ? featureFrom : featureFrom.toFixed(2)}` : ''}.
-                  Try them on at the kiosk, or order online and collect.
+                  {featureOrderIn
+                    ? ` Ordered in for you (${STORE.orderIn.readyText}): click & collect at the kiosk or delivery.`
+                    : ' Try them on at the kiosk, or order online and collect.'}
                 </p>
               </div>
               <div className="ma-actions">
@@ -153,6 +166,13 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
+          {duoCases.length > 0 && (
+            <div className="ma-pgrid ma-home__duo-cases" style={{ marginTop: 16 }}>
+              {duoCases.map((p) => (
+                <ProductTile key={p._id} product={p} model={FEATURE} />
+              ))}
+            </div>
+          )}
         </section>
       )}
 

@@ -317,3 +317,16 @@
   gap: 18px;
   flex-wrap: wrap;
 }
+
+/* Three iPhone Duo cases under the Duo banner. */
+.ma-home__duo-cases {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 760px) {
+  .ma-home__duo-cases {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ma-home__duo-cases > :nth-child(3) {
+    display: none;
+  }
+}
