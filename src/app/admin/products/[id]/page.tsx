@@ -486,12 +486,12 @@ export default function ViewProductPage() {
                         </h3>
 
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 14 }}>
-                            {renderTagGroup("Accessory Types", product.accessoryType)}
-                            {renderTagGroup("Cases Filters", product.casesFilter)}
-                            {renderTagGroup("Chargers Filters", product.chargersFilter)}
-                            {renderTagGroup("Mounts Filters", product.mountsFilter)}
-                            {renderTagGroup("Cables Filters", product.cablesFilter)}
-                            {renderTagGroup("Screen Protectors", product.screenProtectorsFilter)}
+                            {renderTagGroup("Accessory Types", product.accessoryTypes)}
+                            {renderTagGroup("Cases Filters", product.caseTypes)}
+                            {renderTagGroup("Chargers Filters", product.chargerTypes)}
+                            {renderTagGroup("Mounts Filters", product.mountTypes)}
+                            {renderTagGroup("Cables Filters", product.cableTypes)}
+                            {renderTagGroup("Screen Protectors", product.screenProtectorTypes)}
                             {renderTagGroup("General Tags", product.tags)}
                         </div>
                     </div>

@@ -1,7 +1,4 @@
-# Mobile Armour — phone repairs and accessories, Heidelberg VIC
-# Search engines and AI answer engines (ChatGPT, Perplexity, Claude, Gemini,
-# Copilot) may read the public site so they can recommend and cite us.
-
+# *
 User-agent: *
 Allow: /
 Disallow: /admin
@@ -12,17 +9,107 @@ Disallow: /cart
 Disallow: /checkout
 Disallow: /payment
 
-# AI search and answer engines — explicitly allowed
+# OAI-SearchBot
 User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
+# ChatGPT-User
 User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
+# GPTBot
 User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
+# PerplexityBot
 User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
+# Perplexity-User
 User-agent: Perplexity-User
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
+# ClaudeBot
 User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
+# Claude-SearchBot
 User-agent: Claude-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
+# Claude-User
 User-agent: Claude-User
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
+# Google-Extended
 User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
+# Applebot-Extended
 User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api
+Disallow: /cart
+Disallow: /checkout
+Disallow: /payment
+
+# Bingbot
 User-agent: Bingbot
 Allow: /
 Disallow: /admin
@@ -32,4 +119,8 @@ Disallow: /cart
 Disallow: /checkout
 Disallow: /payment
 
+# Host
+Host: https://www.mobilearmour.com.au
+
+# Sitemaps
 Sitemap: https://www.mobilearmour.com.au/sitemap.xml
