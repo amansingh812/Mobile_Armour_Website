@@ -272,7 +272,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "45-60 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "60-90 min", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
       { name: "Camera Lens Repair", time: "30-45 min", priceRange: "Call for quote" },
       { name: "Charging Port Repair", time: "30-45 min", priceRange: "Call for quote" },
     ],
@@ -331,7 +331,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "40-55 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "20-30 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "60-90 min", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
       { name: "Camera Lens Repair", time: "30-40 min", priceRange: "Call for quote" },
       { name: "Charging Port (USB-C)", time: "30-40 min", priceRange: "Call for quote" },
     ],
@@ -389,7 +389,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "45-60 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "60-90 min", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
       { name: "Camera Lens Repair", time: "30-45 min", priceRange: "Call for quote" },
       { name: "Charging Port (USB-C)", time: "30-45 min", priceRange: "Call for quote" },
     ],
@@ -447,7 +447,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "35-50 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "20-30 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "50-70 min", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
       { name: "Camera Lens Repair", time: "25-35 min", priceRange: "Call for quote" },
       { name: "Charging Port (USB-C)", time: "25-35 min", priceRange: "Call for quote" },
     ],
@@ -645,7 +645,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     repairTypes: [
       { name: "Screen Replacement (AMOLED)", time: "50-70 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "30-40 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "60-80 min", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
       { name: "Camera Lens Repair", time: "30-45 min", priceRange: "Call for quote" },
       { name: "Charging Port (USB-C)", time: "30-40 min", priceRange: "Call for quote" },
     ],
@@ -702,7 +702,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     repairTypes: [
       { name: "Screen Replacement (AMOLED)", time: "40-55 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "50-70 min", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
       { name: "Camera Lens Repair", time: "25-35 min", priceRange: "Call for quote" },
       { name: "Charging Port (USB-C)", time: "25-35 min", priceRange: "Call for quote" },
     ],
@@ -760,7 +760,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     repairTypes: [
       { name: "Screen Replacement (AMOLED)", time: "40-60 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "50-70 min", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
       { name: "Camera Lens Repair", time: "25-40 min", priceRange: "Call for quote" },
       { name: "Charging Port (USB-C)", time: "25-35 min", priceRange: "Call for quote" },
     ],
@@ -877,7 +877,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "45-60 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "30-40 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "60-80 min", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
       { name: "Camera Lens Repair", time: "30-40 min", priceRange: "Call for quote" },
       { name: "Charging Port (USB-C)", time: "30-40 min", priceRange: "Call for quote" },
     ],
@@ -934,7 +934,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     repairTypes: [
       { name: "Screen Replacement (OLED)", time: "40-55 min", priceRange: "Call for quote" },
       { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
-      { name: "Back Glass Replacement", time: "50-70 min", priceRange: "Call for quote" },
+      { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
       { name: "Camera Lens Repair", time: "25-35 min", priceRange: "Call for quote" },
       { name: "Charging Port (USB-C)", time: "25-35 min", priceRange: "Call for quote" },
     ],

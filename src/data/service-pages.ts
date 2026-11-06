@@ -17,6 +17,8 @@ export interface ServicePageData {
   commonIssues: string[];
   warrantyNote: string;
   faqs: ServiceFAQ[];
+  /** Starting price in AUD ("from $X"); null/absent = quoted per phone. */
+  fromPrice?: number | null;
 }
 
 export const servicePages: ServicePageData[] = [
@@ -195,28 +197,48 @@ export const servicePages: ServicePageData[] = [
     ]
   },
   {
+    // Rewritten 6 Nov 2026. Models = back glass parts our supplier (Crazy Parts)
+    // stocks: every iPhone from 8 to 17 Pro Max, Galaxy S20–S26, Note 10/20,
+    // A series and Pixel 3–10. Replacement glass is aftermarket and has no logo.
     title: "Back Glass Replacement",
     slug: "back-glass-replacement",
-    metaTitle: "iPhone Back Glass Replacement Heidelberg | All Models",
-    metaDescription: "iPhone back glass replacement in Heidelberg. iPhone 11-17 rear glass repair. Specialist service, 6-month warranty. Warringal Shopping Centre.",
-    keywords: ["iphone back glass repair", "back glass iphone 11 repair", "iphone 11 rear glass replacement", "iphone 12 pro max back glass replacement", "iphone 14 pro front and back glass replacement cost", "iphone 14 pro max front and back screen replacement", "iphone 15 back glass replacement", "iphone 15 back glass replacement cost", "repair iphone back glass near me"],
-    heroHeading: "iPhone Back Glass Replacement",
-    heroSubheading: "Specialist rear glass repair for all iPhone models",
-    intro: "Cracked the back glass on your iPhone? This has become one of the most common iPhone repairs since Apple introduced glass backs for wireless charging. Mobile Armour offers specialist iPhone back glass replacement for all models from iPhone 11 onwards. Unlike screen replacement, back glass repair requires a different technique — our technicians use precision tools to remove and replace the rear glass without damaging the wireless charging coil or camera modules.",
+    metaTitle: "Back Glass Replacement Heidelberg | iPhone, Samsung & Pixel",
+    metaDescription: "Cracked back glass replaced at Warringal Shopping Centre, Heidelberg. iPhone 8 to iPhone 17 Pro Max, Samsung Galaxy and Google Pixel. Quote first, 6-month warranty.",
+    keywords: ["iphone back glass repair", "iphone back glass replacement", "back glass repair near me", "cracked back glass iphone", "iphone 15 back glass replacement", "iphone 14 pro max back glass replacement", "iphone 13 back glass repair", "iphone 16 pro back glass replacement", "samsung back glass replacement", "pixel back glass replacement", "back glass repair heidelberg", "rear glass replacement melbourne"],
+    heroHeading: "Back Glass Replacement in Heidelberg",
+    heroSubheading: "Cracked rear glass replaced for iPhone, Samsung Galaxy and Google Pixel, quoted before we start",
+    intro: "Yes, cracked back glass can be replaced without replacing the whole phone. At Mobile Armour in Warringal Shopping Centre, Heidelberg, we replace the rear glass on every iPhone from the iPhone 8 to the iPhone 17 Pro Max, plus Samsung Galaxy and Google Pixel phones, and test wireless charging and the cameras before you collect it. Most back glass repairs take 24–48 hours, because the old glass is bonded to the frame and every shard has to come out cleanly. Fixing it stops glass splinters cutting your fingers, keeps dust and moisture away from the inside and stops the cracks spreading.",
     processSteps: [
-      "Damage assessment — we examine the back glass crack pattern and check for camera or wireless charging damage",
-      "Precision glass removal — we carefully remove the broken glass using controlled heat and specialised tools",
-      "New glass installation — we install a premium replacement back panel matched to your iPhone colour",
-      "Wireless charging test — we verify wireless charging works perfectly and the camera modules are properly aligned"
+      "Check the damage — we look at the crack, the camera lens covers and the frame, and confirm the price for your phone before we start",
+      "Remove the broken glass — the old glass and adhesive are taken off the frame without disturbing the parts inside",
+      "Fit the new back glass — a new rear glass panel with fresh adhesive, made for your exact model",
+      "Test everything — wireless and MagSafe charging, cameras, flash and buttons are tested before you collect it"
     ],
-    models: ["iPhone 17 Pro Max", "iPhone 17 Pro", "iPhone 16 Pro Max", "iPhone 16 Pro", "iPhone 15 Pro Max", "iPhone 15 Pro", "iPhone 15", "iPhone 14 Pro Max", "iPhone 14 Pro", "iPhone 14", "iPhone 13", "iPhone 12 Pro Max", "iPhone 12", "iPhone 11 Pro Max", "iPhone 11"],
-    commonIssues: ["Shattered rear glass", "Cracked back panel from drops", "Back glass cracked around camera", "Wireless charging stopped working after drop", "Back glass scratched or chipped"],
-    warrantyNote: "All back glass replacements include a 6-month warranty. We ensure wireless charging functionality is fully restored after every repair.",
+    models: [
+      "iPhone 17 Pro Max", "iPhone 17 Pro", "iPhone 17",
+      "iPhone 16 Pro Max", "iPhone 16 Pro", "iPhone 16 Plus", "iPhone 16", "iPhone 16e",
+      "iPhone 15 Pro Max", "iPhone 15 Pro", "iPhone 15 Plus", "iPhone 15",
+      "iPhone 14 Pro Max", "iPhone 14 Pro", "iPhone 14 Plus", "iPhone 14",
+      "iPhone 13 Pro Max", "iPhone 13 Pro", "iPhone 13", "iPhone 13 mini",
+      "iPhone 12 Pro Max", "iPhone 12 Pro", "iPhone 12", "iPhone 12 mini",
+      "iPhone 11 Pro Max", "iPhone 11 Pro", "iPhone 11",
+      "iPhone XS Max", "iPhone XS", "iPhone XR", "iPhone X", "iPhone 8 Plus", "iPhone 8",
+      "Samsung Galaxy S26 series", "Samsung Galaxy S25 series", "Samsung Galaxy S24 series", "Samsung Galaxy S23 series", "Samsung Galaxy S22 series", "Samsung Galaxy S21 series", "Samsung Galaxy S20 series",
+      "Samsung Galaxy Note 20 / Note 10", "Samsung Galaxy A series",
+      "Google Pixel 10 series", "Google Pixel 9 series", "Google Pixel 8 series", "Google Pixel 7 series", "Google Pixel 6 series"
+    ],
+    commonIssues: ["Shattered or spider-webbed rear glass", "Glass splinters or sharp edges on the back", "Cracks around the camera bump", "Back glass lifting or loose", "Wireless charging stopped after a drop", "Cracked camera lens cover"],
+    warrantyNote: "Every back glass replacement includes our 6-month warranty on parts and labour. We test wireless and MagSafe charging, the cameras and the flash before you collect it.",
+    fromPrice: null,
     faqs: [
-      { question: "How much does iPhone back glass replacement cost?", answer: "Back glass replacement pricing varies by model. Newer iPhone Pro models cost more due to the integrated camera housing. Call 0405-326-205 for a quote specific to your iPhone model." },
-      { question: "How long does back glass replacement take?", answer: "iPhone back glass replacement typically takes 60-90 minutes. It requires careful heat application and precision work to avoid damaging internal components." },
-      { question: "Will wireless charging work after back glass repair?", answer: "Yes! We take special care to protect the wireless charging coil during back glass replacement and test wireless charging before returning your device." },
-      { question: "Is back glass replacement worth it?", answer: "Yes — a cracked back compromises your iPhone's water resistance and structural integrity. It can also cause injuries from glass shards. Repair is significantly cheaper than replacing the entire phone." }
+      { question: "Can cracked back glass on an iPhone be replaced?", answer: "Yes. We replace just the rear glass, so you keep your phone, your screen and your data. We do it for every iPhone from the iPhone 8 to the iPhone 17 Pro Max, and for Samsung Galaxy and Google Pixel phones." },
+      { question: "How much does back glass replacement cost?", answer: "It depends on the model: newer and larger phones cost more. We confirm the price for your phone before we start. Call 0405 326 205 or bring it to Warringal Shopping Centre for a quote." },
+      { question: "How long does back glass replacement take?", answer: "Most back glass repairs take 24–48 hours. The old glass is bonded to the frame, and every piece and all the old adhesive have to come off cleanly before the new glass goes on." },
+      { question: "Will the new back glass have the Apple logo?", answer: "No. Replacement back glass is aftermarket and doesn't carry the Apple logo. It matches the shape, cut-outs and finish of your model, and wireless charging works the same." },
+      { question: "Will wireless charging and MagSafe still work?", answer: "Yes. We test wireless charging, and MagSafe on iPhone 12 and newer, before you collect the phone." },
+      { question: "Is it safe to keep using a phone with cracked back glass?", answer: "It works, but it isn't ideal. Loose glass can cut your fingers, cracks usually spread, and gaps let dust and moisture reach the inside of the phone. A case helps but doesn't seal the cracks." },
+      { question: "Is my phone still water resistant after a back glass repair?", answer: "We fit new adhesive, but no repair outside the factory can guarantee the original water-resistance rating, so treat the phone as not water resistant afterwards." },
+      { question: "Both the screen and the back are cracked. Can you fix both?", answer: "Yes. We can replace the screen and the back glass together; ask for a quote for both when you bring it in." }
     ]
   },
   {

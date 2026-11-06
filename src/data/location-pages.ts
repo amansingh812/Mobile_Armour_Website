@@ -377,7 +377,7 @@ export const locationPages: SuburbData[] = [
       },
       {
         question: "Do you do back glass replacement for iPhones near Rosanna?",
-        answer: "Yes! We offer iPhone back glass replacement for iPhone 11 and newer models. This is a specialised repair that many shops can't do, but our experienced technicians handle it regularly. The repair typically takes 60-90 minutes."
+        answer: "Yes. We replace back glass on every iPhone from the iPhone 8 to the iPhone 17 Pro Max, and on Samsung Galaxy and Google Pixel phones. Most back glass repairs take 24–48 hours, with a 6-month warranty."
       }
     ],
     intro: "Phone repair in Rosanna couldn't be more convenient — Mobile Armour at Warringal Shopping Centre is just 3 minutes from Rosanna Village. Sharing the same postcode (3084), we're essentially your local phone repair shop. Rosanna residents enjoy the shortest trip of any suburb to our store, making us the obvious choice for quick same-day repairs. From cracked iPhone screens to Samsung battery issues, we handle it all with certified expertise.",

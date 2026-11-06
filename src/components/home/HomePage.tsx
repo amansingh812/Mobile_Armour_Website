@@ -26,7 +26,7 @@ const REPAIRS: { icon: IconName; name: string; href: string; time: string }[] = 
   { icon: 'screen', name: 'Screen replacement', href: '/services/iphone-screen-repair', time: '1–2 hours' },
   { icon: 'battery', name: 'Battery replacement', href: '/services/iphone-battery-replacement', time: '1–2 hours' },
   { icon: 'bolt', name: 'Charging port repair', href: '/services/charging-port-repair', time: '1–2 hours' },
-  { icon: 'phone-back', name: 'Back glass replacement', href: '/services/back-glass-replacement', time: 'same day' },
+  { icon: 'phone-back', name: 'Back glass replacement', href: '/services/back-glass-replacement', time: '24–48 hours' },
   { icon: 'droplet', name: 'Water damage repair', href: '/services/water-damage-repair', time: '24–48 hours' },
   { icon: 'watch', name: 'Apple Watch repair', href: '/services/apple-watch-repair', time: 'same day' },
 ];
@@ -343,6 +343,37 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      <section aria-labelledby="bg-h" className="ma-section">
+        <div className="ma-refurb-banner">
+          <div className="ma-refurb-banner__copy">
+            <span className="ma-eyebrow" style={{ color: '#ff7a3d' }}>
+              Back glass repair
+            </span>
+            <h2 id="bg-h">Cracked back glass? We replace it.</h2>
+            <p>
+              Rear glass replaced for every iPhone from the 8 to the 17 Pro Max, plus Samsung Galaxy and Google Pixel.
+              Wireless charging and cameras tested before you collect it.
+            </p>
+            <ul className="ma-refurb-banner__pts">
+              <li>Quote before we start</li>
+              <li>Usually {BUSINESS.repairTimes.complex}</li>
+              <li>{BUSINESS.warranty.short}</li>
+            </ul>
+            <div className="ma-actions">
+              <Link href="/services/back-glass-replacement" className="ma-btn ma-btn--primary">
+                Back glass replacement
+              </Link>
+              <Link href="/blog/cracked-iphone-back-glass-worth-fixing" className="ma-btn ma-btn--ghost">
+                Is it worth fixing?
+              </Link>
+            </div>
+          </div>
+          <Link href="/services/back-glass-replacement" className="ma-refurb-banner__img" tabIndex={-1} aria-hidden="true">
+            <Image src="/img/home/back-glass-banner.webp" alt="" fill sizes="(max-width: 640px) 100vw, 600px" />
+          </Link>
+        </div>
+      </section>
 
       <section aria-labelledby="rep-h" className="ma-section">
         <div className="ma-shead">

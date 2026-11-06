@@ -33,7 +33,7 @@ const SERVICES: { icon: IconName; name: string; href: string; body: string; time
   { icon: "battery", name: "Battery replacement", href: "/services/iphone-battery-replacement", body: "Battery drains fast, the phone shuts down early, or battery health is below 80%.", time: "1–2 hours" },
   { icon: "bolt", name: "Charging port repair", href: "/services/charging-port-repair", body: "The cable feels loose, or the phone charges slowly or not at all.", time: "1–2 hours" },
   { icon: "droplet", name: "Water damage repair", href: "/services/water-damage-repair", body: "Dropped in water, no power or a fogged camera. Bring it in fast and don't charge it.", time: "24–48 hours" },
-  { icon: "phone-back", name: "Back glass replacement", href: "/services/back-glass-replacement", body: "Shattered rear glass replaced so the phone is sealed and safe to hold again.", time: "Same day" },
+  { icon: "phone-back", name: "Back glass replacement", href: "/services/back-glass-replacement", body: "Shattered rear glass replaced so the phone is sealed and safe to hold again.", time: "24–48 hours" },
   { icon: "camera", name: "Camera lens repair", href: "/services/camera-lens-repair", body: "Cracked lens cover, blurry photos or a camera that won't focus.", time: "Same day" },
   { icon: "watch", name: "Apple Watch repair", href: "/services/apple-watch-repair", body: "Screen and battery replacement for Apple Watch Ultra, Series 9, 8, 7, 6 and SE.", time: "Same day" },
   { icon: "tablet", name: "iPad screen repair", href: "/services/ipad-screen-repair", body: "Cracked iPad glass or display replaced, with touch and Touch ID tested afterwards.", time: "Same day" },

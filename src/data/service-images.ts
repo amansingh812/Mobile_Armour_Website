@@ -30,7 +30,7 @@ export const SERVICE_IMAGES: Record<string, { src: string; alt: string }> = {
   },
   'back-glass-replacement': {
     src: '/img/services/back-glass-replacement.webp',
-    alt: 'Shattered phone back glass being removed next to a new replacement panel',
+    alt: 'Phone with shattered back glass next to a new replacement back glass panel',
   },
   'camera-lens-repair': {
     src: '/img/services/camera-lens-repair.webp',

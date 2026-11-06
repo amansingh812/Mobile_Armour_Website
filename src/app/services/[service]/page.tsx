@@ -80,6 +80,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   });
   const protects = /screen|glass|lens|protector/i.test(slug);
 
+  const from = typeof service.fromPrice === 'number' && service.fromPrice > 0 ? service.fromPrice : null;
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -88,6 +89,16 @@ export default async function ServiceDetailPage({ params }: PageProps) {
     description: service.intro,
     url: `${BUSINESS.url}/services/${slug}`,
     provider: { '@id': BUSINESS_ID },
+    // A starting price on a Service (not a Product), so no product-snippet rules apply.
+    ...(from
+      ? {
+          offers: {
+            '@type': 'Offer',
+            priceCurrency: 'AUD',
+            priceSpecification: { '@type': 'PriceSpecification', minPrice: from, priceCurrency: 'AUD' },
+          },
+        }
+      : {}),
     areaServed: locationPages.map((loc) => ({ '@type': 'City', name: `${loc.name}, VIC ${loc.postcode}` })),
   };
 
@@ -109,7 +120,14 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           <h1 className="ma-h1">{service.heroHeading}</h1>
           <p className="ma-byline">{service.heroSubheading}</p>
           <QuickAnswer>
-            {firstSentences(service.intro, 2)} Every repair comes with a <strong>{BUSINESS.warranty.long}</strong>.
+            {firstSentences(service.intro, 2)}
+            {from ? (
+              <>
+                {' '}
+                Prices start <strong>from ${from}</strong>, confirmed for your phone before we start.
+              </>
+            ) : null}{' '}
+            Every repair comes with a <strong>{BUSINESS.warranty.long}</strong>.
           </QuickAnswer>
           <div className="ma-actions">
             <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--primary">
