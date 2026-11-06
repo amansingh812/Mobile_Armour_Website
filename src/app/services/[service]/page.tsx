@@ -139,7 +139,13 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           </div>
         </div>
         {service.models.length > 0 && (
-          <RepairQuotePicker service={service.title} models={service.models} modelPages={modelPages} />
+          <RepairQuotePicker
+            service={service.title}
+            models={service.models}
+            modelPages={modelPages}
+            from={from}
+            time={slug === 'back-glass-replacement' ? `Usually ${BUSINESS.repairTimes.complex}` : undefined}
+          />
         )}
       </section>
 

@@ -8,8 +8,14 @@ export default function RepairQuotePicker({
   service,
   models,
   modelPages,
+  time = 'Typically same day',
+  from = null,
 }: {
   service: string;
+  /** Turnaround shown in the quote box. */
+  time?: string;
+  /** Starting price, if the service has one. */
+  from?: number | null;
   models: string[];
   /** model name → /repairs/... path, for models with their own page */
   modelPages: Record<string, string>;
@@ -32,7 +38,7 @@ export default function RepairQuotePicker({
         <strong>
           {model} {service.toLowerCase().replace(/^(iphone|samsung|google pixel|ipad|apple watch) /i, '')}
         </strong>
-        <span>Price: quoted for your exact model · Typically same day · {BUSINESS.warranty.short}</span>
+        <span>{from ? `From $${from}, confirmed for your exact model` : 'Price: quoted for your exact model'} · {time} · {BUSINESS.warranty.short}</span>
       </div>
       <a href={BUSINESS.phoneHref} className="ma-btn ma-btn--primary">
         Call for a quote: {BUSINESS.phoneDisplay}
