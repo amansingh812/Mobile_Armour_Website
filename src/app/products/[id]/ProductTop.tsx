@@ -8,6 +8,7 @@ import { currentPrice, slugify } from '@/lib/products';
 import type { ShopProduct, ShopVariant } from '@/lib/shop-data';
 import { isWatchSize, shortModel, sortModels, swatchFor, watchSize } from '@/data/phone-models';
 import { STORE } from '@/data/store-settings';
+import { glassPairDevice, isCameraGuard } from '@/lib/pricing';
 import { BUSINESS } from '@/data/business';
 import { phonePath } from '@/lib/device-links';
 import { track } from '@/lib/analytics';
@@ -86,6 +87,8 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
   const isCase = p.category === 'Cases';
   const isGlass = p.category === 'Screen Protectors';
   const bundleable = STORE.bundle.enabled && (isCase || isGlass) && device;
+  const pairDevice = isGlass ? glassPairDevice(fitDevices) : undefined;
+  const isCamera = isCameraGuard(p.category, p.name);
 
   const label = variant ? [model, variant.colour].filter(Boolean).join(' · ') : undefined;
   const cartProduct = {
@@ -222,6 +225,23 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
             </li>
           )}
         </ul>
+
+        {pairDevice && (
+          <div className="ma-product__bundle">
+            <div>
+              <strong>
+                Add a {isCamera ? 'screen protector' : 'camera lens guard'} and save {STORE.glassPair.discountPercent}% on
+                both
+              </strong>
+              <span>
+                {STORE.glassPair.label} for {pairDevice}: the discount applies automatically in your cart.
+              </span>
+            </div>
+            <Link href={`/shop/screen-protectors/${slugify(pairDevice)}`} className="ma-btn ma-btn--dark">
+              See {pairDevice} glass
+            </Link>
+          </div>
+        )}
 
         {bundleable && (
           <div className="ma-product__bundle">

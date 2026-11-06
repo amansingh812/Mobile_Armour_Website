@@ -14,10 +14,15 @@ export interface PricedItem {
   devices: string[];
 }
 
+export type DealKind = "bundle" | "glassPair";
+
+/** Two cart units that earn a discount together. */
 export interface BundlePair {
+  kind: DealKind;
   device: string;
-  caseId: string;
-  protectorId: string;
+  /** Line ids of the two units (case + protector, or screen + camera glass). */
+  ids: [string, string];
+  percent: number;
   saving: number;
 }
 
@@ -30,33 +35,81 @@ export interface CartTotals {
 }
 
 const round = (n: number) => Math.round(n * 100) / 100;
-const isCase = (c: string) => c === "Cases";
-const isProtector = (c: string) => c === "Screen Protectors";
+const CAMERA = /\b(camera|lens)\b/i;
+
+/** Camera lens guards live in "Screen Protectors" with camera/lens in the name. */
+export const isCameraGuard = (category: string, name: string) =>
+  category === "Screen Protectors" && CAMERA.test(name);
+export const isScreenGlass = (category: string, name: string) =>
+  category === "Screen Protectors" && !CAMERA.test(name);
+const isCase = (category: string) => category === "Cases";
+
+export const dealLabel = (kind: DealKind) => (kind === "bundle" ? STORE.bundle.label : STORE.glassPair.label);
+
+/** Phones the screen + camera glass deal covers, from the devices given. */
+export function glassPairDevice(devices: string[]): string | undefined {
+  if (!STORE.glassPair.enabled || STORE.glassPair.discountPercent <= 0) return undefined;
+  return devices.find((d) => STORE.glassPair.devices.includes(d));
+}
+
+interface Unit {
+  n: number;
+  item: PricedItem;
+}
 
 /**
- * Protection bundle: each case paired with a screen protector that fits the
- * same phone gets the bundle discount on both. Pairs are matched greedily,
- * highest-priced first, one unit at a time.
+ * Each unit is used in at most one deal, so nothing is discounted twice.
+ * 1. Protection bundle (when on): case + screen protector for the same phone.
+ * 2. Screen + camera glass: screen protector + camera guard for the same
+ *    eligible phone.
+ * Pairs are matched greedily, highest-priced first, one unit at a time.
  */
 export function findBundles(items: PricedItem[]): BundlePair[] {
-  if (!STORE.bundle.enabled || STORE.bundle.discountPercent <= 0) return [];
-  const pct = STORE.bundle.discountPercent / 100;
-  const expand = (pred: (c: string) => boolean) =>
-    items
-      .filter((i) => pred(i.category))
-      .flatMap((i) => Array.from({ length: Math.max(0, Math.floor(i.quantity)) }, () => i))
-      .sort((a, b) => b.unitPrice - a.unitPrice);
-  const cases = expand(isCase);
-  const protectors = expand(isProtector);
+  const units: Unit[] = items
+    .flatMap((item) => Array.from({ length: Math.max(0, Math.floor(item.quantity)) }, () => item))
+    .sort((a, b) => b.unitPrice - a.unitPrice)
+    .map((item, n) => ({ n, item }));
   const used = new Set<number>();
   const pairs: BundlePair[] = [];
-  for (const c of cases) {
-    const idx = protectors.findIndex((p, i) => !used.has(i) && p.devices.some((d) => c.devices.includes(d)));
-    if (idx === -1) continue;
-    used.add(idx);
-    const p = protectors[idx];
-    const device = p.devices.find((d) => c.devices.includes(d)) || "";
-    pairs.push({ device, caseId: c.id, protectorId: p.id, saving: round((c.unitPrice + p.unitPrice) * pct) });
+
+  const match = (
+    kind: DealKind,
+    percent: number,
+    isA: (i: PricedItem) => boolean,
+    isB: (i: PricedItem) => boolean,
+    eligible: (d: string) => boolean
+  ) => {
+    if (percent <= 0) return;
+    for (const a of units) {
+      if (used.has(a.n) || !isA(a.item)) continue;
+      const b = units.find(
+        (u) => !used.has(u.n) && u.n !== a.n && isB(u.item) && u.item.devices.some((d) => eligible(d) && a.item.devices.includes(d))
+      );
+      if (!b) continue;
+      used.add(a.n);
+      used.add(b.n);
+      const device = b.item.devices.find((d) => eligible(d) && a.item.devices.includes(d)) || "";
+      pairs.push({
+        kind,
+        device,
+        ids: [a.item.id, b.item.id],
+        percent,
+        saving: round((a.item.unitPrice + b.item.unitPrice) * (percent / 100)),
+      });
+    }
+  };
+
+  if (STORE.bundle.enabled) {
+    match("bundle", STORE.bundle.discountPercent, (i) => isCase(i.category), (i) => isScreenGlass(i.category, i.name), () => true);
+  }
+  if (STORE.glassPair.enabled) {
+    match(
+      "glassPair",
+      STORE.glassPair.discountPercent,
+      (i) => isScreenGlass(i.category, i.name),
+      (i) => isCameraGuard(i.category, i.name),
+      (d) => STORE.glassPair.devices.includes(d)
+    );
   }
   return pairs;
 }
@@ -68,6 +121,18 @@ export function priceCart(items: PricedItem[], fulfilment: Fulfilment): CartTota
   const afterDiscount = round(subtotal - bundleSaving);
   const shipping = fulfilment === "delivery" ? deliveryFee(afterDiscount) : 0;
   return { subtotal, bundles, bundleSaving, shipping, total: round(afterDiscount + shipping) };
+}
+
+/** One line per kind of deal in the cart, e.g. "Screen + camera glass (10% off)". */
+export function dealSummary(bundles: BundlePair[]): string {
+  const kinds = Array.from(new Set(bundles.map((b) => b.kind)));
+  return kinds
+    .map((k) => {
+      const n = bundles.filter((b) => b.kind === k).length;
+      const pct = bundles.find((b) => b.kind === k)!.percent;
+      return `${dealLabel(k)} (${n > 1 ? `${n}× ` : ""}${pct}% off)`;
+    })
+    .join(" + ");
 }
 
 export const money = (n: number) => `$${n.toFixed(2)}`;

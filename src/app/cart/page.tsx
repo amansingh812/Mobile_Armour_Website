@@ -7,7 +7,18 @@ import { useCart } from '@/hooks/useCart';
 import { track, gaItem, gaValue } from '@/lib/analytics';
 import { lineKey } from '@/types/product';
 import { slugify } from '@/lib/products';
-import { priceCart, money, type Fulfilment, type PricedItem } from '@/lib/pricing';
+import {
+  priceCart,
+  money,
+  dealLabel,
+  dealSummary,
+  glassPairDevice,
+  isCameraGuard,
+  isScreenGlass,
+  type DealKind,
+  type Fulfilment,
+  type PricedItem,
+} from '@/lib/pricing';
 import { productPath, currentPrice } from '@/lib/products';
 import { STORE, deliveryFeeText } from '@/data/store-settings';
 import { BUSINESS, fullAddress } from '@/data/business';
@@ -58,15 +69,24 @@ export default function CartPage() {
     [state.items]
   );
   const totals = priceCart(priced, fulfilment);
-  const bundledIds = new Set(totals.bundles.flatMap((b) => [b.caseId, b.protectorId]));
+  const dealOf = new Map<string, { kind: DealKind; percent: number }>();
+  for (const b of totals.bundles) for (const id of b.ids) dealOf.set(id, { kind: b.kind, percent: b.percent });
 
-  // Suggest completing a bundle: a case with no matching glass, or glass with no case.
+  // Suggest completing a deal: screen glass with no camera guard (or the
+  // reverse) for an eligible phone; or, when the bundle is on, a case with no glass.
   const upsell = useMemo(() => {
-    if (!STORE.bundle.enabled) return null;
     for (const i of priced) {
-      if (bundledIds.has(i.id) || !i.devices.length) continue;
-      if (i.category === 'Cases') return { device: i.devices[0], need: 'screen protector' };
-      if (i.category === 'Screen Protectors') return { device: i.devices[0], need: 'case' };
+      if (dealOf.has(i.id) || !i.devices.length) continue;
+      const gp = glassPairDevice(i.devices);
+      if (gp && isScreenGlass(i.category, i.name))
+        return { kind: 'glassPair' as const, device: gp, need: 'camera lens guard', pct: STORE.glassPair.discountPercent };
+      if (gp && isCameraGuard(i.category, i.name))
+        return { kind: 'glassPair' as const, device: gp, need: 'screen protector', pct: STORE.glassPair.discountPercent };
+      if (!STORE.bundle.enabled) continue;
+      if (i.category === 'Cases')
+        return { kind: 'bundle' as const, device: i.devices[0], need: 'screen protector', pct: STORE.bundle.discountPercent };
+      if (isScreenGlass(i.category, i.name))
+        return { kind: 'bundle' as const, device: i.devices[0], need: 'case', pct: STORE.bundle.discountPercent };
     }
     return null;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -165,9 +185,9 @@ export default function CartPage() {
                         ) : p.deviceCompatibility?.length ? (
                           <span className="ma-cart__fit">✓ Fits {p.deviceCompatibility.slice(0, 2).join(', ')}</span>
                         ) : null}
-                        {bundledIds.has(key) && (
+                        {dealOf.has(key) && (
                           <span className="ma-cart__bundle">
-                            {STORE.bundle.label}: {STORE.bundle.discountPercent}% off
+                            {dealLabel(dealOf.get(key)!.kind)}: {dealOf.get(key)!.percent}% off
                           </span>
                         )}
                         <button type="button" className="ma-cart__remove" onClick={() => removeItem(key)}>
@@ -200,15 +220,22 @@ export default function CartPage() {
                 <div className="ma-cart__upsell">
                   <div>
                     <strong>
-                      Add a {upsell.need} for your {upsell.device} and save {STORE.bundle.discountPercent}% on both
+                      Add a {upsell.need} for your {upsell.device} and save {upsell.pct}% on both
                     </strong>
                     <span>
-                      {STORE.bundle.label} discount applies automatically
+                      {dealLabel(upsell.kind)} discount applies automatically
                       {STORE.freeFitting ? '; glass fitted free at the kiosk' : ''}.
                     </span>
                   </div>
-                  <Link href={`/bundle?device=${encodeURIComponent(upsell.device)}`} className="ma-btn ma-btn--dark">
-                    Complete the bundle
+                  <Link
+                    href={
+                      upsell.kind === 'glassPair'
+                        ? `/shop/screen-protectors/${slugify(upsell.device)}`
+                        : `/bundle?device=${encodeURIComponent(upsell.device)}`
+                    }
+                    className="ma-btn ma-btn--dark"
+                  >
+                    {upsell.kind === 'glassPair' ? `Shop ${upsell.need}s` : 'Complete the bundle'}
                   </Link>
                 </div>
               )}
@@ -279,9 +306,7 @@ export default function CartPage() {
               </div>
               {totals.bundleSaving > 0 && (
                 <div className="is-saving">
-                  <dt>
-                    {STORE.bundle.label} ({totals.bundles.length}× {STORE.bundle.discountPercent}% off)
-                  </dt>
+                  <dt>{dealSummary(totals.bundles)}</dt>
                   <dd>−{money(totals.bundleSaving)}</dd>
                 </div>
               )}

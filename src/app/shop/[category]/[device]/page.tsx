@@ -1,3 +1,4 @@
+import { glassPairDevice } from '@/lib/pricing';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ShopListing from '@/components/shop/ShopListing';
@@ -109,6 +110,7 @@ export default async function ShopDevicePage({ params }: Props) {
       model={deviceName}
       buyingTips={cat.buyingTips}
       bundleDevice={cat.slug === 'cases' || cat.slug === 'screen-protectors' ? deviceName : undefined}
+      glassPairDevice={cat.slug === 'screen-protectors' ? glassPairDevice([deviceName]) : undefined}
     />
   );
 }

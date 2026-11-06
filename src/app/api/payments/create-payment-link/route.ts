@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import { currentPrice } from '@/lib/products';
-import { priceCart, type Fulfilment, type PricedItem } from '@/lib/pricing';
+import { priceCart, dealSummary, type Fulfilment, type PricedItem } from '@/lib/pricing';
 import { STORE } from '@/data/store-settings';
 import { BUSINESS, fullAddress } from '@/data/business';
 import { SITE_URL } from '@/lib/site';
@@ -123,7 +123,7 @@ export async function POST(request: Request) {
         currency: 'aud',
         duration: 'once',
         max_redemptions: 1,
-        name: `${STORE.bundle.label} (${STORE.bundle.discountPercent}% off)`,
+        name: dealSummary(totals.bundles).slice(0, 40),
       });
       discounts = [{ coupon: coupon.id }];
     }

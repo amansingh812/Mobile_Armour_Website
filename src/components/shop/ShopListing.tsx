@@ -34,6 +34,8 @@ interface ShopListingProps {
   path: string;
   /** Show the bundle banner (cases and screen protectors). */
   bundleDevice?: string | null;
+  /** Phone covered by the screen + camera glass discount; shows a banner above the grid. */
+  glassPairDevice?: string;
   /** Question-and-answer block (also output as FAQPage schema). */
   faqs?: Faq[];
   faqHeading?: string;
@@ -56,6 +58,7 @@ export default function ShopListing({
   buyingTips,
   path,
   bundleDevice,
+  glassPairDevice,
   faqs,
   faqHeading,
   guides,
@@ -119,6 +122,19 @@ export default function ShopListing({
       )}
 
       <div className="ma-wrap" style={{ paddingTop: 24 }}>
+        {glassPairDevice && STORE.glassPair.enabled && (
+          <div className="ma-shop__bundle" style={{ marginBottom: 24 }}>
+            <div>
+              <span className="ma-eyebrow">{STORE.glassPair.label}</span>
+              <h2>
+                Screen protector + camera lens guard. Save {STORE.glassPair.discountPercent}% on both.
+              </h2>
+              <p>
+                Add one of each for your {glassPairDevice} and the discount applies in your cart automatically.
+              </p>
+            </div>
+          </div>
+        )}
         {products.length > 0 ? (
           <section aria-label="Products" className="ma-pgrid">
             <ListTracker id={path} name={h1} items={gaListItems(products, productPath)} />

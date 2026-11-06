@@ -217,7 +217,7 @@ export async function sendOrderConfirmationEmail(order: IOrder): Promise<boolean
     )
     .join("");
   const extra = [
-    order.bundleSaving > 0 ? `<tr><td style="padding:6px 0;color:#666">Bundle saving</td><td style="padding:6px 0;text-align:right;color:#666">−$${order.bundleSaving.toFixed(2)}</td></tr>` : "",
+    order.bundleSaving > 0 ? `<tr><td style="padding:6px 0;color:#666">Discount</td><td style="padding:6px 0;text-align:right;color:#666">−$${order.bundleSaving.toFixed(2)}</td></tr>` : "",
     !collect ? `<tr><td style="padding:6px 0;color:#666">Delivery</td><td style="padding:6px 0;text-align:right;color:#666">${order.shipping > 0 ? `$${order.shipping.toFixed(2)}` : "Free"}</td></tr>` : "",
   ].join("");
   const addr = order.shippingAddress;

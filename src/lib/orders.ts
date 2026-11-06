@@ -173,7 +173,7 @@ export async function recordPaidOrder(stripe: Stripe, sessionId: string): Promis
         ? 'Collecting from the kiosk'
         : undefined,
     message: `${itemsText}\n\nPaid: $${order.total.toFixed(2)} AUD${
-      order.bundleSaving > 0 ? ` (bundle saving $${order.bundleSaving.toFixed(2)})` : ''
+      order.bundleSaving > 0 ? ` (discount $${order.bundleSaving.toFixed(2)})` : ''
     }\nManage: ${process.env.NEXT_PUBLIC_APP_URL || 'https://www.mobilearmour.com.au'}/admin/orders`,
   }).catch((e) => console.error('[orders] shop email failed', e));
 

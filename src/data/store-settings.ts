@@ -13,6 +13,18 @@ export const STORE = {
     label: "Protection bundle",
   },
 
+  /**
+   * Screen + camera glass: a screen protector and a camera lens guard for the
+   * same phone get this discount on both, automatically in the cart. Only for
+   * the phones listed (6 Nov 2026: iPhone Duo and the iPhone 18 range).
+   */
+  glassPair: {
+    enabled: true as boolean,
+    discountPercent: 10 as number,
+    label: "Screen + camera glass",
+    devices: ["iPhone Duo", "iPhone 18", "iPhone 18 Air", "iPhone 18 Pro", "iPhone 18 Pro Max"] as string[],
+  },
+
   /** Free screen protector fitting at the kiosk. Not offered. */
   freeFitting: false as boolean,
 
