@@ -10,6 +10,7 @@ import SiteFooter from "@/components/site/SiteFooter";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { CartProvider } from "@/hooks/useCart";
 import ChatBot from "@/components/chatbot/ChatBot";
+import ContactTracker from "@/components/analytics/ContactTracker";
 import Script from "next/script";
 import LocalBusinessSchema from "@/components/seo/LocalBusinessSchema";
 import DeferredIconFonts from "@/components/shared/DeferredIconFonts";
@@ -172,6 +173,7 @@ export default function RootLayout({
             <div id="main">{children}</div>
             <SiteFooter />
             <ChatBot />
+            <ContactTracker />
           </CartProvider>
         </AuthProvider>
       </body>

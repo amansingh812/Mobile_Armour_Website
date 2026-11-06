@@ -5,6 +5,7 @@ import Order, { type IOrder, type IOrderItem } from '@/models/Order';
 import Product from '@/models/Product';
 import { revalidateProducts } from '@/lib/revalidate-products';
 import { sendLeadNotificationEmail, sendOrderConfirmationEmail } from '@/lib/mailer';
+import { sendGaPurchase } from '@/lib/ga-server';
 
 const money = (cents?: number | null) => Math.round(cents || 0) / 100;
 
@@ -144,6 +145,17 @@ export async function recordPaidOrder(stripe: Stripe, sessionId: string): Promis
 
   await reduceKioskStock(items).catch((e) => console.error('[orders] stock update failed', e));
 
+  // GA4 purchase from the server, so the sale is counted even if the thank-you
+  // page never loads (no-op until GA4_API_SECRET is set).
+  await sendGaPurchase({
+    clientId: session.metadata?.ga_client_id,
+    sessionId: session.metadata?.ga_session_id,
+    transactionId: order.orderNumber,
+    value: order.total,
+    shipping: order.shipping,
+    items: items.map((i) => ({ item_id: i.sku || i.productId || i.name, item_name: i.name, price: i.unitPrice, quantity: i.quantity })),
+  }).catch((e) => console.error('[orders] GA4 purchase failed', e));
+
   // Shop notification (same email the shop already gets, now with the order number).
   const itemsText = items
     .map((i) => `${i.quantity} x ${i.name} ($${(i.unitPrice * i.quantity).toFixed(2)})${i.orderIn ? ' [order in from Crazy Parts]' : ''}`)
@@ -162,7 +174,7 @@ export async function recordPaidOrder(stripe: Stripe, sessionId: string): Promis
         : undefined,
     message: `${itemsText}\n\nPaid: $${order.total.toFixed(2)} AUD${
       order.bundleSaving > 0 ? ` (bundle saving $${order.bundleSaving.toFixed(2)})` : ''
-    }\nManage: ${process.env.NEXT_PUBLIC_APP_URL || 'https://www.mobilearmour.com.au'}/admin/orders\nStripe session: ${session.id}`,
+    }\nManage: ${process.env.NEXT_PUBLIC_APP_URL || 'https://www.mobilearmour.com.au'}/admin/orders`,
   }).catch((e) => console.error('[orders] shop email failed', e));
 
   // Customer confirmation.

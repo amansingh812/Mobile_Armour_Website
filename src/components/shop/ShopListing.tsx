@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import ProductTile from '@/components/store/ProductTile';
+import ListTracker from '@/components/analytics/ListTracker';
+import { gaListItems } from '@/lib/analytics';
 import PromiseStrip from '@/components/store/PromiseStrip';
 import PhonePicker, { type PhoneLink } from './PhonePicker';
 import JsonLd, { faqPage } from '@/components/seo/JsonLd';
@@ -119,6 +121,7 @@ export default function ShopListing({
       <div className="ma-wrap" style={{ paddingTop: 24 }}>
         {products.length > 0 ? (
           <section aria-label="Products" className="ma-pgrid">
+            <ListTracker id={path} name={h1} items={gaListItems(products, productPath)} />
             {products.map((p, i) => (
               <ProductTile key={p._id} product={p} priority={i < 4} model={model} />
             ))}

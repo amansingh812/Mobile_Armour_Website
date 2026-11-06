@@ -44,3 +44,21 @@ export function gaItem(p: {
 
 export const gaValue = (items: GaItem[]) =>
   Math.round(items.reduce((n, i) => n + (i.price || 0) * (i.quantity || 1), 0) * 100) / 100;
+
+/** A product in a list, with its page path so a click can be matched to it. */
+export interface GaListItem extends GaItem {
+  index: number;
+  path: string;
+}
+
+/** GA items for a list of shop products (server or client). */
+export function gaListItems(
+  products: { _id: string; name: string; category?: string; price?: number; newPrice?: number }[],
+  pathOf: (p: { _id: string; name: string }) => string,
+  max = 50
+): GaListItem[] {
+  return products.slice(0, max).map((p, i) => ({ ...gaItem(p), index: i, path: pathOf(p) }));
+}
+
+/** Strip the helper-only fields before sending to GA. */
+export const gaOut = ({ path: _path, ...rest }: GaListItem): GaItem & { index: number } => rest;

@@ -137,12 +137,25 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     track('add_to_cart', { value: (item.price || 0) * quantity, items: [item] });
   };
 
+  // GA4 remove_from_cart / add_to_cart for quantity changes in the cart.
+  const lineOf = (lineId: string) => state.items.find((i) => lineKey(i.product) === lineId);
   const removeItem = (productId: string) => {
+    const line = lineOf(productId);
     dispatch({ type: 'REMOVE_ITEM', payload: productId });
+    if (line) {
+      const item = gaItem(line.product, line.quantity);
+      track('remove_from_cart', { value: (item.price || 0) * line.quantity, items: [item] });
+    }
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
+    const line = lineOf(productId);
     dispatch({ type: 'UPDATE_QUANTITY', payload: { productId, quantity } });
+    if (line && quantity !== line.quantity) {
+      const delta = Math.abs(quantity - line.quantity);
+      const item = gaItem(line.product, delta);
+      track(quantity > line.quantity ? 'add_to_cart' : 'remove_from_cart', { value: (item.price || 0) * delta, items: [item] });
+    }
   };
 
   const clearCart = () => {

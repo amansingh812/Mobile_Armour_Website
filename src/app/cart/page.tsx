@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/hooks/useCart';
-import { track, gaItem } from '@/lib/analytics';
+import { track, gaItem, gaValue } from '@/lib/analytics';
 import { lineKey } from '@/types/product';
 import { slugify } from '@/lib/products';
 import { priceCart, money, type Fulfilment, type PricedItem } from '@/lib/pricing';
@@ -29,6 +29,15 @@ export default function CartPage() {
       if (f === 'collect' || f === 'delivery') setFulfilment(f);
     } catch {}
   }, []);
+  // GA4 view_cart once the saved cart has loaded (once per visit to the page).
+  const viewed = useRef(false);
+  useEffect(() => {
+    if (viewed.current || state.items.length === 0) return;
+    viewed.current = true;
+    const items = state.items.map((i) => gaItem(i.product, i.quantity));
+    track('view_cart', { value: gaValue(items), items });
+  }, [state.items]);
+
   const choose = (f: Fulfilment) => {
     setFulfilment(f);
     try {
@@ -66,9 +75,12 @@ export default function CartPage() {
   const pay = async () => {
     setBusy(true);
     setError(null);
-    track('begin_checkout', {
+    const gaItems = state.items.map((i) => gaItem(i.product, i.quantity));
+    track('begin_checkout', { value: totals.total, items: gaItems });
+    track('add_shipping_info', {
       value: totals.total,
-      items: state.items.map((i) => gaItem(i.product, i.quantity)),
+      shipping_tier: fulfilment === 'collect' ? 'click_and_collect' : 'delivery',
+      items: gaItems,
     });
     try {
       const res = await fetch('/api/payments/create-payment-link', {

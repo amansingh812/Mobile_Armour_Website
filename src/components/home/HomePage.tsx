@@ -3,6 +3,8 @@ import Link from 'next/link';
 import JsonLd, { faqPage } from '@/components/seo/JsonLd';
 import { FaqList } from '@/components/site/PageBits';
 import ProductTile from '@/components/store/ProductTile';
+import ListTracker from '@/components/analytics/ListTracker';
+import { gaListItems } from '@/lib/analytics';
 import PromiseStrip from '@/components/store/PromiseStrip';
 import GoogleReviews from './GoogleReviews';
 import { getAllProducts } from '@/lib/shop-data';
@@ -168,6 +170,7 @@ export default async function HomePage() {
           </div>
           {duoCases.length > 0 && (
             <div className="ma-pgrid ma-home__duo-cases" style={{ marginTop: 16 }}>
+              <ListTracker id="home-iphone-duo" name="Home: iPhone Duo cases" items={gaListItems(duoCases, productPath)} />
               {duoCases.map((p) => (
                 <ProductTile key={p._id} product={p} model={FEATURE} />
               ))}
@@ -194,6 +197,7 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="ma-pgrid">
+            <ListTracker id="home-iphone-18" name="Home: iPhone 18" items={gaListItems(iphone18.slice(0, 50), productPath)} />
             {iphone18.slice(0, 10).map((p, i) => (
               <ProductTile key={p._id} product={p} priority={i < 2} />
             ))}
@@ -337,6 +341,7 @@ export default async function HomePage() {
             </h2>
           </div>
           <div className="ma-pgrid ma-pgrid--rail">
+            <ListTracker id="home-on-sale" name="Home: on sale" items={gaListItems(onSale, productPath)} />
             {onSale.map((p) => (
               <ProductTile key={p._id} product={p} />
             ))}

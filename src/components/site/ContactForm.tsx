@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { BUSINESS } from "@/data/business";
+import { track } from "@/lib/analytics";
 
 type Topic = "repair" | "product" | "order" | "business";
 
@@ -85,6 +86,7 @@ export default function ContactForm() {
     }
 
     if (emailed || sheeted) {
+      track("generate_lead", { lead_type: `contact_${topic}` });
       setStatus("sent");
       form.reset();
       setIssues([]);

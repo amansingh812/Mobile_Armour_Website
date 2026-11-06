@@ -7,6 +7,7 @@ import { priceCart, type Fulfilment, type PricedItem } from '@/lib/pricing';
 import { STORE } from '@/data/store-settings';
 import { BUSINESS, fullAddress } from '@/data/business';
 import { SITE_URL } from '@/lib/site';
+import { gaClientIdFromCookie, gaSessionIdFromCookie } from '@/lib/ga-server';
 
 // Creates a Stripe Checkout session for the cart.
 // The browser sends only product ids, chosen options and quantities: every price, the bundle
@@ -153,6 +154,9 @@ export async function POST(request: Request) {
       metadata: {
         fulfilment,
         bundleSaving: totals.bundleSaving.toFixed(2),
+        // Ties the server-side GA4 purchase to the visitor's session.
+        ...(gaClientIdFromCookie(request.headers.get('cookie')) ? { ga_client_id: gaClientIdFromCookie(request.headers.get('cookie'))! } : {}),
+        ...(gaSessionIdFromCookie(request.headers.get('cookie')) ? { ga_session_id: gaSessionIdFromCookie(request.headers.get('cookie'))! } : {}),
         items: items.map((i) => `${i.productId}${i.sku ? `:${i.sku}` : ''}x${i.quantity}`).join(',').slice(0, 480),
       },
       custom_text: {
