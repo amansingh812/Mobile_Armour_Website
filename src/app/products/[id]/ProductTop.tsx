@@ -4,11 +4,12 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import ProductGallery from './ProductGallery';
 import BuyBox from './BuyBox';
+import QuickProtect from './QuickProtect';
 import { currentPrice, slugify } from '@/lib/products';
 import type { ShopProduct, ShopVariant } from '@/lib/shop-data';
 import { isWatchSize, shortModel, sortModels, swatchFor, watchSize } from '@/data/phone-models';
 import { STORE } from '@/data/store-settings';
-import { glassPairDevice, isCameraGuard } from '@/lib/pricing';
+import { isCameraGuard } from '@/lib/pricing';
 import { BUSINESS } from '@/data/business';
 import { phonePath } from '@/lib/device-links';
 import { track } from '@/lib/analytics';
@@ -17,7 +18,16 @@ const fmt = (n: number) => (n % 1 === 0 ? `$${n}` : `$${n.toFixed(2)}`);
 /** The phone a shopper last picked, shared with Shop by phone. */
 export const PHONE_KEY = 'ma-phone';
 
-export default function ProductTop({ product: p, hubDevices }: { product: ShopProduct; hubDevices: string[] }) {
+export default function ProductTop({
+  product: p,
+  hubDevices,
+  protection = [],
+}: {
+  product: ShopProduct;
+  hubDevices: string[];
+  /** Screen protectors and camera guards that fit this product's phones. */
+  protection?: ShopProduct[];
+}) {
   const variants = p.variants;
   const models = useMemo(() => (variants ? sortModels(variants.flatMap((v) => v.models)) : []), [variants]);
   const [model, setModel] = useState<string | undefined>(models[0]);
@@ -87,7 +97,6 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
   const isCase = p.category === 'Cases';
   const isGlass = p.category === 'Screen Protectors';
   const bundleable = STORE.bundle.enabled && (isCase || isGlass) && device;
-  const pairDevice = isGlass ? glassPairDevice(fitDevices) : undefined;
   const isCamera = isCameraGuard(p.category, p.name);
 
   const label = variant ? [model, variant.colour].filter(Boolean).join(' · ') : undefined;
@@ -195,6 +204,15 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
 
         <BuyBox key={variant?.sku || 'one'} product={cartProduct} price={price} inStock={inStock} />
 
+        {(isCase || isGlass) && (
+          <QuickProtect
+            items={protection}
+            device={device}
+            excludeId={p._id}
+            mode={isCase ? 'case' : isCamera ? 'camera' : 'screen'}
+          />
+        )}
+
         <ul className="ma-product__promises">
           {STORE.clickAndCollect.enabled && (
             <li>
@@ -225,23 +243,6 @@ export default function ProductTop({ product: p, hubDevices }: { product: ShopPr
             </li>
           )}
         </ul>
-
-        {pairDevice && (
-          <div className="ma-product__bundle">
-            <div>
-              <strong>
-                Add a {isCamera ? 'screen protector' : 'camera lens guard'} and save {STORE.glassPair.discountPercent}% on
-                both
-              </strong>
-              <span>
-                {STORE.glassPair.label} for {pairDevice}: the discount applies automatically in your cart.
-              </span>
-            </div>
-            <Link href={`/shop/screen-protectors/${slugify(pairDevice)}`} className="ma-btn ma-btn--dark">
-              See {pairDevice} glass
-            </Link>
-          </div>
-        )}
 
         {bundleable && (
           <div className="ma-product__bundle">

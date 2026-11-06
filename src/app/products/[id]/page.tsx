@@ -70,6 +70,15 @@ export default async function ProductDetailPage({ params }: Props) {
   const [all, hubs] = await Promise.all([getAllProducts(), getPhoneHubs()]);
   const devices = product.deviceCompatibility || [];
   const addOns = pickAddOns(product, all);
+  // Screen + camera glass for the quick-add block: only what fits this
+  // product's phones, without descriptions (keeps the client payload small).
+  const protection =
+    product.category === 'Cases' || product.category === 'Screen Protectors'
+      ? all
+          .filter((p) => p.category === 'Screen Protectors' && p._id !== product._id)
+          .filter((p) => (p.deviceCompatibility || []).some((d) => devices.includes(d)))
+          .map((p) => ({ ...p, description: '', features: undefined }))
+      : [];
   const sameCategory = all
     .filter((p) => p._id !== product._id && p.category === product.category)
     .filter((p) => !devices.length || (p.deviceCompatibility || []).some((d) => devices.includes(d)))
@@ -79,6 +88,7 @@ export default async function ProductDetailPage({ params }: Props) {
     <ProductView
       product={product}
       addOns={addOns}
+      protection={protection}
       alternatives={sameCategory}
       hubDevices={hubs.map((h) => h.device)}
       guides={guidesForProduct(product, blogPosts).map((g) => ({

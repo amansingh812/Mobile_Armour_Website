@@ -17,12 +17,14 @@ import './product.css';
 export default function ProductView({
   product: p,
   addOns,
+  protection,
   alternatives,
   hubDevices = [],
   guides = [],
 }: {
   product: ShopProduct;
   addOns: ShopProduct[];
+  protection: ShopProduct[];
   alternatives: ShopProduct[];
   /** Phones that have their own /phones page; others aren't linked. */
   hubDevices?: string[];
@@ -90,7 +92,7 @@ export default function ProductView({
         </ol>
       </nav>
 
-      <ProductTop product={p} hubDevices={hubDevices} />
+      <ProductTop product={p} hubDevices={hubDevices} protection={protection} />
 
       <div className="ma-wrap ma-product__details">
         <section aria-labelledby="about">
