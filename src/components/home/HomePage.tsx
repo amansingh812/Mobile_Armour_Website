@@ -58,12 +58,30 @@ export default async function HomePage() {
     ...DUO_PICKS.map((id) => featureCases.find((p) => p._id === id)).filter((p): p is (typeof featureCases)[number] => !!p && duoAvailable(p)),
     ...featureCases.filter((p) => !DUO_PICKS.includes(p._id) && duoAvailable(p)),
   ].slice(0, 3);
-  // iPhone 18 Pro / Pro Max range: cases first, then glass and the rest.
+  // iPhone 18 Pro / Pro Max range: curated unique pieces across cases, screen glass,
+  // lens protectors, waterproof, and wallet styles, falling back to remaining in-stock items.
   const IPHONE18 = ['iPhone 18 Pro Max', 'iPhone 18 Pro'];
-  const iphone18 = all
+  const IPHONE18_PICKS = [
+    '6addbcafc11080dc14024195', // REDEFYNE Air Bumper Rotating Stand Case
+    '6addbc89c11080dc14024193', // REDEFYNE Lens Flip Stand Transparent Magsafe Case
+    '6addbc7dc11080dc14024192', // REDEFYNE Armor Xtreme Kevlar Case With Magnetic Ring
+    '6addbc61a942f4fc7c6b2eac', // REDEFYNE Ice-transparent Anti-fall Case With Magnetic Ring
+    '6addbc3aa942f4fc7c6b2ea8', // Mercury Mansoor Diary Case With Magnetic Ring
+    '6addbc46a942f4fc7c6b2eaa', // Kinglas 3D Full Coverage HD Clear Camera Lens Protector Film
+    '6aee8978efb54ef47b8baebb', // Kinglas Full Coverage Tempered Glass Screen Protector
+    '6aee8984aecc984875d9e8cf', // Kinglas Privacy Tempered Glass Screen Protector
+    '6addbba18343177fd3b775d6', // Redpepper Dot+ IP68 Waterproof Case with Magnetic Ring
+    '6addbb2bed988e14320c4947', // Shockproof Robot Armor Hard Plastic Belt Clip Case With Magnetic Ring
+  ];
+  const allIphone18 = all
     .filter((p) => (p.deviceCompatibility || []).some((d) => IPHONE18.includes(d)))
-    .filter((p) => !(typeof p.stock === 'number' && p.stock <= 0))
-    .sort((a, b) => (a.category === 'Cases' ? 0 : 1) - (b.category === 'Cases' ? 0 : 1));
+    .filter((p) => !(typeof p.stock === 'number' && p.stock <= 0));
+  const iphone18Available = (p: (typeof allIphone18)[number]) =>
+    p.variants?.length ? p.variants.some((v) => v.available) : !(typeof p.stock === 'number' && p.stock <= 0);
+  const iphone18 = [
+    ...IPHONE18_PICKS.map((id) => allIphone18.find((p) => p._id === id)).filter((p): p is (typeof allIphone18)[number] => !!p && iphone18Available(p)),
+    ...allIphone18.filter((p) => !IPHONE18_PICKS.includes(p._id) && iphone18Available(p)),
+  ];
   const iphone18Hubs = IPHONE18.map((d) => hubs.find((h) => h.device === d)).filter(Boolean) as typeof hubs;
   const topHub = hubs[0];
   // Apple Watch straps promo (most-searched accessory after phone cases).
@@ -169,10 +187,10 @@ export default async function HomePage() {
             </div>
           </div>
           {duoCases.length > 0 && (
-            <div className="ma-pgrid ma-home__duo-cases" style={{ marginTop: 16 }}>
+            <div className="ma-pgrid ma-home__duo-cases">
               <ListTracker id="home-iphone-duo" name="Home: iPhone Duo cases" items={gaListItems(duoCases, productPath)} />
               {duoCases.map((p) => (
-                <ProductTile key={p._id} product={p} model={FEATURE} />
+                <ProductTile key={p._id} product={p} model={FEATURE} priority />
               ))}
             </div>
           )}
