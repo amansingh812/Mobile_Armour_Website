@@ -173,9 +173,10 @@ export default async function HomePage() {
             ? [
                 {
                   id: 'duo',
-                  image: '/img/home/iphone-duo-banner.webp',
+                  image: '/img/hero/hero-duo.webp',
+                  thumbImage: '/img/hero/thumb-duo.webp',
                   thumb: `${FEATURE} cases`,
-                  focus: 'center',
+                  focus: '70% center',
                   kicker: 'New phone, new protection',
                   title: (
                     <>
@@ -195,9 +196,10 @@ export default async function HomePage() {
             : []),
           {
             id: 'refurb',
-            image: '/img/refurb/refurb-hero.webp',
+            image: '/img/hero/hero-refurb.webp',
+            thumbImage: '/img/hero/thumb-refurb.webp',
             thumb: 'Refurbished',
-            focus: 'center',
+            focus: '75% center',
             kicker: 'Refurbished iPhone & Samsung',
             title: (
               <>

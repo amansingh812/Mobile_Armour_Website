@@ -491,6 +491,31 @@
   display: flex;
   gap: 10px;
 }
+.ma-hero-c__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ma-hero-c__pause {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(14, 15, 18, 0.55);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  cursor: pointer;
+}
+.ma-hero-c__pause:hover {
+  border-color: var(--ma-orange);
+}
+.ma-hero-c__pause:focus-visible {
+  outline: 2px solid var(--ma-orange);
+  outline-offset: 2px;
+}
 .ma-hero-c__thumb {
   position: relative;
   display: flex;

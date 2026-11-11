@@ -9,6 +9,8 @@ export interface HeroSlide {
   image: string;
   /** Short label on the thumbnail button. */
   thumb: string;
+  /** Thumbnail picture, when it should differ from the slide photo. */
+  thumbImage?: string;
   kicker: string;
   /** The first slide's title is the page's h1; the rest are h2. */
   title: ReactNode;
@@ -23,8 +25,9 @@ const INTERVAL = 7000;
 
 /**
  * Homepage hero: full-bleed slides with thumbnail tabs underneath.
- * Auto-advances every 7s; pauses on hover, keyboard focus, a hidden tab or
- * reduced-motion; swipe on touch screens.
+ * Always auto-advances every 7s (clicking a thumbnail restarts the timer).
+ * Stops only for the pause button, a hidden tab or reduced motion; swipe on
+ * touch screens.
  */
 export default function HeroCarousel({ slides, footer }: { slides: HeroSlide[]; footer?: ReactNode }) {
   const [i, setI] = useState(0);
@@ -55,10 +58,6 @@ export default function HeroCarousel({ slides, footer }: { slides: HeroSlide[]; 
       className="ma-hero-c"
       aria-roledescription="carousel"
       aria-label="Mobile Armour highlights"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
       onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
       onTouchEnd={(e) => {
         if (touchX.current === null) return;
@@ -115,24 +114,44 @@ export default function HeroCarousel({ slides, footer }: { slides: HeroSlide[]; 
       <div className="ma-hero-c__bar">
         {footer}
         {n > 1 && (
-          <div className="ma-hero-c__thumbs" role="tablist" aria-label="Choose a slide">
-            {slides.map((s, k) => (
+          <div className="ma-hero-c__controls">
+            {!reduced && (
               <button
-                key={s.id}
                 type="button"
-                role="tab"
-                aria-selected={k === i}
-                aria-controls={`hero-slide-${s.id}`}
-                className={`ma-hero-c__thumb${k === i ? ' is-on' : ''}`}
-                onClick={() => go(k)}
+                className="ma-hero-c__pause"
+                onClick={() => setPaused((v) => !v)}
+                aria-label={paused ? 'Play slideshow' : 'Pause slideshow'}
               >
-                <span className="ma-hero-c__thumb-img">
-                  <Image src={s.image} alt="" fill sizes="96px" priority={k === 0} />
-                </span>
-                <span className="ma-hero-c__thumb-label">{s.thumb}</span>
-                {k === i && !paused && !reduced && <span className="ma-hero-c__progress" key={`p${i}`} />}
+                {paused ? (
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 4l13 8-13 8z" />
+                  </svg>
+                ) : (
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
+                  </svg>
+                )}
               </button>
-            ))}
+            )}
+            <div className="ma-hero-c__thumbs" role="tablist" aria-label="Choose a slide">
+              {slides.map((s, k) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={k === i}
+                  aria-controls={`hero-slide-${s.id}`}
+                  className={`ma-hero-c__thumb${k === i ? ' is-on' : ''}`}
+                  onClick={() => go(k)}
+                >
+                  <span className="ma-hero-c__thumb-img">
+                    <Image src={s.thumbImage || s.image} alt="" fill sizes="96px" priority={k === 0} />
+                  </span>
+                  <span className="ma-hero-c__thumb-label">{s.thumb}</span>
+                  {k === i && !paused && !reduced && <span className="ma-hero-c__progress" key={`p${i}`} />}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
