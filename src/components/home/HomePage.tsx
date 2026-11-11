@@ -22,6 +22,8 @@ import '@/app/blog/blog.css';
 import './home.css';
 import Icon, { type IconName } from '@/components/site/Icon';
 import HomeSplash from '@/components/site/loader/HomeSplash';
+import HeroCarousel from './HeroCarousel';
+import VisitVideo from './VisitVideo';
 import '@/components/refurb/refurb.css';
 
 const REPAIRS: { icon: IconName; name: string; href: string; time: string }[] = [
@@ -32,6 +34,8 @@ const REPAIRS: { icon: IconName; name: string; href: string; time: string }[] = 
   { icon: 'droplet', name: 'Water damage repair', href: '/services/water-damage-repair', time: '24–48 hours' },
   { icon: 'watch', name: 'Apple Watch repair', href: '/services/apple-watch-repair', time: 'same day' },
 ];
+
+const VISIT_VIDEO = '/video/repair-visit.mp4';
 
 export default async function HomePage() {
   const [all, hubs] = await Promise.all([getAllProducts(), getPhoneHubs()]);
@@ -100,34 +104,9 @@ export default async function HomePage() {
       <HomeSplash />
       <JsonLd data={faqPage(faqs.map((f) => ({ q: f.q, a: faqAnswerText(f) })))} />
 
-      <section className="ma-home__hero">
-        <Image
-          src="/img/hero/home-hero-iphone18.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="ma-home__hero-bg"
-        />
-        <div className="ma-home__hero-inner">
-          <p className="ma-home__kicker">Cases · Glass · Chargers · Repairs</p>
-          <h1>
-            Your new phone deserves <span>Mobile Armour.</span>
-          </h1>
-          <p className="ma-home__lead">
-            Cases, tempered glass and fast chargers for the latest iPhone, Samsung and Pixel, ready to take home today.
-            And if it ever cracks, most repairs are done in {BUSINESS.repairTimes.common} at {BUSINESS.address.centre},
-            with a {BUSINESS.warranty.short}.
-          </p>
-          <div className="ma-actions">
-            <Link href="/products" className="ma-btn ma-btn--primary">
-              Shop accessories →
-            </Link>
-            <Link href="/contact?topic=repair" className="ma-btn ma-btn--ghost">
-              Book a repair
-            </Link>
-          </div>
-          <ul className="ma-home__trust">
+      <HeroCarousel
+        footer={
+            <ul className="ma-home__trust">
             <li>
               <strong>Same day</strong>
               <span>most repairs</span>
@@ -147,8 +126,95 @@ export default async function HomePage() {
               </li>
             )}
           </ul>
-        </div>
-      </section>
+        }
+        slides={[
+          {
+            id: 'shop',
+            image: '/img/hero/home-hero-iphone18.webp',
+            thumb: 'Cases & glass',
+            focus: '70% center',
+            kicker: 'Cases · Glass · Chargers · Repairs',
+            title: (
+              <>
+                Your new phone deserves <span>Mobile Armour.</span>
+              </>
+            ),
+            lead: (
+              <>
+                Cases, tempered glass and fast chargers for the latest iPhone, Samsung and Pixel, ready to take home
+                today. And if it ever cracks, most repairs are done in {BUSINESS.repairTimes.common} at{' '}
+                {BUSINESS.address.centre}, with a {BUSINESS.warranty.short}.
+              </>
+            ),
+            primary: { href: '/products', label: 'Shop accessories →' },
+            secondary: { href: '/contact?topic=repair', label: 'Book a repair' },
+          },
+          {
+            id: 'repairs',
+            image: '/img/hero/hero-repairs.webp',
+            thumb: 'Repairs',
+            focus: '65% center',
+            kicker: 'Screen · Battery · Back glass · Charging port',
+            title: (
+              <>
+                Cracked screen? <span>Fixed while you shop.</span>
+              </>
+            ),
+            lead: (
+              <>
+                Bring it to {BUSINESS.address.unit}, {BUSINESS.address.centre}. We check it, confirm the price before we
+                start, and most repairs are done in {BUSINESS.repairTimes.common}, with a {BUSINESS.warranty.short}.
+              </>
+            ),
+            primary: { href: '/contact?topic=repair', label: 'Book a repair →' },
+            secondary: { href: '/services', label: 'All repairs' },
+          },
+          ...(featureHub
+            ? [
+                {
+                  id: 'duo',
+                  image: '/img/home/iphone-duo-banner.webp',
+                  thumb: `${FEATURE} cases`,
+                  focus: 'center',
+                  kicker: 'New phone, new protection',
+                  title: (
+                    <>
+                      {FEATURE} cases <span>{featureOrderIn ? 'now available.' : 'in stock.'}</span>
+                    </>
+                  ),
+                  lead: (
+                    <>
+                      Cut for the Duo&apos;s hinge and cameras. Add a screen protector and a camera lens guard and save{' '}
+                      {STORE.glassPair.discountPercent}% on both, automatically in your cart.
+                    </>
+                  ),
+                  primary: { href: `/phones/${featureHub.slug}`, label: `Shop ${FEATURE} →` },
+                  secondary: { href: '/shop/screen-protectors', label: 'Screen protectors' },
+                },
+              ]
+            : []),
+          {
+            id: 'refurb',
+            image: '/img/refurb/refurb-hero.webp',
+            thumb: 'Refurbished',
+            focus: 'center',
+            kicker: 'Refurbished iPhone & Samsung',
+            title: (
+              <>
+                Refurbished phones, <span>checked and warranted.</span>
+              </>
+            ),
+            lead: (
+              <>
+                Graded and fully checked, with a 6-month warranty: if anything goes wrong, we fix it. Tell us your
+                budget and we&apos;ll find the best phone we can.
+              </>
+            ),
+            primary: { href: '/refurbished-phones', label: 'See refurbished phones →' },
+            secondary: { href: '/refurbished-phones#enquire', label: "Ask what's in stock" },
+          },
+        ]}
+      />
 
       <PromiseStrip />
 
@@ -430,6 +496,44 @@ export default async function HomePage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section aria-labelledby="visit-vid-h" className="ma-section">
+        <div className="ma-visit">
+          <div className="ma-visit__media">
+            <VisitVideo
+              src={VISIT_VIDEO}
+              poster="/img/home/visit-poster.webp"
+              label="A customer brings a cracked phone to a kiosk, the technician checks it, replaces the screen and hands it back"
+            />
+          </div>
+          <div className="ma-visit__copy">
+            <span className="ma-eyebrow">Your repair, start to finish</span>
+            <h2 id="visit-vid-h" className="ma-h2">
+              Walk in cracked. Walk out fixed.
+            </h2>
+            <ol className="ma-visit__steps">
+              <li>
+                <strong>Say hello at the kiosk</strong> at {BUSINESS.address.centre}, no appointment needed.
+              </li>
+              <li>
+                <strong>We check it and quote first</strong>, so you know the price before we start.
+              </li>
+              <li>
+                <strong>We repair it while you shop</strong>: most repairs take {BUSINESS.repairTimes.common}.
+              </li>
+              <li>
+                <strong>Collect it tested</strong>, with a {BUSINESS.warranty.short}.
+              </li>
+            </ol>
+            <div className="ma-actions">
+              <Link href="/contact?topic=repair" className="ma-btn ma-btn--primary">
+                Book a repair →
+              </Link>
+            </div>
+            <p className="ma-visit__note">Video is an AI-made illustration of a typical visit.</p>
+          </div>
+        </div>
       </section>
 
       <section aria-labelledby="how-h" className="ma-section">
