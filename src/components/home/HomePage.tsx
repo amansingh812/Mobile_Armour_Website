@@ -173,8 +173,8 @@ export default async function HomePage() {
             ? [
                 {
                   id: 'duo',
-                  image: '/img/hero/hero-duo.webp',
-                  thumbImage: '/img/hero/thumb-duo.webp',
+                  image: '/img/hero/hero-iphone-duo.webp',
+                  thumbImage: '/img/hero/thumb-iphone-duo.webp',
                   thumb: `${FEATURE} cases`,
                   focus: '70% center',
                   kicker: 'New phone, new protection',
