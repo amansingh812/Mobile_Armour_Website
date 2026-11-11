@@ -894,21 +894,25 @@ export const guidePostsBatchB: BlogPost[] = [
   // B20 (new: gifts and gadgets)
   {
     slug: 'tech-gift-ideas-under-100',
-    seoTitle: 'Tech Gift Ideas Under $100 | Mobile Armour Heidelberg',
+    seoTitle: 'Tech Gifts Under $100: Christmas 2026 Ideas | Mobile Armour',
     metaDescription:
-      'Tech gifts under $100 from our Heidelberg kiosk: desk lamps, mini vacuums, chargers, speakers and earbuds. Click & collect at Warringal Shopping Centre.',
-    title: 'Tech Gift Ideas Under $100',
+      'Christmas 2026 tech gifts under $100: magnetic power banks, Bluetooth speakers, earbuds, car mounts and desk gadgets. Click & collect in Heidelberg or delivery.',
+    title: 'Tech Gift Ideas Under $100 (Christmas 2026)',
     excerpt:
       "The best tech gifts under $100 are things people use every day: a magnetic desk lamp, a mini desk vacuum, a wireless charger, a pixel-art or portable speaker, or a pair of wireless earbuds. Everything below is available from Mobile Armour at Warringal Shopping Centre, Heidelberg, for click & collect or delivery.",
     category: 'Accessories',
     date: 'October 25, 2026',
     publishedDate: '2026-10-25T19:00:00+11:00',
+    modifiedDate: '2026-11-11T12:00:00+11:00',
     author: 'Mobile Armour Team',
     readingTime: 4,
     image: '/img/blog/tech-gift-ideas-under-100.webp',
     imageAlt: 'Small tech gadgets including a desk lamp, mini vacuum and wireless charger arranged on dark stone',
     keywords: [
+      'tech gifts',
       'tech gifts under 100',
+      'christmas tech gifts 2026',
+      'stocking stuffers tech',
       'gadget gift ideas',
       'christmas tech gifts australia',
       'gift ideas heidelberg',
@@ -932,6 +936,17 @@ export const guidePostsBatchB: BlogPost[] = [
           <tr><td>Travellers</td><td>Power bank, hidden camera detector</td></tr>
         </tbody>
       </table>
+
+      <h2>What's new for Christmas 2026?</h2>
+      <p>New in the shop this season, all under $100:</p>
+      <ul>
+        <li><strong>Magnetic power banks:</strong> the <a href="${P}move-speed-s10-ultra-thin-titanium-magnetic-power-bank-10000mah-pd20w-yspbs10-cc-6aeebd2c2f6398dee4a6f3c0">MOVE SPEED S10 10,000mAh</a> ($79) or <a href="${P}iquick-magnetic-wireless-fast-charge-power-bank-5000mah-19-25w-6aeebd56b1b560ce1b9832b9">iQuick Magnetic 5,000mAh</a> ($79) snap onto the back of a MagSafe iPhone.</li>
+        <li><strong>A waterproof speaker:</strong> the <a href="${P}redefyne-pdcket-live-bluetooth-portable-speaker-6aeebdaeb8954d92a851785f">REDEFYNE PDCKET Live</a> ($79), IP67 with about 8 hours of battery.</li>
+        <li><strong>Earbuds:</strong> <a href="${P}earbuds-5-3-wireless-handsfree-in-ear-bluetooth-earphone-6aeebd87d856208e6df8a68d">Bluetooth 5.3 wireless earbuds</a> ($59), or <a href="${P}baseus-encok-hz11-wired-earphones-6aeebda6638a25c11c3575b0">Baseus Encok HZ11 wired earphones</a> ($39).</li>
+        <li><strong>For drivers:</strong> the <a href="${P}ulti-c8-air-vent-car-mount-with-magnetic-ring-6aeebd6429718f6f93f48e78">ULTI C8 magnetic vent mount</a> ($39) and the <a href="${P}iquick-cq2-38w-fast-car-charging-usb-a-and-usb-c-ports-6aeebdb80de52f324c08a032">iQuick CQ2 38W car charger</a> ($39).</li>
+        <li><strong>For photographers and gamers:</strong> a <a href="${P}sandisk-extreme-pro-microsdxc-64gb-200mb-s-with-adapter-sdsqxcu-064g-6aeebdd914a778b43461f42c">SanDisk Extreme Pro 64GB microSD card</a> ($89) for a camera, drone or Nintendo Switch.</li>
+      </ul>
+      <p><em>Prices as listed on 11 November 2026.</em></p>
 
       <h2>What are good desk gadgets as gifts?</h2>
       <p>Things that tidy and light a desk. The <a href="${P}baseus-magnetic-stepless-dimming-charging-desk-lamp-6addcbf3151e0d01c5eed070">Baseus Magnetic Dimming Desk Lamp</a>, the <a href="${P}baseus-comfort-reading-mini-clip-lamp-6addcbe0151e0d01c5eed06e">Comfort Reading Clip Lamp</a>, the <a href="${P}baseus-c2-mini-desktop-capsule-vacuum-cleaner-6addcbd9151e0d01c5eed06d">C2 Mini Desktop Vacuum</a> and the <a href="${P}baseus-heyo-rotation-countdown-timer-6addcc04151e0d01c5eed072">Heyo Rotation Countdown Timer</a> for study sessions all come in under $100.</p>
@@ -958,6 +973,10 @@ export const guidePostsBatchB: BlogPost[] = [
       <p>We don't offer change-of-mind returns, so check before you buy. Faulty items are covered under Australian Consumer Law.</p>
       <h3>Q: Do you deliver?</h3>
       <p>Yes, Australia-wide by Australia Post.</p>
+      <h3>Q: How early should I order for Christmas?</h3>
+      <p>Some gifts are ordered in for you and are usually ready in 2–3 business days, plus delivery time if you're not collecting. Order early in December, or check what's in stock at the kiosk today.</p>
+      <h3>Q: What's a good tech stocking stuffer?</h3>
+      <p>Something small they'll use daily: wired or wireless earbuds, a car phone mount, a microSD card or a compact power bank, most between $29 and $79.</p>
 
       <p><em>Prices and availability change; see <a href="/shop/tech-gadgets">tech gadgets</a> and <a href="/phone-accessories-heidelberg">all accessories</a> for the current range.</em></p>
     `,

@@ -251,7 +251,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "iPhone 16 Pro Max",
     slug: "iphone-16-pro-max-repair",
     brand: "apple",
-    metaTitle: "iPhone 16 Pro Max Repair Heidelberg Melbourne | Screen & Battery",
+    metaTitle: "iPhone 16 Pro Max Screen Repair Heidelberg | Battery & Back Glass",
     metaDescription:
       "iPhone 16 Pro Max screen repair & battery replacement in Heidelberg. Super Retina XDR OLED display repair, same-day service, 6-month warranty. Warringal Shopping Centre.",
     keywords: [
@@ -264,17 +264,17 @@ export const modelRepairPages: ModelRepairPage[] = [
       "fix iphone 16 pro max screen",
       "iphone 16 pro max cracked screen",
     ],
-    heroHeading: "iPhone 16 Pro Max Repair",
+    heroHeading: "iPhone 16 Pro Max Screen Repair in Heidelberg",
     heroSubheading:
       "Expert repair for Apple's flagship — OLED display, battery, camera & more",
     intro:
       "The iPhone 16 Pro Max features a stunning 6.9-inch Super Retina XDR OLED display with ProMotion 120Hz technology and a titanium frame. When this premium device needs repair, you need technicians who understand its advanced technology. Mobile Armour at Warringal Shopping Centre, Heidelberg, specialises in iPhone 16 Pro Max repairs — from cracked OLED screen replacement to battery swaps and camera lens repair. We use high-quality replacement parts that match Apple's display standards for colour accuracy and touch responsiveness. Most repairs are completed same-day with our 6-month warranty.",
     repairTypes: [
-      { name: "Screen Replacement (OLED)", time: "45-60 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
       { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "30-45 min", priceRange: "Call for quote" },
-      { name: "Charging Port Repair", time: "30-45 min", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "Cracked or shattered OLED display",
@@ -302,7 +302,7 @@ export const modelRepairPages: ModelRepairPage[] = [
       {
         question: "How long does iPhone 16 Pro Max screen replacement take?",
         answer:
-          "Most iPhone 16 Pro Max screen replacements are completed in 45-60 minutes. You can wait at Warringal Shopping Centre while we work on your device.",
+          "Most iPhone 16 Pro Max screen replacements are completed in about 1–2 hours. You can wait at Warringal Shopping Centre while we work on your device.",
       },
     ],
   },
@@ -310,7 +310,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "iPhone 16",
     slug: "iphone-16-repair",
     brand: "apple",
-    metaTitle: "iPhone 16 Repair Heidelberg Melbourne | Screen, Battery & More",
+    metaTitle: "iPhone 16 Screen Repair Heidelberg | 16, 16 Plus, Battery & More",
     metaDescription:
       "iPhone 16 screen repair & battery replacement in Heidelberg Melbourne. OLED display repair, same-day service, 6-month warranty at Warringal Shopping Centre.",
     keywords: [
@@ -323,17 +323,17 @@ export const modelRepairPages: ModelRepairPage[] = [
       "fix iphone 16 cracked screen",
       "iphone 16 camera repair",
     ],
-    heroHeading: "iPhone 16 Repair",
+    heroHeading: "iPhone 16 Screen Repair in Heidelberg",
     heroSubheading:
       "Fast, affordable repairs for the iPhone 16 — screen, battery, camera & charging port",
     intro:
       "The iPhone 16 brings the Dynamic Island, 48MP camera system, and a vibrant 6.1-inch Super Retina XDR OLED display to Apple's standard lineup. If your iPhone 16 has a cracked screen, dying battery, or damaged camera, Mobile Armour in Heidelberg has you covered. Our technicians are experienced with the iPhone 16's internal architecture, including the new battery removal design that makes replacements quicker and cleaner. We use premium-quality OLED replacement screens tested for colour accuracy, brightness, and touch response. Walk in to Warringal Shopping Centre or call ahead — most iPhone 16 repairs are same-day.",
     repairTypes: [
-      { name: "Screen Replacement (OLED)", time: "40-55 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "20-30 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
       { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "30-40 min", priceRange: "Call for quote" },
-      { name: "Charging Port (USB-C)", time: "30-40 min", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (USB-C)", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "Cracked OLED screen from drops",
@@ -369,7 +369,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "iPhone 15 Pro Max",
     slug: "iphone-15-pro-max-repair",
     brand: "apple",
-    metaTitle: "iPhone 15 Pro Max Repair Heidelberg | Screen & Battery Service",
+    metaTitle: "iPhone 15 Pro Max Screen Repair Heidelberg | Battery & Back Glass",
     metaDescription:
       "iPhone 15 Pro Max screen repair and battery replacement in Heidelberg Melbourne. Titanium frame, OLED display repair. Same-day, 6-month warranty.",
     keywords: [
@@ -381,17 +381,17 @@ export const modelRepairPages: ModelRepairPage[] = [
       "iphone 15 pro max repair cost",
       "fix iphone 15 pro max screen",
     ],
-    heroHeading: "iPhone 15 Pro Max Repair",
+    heroHeading: "iPhone 15 Pro Max Screen Repair in Heidelberg",
     heroSubheading:
       "Titanium-frame flagship repair — screen, battery, camera & more",
     intro:
       "Apple's iPhone 15 Pro Max was the first iPhone to feature a titanium frame and the A17 Pro chip, with a massive 6.7-inch Super Retina XDR display and a 5x optical zoom periscope camera. When your premium device needs expert attention, Mobile Armour delivers precision repairs at our Warringal Shopping Centre location in Heidelberg. Whether it's a cracked OLED screen, degraded battery, or damaged camera lens, our experienced technicians handle every repair with care. We understand the titanium frame's construction and use compatible parts to maintain the device's integrity. Walk-in service available — most repairs completed same-day.",
     repairTypes: [
-      { name: "Screen Replacement (OLED)", time: "45-60 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
       { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "30-45 min", priceRange: "Call for quote" },
-      { name: "Charging Port (USB-C)", time: "30-45 min", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (USB-C)", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "OLED screen cracked or display lines",
@@ -414,7 +414,7 @@ export const modelRepairPages: ModelRepairPage[] = [
       {
         question: "How long does iPhone 15 Pro Max screen repair take?",
         answer:
-          "Screen replacement typically takes 45-60 minutes. The OLED panel requires careful calibration for touch and display accuracy. You're welcome to wait in Warringal Shopping Centre.",
+          "Screen replacement typically takes about 1–2 hours. The OLED panel requires careful calibration for touch and display accuracy. You're welcome to wait in Warringal Shopping Centre.",
       },
       {
         question: "Do you repair iPhone 15 Pro Max camera issues?",
@@ -427,9 +427,9 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "iPhone 15",
     slug: "iphone-15-repair",
     brand: "apple",
-    metaTitle: "iPhone 15 Repair Heidelberg Melbourne | Fast Same-Day Service",
+    metaTitle: "iPhone 15 Screen Repair Heidelberg | 15, 15 Plus, 15 Pro",
     metaDescription:
-      "iPhone 15 screen repair & battery replacement Heidelberg. Dynamic Island display repair, USB-C port fix. 30-45 min service, 6-month warranty.",
+      "iPhone 15 screen repair & battery replacement Heidelberg. Dynamic Island display repair, USB-C port fix. about 1–2 hours service, 6-month warranty.",
     keywords: [
       "iphone 15 screen repair",
       "iphone 15 screen replacement",
@@ -440,16 +440,16 @@ export const modelRepairPages: ModelRepairPage[] = [
       "fix iphone 15 screen",
       "iphone 15 screen repair cost melbourne",
     ],
-    heroHeading: "iPhone 15 Repair",
-    heroSubheading: "Screen, battery & more — repaired in 30-45 minutes",
+    heroHeading: "iPhone 15 Screen Repair in Heidelberg",
+    heroSubheading: "Screen, battery, back glass and USB-C port repairs for the iPhone 15 and 15 Plus, quoted before we start",
     intro:
-      "The iPhone 15 introduced USB-C to the standard iPhone lineup, along with the Dynamic Island and a 48MP main camera. It's a popular device — and when it needs repair, you want technicians who know the internals. Mobile Armour at Warringal Shopping Centre, Heidelberg, provides fast, professional iPhone 15 repairs including screen replacement, battery swaps, camera fixes, and charging port repair. Our premium replacement screens are tested for colour accuracy and touch sensitivity to match the original display quality. Most repairs are completed in 30-45 minutes while you wait.",
+      "The iPhone 15 introduced USB-C to the standard iPhone lineup, along with the Dynamic Island and a 48MP main camera. It's a popular device — and when it needs repair, you want technicians who know the internals. Mobile Armour at Warringal Shopping Centre, Heidelberg, provides fast, professional iPhone 15 repairs including screen replacement, battery swaps, camera fixes, and charging port repair. Our premium replacement screens are tested for colour accuracy and touch sensitivity to match the original display quality. Most repairs are completed in about 1–2 hours while you wait.",
     repairTypes: [
-      { name: "Screen Replacement (OLED)", time: "35-50 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "20-30 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
       { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "25-35 min", priceRange: "Call for quote" },
-      { name: "Charging Port (USB-C)", time: "25-35 min", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (USB-C)", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "Cracked or shattered screen",
@@ -472,12 +472,12 @@ export const modelRepairPages: ModelRepairPage[] = [
       {
         question: "Can you fix iPhone 15 USB-C charging port?",
         answer:
-          "Yes. If your iPhone 15 isn't charging or has a loose USB-C connection, we can diagnose whether it's a port issue or cable issue and replace the charging port if needed. Takes about 25-35 minutes.",
+          "Yes. If your iPhone 15 isn't charging or has a loose USB-C connection, we can diagnose whether it's a port issue or cable issue and replace the charging port if needed. Takes about 1–2 hours.",
       },
       {
         question: "Is same-day iPhone 15 repair available?",
         answer:
-          "Yes — most iPhone 15 repairs are completed same-day, often within 30-45 minutes. Walk in to our Warringal Shopping Centre location or call ahead.",
+          "Yes — most iPhone 15 repairs are done in about 1–2 hours. Walk in to our Warringal Shopping Centre location or call ahead.",
       },
     ],
   },
@@ -499,7 +499,7 @@ export const modelRepairPages: ModelRepairPage[] = [
       "iphone 14 repair heidelberg",
       "iphone 14 repair melbourne",
     ],
-    heroHeading: "iPhone 14 Repair in Heidelberg",
+    heroHeading: "iPhone 14 Screen Repair in Heidelberg",
     heroSubheading:
       "Screen, battery, back glass and charging port repairs for the iPhone 14, 14 Plus, 14 Pro and 14 Pro Max, quoted before we start",
     intro:
@@ -568,7 +568,7 @@ export const modelRepairPages: ModelRepairPage[] = [
       "iphone 13 battery replacement",
       "iphone 13 repair heidelberg",
     ],
-    heroHeading: "iPhone 13 Repair in Heidelberg",
+    heroHeading: "iPhone 13 Screen Repair in Heidelberg",
     heroSubheading:
       "Screen, battery, back glass and charging port repairs for the iPhone 13, 13 mini, 13 Pro and 13 Pro Max, quoted before we start",
     intro:
@@ -624,7 +624,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "Samsung Galaxy S24 Ultra",
     slug: "samsung-s24-ultra-repair",
     brand: "samsung",
-    metaTitle: "Samsung Galaxy S24 Ultra Repair Heidelberg | Screen & Battery",
+    metaTitle: "Galaxy S24 Ultra Screen Repair Heidelberg | Battery & Back Glass",
     metaDescription:
       "Samsung Galaxy S24 Ultra screen repair & battery replacement Heidelberg Melbourne. Dynamic AMOLED 2X display, S Pen support. Same-day service, 6-month warranty.",
     keywords: [
@@ -637,17 +637,17 @@ export const modelRepairPages: ModelRepairPage[] = [
       "fix samsung s24 ultra screen",
       "galaxy s24 ultra cracked screen",
     ],
-    heroHeading: "Samsung Galaxy S24 Ultra Repair",
+    heroHeading: "Galaxy S24 Ultra Screen Repair in Heidelberg",
     heroSubheading:
       "Premium Samsung flagship repair — AI-powered device deserves expert care",
     intro:
       "The Samsung Galaxy S24 Ultra is Samsung's most advanced smartphone, featuring a stunning 6.8-inch Dynamic AMOLED 2X display, titanium frame, integrated S Pen, and Galaxy AI capabilities. When your S24 Ultra needs repair, you want technicians who understand its premium construction. Mobile Armour at Warringal Shopping Centre, Heidelberg, provides expert Samsung Galaxy S24 Ultra repairs including screen replacement, battery swaps, and camera fixes. We use high-quality AMOLED replacement screens and test every repair for display quality, S Pen digitiser response, and overall functionality before returning your device.",
     repairTypes: [
-      { name: "Screen Replacement (AMOLED)", time: "50-70 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "30-40 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (AMOLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
       { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "30-45 min", priceRange: "Call for quote" },
-      { name: "Charging Port (USB-C)", time: "30-40 min", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (USB-C)", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "Cracked AMOLED display or green lines",
@@ -683,7 +683,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "Samsung Galaxy S24",
     slug: "samsung-s24-repair",
     brand: "samsung",
-    metaTitle: "Samsung Galaxy S24 Repair Heidelberg Melbourne | Same-Day Fix",
+    metaTitle: "Samsung Galaxy S24 Screen Repair Heidelberg | S24 & S24+",
     metaDescription:
       "Samsung Galaxy S24 screen repair & battery replacement in Heidelberg. AMOLED display, fast same-day service, 6-month warranty at Warringal Shopping Centre.",
     keywords: [
@@ -695,16 +695,16 @@ export const modelRepairPages: ModelRepairPage[] = [
       "samsung s24 screen repair cost",
       "fix samsung galaxy s24",
     ],
-    heroHeading: "Samsung Galaxy S24 Repair",
+    heroHeading: "Galaxy S24 Screen Repair in Heidelberg",
     heroSubheading: "Galaxy AI phone repair — screen, battery, camera & port",
     intro:
       "The Samsung Galaxy S24 brought Galaxy AI to millions of users, with its compact 6.2-inch FHD+ Dynamic AMOLED 2X display and Exynos 2400 processor. If your Galaxy S24 has suffered screen damage, battery degradation, or any other issue, Mobile Armour in Heidelberg provides fast, reliable repairs. We handle screen replacements using quality AMOLED panels, battery swaps, USB-C port fixes, and camera repairs. Our technicians understand Samsung's design and ensure every repair restores your device to peak performance. Most repairs same-day at Warringal Shopping Centre.",
     repairTypes: [
-      { name: "Screen Replacement (AMOLED)", time: "40-55 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (AMOLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
       { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "25-35 min", priceRange: "Call for quote" },
-      { name: "Charging Port (USB-C)", time: "25-35 min", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (USB-C)", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "AMOLED screen cracked or lines on display",
@@ -722,7 +722,7 @@ export const modelRepairPages: ModelRepairPage[] = [
       {
         question: "How long does Samsung S24 screen replacement take?",
         answer:
-          "Most Samsung Galaxy S24 screen replacements are completed in 40-55 minutes. Walk in to our Warringal Shopping Centre location or call 0405-326-205 to schedule.",
+          "Most Samsung Galaxy S24 screen replacements are completed in about 1–2 hours. Walk in to our Warringal Shopping Centre location or call 0405-326-205 to schedule.",
       },
       {
         question: "Is Samsung S24 battery replacement worth it?",
@@ -740,7 +740,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "Samsung Galaxy S23",
     slug: "samsung-s23-repair",
     brand: "samsung",
-    metaTitle: "Samsung Galaxy S23 Repair Heidelberg | Affordable Screen Fix",
+    metaTitle: "Samsung Galaxy S23 Screen Repair Heidelberg | S23, S23+, Ultra",
     metaDescription:
       "Samsung Galaxy S23 screen repair & battery replacement Heidelberg Melbourne. All S23 models (S23, S23+, S23 Ultra). Same-day service, 6-month warranty.",
     keywords: [
@@ -753,16 +753,16 @@ export const modelRepairPages: ModelRepairPage[] = [
       "samsung s23 ultra repair cost",
       "fix samsung s23 cracked screen",
     ],
-    heroHeading: "Samsung Galaxy S23 Series Repair",
+    heroHeading: "Galaxy S23 Screen Repair in Heidelberg",
     heroSubheading: "S23, S23+, and S23 Ultra — all models serviced",
     intro:
       "The Samsung Galaxy S23 series remains hugely popular in Australia. Whether you own the compact S23, the S23+, or the S23 Ultra with its built-in S Pen, Mobile Armour at Warringal Shopping Centre repairs them all. Our technicians handle AMOLED screen replacements, battery swaps, camera repairs, and charging port fixes for every Galaxy S23 variant. Parts for the S23 series are now well-stocked, meaning competitive pricing and fast turnaround times. Walk in or call ahead for same-day repair backed by our 6-month warranty.",
     repairTypes: [
-      { name: "Screen Replacement (AMOLED)", time: "40-60 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (AMOLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
       { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "25-40 min", priceRange: "Call for quote" },
-      { name: "Charging Port (USB-C)", time: "25-35 min", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (USB-C)", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "Screen cracked or green line on AMOLED",
@@ -798,7 +798,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "Samsung Galaxy A54",
     slug: "samsung-a54-repair",
     brand: "samsung",
-    metaTitle: "Samsung Galaxy A54 Repair Heidelberg | Budget-Friendly Fix",
+    metaTitle: "Samsung Galaxy A54 Screen Repair Heidelberg | Battery & Port",
     metaDescription:
       "Samsung Galaxy A54 screen repair & battery replacement Heidelberg Melbourne. Affordable repair for Samsung's popular mid-range phone. Same-day, 6-month warranty.",
     keywords: [
@@ -811,17 +811,17 @@ export const modelRepairPages: ModelRepairPage[] = [
       "samsung a54 screen repair cost",
       "fix samsung a54 cracked screen",
     ],
-    heroHeading: "Samsung Galaxy A54 Repair",
+    heroHeading: "Galaxy A54 Screen Repair in Heidelberg",
     heroSubheading:
       "Affordable repair for Australia's best-selling mid-range Samsung",
     intro:
       "The Samsung Galaxy A54 5G is one of the most popular mid-range phones in Australia, loved for its water resistance, Super AMOLED display, and triple camera system. If your Galaxy A54 has a cracked screen, worn-out battery, or charging problems, Mobile Armour offers affordable, fast repairs at our Heidelberg location. The A54's mid-range pricing means repair costs are very reasonable — often far cheaper than flagship repairs. We use quality AMOLED replacement screens and tested batteries to get your A54 back to perfect condition. Most repairs completed same-day.",
     repairTypes: [
-      { name: "Screen Replacement (AMOLED)", time: "35-50 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "25-30 min", priceRange: "Call for quote" },
-      { name: "Back Cover Replacement", time: "30-45 min", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "20-30 min", priceRange: "Call for quote" },
-      { name: "Charging Port (USB-C)", time: "20-30 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (AMOLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Back Cover Replacement", time: "24–48 hours", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (USB-C)", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "Screen cracked or touch not responding",
@@ -849,7 +849,7 @@ export const modelRepairPages: ModelRepairPage[] = [
       {
         question: "How long does Samsung A54 battery replacement take?",
         answer:
-          "Samsung A54 battery replacement takes about 25-30 minutes. With a fresh 5000mAh battery, you'll be back to all-day battery life.",
+          "Samsung A54 battery replacement takes about 1–2 hours. With a fresh 5000mAh battery, you'll be back to all-day battery life.",
       },
     ],
   },
@@ -858,7 +858,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "Google Pixel 8 Pro",
     slug: "google-pixel-8-pro-repair",
     brand: "google",
-    metaTitle: "Google Pixel 8 Pro Repair Heidelberg Melbourne | Screen Fix",
+    metaTitle: "Google Pixel 8 Pro Screen Repair Heidelberg | Battery & Port",
     metaDescription:
       "Google Pixel 8 Pro screen repair & battery replacement Heidelberg. LTPO OLED display, Tensor G3 chip device. Same-day service, 6-month warranty.",
     keywords: [
@@ -870,16 +870,16 @@ export const modelRepairPages: ModelRepairPage[] = [
       "google pixel 8 pro repair cost",
       "fix pixel 8 pro screen",
     ],
-    heroHeading: "Google Pixel 8 Pro Repair",
+    heroHeading: "Pixel 8 Pro Screen Repair in Heidelberg",
     heroSubheading: "Expert repair for Google's AI-powered flagship phone",
     intro:
       "The Google Pixel 8 Pro combines Google's best AI features with a beautiful 6.7-inch LTPO OLED display, Tensor G3 chip, and a pro-level 50MP camera system. If your Pixel 8 Pro needs repair, Mobile Armour in Heidelberg has the expertise. We repair cracked OLED screens, replace worn batteries, fix camera issues, and handle USB-C port problems. Pixel devices require specific knowledge for safe disassembly, and our technicians have the experience to handle the Pixel 8 Pro's curved-edge design and sensitive display connectors. Most repairs completed same-day.",
     repairTypes: [
-      { name: "Screen Replacement (OLED)", time: "45-60 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "30-40 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
       { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "30-40 min", priceRange: "Call for quote" },
-      { name: "Charging Port (USB-C)", time: "30-40 min", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (USB-C)", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "Cracked LTPO OLED display",
@@ -915,7 +915,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "Google Pixel 8",
     slug: "google-pixel-8-repair",
     brand: "google",
-    metaTitle: "Google Pixel 8 Repair Heidelberg Melbourne | Fast Service",
+    metaTitle: "Google Pixel 8 Screen Repair Heidelberg | Battery & Port",
     metaDescription:
       "Google Pixel 8 screen repair & battery replacement Heidelberg. OLED display fix, camera repair. Same-day service, 6-month warranty at Warringal Shopping Centre.",
     keywords: [
@@ -927,16 +927,16 @@ export const modelRepairPages: ModelRepairPage[] = [
       "pixel 8 repair melbourne",
       "google pixel repair melbourne",
     ],
-    heroHeading: "Google Pixel 8 Repair",
+    heroHeading: "Pixel 8 Screen Repair in Heidelberg",
     heroSubheading: "Screen, battery & camera repair for the Pixel 8",
     intro:
       "The Google Pixel 8 features a compact 6.2-inch OLED display, Google's Tensor G3 chip, and the incredible computational photography that Pixels are known for. If your Pixel 8 screen is cracked, battery is degraded, or camera needs attention, Mobile Armour at Warringal Shopping Centre provides fast, expert repairs. Google Pixels have a dedicated following in Melbourne, and we've built up the expertise and parts inventory to service them efficiently. Most Pixel 8 repairs are completed same-day with our standard 6-month warranty.",
     repairTypes: [
-      { name: "Screen Replacement (OLED)", time: "40-55 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "25-35 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement (OLED)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
       { name: "Back Glass Replacement", time: "24–48 hours", priceRange: "Call for quote" },
-      { name: "Camera Lens Repair", time: "25-35 min", priceRange: "Call for quote" },
-      { name: "Charging Port (USB-C)", time: "25-35 min", priceRange: "Call for quote" },
+      { name: "Camera Lens Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (USB-C)", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "Cracked or unresponsive OLED screen",
@@ -959,12 +959,12 @@ export const modelRepairPages: ModelRepairPage[] = [
       {
         question: "How long does Pixel 8 screen repair take?",
         answer:
-          "Most Google Pixel 8 screen replacements are completed in 40-55 minutes. Walk in or call 0405-326-205 ahead of your visit.",
+          "Most Google Pixel 8 screen replacements are completed in about 1–2 hours. Walk in or call 0405-326-205 ahead of your visit.",
       },
       {
         question: "Can you fix Pixel 8 back glass?",
         answer:
-          "Yes. The Pixel 8's glass back panel can be replaced if cracked. This repair takes approximately 50-70 minutes and comes with our 6-month warranty.",
+          "Yes. The Pixel 8's glass back panel can be replaced if cracked. This repair takes 24–48 hours and comes with our 6-month warranty.",
       },
     ],
   },
@@ -973,7 +973,7 @@ export const modelRepairPages: ModelRepairPage[] = [
     model: "iPad Pro",
     slug: "ipad-pro-repair",
     brand: "ipad",
-    metaTitle: "iPad Pro Repair Heidelberg Melbourne | Screen & Battery Fix",
+    metaTitle: "iPad Pro Screen Repair Heidelberg | Battery & Charging Port",
     metaDescription:
       "iPad Pro screen repair & battery replacement Heidelberg. M1/M2/M4 chip iPad Pro, Liquid Retina XDR display. Same-day service, 6-month warranty.",
     keywords: [
@@ -986,17 +986,17 @@ export const modelRepairPages: ModelRepairPage[] = [
       "fix ipad pro screen",
       "ipad pro cracked screen",
     ],
-    heroHeading: "iPad Pro Repair",
+    heroHeading: "iPad Pro Screen Repair in Heidelberg",
     heroSubheading:
       "Expert repair for all iPad Pro models — M1, M2 & M4 chip devices",
     intro:
       "The iPad Pro is Apple's most powerful tablet, available in 11-inch and 13-inch models with M-series chips and stunning Liquid Retina XDR displays. When your iPad Pro's screen cracks or battery degrades, you need technicians who understand these premium devices. Mobile Armour at Warringal Shopping Centre, Heidelberg, provides expert iPad Pro repairs including screen replacement, battery swaps, and charging port fixes. iPad Pro screens are larger and more complex than iPhone screens, but our experienced technicians handle them regularly. Same-day service available for most repairs.",
     repairTypes: [
-      { name: "Screen Replacement", time: "60-90 min", priceRange: "Call for quote" },
-      { name: "Battery Replacement", time: "45-60 min", priceRange: "Call for quote" },
-      { name: "Charging Port (USB-C)", time: "40-55 min", priceRange: "Call for quote" },
-      { name: "Camera Repair", time: "35-50 min", priceRange: "Call for quote" },
-      { name: "Home Button / Face ID", time: "40-55 min", priceRange: "Call for quote" },
+      { name: "Screen Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Battery Replacement", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Charging Port (USB-C)", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Camera Repair", time: "About 1–2 hours", priceRange: "Call for quote" },
+      { name: "Home Button / Face ID", time: "About 1–2 hours", priceRange: "Call for quote" },
     ],
     commonIssues: [
       "Cracked screen or shattered glass",

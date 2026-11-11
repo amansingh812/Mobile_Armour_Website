@@ -20,17 +20,17 @@ export const SHOP_CATEGORIES: ShopCategory[] = [
     dbCategory: 'Cases',
     name: 'Phone Cases',
     shortName: 'Cases',
-    title: 'iPhone 17 & 16 Cases Heidelberg | Mobile Armour',
+    title: 'Phone Cases & Covers Heidelberg | iPhone 18, Duo & 17 | Mobile Armour',
     metaDescription:
-      'iPhone 17, 17 Pro, 17 Pro Max and iPhone 16 cases: MagSafe, clear, slim and heavy-duty. See them in person at Warringal Shopping Centre, Heidelberg.',
+      'Phone cases and covers for iPhone 18, iPhone Duo, iPhone 17 and Samsung: MagSafe, clear, leather wallet and heavy-duty. Collect at Warringal, Heidelberg, or get delivery.',
     intro: [
-      'Phone cases for the latest iPhones, from slim clear cases to heavy-duty MagSafe armour. Pick your phone and colour, then collect from our kiosk in Warringal Shopping Centre, Heidelberg, or get it delivered.',
+      'Phone cases and covers for the latest iPhones, including the iPhone 18 range and the foldable iPhone Duo, plus Samsung Galaxy: slim clear cases, leather wallet and diary cases, and heavy-duty MagSafe armour. Pick your phone and colour, then collect from our kiosk in Warringal Shopping Centre, Heidelberg, or get it delivered.',
       'Not sure which one fits? Bring your phone to the kiosk and try a case on before you buy.',
     ],
     buyingTips: {
       heading: 'How to choose a phone case',
       points: [
-        'Match the exact model: iPhone 17, 17 Pro and 17 Pro Max cases are not interchangeable because the camera layouts differ.',
+        'Match the exact model: iPhone 18, 18 Pro and 18 Pro Max (and the 17 range) cases are not interchangeable because the sizes and camera layouts differ.',
         'MagSafe cases have a built-in magnet ring, so MagSafe chargers, wallets and car mounts stay attached.',
         'Clear and jelly cases show off the phone colour; heavy-duty cases add raised edges around the screen and camera.',
       ],

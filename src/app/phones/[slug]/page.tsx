@@ -1,3 +1,4 @@
+import { deviceAlias } from '@/lib/shop-copy';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -33,8 +34,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const hub = await getPhoneHub(slug);
   if (!hub) notFound();
-  const title = `${hub.device} Cases & Screen Protectors | Mobile Armour`;
-  const description = `Everything for the ${hub.device}: ${hubSummary(hub.products)}, plus repairs. Collect today at Warringal Shopping Centre, Heidelberg, or get it delivered.`;
+  const alias = deviceAlias(hub.device);
+  const title = alias
+    ? `${hub.device} (${alias}) Cases & Screen Protectors | Mobile Armour`
+    : `${hub.device} Cases & Screen Protectors | Mobile Armour`;
+  const description = `Everything for the ${hub.device}${alias ? `, Apple's foldable (${alias})` : ''}: ${hubSummary(hub.products)}, plus repairs. Collect today at Warringal Shopping Centre, Heidelberg, or get it delivered.`;
   return {
     title,
     description,
@@ -120,7 +124,8 @@ export default async function PhoneHubPage({ params }: Props) {
           <span className="ma-eyebrow">Phone accessories &amp; repairs</span>
           <h1 className="ma-h1">{device} cases, screen protectors &amp; repairs</h1>
           <QuickAnswer>
-            Mobile Armour stocks {hubSummary(products)} for the {device}, from ${from % 1 === 0 ? from : from.toFixed(2)}.
+            Mobile Armour stocks {hubSummary(products)} for the {device}
+            {deviceAlias(device) ? ` (Apple's foldable, often searched as the ${deviceAlias(device)})` : ''}, from ${from % 1 === 0 ? from : from.toFixed(2)}.
             Collect today at {BUSINESS.address.centre}, Heidelberg, or get it delivered. We also repair the {device} at the
             kiosk.
           </QuickAnswer>

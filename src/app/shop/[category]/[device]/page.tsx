@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import ShopListing from '@/components/shop/ShopListing';
 import { getShopCategory } from '@/data/shop-categories';
 import { getCategoryProducts, devicesWithPages } from '@/lib/shop-data';
-import { availability, deviceListingCopy, fromPrice } from '@/lib/shop-copy';
+import { availability, deviceListingCopy, fromPrice, deviceAlias } from '@/lib/shop-copy';
 
 export const revalidate = 3600;
 // Device pages are created on demand from what is actually in stock.
@@ -39,7 +39,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // Cases: "& Covers" matches how people search ("iphone 18 pro max back cover").
   const title =
     cat.slug === 'cases'
-      ? `${deviceName} Cases & Covers | Mobile Armour Heidelberg`
+      ? deviceAlias(deviceName)
+        ? `${deviceName} (${deviceAlias(deviceName)}) Cases & Covers | Mobile Armour`
+        : `${deviceName} Cases & Covers | Mobile Armour Heidelberg`
       : `${deviceName} ${cat.shortName} Heidelberg | Mobile Armour`;
   const from = fromPrice(products);
   const description = `${products.length} ${deviceName} ${cat.shortName.toLowerCase()} ${availability(products)}${from ? `, from ${from}` : ''}. Click & collect or delivery.`;

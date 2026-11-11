@@ -10,6 +10,12 @@ const has = (re: RegExp) => (p: ShopProduct) => re.test(p.name);
 export const isMagnetic = has(/magsafe|magnetic/i);
 export const isClear = has(/clear|transparent|jelly|crystal/i);
 export const isWallet = has(/wallet|card holder|diary|flip/i);
+export const isLeather = has(/leather|diary|\bpu\b/i);
+
+/** Other names people search for a phone ("iPhone Fold" for the iPhone Duo). */
+export function deviceAlias(device: string): string | undefined {
+  return device === 'iPhone Duo' ? 'iPhone Fold' : undefined;
+}
 export const isRugged = has(/heavy duty|armou?r|shock|impact|kevlar|defender/i);
 export const isPrivacy = has(/privacy/i);
 export const isMatte = has(/matte|anti-glare/i);
@@ -109,6 +115,7 @@ export function deviceListingCopy(catSlug: string, device: string, products: Sho
       [mag, mag === 1 ? 'is magnetic (MagSafe)' : 'are magnetic (MagSafe)'],
       [products.filter(isClear).length, 'are clear'],
       [products.filter(isWallet).length, 'hold cards'],
+      [products.filter(isLeather).length, 'are leather or leather-look'],
       [products.filter(isRugged).length, 'are heavy-duty'],
     ]);
     const faqs: Faq[] = [fitFaq('fit', device, 'cases')];
@@ -123,7 +130,7 @@ export function deviceListingCopy(catSlug: string, device: string, products: Sho
     return {
       intro: [
         `${count(n, `${device} case`, `${device} cases`)} ${availability(products)}${from ? `, from ${from}` : ''}.${parts ? ` Of these, ${parts}.` : ''}`,
-        `Every case here is listed for the ${device}. Phones from the same year differ in size and camera layout, so check the fit on each case: where one also fits another model with the same body, we say so.`,
+        `Every case and cover here is listed for the ${device}${deviceAlias(device) ? ` (sometimes called the ${deviceAlias(device)})` : ''}. Phones from the same year differ in size and camera layout, so check the fit on each case: where one also fits another model with the same body, we say so.`,
       ],
       faqs,
     };

@@ -65,7 +65,7 @@ export const locationPages: SuburbData[] = [
       },
       {
         question: "Can I get my iPhone battery replaced near Preston?",
-        answer: "Yes! Mobile Armour offers iPhone battery replacement for all models from iPhone 6 through to iPhone 17. We serve Preston and surrounding areas including Thornbury, Reservoir, and Northcote. Battery replacements typically take 20-30 minutes and come with a 6-month warranty."
+        answer: "Yes! Mobile Armour offers iPhone battery replacement for all models from iPhone 6 through to iPhone 17. We serve Preston and surrounding areas including Thornbury, Reservoir, and Northcote. Most battery replacements take about 1–2 hours and come with a 6-month warranty."
       },
       {
         question: "How do I get to Mobile Armour from Preston?",
@@ -204,6 +204,10 @@ export const locationPages: SuburbData[] = [
         answer: "Mobile Armour at Warringal Shopping Centre in Heidelberg is about 10-15 minutes from Reservoir. We offer same-day repairs for iPhone, Samsung, iPad, and more. Many Reservoir residents prefer us over the Summerhill Shopping Centre options for our expertise and 6-month warranty."
       },
       {
+        question: "Is there a phone repair shop near Summerhill Shopping Centre?",
+        answer: "Mobile Armour at Warringal Shopping Centre, Heidelberg, is about 10-15 minutes' drive from Summerhill Shopping Centre in Reservoir. We repair iPhone, Samsung, Google Pixel and iPad screens, batteries and charging ports, quote before we start, and most repairs take about 1–2 hours with a 6-month warranty."
+      },
+      {
         question: "Do you repair Samsung phones near Reservoir?",
         answer: "Absolutely! We repair all Samsung Galaxy models including S25, S24, A55, Z Fold, and Z Flip series. Screen replacements, battery swaps, charging port repairs — we handle it all. Serving Reservoir, Preston, and Thornbury from our Heidelberg location."
       },
@@ -265,7 +269,7 @@ export const locationPages: SuburbData[] = [
       },
       {
         question: "Do you repair phone charging ports near South Morang?",
-        answer: "Yes! Charging port repair is one of our specialty services. We fix charging port issues on iPhones, Samsung Galaxy phones, iPads, and other devices. The repair typically takes 45-60 minutes and comes with our standard 6-month warranty."
+        answer: "Yes! Charging port repair is one of our specialty services. We fix charging port issues on iPhones, Samsung Galaxy phones, iPads, and other devices. Most charging port repairs take about 1–2 hours and come with our standard 6-month warranty."
       }
     ],
     intro: "Looking for phone repair near South Morang? Mobile Armour at Warringal Shopping Centre, Heidelberg, serves the South Morang, Mill Park, and Mernda communities with expert device repairs. While Westfield Plenty Valley has some options, many South Morang residents make the drive to Mobile Armour for our certified expertise, premium parts, and 6-month warranty. We offer same-day service for most repairs and handle everything from cracked screens to water damage.",
@@ -401,7 +405,7 @@ export const locationPages: SuburbData[] = [
       },
       {
         question: "Do you repair cracked screens for all phone brands near Bulleen?",
-        answer: "Yes! We repair cracked screens for iPhone (all models), Samsung Galaxy, Google Pixel, and iPad. Screen replacements are our most common repair and typically take 30-45 minutes. All repairs come with a 6-month warranty."
+        answer: "Yes! We repair cracked screens for iPhone (all models), Samsung Galaxy, Google Pixel, and iPad. Screen replacements are our most common repair and most take about 1–2 hours. All repairs come with a 6-month warranty."
       },
       {
         question: "Can I buy phone cases near Bulleen?",
