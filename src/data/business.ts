@@ -131,6 +131,10 @@ export const SERVICE_AREAS: { name: string; slug?: string }[] = [
   { name: "Eltham", slug: "eltham" },
   { name: "Reservoir", slug: "reservoir" },
   { name: "Northcote", slug: "northcote" },
+  { name: "Thomastown", slug: "thomastown" },
+  { name: "Epping", slug: "epping" },
+  { name: "South Morang", slug: "south-morang" },
+  { name: "Coburg", slug: "coburg" },
 ];
 
 /** schema.org openingHoursSpecification grouped by identical hours. */
