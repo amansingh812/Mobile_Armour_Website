@@ -1,12 +1,12 @@
 import { deviceAlias } from '@/lib/shop-copy';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 import JsonLd, { faqPage } from '@/components/seo/JsonLd';
 import { Breadcrumbs, FaqList, QuickAnswer } from '@/components/site/PageBits';
 import ProductTile from '@/components/store/ProductTile';
 import PromiseStrip from '@/components/store/PromiseStrip';
-import { getPhoneHub, getPhoneHubs, hubSummary } from '@/lib/phones';
+import { getPhoneHub, getPhoneHubs, hubSummary, getThinPhoneHub } from '@/lib/phones';
 import { repairLinkFor } from '@/lib/device-links';
 import { modelRepairPages } from '@/data/model-repair-pages';
 import { refurbFamilyForDevice, refurbPath } from '@/data/refurbished';
@@ -32,8 +32,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const hub = await getPhoneHub(slug);
-  if (!hub) notFound();
+  const listed = await getPhoneHub(slug);
+  const hub = listed || (await getThinPhoneHub(slug));
+  if (!hub) permanentRedirect('/phones');
   const alias = deviceAlias(hub.device);
   const title = alias
     ? `${hub.device} (${alias}) Cases & Screen Protectors | Mobile Armour`
@@ -43,6 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     alternates: { canonical: `/phones/${hub.slug}` },
+    ...(listed ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       title,
       description,
@@ -65,8 +67,8 @@ const SECTIONS = [
 
 export default async function PhoneHubPage({ params }: Props) {
   const { slug } = await params;
-  const hub = await getPhoneHub(slug);
-  if (!hub) notFound();
+  const hub = (await getPhoneHub(slug)) || (await getThinPhoneHub(slug));
+  if (!hub) permanentRedirect('/phones');
   const { device, products } = hub;
   const repair = repairLinkFor(device);
   const refurb = refurbFamilyForDevice(device);

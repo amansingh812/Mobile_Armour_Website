@@ -34,6 +34,20 @@ export async function getPhoneHub(slug: string): Promise<PhoneHub | null> {
   return (await getPhoneHubs()).find((h) => h.slug === slug) || null;
 }
 
+/**
+ * A phone page that is still reachable but too thin to list (it had its own
+ * page once, then products sold out or were removed). Rendered with noindex
+ * so Google drops it cleanly instead of reporting a soft 404. Null when no
+ * product fits that phone any more.
+ */
+export async function getThinPhoneHub(slug: string): Promise<PhoneHub | null> {
+  const all = await getAllProducts();
+  const products = all.filter((p) => (p.deviceCompatibility || []).some((d) => slugify(d) === slug && !isWatchSize(d)));
+  if (!products.length) return null;
+  const device = (products[0].deviceCompatibility || []).find((d) => slugify(d) === slug) || slug;
+  return { device, slug, products };
+}
+
 /** "13 cases · 4 screen protectors" style summary. */
 export function hubSummary(products: ShopProduct[]): string {
   const n = (cat: string) => products.filter((p) => p.category === cat).length;
